@@ -1,0 +1,341 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Unified Lavender-Purple-Pink Theme Tokens */
+    --page-bg: #f8f7fc;
+    --surface: #ffffff;
+    --surface-tint: #faf5ff;
+    --lavender: #f3e8ff;
+    --purple: #9333ea;
+    --purple-dark: #7e22ce;
+    --violet: #7c3aed;
+    --pink: #db2777;
+    --pink-dark: #be185d;
+    --text-primary: #172033;
+    --text-secondary: #6b6480;
+    --border: #e9d5ff;
+    --border-light: #f3e8ff;
+    --gradient-primary: linear-gradient(110deg, #9333ea, #db2777);
+    --gradient-surface: linear-gradient(110deg, #faf5ff 0%, #f8f4ff 55%, #fce7f3 100%);
+    --gradient-banner: linear-gradient(135deg, rgba(243, 232, 255, 0.6) 0%, rgba(250, 232, 255, 0.4) 50%, rgba(252, 231, 243, 0.5) 100%);
+
+    /* Primary - Stack Queue Pink & Violet legacy compat */
+    --primary: #9333EA;
+    --primary-dark: #7e22ce;
+    --primary-light: #FAF5FF;
+
+    /* Success - Green (Preserved for passing tests / internships / active status) */
+    --success: #16A34A;
+    --success-dark: #15803D;
+    --success-light: #DCFCE7;
+
+    /* Danger - Red (Only for genuine errors / live sessions) */
+    --danger: #DC2626;
+    --danger-dark: #B91C1C;
+    --danger-light: #FEE2E2;
+
+    /* Warning - Yellow / Amber */
+    --warning: #EAB308;
+    --warning-dark: #CA8A04;
+    --warning-light: #FEF9C3;
+
+    /* Brand Tokens */
+    --white: #FFFFFF;
+    --background: #F8F7FC;
+    --muted: #FAF5FF;
+  }
+
+  body {
+    background-color: #F8F7FC;
+    color: #172033;
+    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  ::selection {
+    background-color: #9333EA;
+    color: #FFFFFF;
+  }
+}
+
+/* Light Educational Cards & Surface Utilities with Lavender Tint */
+.surface-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E9D5FF;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.04), 0 1px 2px -1px rgba(147, 51, 234, 0.03);
+  transition: all 0.2s ease;
+}
+
+.surface-card:hover {
+  border-color: #D8B4FE;
+  box-shadow: 0 4px 10px -1px rgba(147, 51, 234, 0.08), 0 2px 4px -2px rgba(147, 51, 234, 0.04);
+}
+
+.card-clean {
+  background-color: #FFFFFF;
+  border: 1px solid #F3E8FF;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.03);
+}
+
+.glass-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E9D5FF;
+  border-radius: 1rem;
+  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.04);
+  transition: all 0.2s ease;
+}
+
+.glass-card:hover {
+  border-color: #C084FC;
+  box-shadow: 0 8px 16px -4px rgba(147, 51, 234, 0.12);
+}
+
+.glass-panel {
+  background-color: #FFFFFF;
+  border: 1px solid #E9D5FF;
+  border-radius: 1rem;
+}
+
+/* Custom Scrollbar with Lavender & Purple Tints */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8F7FC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #E9D5FF;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D8B4FE;
+}
+
+/* Unified Lavender-Purple-Pink Utilities */
+.text-sq-gradient {
+  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.bg-sq-gradient {
+  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
+}
+
+.border-sq-gradient {
+  border-image: linear-gradient(110deg, #9333ea, #db2777) 1;
+}
+
+/* Reusable Theme Banner matching Tutor Studio */
+.theme-banner {
+  border-radius: 1.5rem;
+  background: linear-gradient(110deg, #faf5ff 0%, #f8f4ff 55%, #fce7f3 100%);
+  border: 1px solid #e9d5ff;
+  box-shadow: 0 1px 2px 0 rgba(147, 51, 234, 0.05);
+}
+
+/* Reusable Pill Badge matching Tutor Studio */
+.theme-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, rgba(243, 232, 255, 0.9) 0%, rgba(250, 232, 255, 0.9) 50%, rgba(252, 231, 243, 0.9) 100%);
+  border: 1px solid rgba(233, 213, 255, 0.85);
+  color: #7e22ce;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.25rem 0.875rem;
+  border-radius: 9999px;
+  box-shadow: 0 1px 2px 0 rgba(147, 51, 234, 0.05);
+}
+
+/* Reusable Buttons */
+.btn-primary-gradient {
+  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
+  color: #ffffff;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 14px 0 rgba(147, 51, 234, 0.25);
+  transition: all 0.2s ease;
+}
+
+.btn-primary-gradient:hover {
+  opacity: 0.95;
+  box-shadow: 0 6px 18px 0 rgba(147, 51, 234, 0.32);
+}
+
+.btn-secondary-lavender {
+  background-color: #FAF5FF;
+  border: 1px solid #E9D5FF;
+  color: #7E22CE;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary-lavender:hover {
+  background-color: #F3E8FF;
+  border-color: #D8B4FE;
+  color: #6B21A8;
+}
+
+/* ============================================================
+   ANIMATION UTILITIES — Stack Queue Design System
+   ============================================================ */
+
+/* Fade Up — scroll reveal */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Fade In — general */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Slide In From Right */
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Slide In From Left */
+@keyframes slideInLeft {
+  from { opacity: 0; transform: translateX(-32px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Count-up pulse */
+@keyframes countPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.04); }
+}
+
+/* Gentle float */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-8px); }
+}
+
+/* Carousel slide left-to-right */
+@keyframes carouselSlide {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease-out both;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.6s ease-out both;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.6s ease-out both;
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-carousel-slide {
+  animation: carouselSlide 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Stagger delays */
+.animate-stagger-1 { animation-delay: 0.05s; }
+.animate-stagger-2 { animation-delay: 0.10s; }
+.animate-stagger-3 { animation-delay: 0.15s; }
+.animate-stagger-4 { animation-delay: 0.20s; }
+.animate-stagger-5 { animation-delay: 0.25s; }
+.animate-stagger-6 { animation-delay: 0.30s; }
+
+/* Carousel transition utility */
+.carousel-transition {
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity 0.35s ease;
+}
+
+/* Blueprint/Dot Grid Pattern — Courses Section */
+.bg-blueprint-grid {
+  background-color: #EFF6FF;
+  background-image:
+    radial-gradient(circle, #BFDBFE 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* ============================================================
+   ACCESSIBILITY — Respect user motion preferences
+   ============================================================ */
+/* ============================================================
+   Interview Question Modal Layout & Scrolling
+   ============================================================ */
+.interview-question-modal {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.interview-question-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
+.interview-question-modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.interview-question-modal-body::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.interview-question-modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.interview-question-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-float {
+    animation: none !important;
+  }
+}

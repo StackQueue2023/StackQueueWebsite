@@ -1,0 +1,933 @@
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import api from '../../api/client';
+import AnimatedCounter from '../../components/common/AnimatedCounter';
+import {
+  Gamepad2,
+  BookOpen,
+  Briefcase,
+  Code2,
+  Rocket,
+  ArrowRight,
+  Sparkles,
+  Clock,
+  Layers,
+  Award,
+  ShieldCheck,
+  CheckCircle2,
+  Users,
+  Terminal,
+  Zap,
+  Flame,
+  Check,
+  Compass,
+  Cpu,
+  Star,
+  Tag,
+  ExternalLink,
+  ChevronRight,
+  Laptop,
+  PlayCircle
+} from 'lucide-react';
+
+export default function HomePage() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchHomepageData() {
+      try {
+        const res = await api.get('/portal/homepage-data');
+        if (res.data.success) {
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.error('Error fetching portal homepage data:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchHomepageData();
+  }, []);
+
+  const companyInfo = data?.companyInfo || {
+    name: 'Stack Queue Technologies',
+    tagline: 'Inclusive Learning — Empowering students with industry-oriented technology training, practical learning, internship opportunities, and real-world product development.',
+    description: 'A premier educational training, internship, and product-based technology company.'
+  };
+
+  const statistics = data?.statistics || {
+    coursesCount: '50+',
+    internshipDomainsCount: '50+',
+    studentsTrained: '1,250+',
+    studentsLearning: '450+',
+    productsDeveloped: '28+',
+    yearsExperience: '10+',
+    industryProjects: '120+'
+  };
+
+  const whatWeDo = data?.whatWeDo || [];
+  const featuredCourses = data?.featuredCourses || [];
+  const trendingCourses = data?.trendingCourses || [];
+  const featuredInternships = data?.featuredInternships || [];
+  const products = data?.products || [];
+  const specialOffers = data?.specialOffers || [];
+  const whyChooseUs = data?.whyChooseUs || [];
+  const learningJourney = data?.learningJourney || [];
+
+  return (
+    <div className="space-y-16 pb-20 animate-fade-in overflow-hidden">
+      {/* =========================================================================
+          1. HERO CALL TO ACTION SECTION (Directly Below Navbar)
+          Pure White Background, Pink-to-Violet Brand Accent
+         ========================================================================= */}
+      <section className="relative pt-10 sm:pt-14 pb-12 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto text-center space-y-7 bg-white">
+        {/* Top Pill Badge */}
+        <div className="flex justify-center">
+          <span className="inline-flex items-center space-x-1.5 px-4 py-1.5 rounded-full bg-pink-50 border border-pink-200/80 text-[#E02B91] text-xs font-bold uppercase tracking-wider shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-[#E02B91]" />
+            <span>Premium IT Education Platform</span>
+          </span>
+        </div>
+
+        {/* Hero Main Heading */}
+        <div className="space-y-3">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-[#111827] tracking-tight leading-[1.12]">
+            Build Your IT Career with{' '}
+            <span className="bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] bg-clip-text text-transparent block sm:inline">
+              STACK QUEUE
+            </span>{' '}
+            <span className="bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] bg-clip-text text-transparent block">
+              EDUCATION
+            </span>
+          </h1>
+
+          {/* Tagline */}
+          <p className="text-base sm:text-xl font-mono text-[#4B5563] font-semibold tracking-wide">
+            "Learn. Practice. Build. Intern. Grow."
+          </p>
+        </div>
+
+        {/* Subtitle Paragraph */}
+        <p className="text-sm sm:text-base text-[#4B5563] max-w-2xl mx-auto leading-relaxed">
+          Learn industry-ready technologies through structured courses, practical tasks and hands-on projects.
+        </p>
+
+        {/* Action Buttons (Rounded Pill Buttons) */}
+        <div className="flex flex-wrap items-center justify-center gap-3.5 pt-2">
+          <Link
+            to="/courses"
+            className="px-8 py-3.5 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-pink-500/20 hover:shadow-lg transition flex items-center space-x-2"
+          >
+            <span>Explore Courses</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+
+          <Link
+            to="/internships"
+            className="px-7 py-3.5 bg-white hover:bg-slate-50 text-[#111827] hover:text-[#E02B91] hover:border-pink-300 font-bold text-xs sm:text-sm rounded-full border border-[#E5E7EB] shadow-xs transition flex items-center space-x-2"
+          >
+            <PlayCircle className="w-4 h-4 text-[#E02B91]" />
+            <span>Start Learning</span>
+          </Link>
+
+          <Link
+            to="/contact"
+            className="px-6 py-3.5 bg-white text-[#4B5563] hover:text-[#111827] font-semibold text-xs sm:text-sm rounded-full border border-[#E5E7EB] hover:border-slate-400 transition"
+          >
+            <span>Contact Us</span>
+          </Link>
+        </div>
+
+        {/* Trust Badges */}
+        <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 pt-4 text-xs font-semibold text-[#4B5563]">
+          <span className="flex items-center space-x-1.5">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <span>Verified Credentials</span>
+          </span>
+          <span className="flex items-center space-x-1.5">
+            <CheckCircle2 className="w-4 h-4 text-[#8B2BE2]" />
+            <span>Sequential Learning System</span>
+          </span>
+          <span className="flex items-center space-x-1.5">
+            <Award className="w-4 h-4 text-[#E02B91]" />
+            <span>ISO Certified Curriculum</span>
+          </span>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          2. COMPANY INTRODUCTION – DIRECTLY BELOW HERO BANNER
+         ========================================================================= */}
+      {/* =========================================================================
+          2. COMPANY INTRODUCTION – DIRECTLY BELOW HERO BANNER
+         ========================================================================= */}
+      <section className="relative pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="relative rounded-3xl bg-white border border-[#E5E7EB] shadow-sm overflow-hidden p-8 sm:p-12 lg:p-16">
+          {/* Top Edge Brand Logo Linear Gradient Accent Strip */}
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2]"></div>
+
+          <div className="relative z-10 max-w-5xl mx-auto space-y-8 text-center">
+            {/* Stack Queue Logo at Top Center (Larger) */}
+            <div className="flex justify-center">
+              <img
+                src="/stackqueue-logo-light.png"
+                alt="STACK QUEUE — Inclusive Learning"
+                className="h-28 sm:h-36 md:h-40 w-auto object-contain drop-shadow-sm hover:scale-105 transition-transform"
+              />
+            </div>
+
+            {/* Quoted Company Statement Directly Below Logo with Logo Gradient Accent */}
+            <div className="space-y-3 max-w-4xl mx-auto">
+              <p className="text-xl sm:text-2xl font-bold text-[#111827] leading-relaxed">
+                "{companyInfo.tagline}"
+              </p>
+              <div className="w-24 h-1 mx-auto bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] rounded-full"></div>
+            </div>
+
+            {/* Two Information Cards / Divs Below Statement */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto w-full text-left pt-2">
+              {/* Card 1 */}
+              <div className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl p-6 shadow-2xs space-y-3 hover:border-pink-200 hover:shadow-sm transition">
+                <div className="flex items-center justify-between">
+                  <span className="p-2.5 bg-pink-50 text-[#E02B91] rounded-xl">
+                    <Laptop className="w-5 h-5" />
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-pink-50 text-[#E02B91] text-[11px] font-bold rounded-full border border-pink-200">
+                    Live Industry Standards
+                  </span>
+                </div>
+                <h3 className="text-base font-black text-[#111827]">
+                  Practical Task-Driven Architecture
+                </h3>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  Every concept is accompanied by 10–15 hands-on algorithmic and real-world tasks verified with automated test suites.
+                </p>
+              </div>
+
+              {/* Card 2 */}
+              <div className="bg-[#FAFAFA] border border-[#E5E7EB] rounded-2xl p-6 shadow-2xs space-y-3 hover:border-purple-200 hover:shadow-sm transition">
+                <div className="flex items-center justify-between">
+                  <span className="p-2.5 bg-purple-50 text-[#8B2BE2] rounded-xl">
+                    <Briefcase className="w-5 h-5" />
+                  </span>
+                  <span className="px-2.5 py-0.5 bg-purple-50 text-[#8B2BE2] text-[11px] font-bold rounded-full border border-purple-200">
+                    50+ Tech Domains
+                  </span>
+                </div>
+                <h3 className="text-base font-black text-[#111827]">
+                  Certified Internship Placements
+                </h3>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  Work on production SaaS platforms, collaborate via Git worktrees, and receive verifiable employer credentials.
+                </p>
+              </div>
+            </div>
+
+            {/* Remaining Existing Content Below Two Cards */}
+            <div className="space-y-6 pt-2">
+              {/* Short Professional Description */}
+              <p className="text-sm text-[#4B5563] leading-relaxed max-w-3xl mx-auto">
+                We are a pioneering educational training, internship, and product-based technology company. We eliminate outdated passive theory by immersing students in 100% hands-on tasks, real-world product engineering, certified internships across 50+ technology domains, and structured FAANG-grade career preparation.
+              </p>
+
+              {/* 5 Core Pillars Badges */}
+              <div className="flex flex-wrap justify-center gap-2">
+                {[
+                  { title: 'Training Services' },
+                  { title: 'Internship Programs' },
+                  { title: 'Practical Learning' },
+                  { title: 'Real-World Product Development' },
+                  { title: 'Career-Oriented Learning' }
+                ].map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center space-x-1.5 px-3.5 py-1.5 border border-[#E5E7EB] bg-white rounded-full text-xs font-semibold text-[#111827] shadow-2xs hover:border-[#E02B91] transition"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5 text-[#E02B91]" />
+                    <span>{item.title}</span>
+                  </span>
+                ))}
+              </div>
+
+              {/* CTA Buttons */}
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <Link
+                  to="/courses"
+                  className="px-7 py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs rounded-full shadow-md shadow-pink-500/20 hover:shadow-lg transition flex items-center space-x-2"
+                >
+                  <span>Explore Courses</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+                <Link
+                  to="/internships"
+                  className="px-7 py-3 bg-white hover:bg-slate-50 text-[#111827] hover:text-[#E02B91] font-bold text-xs rounded-full border border-[#E5E7EB] shadow-xs transition flex items-center space-x-2"
+                >
+                  <span>50+ Internship Domains</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          3. COMPANY STATISTICS – ANIMATED COUNTERS
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-pink-50 text-[#E02B91] border border-pink-200 shadow-2xs">
+            Proven Industry Impact
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-black text-[#111827]">
+            Company Numbers &amp; Scale
+          </h2>
+          <p className="text-xs text-[#4B5563]">
+            Real metrics driven by active student enrollments, product deployments, and institutional partnerships.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          {/* Stat 1: 50+ Courses */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-pink-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-pink-50 text-[#E02B91] flex items-center justify-center mb-2">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] bg-clip-text text-transparent font-mono tracking-tight">
+              <AnimatedCounter value={statistics.coursesCount || '50+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Courses</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">Full curriculum</span>
+          </div>
+
+          {/* Stat 2: 50+ Internship Domains */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-purple-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-purple-50 text-[#8B2BE2] flex items-center justify-center mb-2">
+              <Briefcase className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black text-[#8B2BE2] font-mono tracking-tight">
+              <AnimatedCounter value={statistics.internshipDomainsCount || '50+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Internship Domains</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">Certified programs</span>
+          </div>
+
+          {/* Stat 3: Students Trained */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-pink-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-pink-50 text-[#E02B91] flex items-center justify-center mb-2">
+              <Users className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black text-[#E02B91] font-mono tracking-tight">
+              <AnimatedCounter value={statistics.studentsTrained || '1,250+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Students Trained</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">Engineers &amp; fellows</span>
+          </div>
+
+          {/* Stat 4: Products Developed */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-purple-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-purple-50 text-[#8B2BE2] flex items-center justify-center mb-2">
+              <Rocket className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black text-[#111827] font-mono tracking-tight">
+              <AnimatedCounter value={statistics.productsDeveloped || '28+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Products Developed</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">Live applications</span>
+          </div>
+
+          {/* Stat 5: Years of Experience */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-slate-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-slate-50 text-[#111827] flex items-center justify-center mb-2">
+              <Award className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black text-[#111827] font-mono tracking-tight">
+              <AnimatedCounter value={statistics.yearsExperience || '10+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Years Experience</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">In IT education</span>
+          </div>
+
+          {/* Stat 6: Industry Projects */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] p-5 text-center shadow-xs hover:border-slate-300 hover:shadow-md transition space-y-1">
+            <div className="w-10 h-10 mx-auto rounded-xl bg-slate-50 text-[#111827] flex items-center justify-center mb-2">
+              <Layers className="w-5 h-5" />
+            </div>
+            <p className="text-3xl font-black text-[#111827] font-mono tracking-tight">
+              <AnimatedCounter value={statistics.industryProjects || '120+'} />
+            </p>
+            <span className="text-xs font-bold text-[#111827] block">Industry Projects</span>
+            <span className="text-[10px] text-[#6B7280] font-semibold block">Enterprise grade</span>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          4. WHAT WE DO – FOUR ANIMATED CARDS
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3.5 py-1 rounded-full border border-pink-200 shadow-2xs">
+            Core Service Offerings
+          </span>
+          <h2 className="text-3xl font-black text-[#111827]">
+            What We Do
+          </h2>
+          <p className="text-xs text-[#4B5563]">
+            Four interconnected pillars designed to transform engineering students into high-earning software developers.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Card 1: Technology Training */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-pink-300 p-6 shadow-xs hover:shadow-md transition space-y-4 hover:-translate-y-1 duration-200">
+            <div className="w-12 h-12 rounded-xl bg-pink-50 text-[#E02B91] flex items-center justify-center">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black text-[#111827]">Technology Training</h3>
+            <p className="text-xs text-[#4B5563] leading-relaxed">
+              Industry-oriented courses with practical learning, comprehensive syllabus hierarchy, tutor guidance, and hands-on concept masterclasses.
+            </p>
+            <Link to="/courses" className="inline-flex items-center space-x-1 text-xs font-bold text-[#E02B91] hover:text-[#8B2BE2]">
+              <span>Explore Courses</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Card 2: Internship Programs */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-purple-300 p-6 shadow-xs hover:shadow-md transition space-y-4 hover:-translate-y-1 duration-200">
+            <div className="w-12 h-12 rounded-xl bg-purple-50 text-[#8B2BE2] flex items-center justify-center">
+              <Briefcase className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black text-[#111827]">Internship Programs</h3>
+            <p className="text-xs text-[#4B5563] leading-relaxed">
+              50+ internship domains covering web engineering, AI/ML, cloud DevOps, and embedded systems with certified industry credentials.
+            </p>
+            <Link to="/internships" className="inline-flex items-center space-x-1 text-xs font-bold text-[#8B2BE2] hover:text-purple-900">
+              <span>View 50+ Domains</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Card 3: Practical Learning */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-emerald-300 p-6 shadow-xs hover:shadow-md transition space-y-4 hover:-translate-y-1 duration-200">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+              <Code2 className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black text-[#111827]">Practical Learning</h3>
+            <p className="text-xs text-[#4B5563] leading-relaxed">
+              Hands-on tasks, daily coding challenges, 1,100+ interactive game levels, and 100 FAANG-grade LeetCode interview challenges.
+            </p>
+            <Link to="/games" className="inline-flex items-center space-x-1 text-xs font-bold text-emerald-600 hover:text-emerald-800">
+              <span>Interactive Sandboxes</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* Card 4: Products */}
+          <div className="bg-white rounded-2xl border border-[#E5E7EB] hover:border-pink-300 p-6 shadow-xs hover:shadow-md transition space-y-4 hover:-translate-y-1 duration-200">
+            <div className="w-12 h-12 rounded-xl bg-pink-50 text-[#E02B91] flex items-center justify-center">
+              <Rocket className="w-6 h-6" />
+            </div>
+            <h3 className="text-lg font-black text-[#111827]">Products</h3>
+            <p className="text-xs text-[#4B5563] leading-relaxed">
+              Students work on real-world products and software applications, shipping production features with CI/CD and cloud deployment.
+            </p>
+            <Link to="/products" className="inline-flex items-center space-x-1 text-xs font-bold text-[#E02B91] hover:text-[#8B2BE2]">
+              <span>Our Products</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          5. OUR COURSES / DOMAINS – 3 DOMAINS ONLY (NO SCROLLING)
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+        <div className="space-y-1.5 text-center sm:text-left">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3 py-1 rounded-full border border-pink-200 shadow-2xs">
+            Academic Curricula &amp; Domains
+          </span>
+          <h2 className="text-3xl font-black text-[#111827]">
+            Our Courses
+          </h2>
+          <p className="text-xs text-[#4B5563]">
+            Featured course domains covering full-stack software development, cloud systems, and algorithmic problem solving.
+          </p>
+        </div>
+
+        {/* 3 Domain Cards Grid – Strictly No Internal/Section Scrolling */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredCourses.slice(0, 3).map((c, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl border border-[#E5E7EB] p-6 shadow-xs hover:shadow-md transition flex flex-col justify-between space-y-4 hover:-translate-y-1 duration-200"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-[#111827] bg-slate-50 px-2.5 py-1 rounded-full border border-[#E5E7EB]">
+                    {c.domain}
+                  </span>
+                  <span className="text-xs font-semibold text-[#6B7280] flex items-center space-x-1">
+                    <Clock className="w-3 h-3 text-amber-500" />
+                    <span>{c.duration}</span>
+                  </span>
+                </div>
+
+                <h3 className="text-lg font-black text-[#111827]">
+                  {c.title}
+                </h3>
+
+                <p className="text-xs text-[#4B5563] line-clamp-3 leading-relaxed">
+                  {c.description}
+                </p>
+
+                <div className="flex flex-wrap gap-1 pt-1">
+                  {(c.skills || []).map((sk, sIdx) => (
+                    <span
+                      key={sIdx}
+                      className="px-2 py-0.5 bg-slate-100 text-[#374151] text-[10px] font-bold rounded"
+                    >
+                      {sk}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-[#E5E7EB] flex items-center justify-between">
+                <Link
+                  to="/courses"
+                  className="text-xs font-bold text-[#4B5563] hover:text-[#111827] flex items-center space-x-1"
+                >
+                  <span>View Details</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="px-4 py-1.5 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs rounded-full shadow-xs transition"
+                >
+                  Enroll
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Explore Courses Button Below the 3 Domains */}
+        <div className="flex justify-center pt-2">
+          <Link
+            to="/courses"
+            className="px-8 py-3.5 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-full shadow-md shadow-pink-500/20 hover:shadow-lg transition flex items-center space-x-2"
+          >
+            <span>Explore Courses</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          6. TRENDING COURSES
+         ========================================================================= */}
+      <section className="bg-white py-14 border-y border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3.5 py-1 rounded-full border border-pink-200 shadow-2xs">
+              🔥 High Industry Demand
+            </span>
+            <h2 className="text-3xl font-black text-[#111827]">
+              Trending Courses
+            </h2>
+            <p className="text-xs text-[#4B5563]">
+              Top-ranked technology programs chosen by modern computer science students and working engineers.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {trendingCourses.slice(0, 4).map((tc, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs hover:border-pink-300 hover:shadow-md transition space-y-3 relative hover:-translate-y-1 duration-200"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-bold bg-pink-50 text-[#E02B91] px-2.5 py-0.5 rounded-full border border-pink-200">
+                    🔥 Trending
+                  </span>
+                  <span className="text-[11px] font-mono text-[#8B2BE2] font-bold">
+                    {tc.studentsEnrolled}+ Enrolled
+                  </span>
+                </div>
+
+                <h3 className="text-base font-black text-[#111827] leading-snug">
+                  {tc.title}
+                </h3>
+
+                <p className="text-xs text-[#4B5563] line-clamp-2">
+                  {tc.description}
+                </p>
+
+                <div className="pt-2 border-t border-[#E5E7EB] flex items-center justify-between text-xs">
+                  <span className="font-semibold text-[#6B7280]">{tc.duration}</span>
+                  <Link
+                    to="/courses"
+                    className="font-bold text-[#E02B91] hover:text-[#8B2BE2]"
+                  >
+                    View Details &rarr;
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          7. INTERNSHIP PROGRAMS – ONE HORIZONTAL ROW + EXPLORE MORE
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div className="space-y-1.5">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
+              Workplace Experience
+            </span>
+            <h2 className="text-3xl font-black text-[#111827]">
+              Internship Programs
+            </h2>
+            <p className="text-xs text-[#4B5563]">
+              Select from over <strong>50+ Internship Domains</strong> spanning software engineering, data science, and cloud operations.
+            </p>
+          </div>
+
+          <Link
+            to="/internships"
+            className="px-5 py-2.5 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-bold text-xs rounded-full border border-emerald-200 transition flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-2xs"
+          >
+            <span>Explore More →</span>
+          </Link>
+        </div>
+
+        {/* Horizontal Single Row Container */}
+        <div className="relative">
+          <div className="flex gap-6 overflow-x-auto pb-4 pt-1 px-1 scroll-smooth snap-x snap-mandatory">
+            {featuredInternships.map((intern, idx) => (
+              <div
+                key={idx}
+                className="w-[280px] sm:w-[320px] md:w-[340px] shrink-0 snap-start bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs hover:border-emerald-300 hover:shadow-md transition flex flex-col justify-between space-y-3 hover:-translate-y-1 duration-200"
+              >
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                      {intern.mode}
+                    </span>
+                    <span className="text-[10px] font-bold text-[#6B7280]">
+                      {intern.duration}
+                    </span>
+                  </div>
+
+                  <h3 className="text-base font-black text-[#111827] leading-snug">
+                    {intern.title}
+                  </h3>
+
+                  <p className="text-xs text-[#4B5563] font-medium line-clamp-2">
+                    {intern.technology}
+                  </p>
+
+                  <div className="flex items-center space-x-1 text-xs text-emerald-700 font-semibold pt-1">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Certificate Included</span>
+                  </div>
+                </div>
+
+                <div className="pt-3 border-t border-[#E5E7EB] flex items-center justify-between">
+                  <Link
+                    to="/internships"
+                    className="text-xs font-bold text-emerald-600 hover:text-emerald-700"
+                  >
+                    View Details
+                  </Link>
+
+                  <Link
+                    to="/contact"
+                    className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-full shadow-xs transition"
+                  >
+                    Apply
+                  </Link>
+                </div>
+              </div>
+            ))}
+
+            {/* Explore More Card at End of Row */}
+            <Link
+              to="/internships"
+              className="w-[240px] sm:w-[280px] shrink-0 snap-start bg-gradient-to-br from-emerald-50/70 via-white to-emerald-100/40 rounded-2xl border-2 border-dashed border-emerald-300 p-6 flex flex-col items-center justify-center text-center space-y-4 hover:border-emerald-500 hover:shadow-md transition group/btn"
+            >
+              <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md group-hover/btn:scale-110 transition-transform">
+                <ArrowRight className="w-7 h-7" />
+              </div>
+              <div className="space-y-1">
+                <span className="text-base font-black text-[#111827] group-hover/btn:text-emerald-600 transition-colors flex items-center justify-center gap-1">
+                  Explore More <ArrowRight className="w-4 h-4" />
+                </span>
+                <p className="text-xs text-[#4B5563]">
+                  View all 50+ certified internship domains &amp; real projects
+                </p>
+              </div>
+              <span className="px-4 py-2 bg-emerald-600 group-hover/btn:bg-emerald-700 text-white text-xs font-bold rounded-full shadow-xs transition">
+                All Internships (50+) &rarr;
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          8. OUR PRODUCTS – ONE HORIZONTAL ROW + EXPLORE MORE
+         ========================================================================= */}
+      <section className="bg-white py-14 border-y border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-1.5">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3 py-1 rounded-full border border-pink-200 shadow-2xs">
+                Software Engineering Portfolio
+              </span>
+              <h2 className="text-3xl font-black text-[#111827]">
+                Our Products
+              </h2>
+              <p className="text-xs text-[#4B5563]">
+                Software products developed by STACK QUEUE engineers and internship students solving enterprise problems.
+              </p>
+            </div>
+
+            <Link
+              to="/products"
+              className="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-full border border-transparent transition flex items-center space-x-1.5 shrink-0 self-start sm:self-auto shadow-xs"
+            >
+              <span>Explore More →</span>
+            </Link>
+          </div>
+
+          {/* Horizontal Single Row Container */}
+          <div className="relative">
+            <div className="flex gap-6 overflow-x-auto pb-4 pt-1 px-1 scroll-smooth snap-x snap-mandatory">
+              {products.map((prod, idx) => (
+                <div
+                  key={idx}
+                  className="w-[280px] sm:w-[320px] md:w-[340px] shrink-0 snap-start bg-white rounded-2xl border border-[#E5E7EB] p-6 shadow-xs hover:shadow-md hover:border-pink-300 transition flex flex-col justify-between space-y-4 hover:-translate-y-1 duration-200"
+                >
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-2.5 py-1 rounded-full border border-pink-200">
+                        {prod.category}
+                      </span>
+                      <div className="w-8 h-8 rounded-xl bg-pink-50 border border-pink-200 flex items-center justify-center text-[#E02B91]">
+                        <Rocket className="w-4 h-4" />
+                      </div>
+                    </div>
+
+                    <h3 className="text-lg font-black text-[#111827]">
+                      {prod.name}
+                    </h3>
+
+                    <p className="text-xs text-[#4B5563] leading-relaxed line-clamp-3">
+                      {prod.shortDescription}
+                    </p>
+
+                    <div className="p-2.5 bg-slate-50 rounded-xl border border-[#E5E7EB] font-mono text-[11px] text-[#374151] font-semibold">
+                      {prod.technology}
+                    </div>
+                  </div>
+
+                  <div className="pt-3 border-t border-[#E5E7EB] flex items-center justify-between">
+                    <Link
+                      to={prod.demoUrl && prod.demoUrl.startsWith('/') ? prod.demoUrl : '/contact'}
+                      className="text-xs font-bold text-[#E02B91] hover:text-[#8B2BE2] flex items-center space-x-1"
+                    >
+                      <span>View Product</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </Link>
+
+                    <Link
+                      to="/products"
+                      className="text-xs font-semibold text-[#6B7280] hover:text-[#111827]"
+                    >
+                      Product Specs
+                    </Link>
+                  </div>
+                </div>
+              ))}
+
+              {/* Explore More Card at End of Row */}
+              <Link
+                to="/products"
+                className="w-[240px] sm:w-[280px] shrink-0 snap-start bg-gradient-to-br from-pink-50/50 via-white to-purple-50/50 rounded-2xl border-2 border-dashed border-pink-300 p-6 flex flex-col items-center justify-center text-center space-y-4 hover:border-pink-500 hover:shadow-md transition group/btn"
+              >
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] text-white flex items-center justify-center shadow-md group-hover/btn:scale-110 transition-transform">
+                  <ArrowRight className="w-7 h-7" />
+                </div>
+                <div className="space-y-1">
+                  <span className="text-base font-black text-[#111827] group-hover/btn:text-[#E02B91] transition-colors flex items-center justify-center gap-1">
+                    Explore More <ArrowRight className="w-4 h-4" />
+                  </span>
+                  <p className="text-xs text-[#4B5563]">
+                    View all software applications, developer tools &amp; live demos
+                  </p>
+                </div>
+                <span className="px-4 py-2 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white text-xs font-bold rounded-full shadow-xs transition">
+                  All Products &rarr;
+                </span>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          9. SPECIAL OFFERS
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-10 space-y-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3.5 py-1 rounded-full border border-pink-200 shadow-2xs">
+            Limited Enrollments
+          </span>
+          <h2 className="text-3xl font-black text-[#111827]">
+            Special Offers &amp; Grants
+          </h2>
+          <p className="text-xs text-[#4B5563]">
+            Scholarship grants and dual-domain accelerator discounts active for upcoming batches.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {specialOffers.map((off, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl border border-[#E5E7EB] p-6 shadow-xs hover:border-pink-300 hover:shadow-md transition flex flex-col justify-between space-y-4 hover:-translate-y-1 duration-200"
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-black text-[#E02B91] bg-pink-50 px-3 py-1 rounded-full border border-pink-200">
+                    {off.discount}
+                  </span>
+                  <span className="text-[11px] font-semibold text-[#6B7280]">
+                    {off.type}
+                  </span>
+                </div>
+
+                <h3 className="text-base font-black text-[#111827]">
+                  {off.title}
+                </h3>
+
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  {off.description}
+                </p>
+
+                <span className="text-[11px] font-semibold text-[#6B7280] block">
+                  ⏰ {off.validity}
+                </span>
+              </div>
+
+              <div className="pt-3 border-t border-[#E5E7EB]">
+                <Link
+                  to="/contact"
+                  className="w-full py-2.5 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs rounded-full transition flex items-center justify-center space-x-1.5 shadow-xs"
+                >
+                  <span>Claim Offer &amp; Register</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* =========================================================================
+          10. WHY CHOOSE US – 10 FEATURE CARDS
+         ========================================================================= */}
+      <section className="bg-white py-14 border-y border-[#E5E7EB]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3.5 py-1 rounded-full border border-pink-200 shadow-2xs">
+              Institutional Excellence
+            </span>
+            <h2 className="text-3xl font-black text-[#111827]">
+              Why Choose STACK QUEUE
+            </h2>
+            <p className="text-xs text-[#4B5563]">
+              Built on ten pillars of practical engineering rigor, verified industry certifications, and career outcomes.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+            {whyChooseUs.map((w, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs hover:border-pink-200 hover:shadow-md transition space-y-2 hover:-translate-y-1 duration-200"
+              >
+                <div className="w-8 h-8 rounded-lg bg-pink-50 text-[#E02B91] flex items-center justify-center font-bold text-xs">
+                  {idx + 1}
+                </div>
+                <h3 className="text-sm font-black text-[#111827] leading-snug">
+                  {w.title}
+                </h3>
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  {w.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* =========================================================================
+          11. YOUR LEARNING JOURNEY – ANIMATED TIMELINE
+         ========================================================================= */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-2">
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#E02B91] bg-pink-50 px-3.5 py-1 rounded-full border border-pink-200 shadow-2xs">
+            Proven Career Trajectory
+          </span>
+          <h2 className="text-3xl font-black text-[#111827]">
+            Your Learning Journey
+          </h2>
+          <p className="text-xs text-[#4B5563]">
+            A step-by-step roadmap from your first code line to an enterprise engineering placement.
+          </p>
+        </div>
+
+        {/* Desktop Horizontal Timeline / Mobile Vertical */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4 relative">
+          {learningJourney.map((step, idx) => (
+            <div
+              key={idx}
+              className="bg-white rounded-2xl border border-[#E5E7EB] p-5 shadow-xs hover:border-pink-200 hover:shadow-md transition space-y-3 relative flex flex-col justify-between"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="w-7 h-7 rounded-full bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] text-white font-mono font-black text-xs flex items-center justify-center shadow-xs">
+                    {step.step}
+                  </span>
+                  {idx < learningJourney.length - 1 && (
+                    <span className="text-xs font-bold text-slate-400 hidden lg:inline">→</span>
+                  )}
+                </div>
+
+                <h3 className="text-base font-black text-[#111827]">
+                  {step.title}
+                </h3>
+
+                <p className="text-xs text-[#4B5563] leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+
+              <div className="pt-2 border-t border-[#E5E7EB] text-[11px] font-bold text-[#E02B91]">
+                Stage 0{step.step}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+}
