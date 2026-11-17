@@ -110,8 +110,8 @@ export default function InternshipAnalyticsPage() {
   return (
     <div className="space-y-8 pb-16 max-w-7xl mx-auto">
       {/* 1. Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-emerald-50/70 via-teal-50/40 to-cyan-50/50 border border-emerald-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-emerald-500/15 to-teal-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -123,7 +123,7 @@ export default function InternshipAnalyticsPage() {
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back to Analytics Hub</span>
               </Link>
-              <div className="inline-flex items-center space-x-2 text-emerald-800 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-emerald-100/90 to-teal-100/90 px-3.5 py-1 rounded-full border border-emerald-200/80 shadow-2xs">
+              <div className="bg-white inline-flex items-center space-x-2 text-emerald-800 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-emerald-200/80 shadow-2xs">
                 <Briefcase className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Industry Immersion Intelligence</span>
               </div>
@@ -140,7 +140,7 @@ export default function InternshipAnalyticsPage() {
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="px-4 py-2.5 bg-white hover:bg-emerald-50 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
+              className="px-4 py-2.5 bg-white hover:bg-white text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-emerald-600 ${refreshing ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -310,11 +310,11 @@ export default function InternshipAnalyticsPage() {
         />
 
         {/* Student Records Grid */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-emerald-100 bg-emerald-50/50 text-slate-500 font-mono text-[10px] uppercase tracking-wider">
+                <tr className="border-b border-emerald-100 bg-white text-slate-500 font-mono text-[10px] uppercase tracking-wider">
                   <th className="py-3 px-4 font-bold">Fellow ID</th>
                   <th className="py-3 px-4 font-bold">Fellow Name</th>
                   <th className="py-3 px-4 font-bold">Internship Track</th>
@@ -334,7 +334,7 @@ export default function InternshipAnalyticsPage() {
                   </tr>
                 ) : (
                   filteredStudents.map((st, i) => (
-                    <tr key={st.id || i} className="hover:bg-emerald-50/30 transition-colors">
+                    <tr key={st.id || i} className="hover:bg-white transition-colors">
                       <td className="py-3 px-4 font-mono font-bold text-slate-600">
                         {st.studentId}
                       </td>
@@ -346,7 +346,7 @@ export default function InternshipAnalyticsPage() {
                         {st.internshipTitle}
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 uppercase">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white text-emerald-800 border border-emerald-200 uppercase">
                           {st.domain}
                         </span>
                       </td>
@@ -358,9 +358,9 @@ export default function InternshipAnalyticsPage() {
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="w-16 h-1.5 bg-emerald-100/70 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-emerald-600 rounded-full"
+                              className="bg-sq-gradient h-full rounded-full"
                               style={{ width: `${st.completion}%` }}
                             />
                           </div>
@@ -368,11 +368,7 @@ export default function InternshipAnalyticsPage() {
                         </div>
                       </td>
                       <td className="py-3 px-4 text-center">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border uppercase ${
-                          st.status === 'Completed'
-                            ? 'bg-purple-50 text-purple-700 border-purple-200'
-                            : 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        }`}>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border uppercase ${ st.status === 'Completed' ? 'bg-white text-emerald-800 border-emerald-200' : 'bg-white text-emerald-700 border-emerald-200' }`}>
                           {st.status}
                         </span>
                       </td>

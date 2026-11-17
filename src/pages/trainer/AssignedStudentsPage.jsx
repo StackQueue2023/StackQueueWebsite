@@ -212,10 +212,10 @@ export default function AssignedStudentsPage() {
       {/* ────────────────────────────────────────────────────────── */}
       {/* HEADER BANNER */}
       {/* ────────────────────────────────────────────────────────── */}
-      <div className="rounded-3xl bg-gradient-to-r from-purple-50/80 via-fuchsia-50/70 to-pink-50/80 border border-purple-200/80 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
+      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-sm">
         <div className="space-y-1.5">
-          <div className="flex items-center space-x-2 text-purple-700 font-bold text-xs uppercase tracking-wider font-mono">
-            <GraduationCap className="w-4 h-4 text-purple-600" />
+          <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider font-mono">
+            <GraduationCap className="w-4 h-4 text-blue-800" />
             <span>Tutor Command Center &bull; Assigned Students Roster</span>
           </div>
           <h1 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight">
@@ -227,11 +227,11 @@ export default function AssignedStudentsPage() {
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <div className="bg-white/90 border border-purple-200/90 px-4 py-2.5 rounded-2xl text-center shadow-xs">
+          <div className="bg-white border border-slate-200/90 px-4 py-2.5 rounded-2xl text-center shadow-xs">
             <span className="text-[10px] text-slate-500 block uppercase font-mono font-bold">Batches</span>
-            <span className="text-lg font-black text-purple-700">{batches.length}</span>
+            <span className="text-lg font-black text-blue-800">{batches.length}</span>
           </div>
-          <div className="bg-white/90 border border-purple-200/90 px-4 py-2.5 rounded-2xl text-center shadow-xs">
+          <div className="bg-white border border-slate-200/90 px-4 py-2.5 rounded-2xl text-center shadow-xs">
             <span className="text-[10px] text-slate-500 block uppercase font-mono font-bold">Total Students</span>
             <span className="text-lg font-black text-slate-900">{allStudents.length}</span>
           </div>
@@ -263,34 +263,22 @@ export default function AssignedStudentsPage() {
         </div>
 
         {/* Tab Filters */}
-        <div className="flex items-center gap-1.5 bg-slate-100/80 p-1 rounded-2xl border border-slate-200/70 text-xs font-bold">
+        <div className="flex items-center gap-1.5 bg-white p-1 rounded-2xl border border-slate-200 text-xs font-bold">
           <button
             onClick={() => setActiveTab('ALL')}
-            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-              activeTab === 'ALL'
-                ? 'bg-white text-purple-700 shadow-2xs font-black'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${ activeTab === 'ALL' ? 'bg-white text-blue-800 shadow-2xs font-black' : 'text-slate-600 hover:text-slate-900' }`}
           >
             All Students ({allStudents.length})
           </button>
           <button
             onClick={() => setActiveTab('BATCHES')}
-            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-              activeTab === 'BATCHES'
-                ? 'bg-white text-purple-700 shadow-2xs font-black'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${ activeTab === 'BATCHES' ? 'bg-white text-blue-800 shadow-2xs font-black' : 'text-slate-600 hover:text-slate-900' }`}
           >
             Batches ({batches.length})
           </button>
           <button
             onClick={() => setActiveTab('INDIVIDUAL')}
-            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${
-              activeTab === 'INDIVIDUAL'
-                ? 'bg-white text-purple-700 shadow-2xs font-black'
-                : 'text-slate-600 hover:text-slate-900'
-            }`}
+            className={`px-3 py-1.5 rounded-xl transition cursor-pointer ${ activeTab === 'INDIVIDUAL' ? 'bg-white text-blue-800 shadow-2xs font-black' : 'text-slate-600 hover:text-slate-900' }`}
           >
             Individual Track ({individualStudents.length})
           </button>
@@ -302,13 +290,13 @@ export default function AssignedStudentsPage() {
       {/* ────────────────────────────────────────────────────────── */}
       {(activeTab === 'ALL' || activeTab === 'BATCHES') && (
         <div className="space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+          <div className="flex items-center justify-between border-b border-blue-200 pb-2">
             <div className="flex items-center space-x-2">
-              <Layers className="w-4 h-4 text-purple-600" />
+              <Layers className="w-4 h-4 text-blue-800" />
               <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">
                 Assigned Batches Cohorts
               </h2>
-              <span className="px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[11px] font-mono font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-white text-purple-800 text-[11px] font-mono font-bold">
                 {batches.length} Batch(es)
               </span>
             </div>
@@ -318,7 +306,7 @@ export default function AssignedStudentsPage() {
           </div>
 
           {batches.length === 0 ? (
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-8 text-center space-y-2">
+            <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-2">
               <Layers className="w-8 h-8 text-slate-300 mx-auto" />
               <p className="text-xs font-bold text-slate-700">No Batches Currently Assigned</p>
               <p className="text-[11px] text-slate-500">Batches assigned to you by admin will appear here.</p>
@@ -332,25 +320,25 @@ export default function AssignedStudentsPage() {
                 return (
                   <div
                     key={batch._id}
-                    className="bg-white border border-slate-200/90 rounded-3xl overflow-hidden shadow-xs hover:border-purple-300/80 transition"
+                    className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs hover:border-slate-200/80 transition"
                   >
                     {/* Batch Top Header Bar */}
-                    <div className="bg-gradient-to-r from-purple-50/90 via-slate-50 to-pink-50/70 p-5 border-b border-slate-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div className="bg-white p-5 border-b border-blue-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                       <div className="space-y-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="px-2.5 py-0.5 rounded-md bg-purple-700 text-white font-mono font-black text-[11px] tracking-wide">
+                          <span className="bg-white px-2.5 py-0.5 rounded-md text-blue-800 font-mono font-black text-[11px] tracking-wide border border-[#9333EA]">
                             {batch.code || 'BATCH'}
                           </span>
-                          <span className="px-2.5 py-0.5 rounded-md bg-purple-100/90 text-purple-800 border border-purple-200 font-bold text-[11px] uppercase tracking-wider font-mono">
+                          <span className="px-2.5 py-0.5 rounded-md bg-white text-purple-800 border border-blue-200 font-bold text-[11px] uppercase tracking-wider font-mono">
                             {courseName}
                           </span>
                           {batch.department && (
-                            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold">
+                            <span className="px-2 py-0.5 rounded-md bg-white text-slate-700 border border-blue-200 text-[11px] font-semibold">
                               {batch.department}
                             </span>
                           )}
                           {batch.academicYear && (
-                            <span className="px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 border border-slate-200 text-[11px] font-semibold">
+                            <span className="px-2 py-0.5 rounded-md bg-white text-slate-700 border border-blue-200 text-[11px] font-semibold">
                               {batch.academicYear}
                             </span>
                           )}
@@ -366,7 +354,7 @@ export default function AssignedStudentsPage() {
                       {/* Manage Batch Syllabus Button */}
                       <button
                         onClick={() => openBatchModal(batch)}
-                        className="px-4 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-md shadow-purple-500/20 cursor-pointer shrink-0"
+                        className="bg-white px-4 py-2 text-blue-800 rounded-xl text-xs font-bold flex items-center space-x-2 transition shadow-md shadow-purple-500/20 cursor-pointer shrink-0 border border-[#9333EA]"
                       >
                         <BookOpen className="w-4 h-4" />
                         <span>Manage Batch Common Syllabus</span>
@@ -384,12 +372,12 @@ export default function AssignedStudentsPage() {
                           {batchStudentsList.map((st) => (
                             <div
                               key={st._id}
-                              className="bg-slate-50/60 border border-slate-200/80 rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:bg-white hover:border-purple-300 transition shadow-2xs"
+                              className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col justify-between space-y-3 hover:bg-white hover:border-slate-200 transition shadow-2xs"
                             >
                               <div className="space-y-2.5">
                                 <div className="flex items-start justify-between gap-2">
                                   <div className="flex items-center space-x-2.5">
-                                    <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#8B2BE2] to-[#E02B91] flex items-center justify-center font-bold text-xs text-white shadow-2xs">
+                                    <div className="bg-blue-50 w-9 h-9 rounded-xl flex items-center justify-center font-bold text-xs text-blue-800 shadow-2xs border border-[#9333EA]">
                                       {st.userId?.name?.charAt(0) || 'S'}
                                     </div>
                                     <div className="min-w-0">
@@ -402,13 +390,13 @@ export default function AssignedStudentsPage() {
                                     </div>
                                   </div>
 
-                                  <span className="px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-mono font-bold shrink-0">
+                                  <span className="px-1.5 py-0.5 rounded bg-white text-blue-800 border border-blue-200 text-[10px] font-mono font-bold shrink-0">
                                     {st.studentId || st.userId?.studentId || 'ID'}
                                   </span>
                                 </div>
 
                                 {/* Actual Batch & Course Association */}
-                                <div className="space-y-1 text-[11px] bg-white p-2 rounded-xl border border-slate-200/60">
+                                <div className="space-y-1 text-[11px] bg-blue-50 p-2 rounded-xl border border-blue-200">
                                   <div className="flex items-center justify-between text-slate-600">
                                     <span className="font-semibold text-slate-500">Batch:</span>
                                     <span className="font-bold text-purple-800 font-mono">
@@ -433,13 +421,13 @@ export default function AssignedStudentsPage() {
                                 <div className="space-y-1">
                                   <div className="flex items-center justify-between text-[10px] text-slate-600 font-mono font-semibold">
                                     <span>Modules Progress:</span>
-                                    <span className="text-purple-700 font-bold">
+                                    <span className="text-blue-800 font-bold">
                                       {st.progress?.completedModules || 0}/{st.progress?.totalModules || 0} ({st.progress?.progressPercent || 0}%)
                                     </span>
                                   </div>
                                   <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                                     <div
-                                      className="h-full bg-gradient-to-r from-purple-600 to-pink-500 rounded-full transition-all duration-300"
+                                      className="bg-sq-gradient h-full rounded-full transition-all duration-300"
                                       style={{ width: `${st.progress?.progressPercent || 0}%` }}
                                     ></div>
                                   </div>
@@ -447,13 +435,13 @@ export default function AssignedStudentsPage() {
                               </div>
 
                               {/* Footer Action */}
-                              <div className="pt-2 border-t border-slate-200/60 flex items-center justify-between text-[11px]">
+                              <div className="pt-2 border-t border-blue-200 flex items-center justify-between text-[11px]">
                                 <span className="font-mono text-slate-500 text-[10px]">
                                   XP: <strong className="text-amber-700">{st.totalXp || 0}</strong>
                                 </span>
                                 <button
                                   onClick={() => openStudentModal(st)}
-                                  className="text-purple-600 hover:text-purple-800 font-bold text-[11px] flex items-center space-x-1 cursor-pointer"
+                                  className="text-blue-800 hover:text-purple-800 font-bold text-[11px] flex items-center space-x-1 cursor-pointer"
                                 >
                                   <span>View Modules</span>
                                   <ChevronRight className="w-3 h-3" />
@@ -477,13 +465,13 @@ export default function AssignedStudentsPage() {
       {/* ────────────────────────────────────────────────────────── */}
       {(activeTab === 'ALL' || activeTab === 'INDIVIDUAL') && (
         <div className="space-y-4 pt-4">
-          <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+          <div className="flex items-center justify-between border-b border-blue-200 pb-2">
             <div className="flex items-center space-x-2">
               <User className="w-4 h-4 text-violet-600" />
               <h2 className="text-base font-black text-slate-900 uppercase tracking-wide">
                 Individual Students (No Batch Assigned)
               </h2>
-              <span className="px-2 py-0.5 rounded-full bg-violet-100 text-violet-800 text-[11px] font-mono font-bold">
+              <span className="px-2 py-0.5 rounded-full bg-white text-violet-800 text-[11px] font-mono font-bold">
                 {individualStudents.length} Individual
               </span>
             </div>
@@ -493,7 +481,7 @@ export default function AssignedStudentsPage() {
           </div>
 
           {individualStudents.length === 0 ? (
-            <div className="bg-white border border-slate-200/80 rounded-2xl p-8 text-center space-y-2">
+            <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center space-y-2">
               <User className="w-8 h-8 text-slate-300 mx-auto" />
               <p className="text-xs font-bold text-slate-700">No Individual Students Assigned</p>
               <p className="text-[11px] text-slate-500">Students assigned directly to you without a batch will appear here.</p>
@@ -503,22 +491,22 @@ export default function AssignedStudentsPage() {
               {individualStudents.filter(filterStudent).map((st) => (
                 <div
                   key={st._id}
-                  className="bg-white border border-slate-200/90 rounded-3xl p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-violet-300 transition"
+                  className="bg-white border border-slate-200 rounded-3xl p-5 flex flex-col justify-between space-y-4 shadow-xs hover:border-violet-300 transition"
                 >
                   <div className="space-y-3">
                     {/* Badge: Individual Student (No Batch Assigned) */}
                     <div className="flex items-center justify-between">
-                      <span className="px-2.5 py-0.5 rounded-full bg-violet-50 text-violet-800 border border-violet-200 text-[10px] font-bold uppercase tracking-wider font-mono">
+                      <span className="px-2.5 py-0.5 rounded-full bg-white text-violet-800 border border-violet-200 text-[10px] font-bold uppercase tracking-wider font-mono">
                         Individual Student (No Batch Assigned)
                       </span>
-                      <span className="px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 font-mono text-[10px] font-bold">
+                      <span className="px-1.5 py-0.5 rounded bg-white text-slate-600 font-mono text-[10px] font-bold">
                         Lv.{st.currentLevel?.level || 1}
                       </span>
                     </div>
 
                     {/* Student Info */}
                     <div className="flex items-start space-x-3">
-                      <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-violet-600 to-indigo-600 flex items-center justify-center font-bold text-sm text-white shadow-xs shrink-0">
+                      <div className="bg-white w-11 h-11 rounded-2xl flex items-center justify-center font-bold text-sm text-blue-700 shadow-xs shrink-0 border border-blue-600">
                         {st.userId?.name?.charAt(0) || 'I'}
                       </div>
                       <div className="min-w-0 flex-1">
@@ -526,17 +514,17 @@ export default function AssignedStudentsPage() {
                           {st.userId?.name}
                         </h3>
                         <p className="text-xs text-slate-500 truncate">{st.userId?.email}</p>
-                        <span className="text-[10px] font-mono text-purple-700 font-semibold block pt-0.5">
+                        <span className="text-[10px] font-mono text-blue-800 font-semibold block pt-0.5">
                           ID: {st.studentId || st.userId?.studentId || 'N/A'}
                         </span>
                       </div>
                     </div>
 
                     {/* Course & Tutor Metadata */}
-                    <div className="bg-slate-50 p-2.5 rounded-xl border border-slate-200/70 space-y-1 text-xs">
+                    <div className="bg-white p-2.5 rounded-xl border border-blue-200 space-y-1 text-xs">
                       <div className="flex items-center justify-between text-[11px]">
                         <span className="text-slate-500 font-semibold">Enrolled Course:</span>
-                        <span className="font-bold text-purple-700">
+                        <span className="font-bold text-blue-800">
                           {st.courseTitle || st.enrolledCourseId?.title || (st.domain ? st.domain.toUpperCase() : 'Unassigned')}
                         </span>
                       </div>
@@ -552,13 +540,13 @@ export default function AssignedStudentsPage() {
                     <div className="space-y-1">
                       <div className="flex items-center justify-between text-[11px] text-slate-600 font-mono">
                         <span className="text-slate-500">Syllabus Progress:</span>
-                        <span className="text-purple-700 font-bold">
+                        <span className="text-blue-800 font-bold">
                           {st.progress?.completedModules || 0}/{st.progress?.totalModules || 0} Modules ({st.progress?.progressPercent || 0}%)
                         </span>
                       </div>
                       <div className="w-full h-1.5 bg-slate-200 rounded-full overflow-hidden">
                         <div
-                          className="h-full bg-gradient-to-r from-violet-600 to-purple-600 rounded-full"
+                          className="bg-sq-gradient h-full rounded-full"
                           style={{ width: `${st.progress?.progressPercent || 0}%` }}
                         ></div>
                       </div>
@@ -573,7 +561,7 @@ export default function AssignedStudentsPage() {
 
                     <button
                       onClick={() => openStudentModal(st)}
-                      className="px-3 py-1.5 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
+                      className="bg-white px-3 py-1.5 text-blue-800 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer border border-[#9333EA]"
                     >
                       <BookOpen className="w-3.5 h-3.5" />
                       <span>Manage Modules</span>
@@ -593,13 +581,13 @@ export default function AssignedStudentsPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 max-w-3xl w-full rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="p-6 border-b border-slate-100 flex items-start justify-between bg-gradient-to-r from-purple-50/70 via-slate-50 to-pink-50/50">
+            <div className="bg-white p-6 border-b border-slate-100 flex items-start justify-between">
               <div className="space-y-1.5">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded bg-purple-700 text-white font-mono font-black text-xs uppercase">
+                  <span className="bg-white px-2.5 py-0.5 rounded text-blue-800 font-mono font-black text-xs uppercase border border-[#9333EA]">
                     {selectedBatch.code || 'BATCH'}
                   </span>
-                  <span className="px-2.5 py-0.5 rounded bg-purple-100 text-purple-800 text-xs font-bold">
+                  <span className="px-2.5 py-0.5 rounded bg-white text-purple-800 text-xs font-bold">
                     {selectedBatch.course?.title || 'Shared Course Syllabus'}
                   </span>
                   <span className="text-xs text-slate-500 font-mono">
@@ -608,7 +596,7 @@ export default function AssignedStudentsPage() {
                 </div>
                 <h2 className="text-xl font-black text-slate-900 flex items-center gap-2">
                   <span>Common Batch Syllabus:</span>
-                  <span className="text-purple-700">{selectedBatch.name}</span>
+                  <span className="text-blue-800">{selectedBatch.name}</span>
                 </h2>
                 <p className="text-xs text-slate-500">
                   Centrally manage the shared syllabus. Setting a module to ⚡ <strong>Processing</strong> immediately unlocks it for <strong>every student in this batch</strong>.
@@ -617,7 +605,7 @@ export default function AssignedStudentsPage() {
 
               <button
                 onClick={() => setSelectedBatch(null)}
-                className="p-1.5 rounded-full hover:bg-slate-200 text-slate-500 transition cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-white text-slate-500 transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -625,11 +613,7 @@ export default function AssignedStudentsPage() {
 
             {/* Alert Message */}
             {batchStatusMessage && (
-              <div className={`mx-6 mt-4 p-3 rounded-2xl text-xs font-semibold flex items-center space-x-2.5 ${
-                batchStatusMessage.type === 'success'
-                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
-                  : 'bg-rose-50 border border-rose-200 text-rose-800'
-              }`}>
+              <div className={`mx-6 mt-4 p-3 rounded-2xl text-xs font-semibold flex items-center space-x-2.5 ${ batchStatusMessage.type === 'success' ? 'bg-white border border-emerald-200 text-emerald-800' : 'bg-white border border-rose-200 text-rose-800' }`}>
                 {batchStatusMessage.type === 'success' ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 ) : (
@@ -658,17 +642,11 @@ export default function AssignedStudentsPage() {
                   return (
                     <div
                       key={mod._id}
-                      className={`p-4 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
-                        status === 'processing'
-                          ? 'bg-purple-50/60 border-purple-300 shadow-2xs'
-                          : status === 'completed'
-                          ? 'bg-emerald-50/50 border-emerald-200'
-                          : 'bg-slate-50/70 border-slate-200'
-                      }`}
+                      className={`p-4 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${ status === 'processing' ? 'bg-white border-blue-200 shadow-2xs' : status === 'completed' ? 'bg-white border-emerald-200' : 'bg-white border-blue-200' }`}
                     >
                       <div className="space-y-1 min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono font-black text-xs px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700 shadow-2xs">
+                          <span className="font-mono font-black text-xs px-2 py-0.5 rounded bg-white border border-blue-200 text-slate-700 shadow-2xs">
                             Mod {mod.order}
                           </span>
                           <h4 className="font-black text-sm text-slate-900 truncate">
@@ -688,11 +666,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateBatchModuleStatus(mod._id, 'not_started')}
                           title="Lock module for all batch students"
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'not_started'
-                              ? 'bg-slate-700 text-white shadow-xs ring-2 ring-slate-400/40'
-                              : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
-                          }`}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'not_started' ? 'bg-white text-blue-800 shadow-xs ring-2 ring-slate-400/40 border border-[#9333EA]' : 'bg-white hover:bg-white text-slate-600 border border-blue-200' }`}
                         >
                           <Lock className="w-3.5 h-3.5" />
                           <span>Locked</span>
@@ -704,11 +678,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateBatchModuleStatus(mod._id, 'processing')}
                           title="Unlock module for all batch students"
-                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'processing'
-                              ? 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white shadow-xs ring-2 ring-purple-400/40'
-                              : 'bg-white hover:bg-purple-50 text-purple-700 border border-purple-200'
-                          }`}
+                          className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'processing' ? 'bg-white text-blue-800 shadow-xs ring-2 ring-purple-400/40 border border-[#9333EA]' : 'bg-white hover:bg-white text-blue-800 border border-blue-200' }`}
                         >
                           <Unlock className="w-3.5 h-3.5" />
                           <span>Processing</span>
@@ -720,11 +690,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateBatchModuleStatus(mod._id, 'completed')}
                           title="Mark module completed for batch"
-                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'completed'
-                              ? 'bg-emerald-600 text-white shadow-xs ring-2 ring-emerald-400/40'
-                              : 'bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          }`}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'completed' ? 'bg-white text-emerald-700 shadow-xs ring-2 ring-emerald-400/40 border border-emerald-600' : 'bg-white hover:bg-white text-emerald-700 border border-emerald-200' }`}
                         >
                           <CheckCircle2 className="w-3.5 h-3.5" />
                           <span>Completed</span>
@@ -737,14 +703,14 @@ export default function AssignedStudentsPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs text-slate-500">
+            <div className="p-4 border-t border-slate-100 bg-white flex items-center justify-between text-xs text-slate-500">
               <span className="text-[11px] text-slate-600 font-medium">
                 Changes synchronize to all {selectedBatch.studentCount || (selectedBatch.students?.length || 0)} students in this cohort immediately.
               </span>
               <button
                 type="button"
                 onClick={() => setSelectedBatch(null)}
-                className="px-5 py-2 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold rounded-xl transition cursor-pointer"
+                className="px-5 py-2 bg-white hover:bg-white text-slate-800 border border-slate-300 font-bold rounded-xl transition cursor-pointer"
               >
                 Close
               </button>
@@ -760,17 +726,17 @@ export default function AssignedStudentsPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white border border-slate-200 max-w-2xl w-full rounded-3xl shadow-2xl flex flex-col max-h-[90vh] overflow-hidden">
             {/* Modal Header */}
-            <div className="p-6 border-b border-slate-100 flex items-start justify-between bg-slate-50/70">
+            <div className="p-6 border-b border-slate-100 flex items-start justify-between bg-white">
               <div className="space-y-1">
                 <div className="flex items-center space-x-2">
-                  <span className="px-2.5 py-0.5 rounded bg-purple-100 text-purple-800 text-[10px] font-mono font-black uppercase">
+                  <span className="px-2.5 py-0.5 rounded bg-white text-purple-800 text-[10px] font-mono font-black uppercase">
                     {selectedStudent.courseTitle || selectedStudent.enrolledCourseId?.title || 'Syllabus'}
                   </span>
                   <span className="text-xs font-semibold text-slate-500">
                     ID: <strong>{selectedStudent.studentId || selectedStudent.userId?.studentId || 'N/A'}</strong>
                   </span>
                   {selectedStudent.hasBatch ? (
-                    <span className="text-xs text-purple-700 font-bold font-mono">
+                    <span className="text-xs text-blue-800 font-bold font-mono">
                       &bull; Batch: {selectedStudent.actualBatchName}
                     </span>
                   ) : (
@@ -781,7 +747,7 @@ export default function AssignedStudentsPage() {
                 </div>
                 <h2 className="text-lg font-black text-slate-900 flex items-center gap-2">
                   <span>Module Lock & Availability:</span>
-                  <span className="text-purple-700">{selectedStudent.userId?.name}</span>
+                  <span className="text-blue-800">{selectedStudent.userId?.name}</span>
                 </h2>
                 <p className="text-xs text-slate-500">
                   Control module access for this student. Set to ⚡ <strong>Processing</strong> to unlock tasks.
@@ -790,7 +756,7 @@ export default function AssignedStudentsPage() {
 
               <button
                 onClick={() => setSelectedStudent(null)}
-                className="p-1.5 rounded-full hover:bg-slate-200 text-slate-500 transition cursor-pointer"
+                className="p-1.5 rounded-full hover:bg-white text-slate-500 transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -798,11 +764,7 @@ export default function AssignedStudentsPage() {
 
             {/* Status Alert Message */}
             {studentStatusMessage && (
-              <div className={`mx-6 mt-4 p-3 rounded-2xl text-xs font-semibold flex items-center space-x-2.5 ${
-                studentStatusMessage.type === 'success'
-                  ? 'bg-emerald-50 border border-emerald-200 text-emerald-800'
-                  : 'bg-rose-50 border border-rose-200 text-rose-800'
-              }`}>
+              <div className={`mx-6 mt-4 p-3 rounded-2xl text-xs font-semibold flex items-center space-x-2.5 ${ studentStatusMessage.type === 'success' ? 'bg-white border border-emerald-200 text-emerald-800' : 'bg-white border border-rose-200 text-rose-800' }`}>
                 {studentStatusMessage.type === 'success' ? (
                   <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                 ) : (
@@ -831,17 +793,11 @@ export default function AssignedStudentsPage() {
                   return (
                     <div
                       key={mod._id}
-                      className={`p-4 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                        status === 'processing'
-                          ? 'bg-purple-50/50 border-purple-300 shadow-2xs'
-                          : status === 'completed'
-                          ? 'bg-emerald-50/40 border-emerald-200'
-                          : 'bg-slate-50/70 border-slate-200'
-                      }`}
+                      className={`p-4 rounded-2xl border transition flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${ status === 'processing' ? 'bg-white border-blue-200 shadow-2xs' : status === 'completed' ? 'bg-white border-emerald-200' : 'bg-white border-blue-200' }`}
                     >
                       <div className="space-y-1 min-w-0 flex-1">
                         <div className="flex items-center gap-2">
-                          <span className="font-mono font-black text-xs px-2 py-0.5 rounded bg-white border border-slate-200 text-slate-700 shadow-2xs">
+                          <span className="font-mono font-black text-xs px-2 py-0.5 rounded bg-white border border-blue-200 text-slate-700 shadow-2xs">
                             Mod {mod.order}
                           </span>
                           <h4 className="font-black text-sm text-slate-900 truncate">
@@ -860,11 +816,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateStudentModuleStatus(mod._id, 'not_started')}
                           title="Lock module"
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'not_started'
-                              ? 'bg-slate-700 text-white shadow-xs'
-                              : 'bg-white hover:bg-slate-100 text-slate-600 border border-slate-200'
-                          }`}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'not_started' ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'bg-white hover:bg-white text-slate-600 border border-blue-200' }`}
                         >
                           <Lock className="w-3 h-3" />
                           <span>Locked</span>
@@ -875,11 +827,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateStudentModuleStatus(mod._id, 'processing')}
                           title="Unlock module"
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'processing'
-                              ? 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white shadow-xs'
-                              : 'bg-white hover:bg-purple-50 text-purple-700 border border-purple-200'
-                          }`}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'processing' ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'bg-white hover:bg-white text-blue-800 border border-blue-200' }`}
                         >
                           <Unlock className="w-3 h-3" />
                           <span>Processing</span>
@@ -890,11 +838,7 @@ export default function AssignedStudentsPage() {
                           disabled={isUpdating}
                           onClick={() => handleUpdateStudentModuleStatus(mod._id, 'completed')}
                           title="Mark completed"
-                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${
-                            status === 'completed'
-                              ? 'bg-emerald-600 text-white shadow-xs'
-                              : 'bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          }`}
+                          className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer ${ status === 'completed' ? 'bg-white text-emerald-700 shadow-xs border border-emerald-600' : 'bg-white hover:bg-white text-emerald-700 border border-emerald-200' }`}
                         >
                           <CheckCircle2 className="w-3 h-3" />
                           <span>Completed</span>
@@ -907,11 +851,11 @@ export default function AssignedStudentsPage() {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-end">
+            <div className="p-4 border-t border-slate-100 bg-white flex items-center justify-end">
               <button
                 type="button"
                 onClick={() => setSelectedStudent(null)}
-                className="px-5 py-2 bg-white hover:bg-slate-100 text-slate-800 border border-slate-300 font-bold rounded-xl transition cursor-pointer text-xs"
+                className="px-5 py-2 bg-white hover:bg-white text-slate-800 border border-slate-300 font-bold rounded-xl transition cursor-pointer text-xs"
               >
                 Done
               </button>

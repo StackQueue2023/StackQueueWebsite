@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="bg-white text-[#111827] relative overflow-hidden border-t border-[#E5E7EB]">
       {/* Stack Queue Brand Colors Linear Gradient Strip */}
-      <div className="h-1 w-full bg-gradient-to-r from-[#E02B91] to-[#8B2BE2]"></div>
+      <div className="bg-white h-1 w-full"></div>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Col 1: Institute Brand & Mission */}
@@ -22,11 +22,11 @@ export default function Footer() {
               Empowering students with industry-oriented technology training, practical learning, internship opportunities, and real-world product development.
             </p>
             <div className="flex items-center space-x-4 pt-2">
-              <span className="inline-flex items-center space-x-1.5 text-xs text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+              <span className="inline-flex items-center space-x-1.5 text-xs text-emerald-700 bg-white px-3 py-1 rounded-full border border-emerald-200">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Govt &amp; Industry Recognized</span>
               </span>
-              <span className="inline-flex items-center space-x-1.5 text-xs text-[#E02B91] bg-pink-50 px-3 py-1 rounded-full border border-pink-200">
+              <span className="inline-flex items-center space-x-1.5 text-xs text-[#E02B91] bg-white px-3 py-1 rounded-full border border-pink-200">
                 <Award className="w-3.5 h-3.5 text-[#E02B91]" />
                 <span>100% Practical Learning</span>
               </span>
@@ -78,13 +78,13 @@ export default function Footer() {
             <div className="pt-2">
               <span className="text-[11px] font-bold uppercase tracking-wider text-[#4B5563] block mb-2">Connect With Us</span>
               <div className="flex items-center space-x-3">
-                <a href="#" className="p-2 bg-[#F9FAFB] hover:bg-pink-50 border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
+                <a href="#" className="p-2 bg-white hover:bg-white border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
                   <Github className="w-4 h-4" />
                 </a>
-                <a href="#" className="p-2 bg-[#F9FAFB] hover:bg-pink-50 border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
+                <a href="#" className="p-2 bg-white hover:bg-white border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
                   <Linkedin className="w-4 h-4" />
                 </a>
-                <a href="#" className="p-2 bg-[#F9FAFB] hover:bg-pink-50 border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
+                <a href="#" className="p-2 bg-white hover:bg-white border border-[#E5E7EB] hover:border-pink-200 rounded-lg transition text-[#4B5563] hover:text-[#E02B91]">
                   <Twitter className="w-4 h-4" />
                 </a>
               </div>

@@ -116,8 +116,8 @@ export default function BackendConnectionBanner() {
   if (status === 'recovered') {
     return (
       <div className="fixed top-2 left-1/2 -translate-x-1/2 z-50 animate-bounce transition-all duration-300">
-        <div className="flex items-center space-x-2.5 bg-emerald-600 text-white px-4 py-2 rounded-full shadow-lg border border-emerald-500 text-xs font-semibold">
-          <CheckCircle2 className="w-4 h-4 text-emerald-200" />
+        <div className="bg-white flex items-center space-x-2.5 text-emerald-700 px-4 py-2 rounded-full shadow-lg border border-emerald-500 text-xs font-semibold">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           <span>Backend Connection Restored. Normal operations resumed.</span>
         </div>
       </div>
@@ -126,18 +126,18 @@ export default function BackendConnectionBanner() {
 
   return (
     <div className="fixed top-2 left-1/2 -translate-x-1/2 z-50 max-w-xl w-[94%] transition-all duration-300">
-      <div className="bg-amber-500/95 backdrop-blur-md text-slate-950 px-4 py-2.5 rounded-2xl shadow-xl border border-amber-400 flex items-center justify-between space-x-3 text-xs font-medium">
+      <div className="bg-white backdrop-blur-md text-slate-900 px-4 py-2.5 rounded-2xl shadow-xl border border-amber-400 flex items-center justify-between space-x-3 text-xs font-medium">
         <div className="flex items-center space-x-2.5 truncate">
-          <div className="p-1.5 bg-amber-600/30 rounded-xl shrink-0">
+          <div className="bg-white border border-amber-300 p-1.5 rounded-xl shrink-0">
             {status === 'reconnecting' ? (
-              <RefreshCw className="w-4 h-4 animate-spin text-amber-950" />
+              <RefreshCw className="w-4 h-4 animate-spin text-amber-700" />
             ) : (
-              <WifiOff className="w-4 h-4 text-amber-950" />
+              <WifiOff className="w-4 h-4 text-amber-700" />
             )}
           </div>
           <div className="truncate">
-            <span className="font-bold">Backend Connection Issue Detected.</span>{' '}
-            <span className="text-amber-900 hidden sm:inline">
+            <span className="font-bold text-slate-900">Backend Connection Issue Detected.</span>{' '}
+            <span className="text-amber-700 hidden sm:inline">
               {status === 'reconnecting'
                 ? 'Attempting to reconnect now...'
                 : `Reconnecting in ${retryCountdown}s... Your input is preserved.`}
@@ -149,7 +149,7 @@ export default function BackendConnectionBanner() {
           <button
             onClick={handleManualRetry}
             disabled={isRetrying}
-            className="flex items-center space-x-1.5 px-3 py-1 bg-amber-950 hover:bg-black text-amber-100 rounded-xl text-[11px] font-bold shadow-sm transition-all disabled:opacity-50"
+            className="bg-white flex items-center space-x-1.5 px-3 py-1 border border-amber-600 hover:border-amber-700 text-amber-700 rounded-xl text-[11px] font-bold shadow-xs transition-all disabled:opacity-50"
           >
             <RefreshCw className={`w-3 h-3 ${isRetrying ? 'animate-spin' : ''}`} />
             <span>{isRetrying ? 'Checking...' : 'Retry Now'}</span>

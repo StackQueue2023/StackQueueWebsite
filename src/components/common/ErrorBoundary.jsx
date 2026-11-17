@@ -123,10 +123,10 @@ export default class ErrorBoundary extends React.Component {
       const dashboardLink = this.getDashboardLink();
 
       return (
-        <div className="min-h-[500px] flex items-center justify-center p-6 bg-slate-50/60">
+        <div className="min-h-[500px] flex items-center justify-center p-6 bg-white">
           <div className="max-w-lg w-full bg-white rounded-2xl border border-rose-100 shadow-xl shadow-rose-950/5 p-7 text-center">
             {/* Alert Icon */}
-            <div className="w-14 h-14 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center mx-auto mb-4 border border-rose-200/60 shadow-sm">
+            <div className="w-14 h-14 rounded-2xl bg-white text-rose-600 flex items-center justify-center mx-auto mb-4 border border-rose-200/60 shadow-sm">
               <ShieldAlert className="w-7 h-7" />
             </div>
 
@@ -140,7 +140,7 @@ export default class ErrorBoundary extends React.Component {
             </p>
 
             {/* Correlation ID & IST Timestamp Card */}
-            <div className="bg-slate-50 border border-slate-200/80 rounded-xl p-3.5 mb-5 text-left flex items-center justify-between">
+            <div className="bg-white border border-slate-200/80 rounded-xl p-3.5 mb-5 text-left flex items-center justify-between">
               <div>
                 <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
                   Incident Reference ID
@@ -156,7 +156,7 @@ export default class ErrorBoundary extends React.Component {
                 type="button"
                 onClick={this.handleCopyIncidentId}
                 title="Copy Incident ID"
-                className="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 bg-white hover:bg-slate-50 text-slate-600 text-[11px] font-medium flex items-center space-x-1.5 transition-colors"
+                className="px-2.5 py-1.5 rounded-lg border border-slate-200 hover:border-slate-300 bg-white hover:bg-white text-slate-600 text-[11px] font-medium flex items-center space-x-1.5 transition-colors"
               >
                 {this.state.copied ? (
                   <>
@@ -174,7 +174,7 @@ export default class ErrorBoundary extends React.Component {
 
             {/* Error Message Details (development or readable summary) */}
             {this.state.error && (
-              <div className="mb-5 text-left bg-slate-900 text-rose-200 rounded-xl p-3 text-[11px] font-mono overflow-x-auto max-h-28 border border-slate-800 leading-relaxed">
+              <div className="bg-white mb-5 text-left text-rose-200 rounded-xl p-3 text-[11px] font-mono overflow-x-auto max-h-28 border border-slate-800 leading-relaxed">
                 <span className="text-slate-400 block text-[10px] uppercase mb-1">Error Message:</span>
                 {this.state.error.message || this.state.error.toString()}
               </div>
@@ -182,7 +182,7 @@ export default class ErrorBoundary extends React.Component {
 
             {/* Loop Alert Warning */}
             {this.state.isLooping && (
-              <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-xl text-left flex items-start space-x-2 text-xs text-amber-800">
+              <div className="mb-4 p-3 bg-white border border-amber-200 rounded-xl text-left flex items-start space-x-2 text-xs text-amber-800">
                 <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
                 <div>
                   <strong className="font-semibold block">Multiple retries detected</strong>
@@ -197,7 +197,7 @@ export default class ErrorBoundary extends React.Component {
                 <button
                   type="button"
                   onClick={this.handleReset}
-                  className="inline-flex items-center space-x-2 px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-semibold rounded-xl shadow-md shadow-purple-500/20 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="bg-white inline-flex items-center space-x-2 px-5 py-2.5 text-sq-gradient text-xs font-semibold rounded-xl shadow-md shadow-purple-500/20 transition-all hover:scale-[1.02] active:scale-[0.98] border border-[#9333EA]"
                 >
                   <RefreshCw className="w-3.5 h-3.5" />
                   <span>Retry Page</span>
@@ -206,7 +206,7 @@ export default class ErrorBoundary extends React.Component {
 
               <a
                 href={dashboardLink}
-                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition-colors"
+                className="inline-flex items-center space-x-2 px-5 py-2.5 bg-white hover:bg-white text-slate-700 text-xs font-semibold rounded-xl transition-colors"
               >
                 <Home className="w-3.5 h-3.5" />
                 <span>Back to Dashboard</span>

@@ -109,29 +109,29 @@ export default function CollegeProjectsAnalyticsPage() {
 
   return (
     <div className="space-y-8 pb-16 max-w-7xl mx-auto">
-      {/* 1. Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-cyan-50/70 via-blue-50/40 to-indigo-50/50 border border-cyan-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-cyan-500/15 to-blue-500/15 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. Header Banner — Very Light Yellow (#FFFBEB) + Amber/Orange Projects Theme */}
+      <div className="bg-[#FFFBEB] rounded-3xl border border-[#FDE68A] p-6 md:p-8 text-[#451A03] relative overflow-hidden shadow-xs">
+        <div className="bg-amber-100/50 absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2 mb-2">
               <Link
                 to="/admin/analytics"
-                className="inline-flex items-center space-x-1.5 text-xs font-bold text-cyan-800 bg-white/90 hover:bg-white px-3 py-1.5 rounded-xl border border-cyan-200 shadow-2xs transition"
+                className="inline-flex items-center space-x-1.5 text-xs font-bold text-[#D97706] bg-white hover:bg-amber-50 px-3 py-1.5 rounded-xl border border-[#FDE68A] shadow-2xs transition"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Back to Analytics Hub</span>
               </Link>
-              <div className="inline-flex items-center space-x-2 text-cyan-800 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-cyan-100/90 to-blue-100/90 px-3.5 py-1 rounded-full border border-cyan-200/80 shadow-2xs">
-                <FolderGit2 className="w-3.5 h-3.5 text-cyan-600" />
+              <div className="bg-white inline-flex items-center space-x-2 text-[#D97706] font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-[#FDE68A] shadow-2xs">
+                <FolderGit2 className="w-3.5 h-3.5 text-[#D97706]" />
                 <span>Capstone Project & Code Review Intelligence</span>
               </div>
             </div>
-            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
+            <h1 className="text-2xl md:text-3xl font-black tracking-tight text-[#451A03]">
               College Projects Analytics
             </h1>
-            <p className="text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed">
+            <p className="text-xs md:text-sm text-[#78350F] max-w-2xl leading-relaxed">
               Tracking student capstone assignments, technical domain distribution, tutor line-by-line review benchmarks, and final executive approvals.
             </p>
           </div>
@@ -140,9 +140,9 @@ export default function CollegeProjectsAnalyticsPage() {
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="px-4 py-2.5 bg-white hover:bg-cyan-50 text-cyan-800 border border-cyan-200 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
+              className="px-4 py-2.5 bg-white hover:bg-amber-50 text-[#D97706] border border-[#FDE68A] rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
             >
-              <RefreshCw className={`w-3.5 h-3.5 text-cyan-600 ${refreshing ? 'animate-spin' : ''}`} />
+              <RefreshCw className={`w-3.5 h-3.5 text-[#D97706] ${refreshing ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
             </button>
           </div>
@@ -314,11 +314,11 @@ export default function CollegeProjectsAnalyticsPage() {
         />
 
         {/* Submissions Data Grid */}
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
+        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="border-b border-cyan-100 bg-cyan-50/50 text-slate-500 font-mono text-[10px] uppercase tracking-wider">
+                <tr className="border-b border-cyan-100 bg-white text-slate-500 font-mono text-[10px] uppercase tracking-wider">
                   <th className="py-3 px-4 font-bold">Capstone Project</th>
                   <th className="py-3 px-4 font-bold">Domain</th>
                   <th className="py-3 px-4 font-bold">Assigned Student</th>
@@ -338,13 +338,13 @@ export default function CollegeProjectsAnalyticsPage() {
                   </tr>
                 ) : (
                   filteredRows.map((r, i) => (
-                    <tr key={r.id || i} className="hover:bg-cyan-50/30 transition-colors">
+                    <tr key={r.id || i} className="hover:bg-white transition-colors">
                       <td className="py-3 px-4">
                         <div className="font-bold text-slate-900">{r.title}</div>
                         <div className="text-[10px] text-slate-400 font-mono">ID: {r.id}</div>
                       </td>
                       <td className="py-3 px-4">
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-cyan-50 text-cyan-800 border border-cyan-200">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-white text-cyan-800 border border-cyan-200">
                           {r.domain}
                         </span>
                       </td>
@@ -357,9 +357,9 @@ export default function CollegeProjectsAnalyticsPage() {
                       </td>
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-16 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                          <div className="w-16 h-1.5 bg-yellow-100/80 rounded-full overflow-hidden">
                             <div
-                              className="h-full bg-cyan-600 rounded-full"
+                              className="bg-sq-gradient h-full rounded-full"
                               style={{ width: `${r.completion}%` }}
                             />
                           </div>
@@ -375,13 +375,7 @@ export default function CollegeProjectsAnalyticsPage() {
                         {r.lastUpdated}
                       </td>
                       <td className="py-3 px-4 text-center">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border uppercase ${
-                          r.submissionStatus === 'Approved'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                            : r.submissionStatus === 'Under Review'
-                            ? 'bg-purple-50 text-purple-700 border-purple-200'
-                            : 'bg-amber-50 text-amber-700 border-amber-200'
-                        }`}>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-mono font-bold border uppercase ${ r.submissionStatus === 'Approved' ? 'bg-white text-emerald-700 border-emerald-200' : r.submissionStatus === 'Under Review' ? 'bg-white text-amber-900 border-amber-300' : 'bg-white text-amber-700 border-amber-200' }`}>
                           {r.submissionStatus}
                         </span>
                       </td>

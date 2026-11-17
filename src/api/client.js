@@ -1,9 +1,18 @@
 import axios from 'axios';
 import { reportUIError, resolvePageAndModule } from '../services/uiErrorMonitoringService';
 
+const resolveBaseURL = () => {
+  const envUrl = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL;
+  if (envUrl && typeof envUrl === 'string' && envUrl.trim()) {
+    const trimmed = envUrl.trim().replace(/\/+$/, '');
+    return trimmed.endsWith('/api') ? trimmed : `${trimmed}/api`;
+  }
+  return '/api';
+};
+
 const api = axios.create({
-  baseURL: '/api',
-  timeout: 30000,
+  baseURL: resolveBaseURL(),
+  timeout: 60000,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -42,18 +51,20 @@ api.interceptors.response.use((response) => {
   return response;
 }, (error) => {
   const status = error.response?.status;
-  const isNetworkFailure = !error.response || error.code === 'ECONNABORTED' || error.message.includes('Network Error');
+  const isTimeout = error.code === 'ECONNABORTED' || (error.message && error.message.toLowerCase().includes('timeout'));
+  const isNetworkFailure = !error.response && !isTimeout;
   const isServerOutage = status >= 500;
 
-  if (isNetworkFailure || isServerOutage) {
+  if (isNetworkFailure || isServerOutage || isTimeout) {
     // Notify application that backend connection is compromised
     notifyConnectionStatus(false, {
       status,
       isNetworkFailure,
-      message: error.response?.data?.message || error.message || 'Backend connection error'
+      isTimeout,
+      message: error.response?.data?.message || error.message || (isTimeout ? 'Request timed out' : 'Backend connection error')
     });
 
-    // Auto-report critical API 5xx or Network Failure to LMS monitoring system
+    // Auto-report critical API 5xx, timeout, or Network Failure to LMS monitoring system
     if (error.config?.url && !error.config.url.includes('/monitoring/frontend-errors')) {
       const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
       const { pageName, moduleName } = resolvePageAndModule(currentPath);
@@ -62,17 +73,19 @@ api.interceptors.response.use((response) => {
         pageName,
         route: currentPath,
         moduleName,
-        errorCategory: isNetworkFailure ? 'Network Connection Failure' : 'API Server Error',
-        errorMessage: error.response?.data?.message || error.message || 'API operation returned server error',
+        errorCategory: isTimeout ? 'Request Timeout' : isNetworkFailure ? 'Network Connection Failure' : 'API Server Error',
+        errorMessage: error.response?.data?.message || error.message || (isTimeout ? 'Request timed out waiting for server' : 'API operation returned server error'),
         failedApi: `${error.config.method?.toUpperCase() || 'GET'} ${error.config.url}`,
-        httpStatus: status || 0,
-        impact: `Data loading failed for ${pageName} (${error.config.method?.toUpperCase()} ${error.config.url})`,
+        httpStatus: status || (isTimeout ? 408 : 0),
+        impact: `Operation delayed or failed for ${pageName} (${error.config.method?.toUpperCase()} ${error.config.url})`,
         isCritical: isServerOutage,
         severity: isServerOutage ? 'CRITICAL' : 'HIGH',
         diagnosticDetails: {
           apiUrl: error.config.url,
           apiMethod: error.config.method,
-          httpStatus: status
+          httpStatus: status,
+          isTimeout,
+          isNetworkFailure
         }
       }).catch(() => {});
     }
@@ -106,9 +119,33 @@ api.interceptors.response.use((response) => {
     }
   }
 
-  // Attach user-friendly diagnostic message while preserving original error
-  error.userMessage = error.response?.data?.message || 
-    (isNetworkFailure ? 'Unable to reach the server. Please check your network connection.' : 'A server error occurred. Our team has been notified.');
+  // Attach precise, actionable user-friendly diagnostic message based on actual failure cause
+  let userMessage = error.response?.data?.message;
+  if (!userMessage) {
+    if (isTimeout) {
+      userMessage = 'Request timed out waiting for server. Generation or background processing may still be running. Please check status or resume.';
+    } else if (isNetworkFailure) {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) {
+        userMessage = 'You appear to be offline. Please check your internet connection.';
+      } else {
+        userMessage = 'Backend server is temporarily unreachable or restarting. Controlled reconnect in progress...';
+      }
+    } else if (status === 429) {
+      userMessage = 'API or AI service rate limit reached. Please wait a moment before trying again.';
+    } else if (status === 401) {
+      userMessage = 'Authentication session expired. Please log in again.';
+    } else if (status === 403) {
+      userMessage = 'Access denied. Administrator privileges required.';
+    } else if (status === 404) {
+      userMessage = 'The requested resource or endpoint was not found on the server.';
+    } else if (isServerOutage) {
+      userMessage = 'A server error occurred. Our automated diagnostic monitors have recorded this incident.';
+    } else {
+      userMessage = error.message || 'An unexpected connection or API error occurred.';
+    }
+  }
+
+  error.userMessage = userMessage;
 
   return Promise.reject(error);
 });

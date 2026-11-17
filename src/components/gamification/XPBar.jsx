@@ -34,9 +34,9 @@ export default function XPBar({ totalXp = 0, currentLevel = { level: 1, title: '
           {currentTier.maxXp - totalXp > 0 ? `${currentTier.maxXp - totalXp} XP to Level ${currentLevel.level + 1}` : 'Max Level'}
         </span>
       </div>
-      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] rounded-full transition-all duration-500 shadow-xs"
+          className="bg-sq-gradient h-full rounded-full transition-all duration-500"
           style={{ width: `${percentage}%` }}
         />
       </div>

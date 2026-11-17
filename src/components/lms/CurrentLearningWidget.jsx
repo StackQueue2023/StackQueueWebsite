@@ -29,11 +29,11 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
     <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-2">
-          <span className="p-2 bg-purple-50 text-purple-600 rounded-xl">
+          <span className="p-2 bg-white text-blue-800 rounded-xl">
             <BookOpen className="w-5 h-5" />
           </span>
           <div>
-            <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600">
+            <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800">
               Current Learning
             </span>
             <h3 className="text-base font-black text-slate-900">
@@ -45,17 +45,17 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
         {/* Tutor Concept Status Badge */}
         <div>
           {isTutorCompleted ? (
-            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-50 text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-white text-emerald-700 text-xs font-bold rounded-full border border-emerald-200">
               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>✓ Concept Completed</span>
             </span>
           ) : tutorStatus === 'IN_PROGRESS' ? (
-            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-amber-50 text-amber-800 text-xs font-bold rounded-full border border-amber-200">
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-white text-amber-800 text-xs font-bold rounded-full border border-amber-200">
               <Clock className="w-3.5 h-3.5 text-amber-600 animate-spin" />
               <span>🔄 Tutor In Progress</span>
             </span>
           ) : (
-            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-slate-100 text-slate-600 text-xs font-bold rounded-full">
+            <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-white text-slate-600 text-xs font-bold rounded-full">
               <span>○ Not Started</span>
             </span>
           )}
@@ -64,7 +64,7 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
 
       {/* Task Status & Progress */}
       {isLocked ? (
-        <div className="bg-amber-50/70 border border-amber-200/80 rounded-xl p-4 space-y-2">
+        <div className="bg-white border border-amber-200/80 rounded-xl p-4 space-y-2">
           <div className="flex items-center space-x-2 text-amber-800 font-bold text-xs">
             <Lock className="w-4 h-4 text-amber-600" />
             <span>Tasks: 🔒 Locked</span>
@@ -75,7 +75,7 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
           <div className="pt-1">
             <button
               disabled
-              className="px-4 py-2 bg-slate-200 text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed flex items-center space-x-1.5"
+              className="px-4 py-2 bg-white text-slate-400 font-bold text-xs rounded-xl cursor-not-allowed flex items-center space-x-1.5"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Locked until Tutor Completion</span>
@@ -86,17 +86,17 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs">
             <span className="font-bold text-slate-700">
-              Tasks: <strong className="text-purple-600">{tasksCompleted} / {tasksTotal}</strong> Completed
+              Tasks: <strong className="text-blue-800">{tasksCompleted} / {tasksTotal}</strong> Completed
             </span>
-            <span className="font-extrabold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-md">
+            <span className="font-extrabold text-blue-800 bg-white px-2 py-0.5 rounded-md">
               {taskPercentage}%
             </span>
           </div>
 
           {/* Progress Bar */}
-          <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+          <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] rounded-full transition-all duration-700"
+              className="bg-sq-gradient h-full rounded-full transition-all duration-700"
               style={{ width: `${taskPercentage}%` }}
             ></div>
           </div>
@@ -104,7 +104,7 @@ export default function CurrentLearningWidget({ currentLearning, onOpenTasks }) 
           <div className="pt-2 flex items-center justify-between">
             <button
               onClick={() => onOpenTasks(conceptId)}
-              className="px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold text-xs rounded-xl shadow-md shadow-purple-500/20 hover:shadow transition flex items-center space-x-2"
+              className="bg-white px-5 py-2.5 text-blue-700 font-bold text-xs rounded-xl shadow-md shadow-purple-500/20 hover:shadow transition flex items-center space-x-2 border border-blue-600"
             >
               <span>CONTINUE TASK</span>
               <ArrowRight className="w-4 h-4" />

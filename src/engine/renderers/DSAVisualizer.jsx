@@ -64,13 +64,13 @@ export default function DSAVisualizer({ challenge = {} }) {
             <button
               onClick={handlePop}
               disabled={stack.length === 0}
-              className="px-2.5 py-1 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] disabled:opacity-40 text-white rounded text-xs font-semibold shadow-sm transition"
+              className="bg-white px-2.5 py-1 disabled:opacity-40 text-sq-gradient rounded text-xs font-semibold shadow-sm transition border border-[#9333EA]"
             >
               Pop (Click Back)
             </button>
             <button
               onClick={handleResetStack}
-              className="p-1 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 rounded transition"
+              className="p-1 bg-white hover:bg-white text-slate-600 border border-slate-200 rounded transition"
               title="Reset Stack"
             >
               <RotateCcw className="w-3.5 h-3.5" />
@@ -79,7 +79,7 @@ export default function DSAVisualizer({ challenge = {} }) {
         </div>
 
         <div className="flex-1 bg-white border border-slate-200 rounded-xl p-4 flex flex-col justify-end items-center shadow-sm">
-          <div className="w-64 space-y-2 border-b-4 border-l-4 border-r-4 border-purple-400 rounded-b-xl p-3 bg-purple-50/40 min-h-[180px] flex flex-col justify-end">
+          <div className="w-64 space-y-2 border-b-4 border-l-4 border-r-4 border-purple-400 rounded-b-xl p-3 bg-white min-h-[180px] flex flex-col justify-end">
             {stack.length === 0 ? (
               <p className="text-center text-slate-400 text-xs py-8 italic">Stack is Empty (Underflow)</p>
             ) : (
@@ -88,11 +88,7 @@ export default function DSAVisualizer({ challenge = {} }) {
                 return (
                   <div
                     key={idx}
-                    className={`py-2 px-3 rounded-lg text-xs font-semibold text-center transition-all ${
-                      isTop
-                        ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white border-2 border-purple-400 shadow-sm'
-                        : 'bg-slate-100 text-slate-800 border border-slate-200'
-                    }`}
+                    className={`py-2 px-3 rounded-lg text-xs font-semibold text-center transition-all ${ isTop ? 'bg-white text-sq-gradient border-2 border-purple-400 shadow-sm' : 'bg-white text-slate-800 border border-slate-200' }`}
                   >
                     {item} {isTop && '← [TOP / LIFO]'}
                   </div>
@@ -104,7 +100,7 @@ export default function DSAVisualizer({ challenge = {} }) {
         </div>
 
         {poppedHistory.length > 0 && (
-          <div className="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-xs flex items-center space-x-2">
+          <div className="bg-white border border-slate-200 p-2.5 rounded-lg text-xs flex items-center space-x-2">
             <span className="text-slate-600 font-semibold">Pages Popped by Back Button:</span>
             <div className="flex items-center space-x-1 font-mono text-purple-700">
               {poppedHistory.map((h, i) => (
@@ -129,7 +125,7 @@ export default function DSAVisualizer({ challenge = {} }) {
           <button
             onClick={runBubbleStep}
             disabled={isSorting}
-            className="flex items-center space-x-1 px-2.5 py-1 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] disabled:opacity-50 text-white rounded text-xs font-semibold shadow-sm transition"
+            className="bg-white flex items-center space-x-1 px-2.5 py-1 disabled:opacity-50 text-sq-gradient rounded text-xs font-semibold shadow-sm transition border border-[#9333EA]"
           >
             <Play className="w-3 h-3" />
             <span>{isSorting ? 'Sorting...' : 'Play Sort'}</span>
@@ -137,7 +133,7 @@ export default function DSAVisualizer({ challenge = {} }) {
           <button
             onClick={resetArray}
             disabled={isSorting}
-            className="p-1 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 rounded transition"
+            className="p-1 bg-white hover:bg-white text-slate-600 border border-slate-200 rounded transition"
             title="Reset Array"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -153,11 +149,7 @@ export default function DSAVisualizer({ challenge = {} }) {
             <div key={idx} className="flex flex-col items-center space-y-1">
               <span className="text-[10px] font-mono text-slate-600 font-semibold">{val}</span>
               <div
-                className={`w-8 rounded-t transition-all duration-200 shadow-sm ${
-                  isComparing
-                    ? 'bg-amber-400'
-                    : 'bg-gradient-to-t from-[#8B2BE2] to-[#E02B91]'
-                }`}
+                className={`w-8 rounded-t transition-all duration-200 shadow-sm ${ isComparing ? 'bg-white' : 'bg-white' }`}
                 style={{ height: `${heightPercent * 1.6}px` }}
               />
               <span className="text-[9px] font-mono text-slate-400">[{idx}]</span>
@@ -165,7 +157,7 @@ export default function DSAVisualizer({ challenge = {} }) {
           );
         })}
       </div>
-      <div className="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-xs text-slate-700 flex justify-between">
+      <div className="bg-white border border-slate-200 p-2.5 rounded-lg text-xs text-slate-700 flex justify-between">
         <span>Time Complexity: <strong className="text-purple-700 font-mono">O(n²)</strong></span>
         <span>Space Complexity: <strong className="text-emerald-700 font-mono">O(1)</strong> Auxiliary</span>
       </div>

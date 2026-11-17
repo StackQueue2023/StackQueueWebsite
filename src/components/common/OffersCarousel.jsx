@@ -170,9 +170,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
         {/* Main Card — Styled to exactly match Screenshot 4 layout */}
         <div
           key={active}
-          className={`rounded-3xl border border-amber-200/90 bg-[#FFFDF0] ${
-            compact ? 'p-5 sm:p-6' : 'p-6 sm:p-8 md:p-9'
-          } flex flex-col justify-between h-full shadow-xs relative overflow-hidden transition-all duration-300`}
+          className={`rounded-3xl border border-amber-200/90 bg-white ${ compact ? 'p-5 sm:p-6' : 'p-6 sm:p-8 md:p-9' } flex flex-col justify-between h-full shadow-xs relative overflow-hidden transition-all duration-300`}
         >
           {/* Top Row: Badges on left, Validity on right */}
           <div className="space-y-3 relative z-10">
@@ -180,14 +178,14 @@ export default function OffersCarousel({ offers = [], compact = false }) {
               {/* Left Badges */}
               <div className="flex items-center gap-2 flex-wrap">
                 {/* 1. Discount Pill (Screenshot 4 gold badge) */}
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F59E0B] text-white font-extrabold text-xs tracking-wide shadow-xs">
-                  <Sparkles className="w-3.5 h-3.5 fill-current text-white/90" />
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white text-sq-gradient font-extrabold text-xs tracking-wide shadow-xs border border-[#9333EA]">
+                  <Sparkles className="w-3.5 h-3.5 text-[#a825c5]" />
                   {discountLabel}
                 </span>
 
                 {/* 2. Target Category / Offer Type Pill */}
                 {categoryLabel && (
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#FEF3C7] text-[#92400E] font-bold text-xs">
+                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full bg-white text-[#92400E] font-bold text-xs">
                     {categoryLabel}
                   </span>
                 )}
@@ -197,7 +195,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                   <button
                     type="button"
                     onClick={(e) => handleCopyCoupon(currentOffer.couponCode, e)}
-                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-dashed border-amber-400 bg-amber-50 hover:bg-amber-100 text-amber-900 font-mono font-bold text-xs transition cursor-pointer"
+                    className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full border border-dashed border-amber-400 bg-white hover:bg-white text-amber-900 font-mono font-bold text-xs transition cursor-pointer"
                     title="Click to copy coupon code"
                   >
                     <Tag className="w-3 h-3 text-amber-600" />
@@ -238,7 +236,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
             <button
               type="button"
               onClick={(e) => handleClaimClick(currentOffer, e)}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#9333EA] to-[#C026D3] hover:from-[#7E22CE] hover:to-[#A21CAF] text-white font-bold text-xs sm:text-sm rounded-xl shadow-xs hover:shadow-md transition flex items-center gap-2 cursor-pointer"
+              className="bg-white px-6 py-2.5 text-sq-gradient font-bold text-xs sm:text-sm rounded-xl shadow-xs hover:shadow-md transition flex items-center gap-2 cursor-pointer border border-[#9333EA]"
             >
               <span>Claim Offer</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -256,9 +254,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
           type="button"
           onClick={prev}
           disabled={activeOffers.length <= 1}
-          className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200/90 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition z-20 ${
-            activeOffers.length <= 1 ? 'opacity-70 cursor-default' : 'cursor-pointer hover:shadow-md'
-          }`}
+          className={`absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200/90 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white transition z-20 ${ activeOffers.length <= 1 ? 'opacity-70 cursor-default' : 'cursor-pointer hover:shadow-md' }`}
           aria-label="Previous offer"
         >
           <ChevronLeft className="w-4 h-4" />
@@ -267,9 +263,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
           type="button"
           onClick={next}
           disabled={activeOffers.length <= 1}
-          className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200/90 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-slate-50 transition z-20 ${
-            activeOffers.length <= 1 ? 'opacity-70 cursor-default' : 'cursor-pointer hover:shadow-md'
-          }`}
+          className={`absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-white shadow-sm border border-slate-200/90 flex items-center justify-center text-slate-500 hover:text-slate-800 hover:bg-white transition z-20 ${ activeOffers.length <= 1 ? 'opacity-70 cursor-default' : 'cursor-pointer hover:shadow-md' }`}
           aria-label="Next offer"
         >
           <ChevronRight className="w-4 h-4" />
@@ -282,11 +276,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
               key={idx}
               type="button"
               onClick={() => goTo(idx)}
-              className={`rounded-full transition-all duration-300 ${
-                idx === active
-                  ? 'w-5 h-1.5 bg-[#DB2777]'
-                  : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400'
-              }`}
+              className={`rounded-full transition-all duration-300 ${ idx === active ? 'bg-white w-5 h-1.5' : 'w-1.5 h-1.5 bg-slate-300 hover:bg-slate-400' }`}
               aria-label={`Offer ${idx + 1}`}
             />
           ))}
@@ -300,30 +290,30 @@ export default function OffersCarousel({ offers = [], compact = false }) {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto animate-fade-in">
           <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl w-full max-w-lg overflow-hidden my-8 relative animate-scale-up">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-purple-700 via-fuchsia-700 to-pink-600 p-6 text-white relative">
+            <div className="bg-white p-6 relative border-b border-purple-200">
               <button
                 type="button"
                 onClick={() => setClaimOfferModal(null)}
-                className="absolute top-4 right-4 p-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white transition cursor-pointer"
+                className="absolute top-4 right-4 p-1.5 rounded-full bg-white border border-slate-200 text-slate-600 hover:text-[#9333EA] hover:border-[#9333EA] transition cursor-pointer"
                 aria-label="Close modal"
               >
                 <X className="w-4 h-4" />
               </button>
 
               <div className="flex items-center gap-2 mb-2">
-                <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-white/20 px-2.5 py-0.5 rounded-full text-white">
-                  <Gift className="w-3.5 h-3.5" />
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-white border border-purple-200 px-2.5 py-0.5 rounded-full text-[#9333EA]">
+                  <Gift className="w-3.5 h-3.5 text-[#9333EA]" />
                   Special Promotional Offer
                 </span>
               </div>
 
-              <h3 className="text-2xl font-black tracking-tight leading-snug">
+              <h3 className="text-2xl font-black tracking-tight leading-snug text-sq-gradient">
                 {claimOfferModal.title}
               </h3>
 
-              <div className="mt-3 inline-flex items-center gap-2 bg-white/15 backdrop-blur-xs px-3.5 py-1.5 rounded-xl border border-white/20">
-                <Sparkles className="w-4 h-4 text-amber-300" />
-                <span className="text-base font-black text-white">
+              <div className="mt-3 inline-flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-xl border border-amber-300">
+                <Sparkles className="w-4 h-4 text-amber-600" />
+                <span className="text-base font-black text-amber-700">
                   {claimOfferModal.discountText || claimOfferModal.discount || 'Special Discount'}
                 </span>
               </div>
@@ -333,7 +323,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
             <div className="p-6 space-y-5">
               {/* Meta Grid */}
               <div className="grid grid-cols-2 gap-3">
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
+                <div className="p-3 bg-white border border-slate-100 rounded-xl space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
                     <Calendar className="w-3.5 h-3.5 text-purple-600" />
                     <span>Validity Period</span>
@@ -343,7 +333,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                   </p>
                 </div>
 
-                <div className="p-3 bg-slate-50 border border-slate-100 rounded-xl space-y-1">
+                <div className="p-3 bg-white border border-slate-100 rounded-xl space-y-1">
                   <div className="flex items-center gap-1.5 text-xs font-semibold text-slate-500">
                     <Users className="w-3.5 h-3.5 text-pink-600" />
                     <span>Eligible Audience</span>
@@ -356,7 +346,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
 
               {/* Coupon Code Box */}
               {claimOfferModal.couponCode && (
-                <div className="p-4 bg-purple-50/70 border border-purple-200/80 rounded-2xl space-y-2">
+                <div className="p-4 bg-white border border-purple-200/80 rounded-2xl space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-bold text-purple-900 flex items-center gap-1.5">
                       <Tag className="w-3.5 h-3.5 text-purple-600" />
@@ -372,11 +362,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                     <button
                       type="button"
                       onClick={() => handleCopyCoupon(claimOfferModal.couponCode)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${
-                        copiedCode
-                          ? 'bg-emerald-600 text-white'
-                          : 'bg-purple-600 hover:bg-purple-700 text-white'
-                      }`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 transition cursor-pointer ${ copiedCode ? 'bg-white text-emerald-700 border border-emerald-600' : 'bg-white text-sq-gradient border border-[#9333EA]' }`}
                     >
                       {copiedCode ? (
                         <>
@@ -400,7 +386,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                   <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wide">
                     Offer Details & Highlights
                   </h4>
-                  <div className="p-3.5 bg-slate-50 border border-slate-100 rounded-xl text-xs text-slate-600 leading-relaxed whitespace-pre-line">
+                  <div className="p-3.5 bg-white border border-slate-100 rounded-xl text-xs text-slate-600 leading-relaxed whitespace-pre-line">
                     {claimOfferModal.description}
                   </div>
                 </div>
@@ -413,7 +399,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                     <Info className="w-3.5 h-3.5 text-slate-400" />
                     Terms & Conditions
                   </h4>
-                  <p className="text-xs text-slate-500 leading-relaxed bg-amber-50/50 border border-amber-200/60 p-3 rounded-xl">
+                  <p className="text-xs text-slate-500 leading-relaxed bg-white border border-amber-200/60 p-3 rounded-xl">
                     {claimOfferModal.termsAndConditions}
                   </p>
                 </div>
@@ -424,7 +410,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                 <button
                   type="button"
                   onClick={() => handleApplyNow(claimOfferModal)}
-                  className="w-full sm:flex-1 py-3 px-4 bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:opacity-95 text-white font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer"
+                  className="bg-white w-full sm:flex-1 py-3 px-4 hover:opacity-95 text-sq-gradient font-bold text-sm rounded-xl shadow-md transition flex items-center justify-center gap-2 cursor-pointer border border-[#9333EA]"
                 >
                   <BookOpen className="w-4 h-4" />
                   <span>Apply Offer to Courses</span>
@@ -436,7 +422,7 @@ export default function OffersCarousel({ offers = [], compact = false }) {
                     setClaimOfferModal(null);
                     navigate('/contact');
                   }}
-                  className="w-full sm:w-auto py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-sm rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
+                  className="w-full sm:w-auto py-3 px-4 bg-white hover:bg-white text-slate-700 font-bold text-sm rounded-xl transition flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Phone className="w-4 h-4 text-slate-500" />
                   <span>Contact Team</span>

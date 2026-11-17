@@ -8,10 +8,10 @@ import {
 import { DOMAIN_CATEGORIES, DEFAULT_DOMAIN_CATEGORY } from '../../constants/domains';
 
 const DOMAINS = [
-  { key: 'java',   label: 'Java',   icon: '☕', color: 'from-orange-500 to-red-500',    border: 'border-orange-200', bg: 'bg-orange-50',  text: 'text-orange-700' },
-  { key: 'python', label: 'Python', icon: '🐍', color: 'from-violet-500 to-indigo-500', border: 'border-violet-200', bg: 'bg-violet-50',  text: 'text-violet-700' },
-  { key: 'cpp',    label: 'C++',    icon: '⚡', color: 'from-purple-500 to-indigo-500', border: 'border-purple-200', bg: 'bg-purple-50',  text: 'text-purple-700' },
-  { key: 'react',  label: 'React',  icon: '⚛️', color: 'from-cyan-500 to-teal-500',     border: 'border-cyan-200',   bg: 'bg-cyan-50',    text: 'text-cyan-700'   }
+  { key: 'java',   label: 'Java',   icon: '☕', color: 'from-blue-600 to-blue-700',       border: 'border-blue-200',   bg: 'bg-white',  text: 'text-blue-700' },
+  { key: 'python', label: 'Python', icon: '🐍', color: 'from-violet-500 to-indigo-500', border: 'border-violet-200', bg: 'bg-white',  text: 'text-violet-700' },
+  { key: 'cpp',    label: 'C++',    icon: '⚡', color: 'from-purple-500 to-indigo-500', border: 'border-blue-200', bg: 'bg-white',  text: 'text-blue-800' },
+  { key: 'react',  label: 'React',  icon: '⚛️', color: 'from-blue-600 to-indigo-600',   border: 'border-blue-200',   bg: 'bg-white',  text: 'text-blue-700' }
 ];
 
 export default function AdminSyllabusPage() {
@@ -223,7 +223,7 @@ export default function AdminSyllabusPage() {
       }
     } catch (err) {
       console.error('Upload syllabus error:', err);
-      alert(err.response?.data?.message || err.userMessage || err.message || 'Failed to process syllabus PDF. Please check the file format.');
+      showToast(err.response?.data?.message || err.userMessage || err.message || 'Failed to process syllabus PDF. Please check the file format.');
     } finally {
       setUploading(false);
       setUploadProgressMsg('');
@@ -242,8 +242,8 @@ export default function AdminSyllabusPage() {
 
       {/* ── TOAST NOTIFICATION ── */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-[#111827] text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700 animate-slide-in-right text-xs sm:text-sm font-semibold">
-          <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 bg-white text-blue-800 px-5 py-3 rounded-2xl shadow-lg flex items-center gap-3 border border-slate-200 animate-slide-in-right text-xs sm:text-sm font-semibold">
+          <Sparkles className="w-4 h-4 text-blue-600 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -267,7 +267,7 @@ export default function AdminSyllabusPage() {
         <div className="flex flex-wrap items-center gap-3 relative z-10">
           <button
             onClick={handleOpenUploadForCurrent}
-            className="px-5 py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs sm:text-sm rounded-2xl shadow-md shadow-pink-500/10 hover:shadow-lg transition flex items-center gap-2"
+            className="bg-white px-5 py-3 hover:opacity-95 text-blue-700 font-bold text-xs sm:text-sm rounded-2xl shadow-md shadow-pink-500/10 hover:shadow-lg transition flex items-center gap-2 border border-blue-600"
           >
             <Upload className="w-4 h-4" />
             <span>Upload Syllabus PDF</span>
@@ -275,7 +275,7 @@ export default function AdminSyllabusPage() {
 
           <button
             onClick={handleOpenNewCourseModal}
-            className="px-4 py-3 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-bold text-xs sm:text-sm rounded-2xl shadow-xs transition flex items-center gap-2"
+            className="px-4 py-3 bg-white hover:bg-white text-slate-800 border border-slate-200 font-bold text-xs sm:text-sm rounded-2xl shadow-xs transition flex items-center gap-2"
           >
             <Plus className="w-4 h-4 text-[#E02B91]" />
             <span>Add New Course</span>
@@ -293,11 +293,7 @@ export default function AdminSyllabusPage() {
               <button
                 key={d.key}
                 onClick={() => setSelectedDomain(d.key)}
-                className={`px-4 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 shrink-0 ${
-                  isSelected
-                    ? 'bg-slate-900 text-white shadow-xs'
-                    : 'bg-slate-100 hover:bg-slate-200 text-slate-700'
-                }`}
+                className={`px-4 py-2 rounded-xl text-xs font-black transition flex items-center gap-2 shrink-0 ${ isSelected ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'bg-white hover:bg-white text-slate-700' }`}
               >
                 <span>{d.icon}</span>
                 <span>{d.label}</span>
@@ -310,7 +306,7 @@ export default function AdminSyllabusPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={handleOpenUploadForCurrent}
-            className="px-3.5 py-2 text-xs font-bold text-[#E02B91] bg-pink-50 hover:bg-pink-100 border border-pink-200 rounded-xl transition flex items-center gap-1.5"
+            className="px-3.5 py-2 text-xs font-bold text-[#E02B91] bg-white hover:bg-white border border-pink-200 rounded-xl transition flex items-center gap-1.5"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>Update {currentDomainObj.label} Syllabus</span>
@@ -319,7 +315,7 @@ export default function AdminSyllabusPage() {
           <button
             onClick={fetchSyllabus}
             title="Refresh Syllabus"
-            className="p-2 hover:bg-slate-100 text-slate-500 rounded-xl transition"
+            className="p-2 hover:bg-white text-slate-500 rounded-xl transition"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin text-[#E02B91]' : ''}`} />
           </button>
@@ -329,7 +325,7 @@ export default function AdminSyllabusPage() {
       {/* ── METRICS SUMMARY CARDS ── */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-pink-50 border border-pink-200 flex items-center justify-center text-xl text-[#E02B91] shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-pink-200 flex items-center justify-center text-xl text-[#E02B91] shrink-0">
             🌐
           </div>
           <div>
@@ -339,7 +335,7 @@ export default function AdminSyllabusPage() {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex items-center gap-4">
-          <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${currentDomainObj.color} text-white flex items-center justify-center text-xl shadow-xs shrink-0`}>
+          <div className="bg-blue-50 w-12 h-12 rounded-2xl border border-blue-200 text-blue-700 flex items-center justify-center text-xl shadow-2xs shrink-0">
             {currentDomainObj.icon}
           </div>
           <div>
@@ -349,7 +345,7 @@ export default function AdminSyllabusPage() {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-xl text-purple-600 shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-xl text-blue-800 shrink-0">
             📝
           </div>
           <div>
@@ -359,7 +355,7 @@ export default function AdminSyllabusPage() {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-5 shadow-xs flex items-center gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-xl text-emerald-600 shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-emerald-200 flex items-center justify-center text-xl text-emerald-600 shrink-0">
             ⚡
           </div>
           <div>
@@ -378,20 +374,20 @@ export default function AdminSyllabusPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search module or task title..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+            className="w-full bg-white border border-blue-200 rounded-xl pl-10 pr-4 py-2 text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
           />
         </div>
 
         <div className="flex items-center gap-2 self-end sm:self-center">
           <button
             onClick={expandAll}
-            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition"
+            className="px-3 py-1.5 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition"
           >
             Expand All Modules
           </button>
           <button
             onClick={collapseAll}
-            className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition"
+            className="px-3 py-1.5 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition"
           >
             Collapse All
           </button>
@@ -408,7 +404,7 @@ export default function AdminSyllabusPage() {
         </div>
       ) : modules.length === 0 ? (
         <div className="bg-white rounded-3xl border-2 border-dashed border-slate-200 p-12 text-center space-y-4">
-          <div className="w-16 h-16 rounded-2xl bg-pink-50 text-[#E02B91] flex items-center justify-center text-3xl mx-auto">
+          <div className="w-16 h-16 rounded-2xl bg-white text-[#E02B91] flex items-center justify-center text-3xl mx-auto">
             <FileText className="w-8 h-8" />
           </div>
           <h3 className="text-lg font-black text-slate-800">
@@ -419,7 +415,7 @@ export default function AdminSyllabusPage() {
           </p>
           <button
             onClick={handleOpenUploadForCurrent}
-            className="px-6 py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] text-white font-bold text-xs rounded-xl shadow-md hover:opacity-95 transition inline-flex items-center gap-2"
+            className="bg-white px-6 py-3 text-blue-700 font-bold text-xs rounded-xl shadow-md hover:opacity-95 transition inline-flex items-center gap-2 border border-blue-600"
           >
             <Upload className="w-4 h-4" />
             <span>Upload {currentDomainObj.label} Syllabus PDF</span>
@@ -442,7 +438,7 @@ export default function AdminSyllabusPage() {
                   className="p-5 sm:p-6 bg-white flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer select-none border-b border-slate-100"
                 >
                   <div className="flex items-start gap-4 flex-1 min-w-0">
-                    <div className={`w-12 h-12 rounded-2xl bg-gradient-to-br ${currentDomainObj.color} text-white font-black text-base flex items-center justify-center shadow-xs shrink-0`}>
+                    <div className="bg-blue-50 w-12 h-12 rounded-2xl border border-blue-600 text-blue-700 font-black text-base flex items-center justify-center shadow-2xs shrink-0">
                       {String(m.order).padStart(2, '0')}
                     </div>
 
@@ -451,10 +447,10 @@ export default function AdminSyllabusPage() {
                         <span className="text-xs font-black text-slate-400 uppercase tracking-wider">
                           Module {m.order}
                         </span>
-                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-emerald-700 border border-emerald-200">
                           Active Syllabus
                         </span>
-                        <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+                        <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-white text-blue-800 border border-blue-200">
                           {taskCount} Tasks Ready
                         </span>
                       </div>
@@ -483,7 +479,7 @@ export default function AdminSyllabusPage() {
 
                 {/* 10-15 Generated Tasks List */}
                 {isOpen && (
-                  <div className="p-4 sm:p-6 bg-slate-50/50 space-y-3">
+                  <div className="p-4 sm:p-6 bg-white space-y-3">
                     <div className="flex items-center justify-between text-xs text-slate-500 font-bold px-1 mb-2">
                       <span className="flex items-center gap-1.5 text-[#E02B91]">
                         <Sparkles className="w-3.5 h-3.5" />
@@ -501,7 +497,7 @@ export default function AdminSyllabusPage() {
                           className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs hover:border-slate-300 transition"
                         >
                           <div className="flex items-start sm:items-center gap-3.5 flex-1 min-w-0">
-                            <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-xs font-black text-slate-700 shrink-0">
+                            <div className="w-8 h-8 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-xs font-black text-slate-700 shrink-0">
                               {t.order || idx + 1}
                             </div>
 
@@ -510,17 +506,13 @@ export default function AdminSyllabusPage() {
                                 <span className="text-xs font-black text-slate-900 truncate max-w-md">
                                   {t.title}
                                 </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 border border-slate-200 text-slate-700 capitalize">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-blue-200 text-slate-700 capitalize">
                                   {t.taskType}
                                 </span>
-                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                                  t.difficulty === 'Easy' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
-                                  t.difficulty === 'Medium' ? 'bg-amber-50 text-amber-700 border-amber-200' :
-                                  'bg-red-50 text-red-700 border-red-200'
-                                }`}>
+                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${ t.difficulty === 'Easy' ? 'bg-white text-emerald-700 border-emerald-200' : t.difficulty === 'Medium' ? 'bg-white text-amber-700 border-amber-200' : 'bg-white text-red-700 border-red-200' }`}>
                                   {t.difficulty}
                                 </span>
-                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 border border-amber-200 text-amber-800">
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white border border-amber-200 text-amber-800">
                                   +{t.points} pts
                                 </span>
                                 {t.estimatedTime && (
@@ -540,7 +532,7 @@ export default function AdminSyllabusPage() {
                           </div>
 
                           <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-                            <span className="px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
+                            <span className="px-2 py-0.5 rounded-full bg-white text-emerald-700 border border-emerald-200 text-[10px] font-bold">
                               Ready
                             </span>
                           </div>
@@ -565,7 +557,7 @@ export default function AdminSyllabusPage() {
             {/* Modal Header */}
             <div className="flex items-center justify-between border-b border-slate-100 pb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#E02B91] to-[#8B2BE2] text-white flex items-center justify-center shadow-xs">
+                <div className="bg-blue-50 w-10 h-10 rounded-2xl text-blue-700 flex items-center justify-center shadow-xs border border-blue-600">
                   <Upload className="w-5 h-5" />
                 </div>
                 <div>
@@ -580,7 +572,7 @@ export default function AdminSyllabusPage() {
               <button
                 disabled={uploading}
                 onClick={() => setUploadModalOpen(false)}
-                className="p-2 hover:bg-slate-100 text-slate-400 rounded-xl"
+                className="p-2 hover:bg-white text-slate-400 rounded-xl"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -589,7 +581,7 @@ export default function AdminSyllabusPage() {
             <form onSubmit={handleUploadSyllabus} className="space-y-4">
               {/* If New Course Mode: input title and domain slug */}
               {isNewCourseMode && (
-                <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div className="space-y-3 bg-white p-4 rounded-2xl border border-slate-200">
                   <p className="text-xs font-black uppercase tracking-wider text-slate-600">
                     New Course Information
                   </p>
@@ -609,7 +601,7 @@ export default function AdminSyllabusPage() {
                         });
                       }}
                       placeholder="e.g. Flutter Mobile Engineering"
-                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                     />
                   </div>
 
@@ -619,7 +611,7 @@ export default function AdminSyllabusPage() {
                       <select
                         value={newCourseForm.category}
                         onChange={(e) => setNewCourseForm({ ...newCourseForm, category: e.target.value })}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                        className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                       >
                         {DOMAIN_CATEGORIES.map((cat) => (
                           <option key={cat} value={cat}>{cat}</option>
@@ -632,7 +624,7 @@ export default function AdminSyllabusPage() {
                       <select
                         value={newCourseForm.level}
                         onChange={(e) => setNewCourseForm({ ...newCourseForm, level: e.target.value })}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                        className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                       >
                         <option value="All Levels">All Levels</option>
                         <option value="Beginner">Beginner</option>
@@ -650,7 +642,7 @@ export default function AdminSyllabusPage() {
                         min="1"
                         value={newCourseForm.durationWeeks}
                         onChange={(e) => setNewCourseForm({ ...newCourseForm, durationWeeks: e.target.value })}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                        className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                       />
                     </div>
 
@@ -661,7 +653,7 @@ export default function AdminSyllabusPage() {
                         min="1"
                         value={newCourseForm.totalHours}
                         onChange={(e) => setNewCourseForm({ ...newCourseForm, totalHours: e.target.value })}
-                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                        className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                       />
                     </div>
                   </div>
@@ -674,7 +666,7 @@ export default function AdminSyllabusPage() {
                       value={newCourseForm.description}
                       onChange={(e) => setNewCourseForm({ ...newCourseForm, description: e.target.value })}
                       placeholder="Brief overview of the curriculum"
-                      className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91] resize-none"
+                      className="w-full bg-white border border-blue-200 rounded-xl p-3 text-xs font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91] resize-none"
                     />
                   </div>
                 </div>
@@ -685,9 +677,7 @@ export default function AdminSyllabusPage() {
                 <button
                   type="button"
                   onClick={() => setInputMode('file')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
-                    inputMode === 'file' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${ inputMode === 'file' ? 'bg-white text-blue-700 border border-blue-600' : 'bg-white text-slate-600 hover:bg-white' }`}
                 >
                   <FileText className="w-3.5 h-3.5" />
                   <span>Upload PDF File</span>
@@ -695,9 +685,7 @@ export default function AdminSyllabusPage() {
                 <button
                   type="button"
                   onClick={() => setInputMode('text')}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${
-                    inputMode === 'text' ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 ${ inputMode === 'text' ? 'bg-white text-blue-700 border border-blue-600' : 'bg-white text-slate-600 hover:bg-white' }`}
                 >
                   <Code2 className="w-3.5 h-3.5" />
                   <span>Paste Syllabus Text</span>
@@ -708,7 +696,7 @@ export default function AdminSyllabusPage() {
               {inputMode === 'file' ? (
                 <div
                   onClick={() => fileInputRef.current?.click()}
-                  className="border-2 border-dashed border-slate-300 hover:border-[#E02B91] bg-slate-50 hover:bg-pink-50/20 rounded-2xl p-6 text-center cursor-pointer transition space-y-3"
+                  className="border-2 border-dashed border-slate-300 hover:border-[#E02B91] bg-white hover:bg-white rounded-2xl p-6 text-center cursor-pointer transition space-y-3"
                 >
                   <input
                     ref={fileInputRef}
@@ -717,7 +705,7 @@ export default function AdminSyllabusPage() {
                     onChange={handleFileChange}
                     className="hidden"
                   />
-                  <div className="w-12 h-12 rounded-2xl bg-pink-100 text-[#E02B91] flex items-center justify-center text-xl mx-auto">
+                  <div className="w-12 h-12 rounded-2xl bg-blue-50 text-[#E02B91] flex items-center justify-center text-xl mx-auto">
                     <FileCheck className="w-6 h-6" />
                   </div>
                   {selectedFile ? (
@@ -746,13 +734,13 @@ export default function AdminSyllabusPage() {
                     value={pastedText}
                     onChange={(e) => setPastedText(e.target.value)}
                     placeholder="Module 1: Introduction to Variables&#10;- Basic syntax and setup&#10;- Primitive data types&#10;&#10;Module 2: Object-Oriented Principles&#10;- Classes and Objects&#10;- Inheritance and Polymorphism"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91] resize-none"
+                    className="w-full bg-white border border-blue-200 rounded-xl p-3 text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91] resize-none"
                   />
                 </div>
               )}
 
               {/* Configuration: Questions per module */}
-              <div className="flex items-center justify-between bg-slate-50 border border-slate-200 rounded-2xl p-4">
+              <div className="flex items-center justify-between bg-white border border-slate-200 rounded-2xl p-4">
                 <div>
                   <p className="text-xs font-bold text-slate-800">Tasks Generated Per Module</p>
                   <p className="text-[11px] text-slate-400">Recommended 10 to 15 sequential tasks</p>
@@ -764,7 +752,7 @@ export default function AdminSyllabusPage() {
                     max="15"
                     value={tasksPerModule}
                     onChange={(e) => setTasksPerModule(parseInt(e.target.value, 10) || 12)}
-                    className="w-16 bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-black text-center text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
+                    className="w-16 bg-white border border-blue-200 rounded-xl px-3 py-1.5 text-xs font-black text-center text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#E02B91]"
                   />
                   <span className="text-xs font-bold text-slate-500">Tasks</span>
                 </div>
@@ -772,7 +760,7 @@ export default function AdminSyllabusPage() {
 
               {/* Progress feedback when parsing */}
               {uploading && (
-                <div className="p-4 bg-pink-50 border border-pink-200 rounded-2xl flex items-center gap-3 text-xs text-[#E02B91] font-bold animate-pulse">
+                <div className="p-4 bg-white border border-pink-200 rounded-2xl flex items-center gap-3 text-xs text-[#E02B91] font-bold animate-pulse">
                   <RefreshCw className="w-4 h-4 animate-spin shrink-0" />
                   <span>{uploadProgressMsg || 'Processing syllabus PDF...'}</span>
                 </div>
@@ -784,7 +772,7 @@ export default function AdminSyllabusPage() {
                   type="button"
                   disabled={uploading}
                   onClick={() => setUploadModalOpen(false)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition"
                 >
                   Cancel
                 </button>
@@ -792,7 +780,7 @@ export default function AdminSyllabusPage() {
                 <button
                   type="submit"
                   disabled={uploading}
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-2 disabled:opacity-60"
+                  className="bg-white px-6 py-2.5 hover:opacity-95 text-blue-700 font-bold text-xs rounded-xl shadow-xs transition flex items-center gap-2 disabled:opacity-60 border border-blue-600"
                 >
                   <Sparkles className="w-4 h-4" />
                   <span>{uploading ? 'Generating Tasks...' : 'Parse PDF & Generate Tasks'}</span>

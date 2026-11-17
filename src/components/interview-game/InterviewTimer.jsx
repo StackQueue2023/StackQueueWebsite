@@ -36,20 +36,14 @@ export default function InterviewTimer({
 
   return (
     <div
-      className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl border font-mono font-bold text-sm transition-all ${
-        isUrgent
-          ? 'bg-rose-50 border-rose-300 text-rose-700 animate-pulse shadow-sm'
-          : isWarning
-          ? 'bg-amber-50 border-amber-300 text-amber-800'
-          : 'bg-slate-100 border-slate-200 text-slate-800'
-      }`}
+      className={`flex items-center space-x-2 px-3.5 py-1.5 rounded-xl border font-mono font-bold text-sm transition-all ${ isUrgent ? 'bg-white border-rose-300 text-rose-700 animate-pulse shadow-sm' : isWarning ? 'bg-white border-amber-300 text-amber-800' : 'bg-white border-slate-200 text-slate-800' }`}
     >
       <Timer className={`w-4 h-4 ${isUrgent ? 'text-rose-600 animate-spin' : 'text-purple-600'}`} />
       <span>
         {String(minutes).padStart(2, '0')}:{String(seconds).padStart(2, '0')}
       </span>
       {isUrgent && (
-        <span className="text-[10px] font-sans uppercase font-bold tracking-wider px-1.5 py-0.5 bg-rose-100 text-rose-700 rounded">
+        <span className="text-[10px] font-sans uppercase font-bold tracking-wider px-1.5 py-0.5 bg-white text-rose-700 rounded">
           Hurry!
         </span>
       )}

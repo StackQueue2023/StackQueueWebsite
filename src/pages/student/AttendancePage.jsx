@@ -27,15 +27,15 @@ export default function AttendancePage() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'Present':
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Present</span>;
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-white text-emerald-700 border border-emerald-200">Present</span>;
       case 'Absent':
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-50 text-rose-700 border border-rose-200">Absent</span>;
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-white text-rose-700 border border-rose-200">Absent</span>;
       case 'Late':
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-amber-50 text-amber-800 border border-amber-200">Late</span>;
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-white text-amber-800 border border-amber-200">Late</span>;
       case 'Leave':
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-purple-50 text-purple-700 border border-purple-200">Leave</span>;
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-white text-blue-800 border border-blue-200">Leave</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-slate-100 text-slate-700 border border-slate-200">{status}</span>;
+        return <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-white text-slate-700 border border-blue-200">{status}</span>;
     }
   };
 
@@ -50,9 +50,9 @@ export default function AttendancePage() {
   return (
     <div className="space-y-6 pb-12 max-w-5xl mx-auto">
       {/* Banner */}
-      <div className="rounded-2xl bg-white border border-slate-200 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+      <div className="rounded-2xl bg-white border border-blue-200 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
         <div className="space-y-1">
-          <div className="flex items-center space-x-2 text-purple-700 font-bold text-xs uppercase tracking-wider font-mono">
+          <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider font-mono">
             <CalendarCheck2 className="w-4 h-4" />
             <span>Institute Session Records</span>
           </div>
@@ -62,7 +62,7 @@ export default function AttendancePage() {
           </p>
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 px-5 py-3 rounded-xl text-center shrink-0">
+        <div className="bg-white border border-blue-200 px-5 py-3 rounded-xl text-center shrink-0">
           <p className="text-[10px] uppercase font-bold text-slate-500">Attendance Rate</p>
           <p className="text-2xl font-black text-emerald-700 font-mono">
             {summary.percentage}%
@@ -72,25 +72,25 @@ export default function AttendancePage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-1 shadow-sm">
+        <div className="bg-white border border-blue-200 p-4 rounded-xl space-y-1 shadow-sm">
           <span className="text-slate-600 text-xs font-semibold">Total Sessions</span>
           <p className="text-2xl font-black text-slate-900 font-mono">{summary.total || 1}</p>
           <span className="text-[11px] text-slate-500 font-medium">Logged classes</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-1 shadow-sm">
+        <div className="bg-white border border-blue-200 p-4 rounded-xl space-y-1 shadow-sm">
           <span className="text-slate-600 text-xs font-semibold">Sessions Present</span>
           <p className="text-2xl font-black text-emerald-700 font-mono">{summary.present || 1}</p>
           <span className="text-[11px] text-emerald-700 font-medium">Full attendance</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-1 shadow-sm">
+        <div className="bg-white border border-blue-200 p-4 rounded-xl space-y-1 shadow-sm">
           <span className="text-slate-600 text-xs font-semibold">Late Arrivals</span>
           <p className="text-2xl font-black text-amber-700 font-mono">{summary.late || 0}</p>
           <span className="text-[11px] text-amber-700 font-medium">Grace margin</span>
         </div>
 
-        <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-1 shadow-sm">
+        <div className="bg-white border border-blue-200 p-4 rounded-xl space-y-1 shadow-sm">
           <span className="text-slate-600 text-xs font-semibold">Unexcused Absences</span>
           <p className="text-2xl font-black text-rose-700 font-mono">{summary.absent || 0}</p>
           <span className="text-[11px] text-rose-700 font-medium">Zero tolerance &lt; 85%</span>
@@ -99,14 +99,14 @@ export default function AttendancePage() {
 
       {/* Attendance History Table */}
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
-        <div className="px-5 py-3.5 border-b border-slate-200 flex items-center justify-between text-xs">
+        <div className="px-5 py-3.5 border-b border-blue-200 flex items-center justify-between text-xs">
           <span className="font-bold text-slate-800 uppercase tracking-wider">Attendance Log History</span>
           <span className="text-slate-500 font-mono text-[11px]">{records.length} Entries</span>
         </div>
 
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+            <thead className="bg-white text-slate-700 uppercase text-[10px] tracking-wider border-b border-blue-200">
               <tr>
                 <th className="px-4 py-3 font-semibold">Date</th>
                 <th className="px-4 py-3 font-semibold">Batch</th>
@@ -124,7 +124,7 @@ export default function AttendancePage() {
                 </tr>
               ) : (
                 records.map((r) => (
-                  <tr key={r._id} className="hover:bg-slate-50 transition">
+                  <tr key={r._id} className="hover:bg-white transition">
                     <td className="px-4 py-3 text-slate-900 font-bold">
                       {r.date}
                     </td>

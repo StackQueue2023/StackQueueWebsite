@@ -16,8 +16,13 @@ import {
 } from 'lucide-react';
 import paymentApi from '../../api/paymentApi';
 import ReceiptModal from '../../components/payments/ReceiptModal';
+import { useAuth } from '../../context/AuthContext';
+import { Navigate } from 'react-router-dom';
 
 export default function StudentPaymentsPage() {
+  const { user } = useAuth();
+  const isTempTrainingStudent =
+    user?.studentCategory === 'TRAINING_TEMPORARY' || user?.studentType === 'TRAINING_TEMPORARY';
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
@@ -40,8 +45,14 @@ export default function StudentPaymentsPage() {
   };
 
   useEffect(() => {
-    fetchStudentPayments();
-  }, []);
+    if (!isTempTrainingStudent) {
+      fetchStudentPayments();
+    }
+  }, [isTempTrainingStudent]);
+
+  if (isTempTrainingStudent) {
+    return <Navigate to="/student/training" replace />;
+  }
 
   const handleManualRefresh = () => {
     setRefreshing(true);
@@ -89,17 +100,17 @@ export default function StudentPaymentsPage() {
   return (
     <div className="space-y-6 pb-16 max-w-6xl mx-auto animate-fadeIn">
       {/* 1. Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/70 via-fuchsia-50/50 to-pink-50/60 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-purple-100/80 px-3 py-1 rounded-full border border-purple-200 shadow-2xs">
+            <div className="inline-flex items-center space-x-2 text-blue-800 font-mono text-xs uppercase tracking-widest font-bold bg-white px-3 py-1 rounded-full border border-blue-200 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Student Academy Fee Portal • Demo Mode</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-2.5">
-              <CreditCard className="w-7 h-7 text-purple-600 shrink-0" />
+              <CreditCard className="w-7 h-7 text-blue-800 shrink-0" />
               <span>My Fees & Installment Schedule</span>
             </h1>
             <p className="text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed">
@@ -111,7 +122,7 @@ export default function StudentPaymentsPage() {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="px-4 py-2 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
+              className="px-4 py-2 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               <span>Refresh Ledger</span>
@@ -122,10 +133,10 @@ export default function StudentPaymentsPage() {
 
       {/* 2. Program Commitment Card */}
       {activePlan && (
-        <div className="bg-white rounded-2xl p-5 border border-purple-100 shadow-2xs space-y-3">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-3">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-purple-50">
             <div>
-              <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100">
+              <span className="font-mono text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-white text-blue-800 border border-blue-200">
                 {activePlan.category || 'Courses'} Program
               </span>
               <h2 className="text-lg font-black text-slate-900 mt-1">
@@ -153,7 +164,7 @@ export default function StudentPaymentsPage() {
             </div>
             <div>
               <span className="text-slate-400 block text-[11px]">Payment Schedule</span>
-              <strong className="text-purple-700 font-bold font-mono">
+              <strong className="text-blue-800 font-bold font-mono">
                 {installments.length} Monthly Installments
               </strong>
             </div>
@@ -168,12 +179,12 @@ export default function StudentPaymentsPage() {
             </div>
           </div>
 
-          <div className="mt-3 pt-2.5 border-t border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
+          <div className="mt-3 pt-2.5 border-t border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-2">
             <div className="text-slate-500 font-medium">
               Assigned Mentor: <strong className="text-slate-800 font-semibold">{activePlan.assignedTutorName || 'Institute Senior Mentor'}</strong>
             </div>
             {Number(activePlan.downPaymentCollected) > 0 && (
-              <span className="font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              <span className="font-mono font-bold text-emerald-700 bg-white px-2.5 py-0.5 rounded-full border border-emerald-200">
                 Down Payment: ₹{Number(activePlan.downPaymentCollected).toLocaleString()} ({activePlan.downPaymentMethod || 'Cash'})
               </span>
             )}
@@ -184,10 +195,10 @@ export default function StudentPaymentsPage() {
       {/* 3. Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Total Agreed Fee */}
-        <div className="bg-white rounded-2xl p-4 border border-purple-100 shadow-2xs space-y-1">
+        <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-2xs space-y-1">
           <span className="text-xs font-semibold text-slate-400 flex items-center justify-between">
             <span>Total Program Fee</span>
-            <DollarSign className="w-4 h-4 text-purple-600" />
+            <DollarSign className="w-4 h-4 text-blue-800" />
           </span>
           <div className="text-xl font-black font-mono text-slate-900">
             ₹{(summary.totalAgreedFee || 0).toLocaleString()}
@@ -223,18 +234,14 @@ export default function StudentPaymentsPage() {
       </div>
 
       {/* 4. Navigation Tabs for Details */}
-      <div className="bg-white rounded-3xl border border-purple-100 shadow-2xs overflow-hidden p-6 space-y-5">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs overflow-hidden p-6 space-y-5">
         
         {/* Tabs Bar */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-purple-50">
-          <div className="inline-flex rounded-xl bg-purple-50/70 p-1 border border-purple-100 text-xs font-bold">
+          <div className="inline-flex rounded-xl bg-white p-1 border border-blue-200 text-xs font-bold">
             <button
               onClick={() => setActiveTab('installments')}
-              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'installments'
-                  ? 'bg-white text-purple-900 shadow-xs font-black'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
+              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${ activeTab === 'installments' ? 'bg-white text-purple-900 shadow-xs font-black' : 'text-slate-500 hover:text-slate-800' }`}
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Installment Schedule ({installments.length})</span>
@@ -242,11 +249,7 @@ export default function StudentPaymentsPage() {
 
             <button
               onClick={() => setActiveTab('transactions')}
-              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'transactions'
-                  ? 'bg-white text-purple-900 shadow-xs font-black'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
+              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${ activeTab === 'transactions' ? 'bg-white text-purple-900 shadow-xs font-black' : 'text-slate-500 hover:text-slate-800' }`}
             >
               <CreditCard className="w-3.5 h-3.5" />
               <span>Payment History & Receipts ({transactions.length})</span>
@@ -254,18 +257,14 @@ export default function StudentPaymentsPage() {
 
             <button
               onClick={() => setActiveTab('reminders')}
-              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${
-                activeTab === 'reminders'
-                  ? 'bg-white text-purple-900 shadow-xs font-black'
-                  : 'text-slate-500 hover:text-slate-800'
-              }`}
+              className={`px-4 py-2 rounded-lg transition flex items-center gap-1.5 cursor-pointer ${ activeTab === 'reminders' ? 'bg-white text-purple-900 shadow-xs font-black' : 'text-slate-500 hover:text-slate-800' }`}
             >
               <Send className="w-3.5 h-3.5" />
               <span>Reminder Notifications ({reminders.length})</span>
             </button>
           </div>
 
-          <span className="text-[11px] font-mono text-purple-600 font-semibold">
+          <span className="text-[11px] font-mono text-blue-800 font-semibold">
             All Receipts Verifiable Online
           </span>
         </div>
@@ -275,7 +274,7 @@ export default function StudentPaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-purple-100 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-purple-50/30">
+                <tr className="border-b border-blue-200 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-white">
                   <th className="py-2.5 px-3">#</th>
                   <th className="py-2.5 px-3">Due Date</th>
                   <th className="py-2.5 px-3">Principal Due</th>
@@ -298,7 +297,7 @@ export default function StudentPaymentsPage() {
                     const isPending = !isPaid && !isPartial;
 
                     return (
-                      <tr key={inst._id} className="hover:bg-purple-50/30 transition">
+                      <tr key={inst._id} className="hover:bg-white transition">
                         <td className="py-3 px-3 font-mono font-bold text-slate-700">
                           #{inst.installmentNumber}
                         </td>
@@ -313,19 +312,19 @@ export default function StudentPaymentsPage() {
                         </td>
                         <td className="py-3 px-3">
                           {isPaid && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200">
                               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                               <span>Paid</span>
                             </span>
                           )}
                           {isPartial && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-blue-700 border border-blue-200">
                               <Clock className="w-3 h-3 text-blue-600" />
                               <span>Partially Paid</span>
                             </span>
                           )}
                           {isPending && (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-700 border border-amber-200">
                               <Clock className="w-3 h-3 text-amber-600" />
                               <span>Pending</span>
                             </span>
@@ -335,7 +334,7 @@ export default function StudentPaymentsPage() {
                           {isPaid && receipts[0] ? (
                             <button
                               onClick={() => handleOpenReceipt(receipts[0])}
-                              className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg text-[11px] font-bold transition inline-flex items-center gap-1 cursor-pointer"
+                              className="px-2.5 py-1 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-lg text-[11px] font-bold transition inline-flex items-center gap-1 cursor-pointer"
                             >
                               <Printer className="w-3 h-3" />
                               <span>E-Receipt</span>
@@ -361,7 +360,7 @@ export default function StudentPaymentsPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-purple-100 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-purple-50/30">
+                  <tr className="border-b border-blue-200 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-white">
                     <th className="py-2.5 px-3">Date</th>
                     <th className="py-2.5 px-3">Reference / ID</th>
                     <th className="py-2.5 px-3">Method</th>
@@ -380,14 +379,14 @@ export default function StudentPaymentsPage() {
                     </tr>
                   ) : (
                     transactions.map((tx) => (
-                      <tr key={tx._id} className="hover:bg-purple-50/30 transition">
+                      <tr key={tx._id} className="hover:bg-white transition">
                         <td className="py-3 px-3 font-mono text-slate-800">
                           {new Date(tx.paymentDate).toLocaleDateString()}
                         </td>
                         <td className="py-3 px-3 font-mono font-bold text-slate-700">
                           {tx.referenceId}
                         </td>
-                        <td className="py-3 px-3 font-semibold text-purple-700">
+                        <td className="py-3 px-3 font-semibold text-blue-800">
                           {tx.paymentMethod}
                         </td>
                         <td className="py-3 px-3 font-mono font-black text-slate-900">
@@ -398,12 +397,12 @@ export default function StudentPaymentsPage() {
                         </td>
                         <td className="py-3 px-3">
                           {tx.status === 'Verified' ? (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200">
                               <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                               <span>Verified</span>
                             </span>
                           ) : (
-                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                            <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-700 border border-amber-200">
                               <Clock className="w-3 h-3 text-amber-600" />
                               <span>Pending Verification</span>
                             </span>
@@ -413,7 +412,7 @@ export default function StudentPaymentsPage() {
                           {tx.receiptNumber ? (
                             <button
                               onClick={() => handleOpenReceiptByNumber(tx.receiptNumber)}
-                              className="px-3 py-1 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-lg text-[11px] font-bold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer"
+                              className="bg-white px-3 py-1 text-blue-800 rounded-lg text-[11px] font-bold transition inline-flex items-center gap-1 shadow-2xs cursor-pointer border border-[#9333EA]"
                             >
                               <FileText className="w-3 h-3" />
                               <span>{tx.receiptNumber}</span>
@@ -436,7 +435,7 @@ export default function StudentPaymentsPage() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-purple-100 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-purple-50/30">
+                <tr className="border-b border-blue-200 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-white">
                   <th className="py-2.5 px-3">Timestamp</th>
                   <th className="py-2.5 px-3">Subject / Type</th>
                   <th className="py-2.5 px-3">Recipient Email</th>
@@ -453,7 +452,7 @@ export default function StudentPaymentsPage() {
                   </tr>
                 ) : (
                   reminders.map((rem) => (
-                    <tr key={rem._id} className="hover:bg-purple-50/30 transition">
+                    <tr key={rem._id} className="hover:bg-white transition">
                       <td className="py-3 px-3 font-mono text-slate-700">
                         {new Date(rem.sentAt).toLocaleString()}
                       </td>
@@ -467,7 +466,7 @@ export default function StudentPaymentsPage() {
                         ₹{(rem.amountDue || 0).toLocaleString()}
                       </td>
                       <td className="py-3 px-3">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-blue-800 border border-blue-200">
                           <span>Delivered (Mock Sink)</span>
                         </span>
                       </td>

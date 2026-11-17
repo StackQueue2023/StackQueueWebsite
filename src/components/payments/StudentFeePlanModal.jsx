@@ -74,59 +74,59 @@ export default function StudentFeePlanModal({
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-purple-100 overflow-hidden">
+      <div className="bg-white rounded-3xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
         
         {/* Header Hero */}
-        <div className="bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] p-6 text-white shrink-0">
+        <div className="bg-white p-6 shrink-0 border-b border-blue-200">
           <div className="flex items-start justify-between gap-4">
             <div className="space-y-1.5">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-white/20 text-white border border-white/30 backdrop-blur-sm">
+                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-mono font-bold bg-white text-[#9333EA] border border-blue-200">
                   {plan?.studentCode || 'STU-ID'}
                 </span>
-                <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-900/40 text-purple-100 border border-white/20">
+                <span className="bg-white px-2.5 py-0.5 rounded-full text-[11px] font-bold text-[#9333EA] border border-blue-200">
                   {plan?.category || 'Category'}
                 </span>
               </div>
-              <h2 className="text-2xl font-black text-white">
+              <h2 className="text-2xl font-black text-[#0F172A]">
                 {plan?.studentName || 'Student Name'}
               </h2>
-              <p className="text-xs text-purple-100 font-medium">
-                Program: <strong className="text-white font-bold">{plan?.programName}</strong> • Duration: <strong className="text-white font-bold">{plan?.courseDuration || (plan?.courseId?.durationText || (plan?.courseId?.durationWeeks ? `${plan.courseId.durationWeeks} Weeks` : '12 Weeks'))} ({plan?.totalHours || plan?.courseId?.totalHours || 120} Hours)</strong> • Tutor: <strong className="text-white font-bold">{plan?.assignedTutorName}</strong>
+              <p className="text-xs text-slate-600 font-medium">
+                Program: <strong className="text-slate-900 font-bold">{plan?.programName}</strong> • Duration: <strong className="text-slate-900 font-bold">{plan?.courseDuration || (plan?.courseId?.durationText || (plan?.courseId?.durationWeeks ? `${plan.courseId.durationWeeks} Weeks` : '12 Weeks'))} ({plan?.totalHours || plan?.courseId?.totalHours || 120} Hours)</strong> • Tutor: <strong className="text-slate-900 font-bold">{plan?.assignedTutorName}</strong>
               </p>
             </div>
 
             <button
               onClick={onClose}
-              className="p-2 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition shrink-0"
+              className="p-2 text-slate-600 hover:text-[#9333EA] border border-blue-200 hover:border-[#9333EA] bg-white rounded-full transition shrink-0"
             >
               <X className="w-6 h-6" />
             </button>
           </div>
 
           {/* Quick Metrics Bar */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-white/15 text-xs font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4 pt-4 border-t border-blue-200 text-xs font-mono">
             <div>
-              <span className="text-purple-200 text-[10px] block">Total Agreed Fee</span>
-              <strong className="text-base text-white font-black">₹{(plan?.totalAgreedFee || 0).toLocaleString('en-IN')}</strong>
+              <span className="text-slate-500 text-[10px] block">Total Agreed Fee</span>
+              <strong className="text-base text-slate-900 font-black">₹{(plan?.totalAgreedFee || 0).toLocaleString('en-IN')}</strong>
             </div>
             <div>
-              <span className="text-purple-200 text-[10px] block">Verified Paid</span>
-              <strong className="text-base text-emerald-300 font-black">₹{totalPaid.toLocaleString('en-IN')}</strong>
+              <span className="text-slate-500 text-[10px] block">Verified Paid</span>
+              <strong className="text-base text-emerald-700 font-black">₹{totalPaid.toLocaleString('en-IN')}</strong>
             </div>
             <div>
-              <span className="text-purple-200 text-[10px] block">Remaining Principal</span>
-              <strong className="text-base text-pink-200 font-black">₹{remainingPrincipal.toLocaleString('en-IN')}</strong>
+              <span className="text-slate-500 text-[10px] block">Remaining Principal</span>
+              <strong className="text-base text-[#E02B91] font-black">₹{remainingPrincipal.toLocaleString('en-IN')}</strong>
             </div>
             <div>
-              <span className="text-purple-200 text-[10px] block">Monthly Due / Installment</span>
-              <strong className="text-base text-amber-300 font-black">₹{(plan?.monthlyInstallmentAmount || 2000).toLocaleString('en-IN')}</strong>
+              <span className="text-slate-500 text-[10px] block">Monthly Due / Installment</span>
+              <strong className="text-base text-amber-700 font-black">₹{(plan?.monthlyInstallmentAmount || 2000).toLocaleString('en-IN')}</strong>
             </div>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex border-b border-purple-100 bg-purple-50/50 px-6 shrink-0 gap-2">
+        <div className="flex border-b border-blue-200 bg-white px-6 shrink-0 gap-2">
           {[
             { id: 'installments', label: `Installments (${installments.length})` },
             { id: 'transactions', label: `Payment Transactions (${transactions.length})` },
@@ -135,11 +135,7 @@ export default function StudentFeePlanModal({
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-3 text-xs font-bold transition-all border-b-2 ${
-                activeTab === tab.id
-                  ? 'border-[#8B2BE2] text-purple-900 bg-white shadow-2xs'
-                  : 'border-transparent text-slate-500 hover:text-purple-700'
-              }`}
+              className={`px-4 py-3 text-xs font-bold transition-all border-b-2 ${ activeTab === tab.id ? 'border-[#8B2BE2] text-purple-900 bg-white shadow-2xs' : 'border-transparent text-slate-500 hover:text-blue-800' }`}
             >
               {tab.label}
             </button>
@@ -158,9 +154,9 @@ export default function StudentFeePlanModal({
               {/* TAB 1: INSTALLMENTS */}
               {activeTab === 'installments' && (
                 <div className="space-y-3">
-                  <div className="rounded-2xl border border-purple-100 overflow-hidden shadow-2xs">
+                  <div className="rounded-2xl border border-blue-200 overflow-hidden shadow-2xs">
                     <table className="w-full text-left text-xs">
-                      <thead className="bg-purple-50/60 border-b border-purple-100 font-mono text-[10px] uppercase font-bold text-purple-900">
+                      <thead className="bg-white border-b border-blue-200 font-mono text-[10px] uppercase font-bold text-purple-900">
                         <tr>
                           <th className="py-2.5 px-3">#</th>
                           <th className="py-2.5 px-3">Due Date</th>
@@ -175,7 +171,7 @@ export default function StudentFeePlanModal({
                           const pPending = Math.max(0, (inst.principalAmount || 0) - (inst.principalPaid || 0));
 
                           return (
-                            <tr key={inst._id} className="hover:bg-purple-50/30 transition-colors">
+                            <tr key={inst._id} className="hover:bg-white transition-colors">
                               <td className="py-3 px-3 font-mono font-bold text-slate-700">
                                 #{inst.installmentNumber}
                               </td>
@@ -189,13 +185,7 @@ export default function StudentFeePlanModal({
                                 ₹{inst.principalPaid?.toLocaleString('en-IN')}
                               </td>
                               <td className="py-3 px-3">
-                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                                  inst.status === 'Paid'
-                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                    : inst.status === 'Partially Paid'
-                                    ? 'bg-blue-50 text-blue-700 border border-blue-200'
-                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
-                                }`}>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${ inst.status === 'Paid' ? 'bg-white text-emerald-700 border border-emerald-200' : inst.status === 'Partially Paid' ? 'bg-white text-blue-700 border border-blue-200' : 'bg-white text-amber-700 border border-amber-200' }`}>
                                   {inst.status === 'Overdue' ? 'Pending' : inst.status}
                                 </span>
                               </td>
@@ -206,7 +196,7 @@ export default function StudentFeePlanModal({
                                       <button
                                         onClick={() => handleSendReminder(inst._id)}
                                         disabled={sendingReminderId === inst._id}
-                                        className="p-1.5 text-purple-600 hover:text-purple-800 hover:bg-purple-100 rounded-lg transition"
+                                        className="p-1.5 text-blue-800 hover:text-purple-800 hover:bg-white rounded-lg transition"
                                         title="Send Mock Email Reminder"
                                       >
                                         <Send className="w-3.5 h-3.5" />
@@ -215,7 +205,7 @@ export default function StudentFeePlanModal({
                                         onClick={() => {
                                           if (onRecordPaymentClick) onRecordPaymentClick(inst, plan);
                                         }}
-                                        className="px-2.5 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-[10px] transition"
+                                        className="bg-white px-2.5 py-1 text-blue-800 rounded-lg font-bold text-[10px] transition border border-[#9333EA]"
                                       >
                                         Pay
                                       </button>
@@ -236,13 +226,13 @@ export default function StudentFeePlanModal({
               {activeTab === 'transactions' && (
                 <div className="space-y-3">
                   {transactions.length === 0 ? (
-                    <div className="p-8 text-center text-slate-400 italic text-xs bg-slate-50 rounded-2xl">
+                    <div className="p-8 text-center text-slate-400 italic text-xs bg-white rounded-2xl">
                       No payment transactions recorded yet.
                     </div>
                   ) : (
-                    <div className="rounded-2xl border border-purple-100 overflow-hidden shadow-2xs">
+                    <div className="rounded-2xl border border-blue-200 overflow-hidden shadow-2xs">
                       <table className="w-full text-left text-xs">
-                        <thead className="bg-purple-50/60 border-b border-purple-100 font-mono text-[10px] uppercase font-bold text-purple-900">
+                        <thead className="bg-white border-b border-blue-200 font-mono text-[10px] uppercase font-bold text-purple-900">
                           <tr>
                             <th className="py-2.5 px-3">Date</th>
                             <th className="py-2.5 px-3">Ref ID</th>
@@ -254,7 +244,7 @@ export default function StudentFeePlanModal({
                         </thead>
                         <tbody className="divide-y divide-purple-50">
                           {transactions.map(txn => (
-                            <tr key={txn._id} className="hover:bg-purple-50/30 transition-colors">
+                            <tr key={txn._id} className="hover:bg-white transition-colors">
                               <td className="py-3 px-3 font-mono text-slate-600">
                                 {new Date(txn.paymentDate).toLocaleDateString()}
                               </td>
@@ -266,11 +256,7 @@ export default function StudentFeePlanModal({
                                 ₹{txn.amount.toLocaleString('en-IN')}
                               </td>
                               <td className="py-3 px-3">
-                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                  txn.status === 'Verified'
-                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
-                                }`}>
+                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${ txn.status === 'Verified' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-amber-700 border border-amber-200' }`}>
                                   {txn.status}
                                 </span>
                               </td>
@@ -280,7 +266,7 @@ export default function StudentFeePlanModal({
                                     onClick={() => {
                                       if (onViewReceiptClick) onViewReceiptClick(txn.receiptNumber);
                                     }}
-                                    className="text-purple-600 hover:text-purple-900 font-bold underline font-mono text-[11px]"
+                                    className="text-blue-800 hover:text-purple-900 font-bold underline font-mono text-[11px]"
                                   >
                                     #{txn.receiptNumber}
                                   </button>
@@ -301,13 +287,13 @@ export default function StudentFeePlanModal({
               {activeTab === 'reminders' && (
                 <div className="space-y-3">
                   {reminderLogs.length === 0 ? (
-                    <div className="p-8 text-center text-slate-400 italic text-xs bg-slate-50 rounded-2xl">
+                    <div className="p-8 text-center text-slate-400 italic text-xs bg-white rounded-2xl">
                       No reminder notifications dispatched yet.
                     </div>
                   ) : (
                     <div className="space-y-2">
                       {reminderLogs.map(log => (
-                        <div key={log._id} className="p-3.5 rounded-2xl bg-purple-50/40 border border-purple-100 text-xs space-y-1">
+                        <div key={log._id} className="p-3.5 rounded-2xl bg-white border border-blue-200 text-xs space-y-1">
                           <div className="flex items-center justify-between">
                             <span className="font-bold text-slate-900 font-mono text-[11px]">
                               {log.reminderType}
@@ -319,7 +305,7 @@ export default function StudentFeePlanModal({
                           <p className="text-slate-600 font-medium">{log.subject}</p>
                           <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1">
                             <span>To: <strong>{log.recipientName}</strong> ({log.recipientType})</span>
-                            <span className="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 font-mono text-[10px] font-bold">
+                            <span className="px-2 py-0.5 rounded bg-white text-emerald-800 font-mono text-[10px] font-bold">
                               {log.status}
                             </span>
                           </div>
@@ -334,13 +320,13 @@ export default function StudentFeePlanModal({
         </div>
 
         {/* Footer */}
-        <div className="bg-slate-50 px-6 py-4 border-t border-purple-100 flex items-center justify-between shrink-0">
+        <div className="bg-white px-6 py-4 border-t border-blue-200 flex items-center justify-between shrink-0">
           <span className="text-xs text-slate-400">
             Student Payment Schedule & Audit Trail • Stack Queue LMS
           </span>
           <button
             onClick={onClose}
-            className="px-5 py-2 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold text-xs rounded-xl transition"
+            className="px-5 py-2 bg-white hover:bg-white text-slate-800 font-bold text-xs rounded-xl transition"
           >
             Close
           </button>

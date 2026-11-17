@@ -43,8 +43,8 @@ export default function LearningPathPage() {
   return (
     <div className="space-y-6 pb-12 max-w-5xl mx-auto">
       {/* Course Banner */}
-      <div className="rounded-2xl bg-white border border-slate-200 p-6 shadow-sm space-y-3">
-        <div className="flex items-center space-x-2 text-purple-700 font-bold text-xs uppercase tracking-wider font-mono">
+      <div className="rounded-2xl bg-white border border-blue-200 p-6 shadow-sm space-y-3">
+        <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider font-mono">
           <Map className="w-4 h-4" />
           <span>Curriculum Learning Path Roadmap</span>
         </div>
@@ -52,7 +52,7 @@ export default function LearningPathPage() {
         <p className="text-xs text-slate-600 max-w-3xl leading-relaxed">{course.description}</p>
         <div className="flex flex-wrap gap-4 pt-2 text-xs font-mono text-slate-500">
           <span className="flex items-center space-x-1">
-            <Clock className="w-3.5 h-3.5 text-purple-600" />
+            <Clock className="w-3.5 h-3.5 text-blue-800" />
             <span>Duration: {course.durationText || (course.durationWeeks ? `${course.durationWeeks} Weeks` : '12 Weeks')} ({course.totalHours || 120} Total Hours)</span>
           </span>
           <span className="flex items-center space-x-1">
@@ -72,23 +72,11 @@ export default function LearningPathPage() {
         {modules.map((mod, idx) => (
           <div
             key={mod._id || mod.id || idx}
-            className={`p-5 rounded-2xl border transition-all shadow-sm ${
-              mod.isCompleted
-                ? 'bg-white border-emerald-200'
-                : mod.isCurrent
-                ? 'bg-white border-purple-300 ring-2 ring-purple-500/20'
-                : 'bg-slate-50 border-slate-200 opacity-85'
-            }`}
+            className={`p-5 rounded-2xl border transition-all shadow-sm ${ mod.isCompleted ? 'bg-white border-emerald-200' : mod.isCurrent ? 'bg-white border-blue-200 ring-2 ring-purple-500/20' : 'bg-white border-blue-200 opacity-85' }`}
           >
             <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
               <div className="flex items-start space-x-4">
-                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 ${
-                  mod.isCompleted
-                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                    : mod.isCurrent
-                    ? 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white shadow-sm'
-                    : 'bg-slate-200 text-slate-600'
-                }`}>
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm shrink-0 ${ mod.isCompleted ? 'bg-white text-emerald-700 border border-emerald-200' : mod.isCurrent ? 'bg-white text-blue-700 shadow-sm border border-blue-600' : 'bg-white text-slate-600' }`}>
                   {mod.isCompleted ? <CheckCircle2 className="w-6 h-6 text-emerald-600" /> : idx + 1}
                 </div>
 
@@ -96,15 +84,15 @@ export default function LearningPathPage() {
                   <div className="flex items-center space-x-2">
                     <h3 className="text-sm font-bold text-slate-900">{mod.title}</h3>
                     {mod.isCurrent ? (
-                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 animate-pulse">
+                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-white text-blue-800 border border-blue-200 animate-pulse">
                         In Progress
                       </span>
                     ) : mod.isCompleted ? (
-                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-white text-emerald-700 border border-emerald-200">
                         Completed
                       </span>
                     ) : (
-                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-500 border border-slate-200">
+                      <span className="text-[10px] font-bold uppercase font-mono px-2 py-0.5 rounded bg-white text-slate-500 border border-blue-200">
                         Locked
                       </span>
                     )}
@@ -115,7 +103,7 @@ export default function LearningPathPage() {
                   {mod.topics?.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 pt-1">
                       {mod.topics.map((t, i) => (
-                        <span key={i} className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-700 border border-slate-200">
+                        <span key={i} className="text-[11px] font-mono px-2 py-0.5 rounded bg-white text-slate-700 border border-blue-200">
                           {t}
                         </span>
                       ))}
@@ -128,7 +116,7 @@ export default function LearningPathPage() {
               <div className="shrink-0 flex items-center md:flex-col md:items-end justify-between pt-2 md:pt-0">
                 <Link
                   to="/student/course"
-                  className="px-4 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-md shadow-purple-500/20"
+                  className="bg-white px-4 py-2 text-blue-700 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition shadow-md shadow-purple-500/20 border border-blue-600"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
                   <span>View Tasks</span>

@@ -175,7 +175,7 @@ export default function AdminAnalyticsDashboard() {
   if (error && !data) {
     return (
       <div className="max-w-xl mx-auto my-12 p-8 bg-white rounded-3xl border border-rose-200 shadow-sm text-center space-y-4">
-        <div className="w-12 h-12 rounded-full bg-rose-50 text-rose-600 flex items-center justify-center mx-auto">
+        <div className="w-12 h-12 rounded-full bg-white text-rose-600 flex items-center justify-center mx-auto">
           <AlertCircle className="w-6 h-6" />
         </div>
         <h3 className="text-lg font-bold text-slate-900">Database Analytics Unavailable</h3>
@@ -185,7 +185,7 @@ export default function AdminAnalyticsDashboard() {
             setLoading(true);
             fetchAnalytics().finally(() => setLoading(false));
           }}
-          className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition shadow-sm cursor-pointer"
+          className="bg-white px-5 py-2.5 text-sq-gradient rounded-xl text-xs font-bold transition shadow-sm cursor-pointer border border-[#9333EA]"
         >
           Retry Database Connection
         </button>
@@ -211,8 +211,8 @@ export default function AdminAnalyticsDashboard() {
       {/* ────────────────────────────────────────────────────────── */}
       {/* 1. EXECUTIVE HEADER BANNER                                 */}
       {/* ────────────────────────────────────────────────────────── */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/70 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-80 h-80 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="theme-banner rounded-3xl border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-purple-200/30 absolute -right-10 -bottom-10 w-80 h-80 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
@@ -226,15 +226,15 @@ export default function AdminAnalyticsDashboard() {
               </Link>
 
               {/* Single Source of Truth Indicator */}
-              <div className="inline-flex items-center space-x-2 text-emerald-700 font-mono text-xs font-bold bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shadow-2xs">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <div className="inline-flex items-center space-x-2 text-purple-800 font-mono text-xs font-bold bg-white/90 px-3 py-1 rounded-full border border-purple-200 shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
                 <span>Live Database • Single Source of Truth</span>
               </div>
             </div>
 
             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-2.5">
-              <BarChart3 className="w-7 h-7 text-purple-600 inline" />
-              <span>Student Analytics Hub</span>
+              <BarChart3 className="w-7 h-7 text-[#E02B91] inline" />
+              <span className="text-sq-gradient">Student Analytics Hub</span>
             </h1>
             <p className="text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed">
               Real-time student intelligence tracking unique profiles, course enrollments, domains, partner institutions, and batch cohorts directly from the application database.
@@ -244,32 +244,32 @@ export default function AdminAnalyticsDashboard() {
           <div className="flex flex-wrap items-center gap-2.5">
             <Link
               to="/admin/analytics/fees"
-              className="px-3.5 py-2 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
+              className="px-3.5 py-2 bg-white hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
             >
-              <Wallet className="w-3.5 h-3.5 text-purple-600" />
+              <Wallet className="w-3.5 h-3.5 text-blue-700" />
               <span>Fee Collections</span>
             </Link>
 
             <Link
               to="/admin/lms"
-              className="px-3.5 py-2 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
+              className="px-3.5 py-2 bg-white hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
             >
-              <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
+              <GraduationCap className="w-3.5 h-3.5 text-blue-700" />
               <span>Manage Students</span>
             </Link>
 
             <Link
               to="/admin/batches"
-              className="px-3.5 py-2 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
+              className="px-3.5 py-2 bg-white hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-2xs"
             >
-              <Building2 className="w-3.5 h-3.5 text-purple-600" />
+              <Building2 className="w-3.5 h-3.5 text-blue-700" />
               <span>Batches & Colleges</span>
             </Link>
 
             <button
               onClick={handleRefresh}
               disabled={refreshing}
-              className="px-4 py-2 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-md shadow-purple-500/20"
+              className="bg-sq-gradient px-4 py-2 hover:opacity-95 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-md shadow-pink-500/20"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               <span>{refreshing ? 'Refreshing...' : 'Refresh'}</span>
@@ -283,43 +283,43 @@ export default function AdminAnalyticsDashboard() {
       {/* ────────────────────────────────────────────────────────── */}
       <section className="space-y-3">
         <div className="flex items-center justify-between px-1">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-purple-600 font-mono flex items-center space-x-2">
-            <Wallet className="w-4 h-4 text-purple-600" />
+          <h2 className="text-xs font-bold uppercase tracking-wider text-purple-700 font-mono flex items-center space-x-2">
+            <Wallet className="w-4 h-4 text-[#E02B91]" />
             <span>Financial Operations & Sub-Analytics</span>
           </h2>
-          <span className="text-[11px] text-slate-400">
+          <span className="text-[11px] text-slate-500">
             Dedicated administrative ledgers and deep analytics modules
           </span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {/* Card 1: Student Fee Management & Collections */}
+          {/* Card 1: Student Fee Management & Collections - Course Fees Light Blue */}
           <Link
             to="/admin/analytics/fees"
-            className="group relative bg-white hover:bg-gradient-to-br hover:from-white hover:via-purple-50/40 hover:to-fuchsia-50/40 border-2 border-purple-200/90 hover:border-purple-500 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+            className="group relative bg-white border-2 border-slate-200 hover:border-blue-400 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-md shadow-purple-500/20 group-hover:scale-105 transition-transform">
+                <div className="bg-blue-100 w-12 h-12 rounded-2xl text-blue-800 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-blue-300">
                   <Wallet className="w-6 h-6" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-purple-700 bg-purple-50 group-hover:bg-purple-100/80 px-2.5 py-1 rounded-full border border-purple-200">
+                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                   <span>Fee Ledger</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-purple-700 transition">
+                <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#0F172A] transition">
                   Student Fee Management & Collections
                 </h3>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-blue-800/80 mt-1 leading-relaxed">
                   Manage student fees, monthly collections, pending payments and billing reports.
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-purple-100 flex items-center justify-between text-xs font-bold text-purple-600 group-hover:text-purple-700">
+            <div className="pt-4 mt-4 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700 group-hover:text-blue-900">
               <span className="flex items-center gap-1.5">
                 <CreditCard className="w-3.5 h-3.5" />
                 <span>Open Fee Dashboard</span>
@@ -328,33 +328,33 @@ export default function AdminAnalyticsDashboard() {
             </div>
           </Link>
 
-          {/* Card 2: Course & Domain Analytics Deep Dive */}
+          {/* Card 2: Course & Domain Analytics Deep Dive - Course Analytics Light Blue */}
           <Link
             to="/admin/analytics/courses"
-            className="group relative bg-white hover:bg-gradient-to-br hover:from-white hover:via-indigo-50/40 hover:to-purple-50/40 border border-slate-200/90 hover:border-indigo-400 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+            className="group relative bg-white border-2 border-slate-200 hover:border-blue-400 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-indigo-600 to-purple-600 text-white flex items-center justify-center shadow-md shadow-indigo-500/20 group-hover:scale-105 transition-transform">
+                <div className="bg-blue-100 w-12 h-12 rounded-2xl text-blue-800 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-blue-300">
                   <GraduationCap className="w-6 h-6" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-indigo-700 bg-indigo-50 group-hover:bg-indigo-100/80 px-2.5 py-1 rounded-full border border-indigo-200">
+                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                   <span>Curriculum</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-indigo-700 transition">
+                <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#0F172A] transition">
                   Course & Domain Analytics
                 </h3>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-blue-800/80 mt-1 leading-relaxed">
                   Deep analytics across courses, learning velocity, student distributions, and completion milestones.
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-indigo-600 group-hover:text-indigo-700">
+            <div className="pt-4 mt-4 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700 group-hover:text-blue-900">
               <span className="flex items-center gap-1.5">
                 <BarChart3 className="w-3.5 h-3.5" />
                 <span>Explore Course Intelligence</span>
@@ -363,33 +363,33 @@ export default function AdminAnalyticsDashboard() {
             </div>
           </Link>
 
-          {/* Card 3: Institutional Batches & Colleges */}
+          {/* Card 3: Institutional Batches & Colleges - Course Batches Light Blue */}
           <Link
             to="/admin/batches"
-            className="group relative bg-white hover:bg-gradient-to-br hover:from-white hover:via-pink-50/40 hover:to-rose-50/40 border border-slate-200/90 hover:border-pink-400 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
+            className="group relative bg-white border-2 border-slate-200 hover:border-blue-400 rounded-3xl p-5 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between overflow-hidden cursor-pointer"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-pink-600 to-rose-600 text-white flex items-center justify-center shadow-md shadow-pink-500/20 group-hover:scale-105 transition-transform">
+                <div className="bg-blue-100 w-12 h-12 rounded-2xl text-blue-800 flex items-center justify-center shadow-sm group-hover:scale-105 transition-transform border border-blue-300">
                   <Building2 className="w-6 h-6" />
                 </div>
-                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-pink-700 bg-pink-50 group-hover:bg-pink-100/80 px-2.5 py-1 rounded-full border border-pink-200">
+                <span className="inline-flex items-center space-x-1 text-[11px] font-bold font-mono text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                   <span>Cohorts</span>
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                 </span>
               </div>
 
               <div>
-                <h3 className="text-base font-black text-slate-900 group-hover:text-pink-700 transition">
+                <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#0F172A] transition">
                   Batches & Institutional Cohorts
                 </h3>
-                <p className="text-xs text-slate-500 mt-1 leading-relaxed">
+                <p className="text-xs text-blue-800/80 mt-1 leading-relaxed">
                   Manage academic cohorts, partner colleges, institutional training schedules and telemetry.
                 </p>
               </div>
             </div>
 
-            <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-pink-600 group-hover:text-pink-700">
+            <div className="pt-4 mt-4 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700 group-hover:text-blue-900">
               <span className="flex items-center gap-1.5">
                 <Building2 className="w-3.5 h-3.5" />
                 <span>Manage Institutional Hub</span>
@@ -405,7 +405,7 @@ export default function AdminAnalyticsDashboard() {
       {/* ────────────────────────────────────────────────────────── */}
       {isEmpty || totalUniqueStudents === 0 ? (
         <div className="bg-white rounded-3xl border border-dashed border-slate-300 p-12 text-center space-y-4 max-w-2xl mx-auto shadow-xs my-8">
-          <div className="w-16 h-16 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mx-auto">
+          <div className="w-16 h-16 rounded-full bg-white text-purple-600 flex items-center justify-center mx-auto">
             <Users className="w-8 h-8" />
           </div>
           <div className="space-y-1">
@@ -417,14 +417,14 @@ export default function AdminAnalyticsDashboard() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-3">
             <Link
               to="/admin/lms"
-              className="px-5 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5"
+              className="bg-white px-5 py-2.5 text-sq-gradient rounded-xl text-xs font-bold transition shadow-sm flex items-center space-x-1.5 border border-[#9333EA]"
             >
               <GraduationCap className="w-4 h-4" />
               <span>Enroll Student via LMS</span>
             </Link>
             <Link
               to="/admin/batches"
-              className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition"
+              className="px-5 py-2.5 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition"
             >
               <span>Add College Batch</span>
             </Link>
@@ -444,38 +444,46 @@ export default function AdminAnalyticsDashboard() {
               color="purple"
               badge="Deduplicated"
             />
-            <AnalyticsKpiCard
-              title="Active Enrollments"
-              value={enrollmentSummary.totalActiveEnrollments || 0}
-              subtitle="Active course learning"
-              icon={BookOpen}
-              color="emerald"
-              badge={`${enrollmentSummary.activePercentage || 100}% Active`}
-            />
-            <AnalyticsKpiCard
-              title="Completed Courses"
-              value={enrollmentSummary.totalCompletedEnrollments || 0}
-              subtitle="Curriculum completed"
-              icon={CheckCircle2}
-              color="cyan"
-              badge="Graduated"
-            />
-            <AnalyticsKpiCard
-              title="LMS Students"
-              value={enrollmentSummary.lmsStudentsCount || 0}
-              subtitle="Core institute courses"
-              icon={GraduationCap}
-              color="amber"
-              badge="LMS Track"
-            />
-            <AnalyticsKpiCard
-              title="College Batch Students"
-              value={enrollmentSummary.collegeStudentsCount || 0}
-              subtitle="Institutional cohorts"
-              icon={Building2}
-              color="pink"
-              badge="College Track"
-            />
+            <Link to="/admin/analytics/courses" className="block cursor-pointer group">
+              <AnalyticsKpiCard
+                title="Active LMS Enrollments"
+                value={enrollmentSummary.totalActiveEnrollments || 0}
+                subtitle="Active course learning"
+                icon={BookOpen}
+                color="emerald"
+                badge={`${enrollmentSummary.activePercentage || 100}% Active`}
+              />
+            </Link>
+            <Link to="/admin/analytics/courses" className="block cursor-pointer group">
+              <AnalyticsKpiCard
+                title="Completed LMS Courses"
+                value={enrollmentSummary.totalCompletedEnrollments || 0}
+                subtitle="Curriculum completed"
+                icon={CheckCircle2}
+                color="cyan"
+                badge="Graduated"
+              />
+            </Link>
+            <Link to="/admin/analytics/courses" className="block cursor-pointer group">
+              <AnalyticsKpiCard
+                title="LMS Students"
+                value={enrollmentSummary.lmsStudentsCount || 0}
+                subtitle="Core institute courses"
+                icon={GraduationCap}
+                color="amber"
+                badge="LMS Track"
+              />
+            </Link>
+            <Link to="/admin/analytics/college-training" className="block cursor-pointer group">
+              <AnalyticsKpiCard
+                title="College Batch Students"
+                value={enrollmentSummary.collegeStudentsCount || 0}
+                subtitle="Institutional cohorts"
+                icon={Building2}
+                color="pink"
+                badge="College Track"
+              />
+            </Link>
           </div>
 
           {/* ────────────────────────────────────────────────────────── */}
@@ -507,7 +515,7 @@ export default function AdminAnalyticsDashboard() {
                   </h4>
                   <p className="text-[11px] text-slate-400 mt-0.5">Students enrolled across partner institutions</p>
                 </div>
-                <span className="text-[11px] font-bold font-mono text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200">
+                <span className="text-[11px] font-bold font-mono text-purple-700 bg-white px-2.5 py-0.5 rounded-full border border-purple-200">
                   {collegeDistribution.length} Colleges
                 </span>
               </div>
@@ -524,11 +532,7 @@ export default function AdminAnalyticsDashboard() {
                       <div
                         key={idx}
                         onClick={() => setSelectedCollegeFilter(isSelected ? 'All' : col.collegeName)}
-                        className={`p-3 rounded-xl border text-xs cursor-pointer transition flex items-center justify-between ${
-                          isSelected
-                            ? 'bg-purple-50 border-purple-300 shadow-2xs font-bold text-purple-900'
-                            : 'bg-slate-50/60 border-slate-200/80 hover:bg-slate-100/70 text-slate-700'
-                        }`}
+                        className={`p-3 rounded-xl border text-xs cursor-pointer transition flex items-center justify-between ${ isSelected ? 'bg-white border-purple-300 shadow-2xs font-bold text-purple-900' : 'bg-white border-slate-200/80 hover:bg-white text-slate-700' }`}
                       >
                         <div className="flex items-center space-x-2.5">
                           <span className="w-2 h-2 rounded-full bg-purple-500" />
@@ -555,7 +559,7 @@ export default function AdminAnalyticsDashboard() {
                   </h4>
                   <p className="text-[11px] text-slate-400 mt-0.5">Students enrolled in college training cohorts</p>
                 </div>
-                <span className="text-[11px] font-bold font-mono text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[11px] font-bold font-mono text-emerald-700 bg-white px-2.5 py-0.5 rounded-full border border-emerald-200">
                   {batchDistribution.length} Batches
                 </span>
               </div>
@@ -569,13 +573,13 @@ export default function AdminAnalyticsDashboard() {
                   {batchDistribution.map((b, idx) => (
                     <div
                       key={idx}
-                      className="p-3 rounded-xl border border-slate-200/80 bg-slate-50/60 hover:bg-slate-100/70 transition flex items-center justify-between text-xs"
+                      className="p-3 rounded-xl border border-slate-200/80 bg-white hover:bg-white transition flex items-center justify-between text-xs"
                     >
                       <div className="flex items-center space-x-2.5">
                         <span className="w-2 h-2 rounded-full bg-emerald-500" />
                         <span className="font-semibold text-slate-800">{b.batchName}</span>
                       </div>
-                      <span className="font-mono font-bold text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded">
+                      <span className="font-mono font-bold text-emerald-700 bg-white border border-emerald-200 px-2 py-0.5 rounded">
                         {b.count} Students
                       </span>
                     </div>
@@ -595,7 +599,7 @@ export default function AdminAnalyticsDashboard() {
                 <h3 className="text-base font-black text-slate-900 flex items-center space-x-2">
                   <Users className="w-5 h-5 text-purple-600" />
                   <span>Verified Student Roster</span>
-                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 font-bold">
+                  <span className="font-mono text-xs px-2.5 py-0.5 rounded-full bg-white text-purple-800 font-bold">
                     {filteredStudents.length} / {totalUniqueStudents} Students
                   </span>
                 </h3>
@@ -608,7 +612,7 @@ export default function AdminAnalyticsDashboard() {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="self-start md:self-auto px-3 py-1.5 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
+                  className="self-start md:self-auto px-3 py-1.5 bg-white text-purple-700 hover:bg-white border border-purple-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
                 >
                   <X className="w-3.5 h-3.5" />
                   <span>Clear All Filters</span>
@@ -626,7 +630,7 @@ export default function AdminAnalyticsDashboard() {
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search by ID, name, email..."
-                  className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+                  className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
                 />
               </div>
 
@@ -635,7 +639,7 @@ export default function AdminAnalyticsDashboard() {
                 <select
                   value={selectedCourseFilter}
                   onChange={(e) => setSelectedCourseFilter(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="All">All Courses</option>
                   {filters.courses?.map((c) => (
@@ -651,7 +655,7 @@ export default function AdminAnalyticsDashboard() {
                 <select
                   value={selectedDomainFilter}
                   onChange={(e) => setSelectedDomainFilter(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="All">All Domains</option>
                   {filters.domains?.map((d) => (
@@ -667,7 +671,7 @@ export default function AdminAnalyticsDashboard() {
                 <select
                   value={selectedTypeFilter}
                   onChange={(e) => setSelectedTypeFilter(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="All">All Student Tracks</option>
                   <option value="LMS">LMS Institute Only</option>
@@ -681,7 +685,7 @@ export default function AdminAnalyticsDashboard() {
                 <select
                   value={selectedCollegeFilter}
                   onChange={(e) => setSelectedCollegeFilter(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                 >
                   <option value="All">All Colleges</option>
                   {filters.colleges?.map((col) => (
@@ -697,7 +701,7 @@ export default function AdminAnalyticsDashboard() {
             <div className="border border-slate-200/80 rounded-2xl overflow-hidden shadow-2xs">
               <div className="overflow-x-auto max-h-[500px]">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 sticky top-0 border-b border-slate-200 font-black text-slate-700 z-10">
+                  <thead className="bg-white sticky top-0 border-b border-slate-200 font-black text-slate-700 z-10">
                     <tr>
                       <th className="px-4 py-3">Student ID</th>
                       <th className="px-4 py-3">Student Name & Email</th>
@@ -718,13 +722,13 @@ export default function AdminAnalyticsDashboard() {
                       filteredStudents.map((stu, sIdx) => {
                         const trackBadge =
                           stu.studentType === 'BOTH'
-                            ? { label: 'Dual Track (Both)', bg: 'bg-purple-100 text-purple-900 border-purple-200' }
+                            ? { label: 'Dual Track (Both)', bg: 'bg-white text-purple-900 border-purple-200' }
                             : stu.studentType === 'COLLEGE_TRAINING'
-                            ? { label: 'College Training', bg: 'bg-pink-100 text-pink-900 border-pink-200' }
-                            : { label: 'LMS Institute', bg: 'bg-blue-100 text-blue-900 border-blue-200' };
+                            ? { label: 'College Training', bg: 'bg-white text-pink-900 border-pink-200' }
+                            : { label: 'LMS Institute', bg: 'bg-white text-blue-900 border-blue-200' };
 
                         return (
-                          <tr key={sIdx} className="hover:bg-slate-50/70 transition">
+                          <tr key={sIdx} className="hover:bg-white transition">
                             {/* Student ID */}
                             <td className="px-4 py-3 font-mono font-bold text-purple-700 whitespace-nowrap">
                               {stu.permanentStudentId || 'N/A'}
@@ -750,11 +754,7 @@ export default function AdminAnalyticsDashboard() {
                                   {stu.courses.map((c, cIdx) => (
                                     <span
                                       key={cIdx}
-                                      className={`px-2 py-0.5 rounded text-[10px] font-bold flex items-center space-x-1 ${
-                                        c.status === 'COMPLETED'
-                                          ? 'bg-slate-200 text-slate-700'
-                                          : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                                      }`}
+                                      className={`px-2 py-0.5 rounded text-[10px] font-bold flex items-center space-x-1 ${ c.status === 'COMPLETED' ? 'bg-white text-slate-700' : 'bg-white text-emerald-800 border border-emerald-200' }`}
                                     >
                                       <span>{c.courseTitle}</span>
                                       {c.status === 'COMPLETED' && (
@@ -782,11 +782,7 @@ export default function AdminAnalyticsDashboard() {
 
                             {/* Account Status */}
                             <td className="px-4 py-3 whitespace-nowrap">
-                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center space-x-1 w-fit ${
-                                stu.isActive
-                                  ? 'bg-emerald-100 text-emerald-800'
-                                  : 'bg-slate-200 text-slate-600'
-                              }`}>
+                              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold flex items-center space-x-1 w-fit ${ stu.isActive ? 'bg-white text-emerald-800' : 'bg-white text-slate-600' }`}>
                                 {stu.isActive ? <Unlock className="w-2.5 h-2.5 inline mr-1" /> : <Lock className="w-2.5 h-2.5 inline mr-1" />}
                                 <span>{stu.isActive ? 'Active' : 'Deactivated'}</span>
                               </span>

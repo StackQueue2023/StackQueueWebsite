@@ -18,23 +18,23 @@ export default function Alert({
 }) {
   const configs = {
     success: {
-      bg: 'bg-emerald-50 border-emerald-200 text-emerald-900',
+      bg: 'bg-white border-emerald-300 text-emerald-800',
       iconColor: 'text-emerald-600',
       Icon: CheckCircle2
     },
     error: {
-      bg: 'bg-red-50 border-red-200 text-red-900',
-      iconColor: 'text-red-600',
+      bg: 'bg-white border-rose-300 text-rose-800',
+      iconColor: 'text-rose-600',
       Icon: XCircle
     },
     warning: {
-      bg: 'bg-amber-50 border-amber-200 text-amber-900',
+      bg: 'bg-white border-amber-400 text-amber-800',
       iconColor: 'text-amber-600',
       Icon: AlertTriangle
     },
     info: {
-      bg: 'bg-purple-50 border-purple-200 text-purple-900',
-      iconColor: 'text-purple-600',
+      bg: 'bg-white border-purple-300 text-[#9333EA]',
+      iconColor: 'text-[#9333EA]',
       Icon: Info
     }
   };

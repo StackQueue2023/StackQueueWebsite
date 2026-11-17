@@ -222,10 +222,10 @@ export default function TutorAttendancePage() {
   return (
     <div className="space-y-6 pb-16 max-w-6xl mx-auto px-4">
       {/* Pink-to-Violet White Gradient Header Banner */}
-      <div className="rounded-3xl bg-white border border-slate-200/90 p-6 md:p-8 shadow-sm relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-pink-500/10 via-fuchsia-500/10 to-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="rounded-3xl bg-white border border-blue-200 p-6 md:p-8 shadow-sm relative overflow-hidden">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
             <CalendarCheck2 className="w-4 h-4 text-pink-600" />
             <span className="bg-gradient-to-r from-pink-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent font-extrabold">
               Attendance &amp; Leave Control Hub
@@ -241,14 +241,10 @@ export default function TutorAttendancePage() {
       </div>
 
       {/* Tabs Header */}
-      <div className="flex border-b border-slate-200 space-x-2">
+      <div className="flex border-b border-blue-200 space-x-2">
         <button
           onClick={() => setActiveTab('student_attendance')}
-          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer ${
-            activeTab === 'student_attendance'
-              ? 'border-pink-600 text-pink-600 bg-pink-50/50 rounded-t-xl'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
+          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer ${ activeTab === 'student_attendance' ? 'border-pink-600 text-pink-600 bg-white rounded-t-xl' : 'border-transparent text-slate-500 hover:text-slate-900' }`}
         >
           <Users className="w-4 h-4" />
           <span>Student Attendance</span>
@@ -256,16 +252,12 @@ export default function TutorAttendancePage() {
 
         <button
           onClick={() => setActiveTab('leave_requests')}
-          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer relative ${
-            activeTab === 'leave_requests'
-              ? 'border-pink-600 text-pink-600 bg-pink-50/50 rounded-t-xl'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
+          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer relative ${ activeTab === 'leave_requests' ? 'border-pink-600 text-pink-600 bg-white rounded-t-xl' : 'border-transparent text-slate-500 hover:text-slate-900' }`}
         >
           <FileText className="w-4 h-4" />
           <span>Student Leave Requests</span>
           {pendingLeavesCount > 0 && (
-            <span className="px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-pink-600 text-white animate-pulse">
+            <span className="bg-white px-2 py-0.5 rounded-full text-[10px] font-mono font-bold text-blue-800 animate-pulse border border-[#9333EA]">
               {pendingLeavesCount}
             </span>
           )}
@@ -273,11 +265,7 @@ export default function TutorAttendancePage() {
 
         <button
           onClick={() => setActiveTab('tutor_attendance')}
-          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer ${
-            activeTab === 'tutor_attendance'
-              ? 'border-pink-600 text-pink-600 bg-pink-50/50 rounded-t-xl'
-              : 'border-transparent text-slate-500 hover:text-slate-900'
-          }`}
+          className={`py-3 px-5 text-xs font-black uppercase tracking-wider transition-all border-b-2 flex items-center space-x-2 cursor-pointer ${ activeTab === 'tutor_attendance' ? 'border-pink-600 text-pink-600 bg-white rounded-t-xl' : 'border-transparent text-slate-500 hover:text-slate-900' }`}
         >
           <UserCheck className="w-4 h-4" />
           <span>Tutor Attendance</span>
@@ -288,7 +276,7 @@ export default function TutorAttendancePage() {
       {activeTab === 'student_attendance' && (
         <div className="space-y-6">
           {/* Controls Bar: Date Picker + Mark All Present Button */}
-          <div className="bg-white border border-slate-200/90 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
+          <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-sm">
             <div className="flex items-center space-x-3">
               <label className="text-xs font-bold text-slate-700 uppercase tracking-wider">Attendance Date:</label>
               <input
@@ -302,7 +290,7 @@ export default function TutorAttendancePage() {
             <div className="flex items-center space-x-3">
               <button
                 onClick={handleMarkAllPresent}
-                className="px-4 py-2 bg-gradient-to-r from-pink-50 to-purple-50 hover:from-pink-100 hover:to-purple-100 text-pink-700 border border-pink-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                className="bg-white px-4 py-2 text-pink-700 border border-pink-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
               >
                 <CheckCircle2 className="w-4 h-4 text-pink-600" />
                 <span>[ Present All ]</span>
@@ -311,7 +299,7 @@ export default function TutorAttendancePage() {
               <button
                 onClick={handleSaveStudentAttendance}
                 disabled={savingAttendance}
-                className="px-5 py-2.5 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white rounded-xl text-xs font-bold shadow-md transition flex items-center space-x-2 cursor-pointer disabled:opacity-50"
+                className="bg-white px-5 py-2.5 text-blue-800 rounded-xl text-xs font-bold shadow-md transition flex items-center space-x-2 cursor-pointer disabled:opacity-50 border border-[#9333EA]"
               >
                 {savingAttendance ? 'Saving...' : 'Save Student Attendance'}
               </button>
@@ -319,7 +307,7 @@ export default function TutorAttendancePage() {
           </div>
 
           {saveSuccessMsg && (
-            <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center space-x-2">
+            <div className="p-3 bg-white border border-emerald-200 rounded-xl text-xs font-bold text-emerald-800 flex items-center space-x-2">
               <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>{saveSuccessMsg}</span>
             </div>
@@ -327,28 +315,28 @@ export default function TutorAttendancePage() {
 
           {/* KPI Summary Cards (ONLY Displayed Here on Attendance Page!) */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-white border border-slate-200/90 p-4 rounded-2xl space-y-1 shadow-sm">
+            <div className="bg-white border border-slate-200 p-4 rounded-2xl space-y-1 shadow-sm">
               <span className="text-slate-400 text-[10px] font-bold uppercase tracking-wider block">Total Students</span>
               <p className="text-2xl font-black text-slate-900 font-mono">{summary.totalStudents}</p>
               <span className="text-[11px] text-slate-500 font-medium">Assigned cohort</span>
             </div>
 
-            <div className="bg-white border border-emerald-200/80 p-4 rounded-2xl space-y-1 shadow-sm bg-emerald-50/20">
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl space-y-1 shadow-sm">
               <span className="text-emerald-700 text-[10px] font-bold uppercase tracking-wider block">Present Count</span>
               <p className="text-2xl font-black text-emerald-600 font-mono">{summary.presentCount}</p>
               <span className="text-[11px] text-emerald-700 font-medium">Attending today</span>
             </div>
 
-            <div className="bg-white border border-rose-200/80 p-4 rounded-2xl space-y-1 shadow-sm bg-rose-50/20">
+            <div className="bg-white border border-rose-200/80 p-4 rounded-2xl space-y-1 shadow-sm">
               <span className="text-rose-700 text-[10px] font-bold uppercase tracking-wider block">Absent Count</span>
               <p className="text-2xl font-black text-rose-600 font-mono">{summary.absentCount}</p>
               <span className="text-[11px] text-rose-700 font-medium">Unexcused missing</span>
             </div>
 
-            <div className="bg-white border border-purple-200/80 p-4 rounded-2xl space-y-1 shadow-sm bg-purple-50/20">
-              <span className="text-purple-700 text-[10px] font-bold uppercase tracking-wider block">On Leave</span>
-              <p className="text-2xl font-black text-purple-700 font-mono">{summary.leaveCount}</p>
-              <span className="text-[11px] text-purple-700 font-medium">Approved leave</span>
+            <div className="bg-white border border-slate-200/80 p-4 rounded-2xl space-y-1 shadow-sm">
+              <span className="text-blue-800 text-[10px] font-bold uppercase tracking-wider block">On Leave</span>
+              <p className="text-2xl font-black text-blue-800 font-mono">{summary.leaveCount}</p>
+              <span className="text-[11px] text-blue-800 font-medium">Approved leave</span>
             </div>
           </div>
 
@@ -358,10 +346,10 @@ export default function TutorAttendancePage() {
               <div className="w-8 h-8 border-4 border-pink-500 border-t-transparent rounded-full animate-spin"></div>
             </div>
           ) : (
-            <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                  <thead className="bg-white border-b border-blue-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                     <tr>
                       <th className="p-4">Student Name</th>
                       <th className="p-4">Student ID / Email</th>
@@ -373,7 +361,7 @@ export default function TutorAttendancePage() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 font-medium">
                     {studentData.map(st => (
-                      <tr key={st._id} className="hover:bg-slate-50/60 transition">
+                      <tr key={st._id} className="hover:bg-white transition">
                         <td className="p-4 font-black text-slate-900">{st.name}</td>
                         <td className="p-4 text-slate-600 font-mono">
                           <span className="block font-bold text-slate-800">{st.studentId}</span>
@@ -384,7 +372,7 @@ export default function TutorAttendancePage() {
                           <span className="block text-[10px] text-slate-400 font-mono">{st.year}</span>
                         </td>
                         <td className="p-4">
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-purple-100 text-purple-800 border border-purple-200">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-white text-purple-800 border border-blue-200">
                             {st.batch}
                           </span>
                         </td>
@@ -394,11 +382,7 @@ export default function TutorAttendancePage() {
                             <button
                               type="button"
                               onClick={() => handleStudentStatusChange(st._id, 'Present')}
-                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${
-                                st.status === 'Present'
-                                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                              }`}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${ st.status === 'Present' ? 'bg-white text-emerald-700 border-emerald-600 shadow-sm border' : 'bg-white text-slate-600 border-blue-200 hover:bg-white' }`}
                             >
                               Present
                             </button>
@@ -406,11 +390,7 @@ export default function TutorAttendancePage() {
                             <button
                               type="button"
                               onClick={() => handleStudentStatusChange(st._id, 'Absent')}
-                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${
-                                st.status === 'Absent'
-                                  ? 'bg-rose-600 text-white border-rose-600 shadow-sm'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                              }`}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${ st.status === 'Absent' ? 'bg-white text-blue-800 border-rose-600 shadow-sm border border-[#9333EA]' : 'bg-white text-slate-600 border-blue-200 hover:bg-white' }`}
                             >
                               Absent
                             </button>
@@ -418,11 +398,7 @@ export default function TutorAttendancePage() {
                             <button
                               type="button"
                               onClick={() => handleStudentStatusChange(st._id, 'Leave')}
-                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${
-                                st.status === 'Leave'
-                                  ? 'bg-purple-600 text-white border-purple-600 shadow-sm'
-                                  : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                              }`}
+                              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition border cursor-pointer ${ st.status === 'Leave' ? 'bg-white text-blue-800 border-purple-600 shadow-sm border' : 'bg-white text-slate-600 border-blue-200 hover:bg-white' }`}
                             >
                               Leave
                             </button>
@@ -459,10 +435,10 @@ export default function TutorAttendancePage() {
               <p className="text-xs text-slate-500">Student leave submissions will appear here for tutor approval.</p>
             </div>
           ) : (
-            <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                  <thead className="bg-white border-b border-blue-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                     <tr>
                       <th className="p-4">Student</th>
                       <th className="p-4">Leave Date</th>
@@ -475,30 +451,26 @@ export default function TutorAttendancePage() {
                   </thead>
                   <tbody className="divide-y divide-slate-100 font-medium">
                     {leaveRequests.map(l => (
-                      <tr key={l._id} className="hover:bg-slate-50/60 transition">
+                      <tr key={l._id} className="hover:bg-white transition">
                         <td className="p-4 font-black text-slate-900">
                           {l.studentId?.name || 'Student'}
                           <span className="block text-[11px] font-normal text-slate-400 font-mono">{l.studentId?.email}</span>
                         </td>
                         <td className="p-4 font-mono font-bold text-slate-800">{l.leaveDate}</td>
                         <td className="p-4">
-                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-slate-100 text-slate-700 border border-slate-200">
+                          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-white text-slate-700 border border-blue-200">
                             {l.leaveType}
                           </span>
                         </td>
                         <td className="p-4 text-slate-700 max-w-xs">{l.reason}</td>
                         <td className="p-4">
-                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold font-mono uppercase ${
-                            l.status === 'Approved' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' :
-                            l.status === 'Rejected' ? 'bg-rose-100 text-rose-800 border border-rose-300' :
-                            'bg-amber-100 text-amber-800 border border-amber-300'
-                          }`}>
+                          <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold font-mono uppercase ${ l.status === 'Approved' ? 'bg-white text-emerald-800 border border-emerald-300' : l.status === 'Rejected' ? 'bg-white text-rose-800 border border-rose-300' : 'bg-white text-amber-800 border border-amber-300' }`}>
                             {l.status}
                           </span>
                         </td>
                         <td className="p-4 text-slate-600 font-medium">
                           {l.approvalReason ? (
-                            <span className="bg-slate-50 p-2 rounded-xl block border border-slate-200 text-[11px]">
+                            <span className="bg-blue-50 p-2 rounded-xl block border border-blue-200 text-[11px]">
                               "{l.approvalReason}"
                             </span>
                           ) : (
@@ -510,14 +482,14 @@ export default function TutorAttendancePage() {
                             <div className="flex items-center justify-end space-x-2">
                               <button
                                 onClick={() => handleOpenApproveModal(l)}
-                                className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs shadow-xs transition cursor-pointer flex items-center space-x-1"
+                                className="bg-white px-3 py-1.5 text-emerald-700 font-bold rounded-xl text-xs shadow-xs transition cursor-pointer flex items-center space-x-1 border border-emerald-600"
                               >
                                 <Check className="w-3.5 h-3.5" />
                                 <span>Approve Leave</span>
                               </button>
                               <button
                                 onClick={() => handleRejectLeave(l._id)}
-                                className="px-3 py-1.5 bg-slate-100 hover:bg-rose-50 text-rose-700 border border-slate-200 font-bold rounded-xl text-xs transition cursor-pointer flex items-center space-x-1"
+                                className="px-3 py-1.5 bg-white hover:bg-white text-rose-700 border border-blue-200 font-bold rounded-xl text-xs transition cursor-pointer flex items-center space-x-1"
                               >
                                 <X className="w-3.5 h-3.5" />
                                 <span>Reject</span>
@@ -540,13 +512,13 @@ export default function TutorAttendancePage() {
       {/* TAB 3: TUTOR SELF ATTENDANCE */}
       {activeTab === 'tutor_attendance' && (
         <div className="space-y-6">
-          <div className="bg-white border border-slate-200/90 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
+          <div className="bg-white border border-slate-200 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
             <h3 className="text-lg font-black text-slate-900 flex items-center space-x-2">
               <UserCheck className="w-5 h-5 text-pink-600" />
               <span>Daily Tutor Self Check-In &amp; Log</span>
             </h3>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 bg-white p-6 rounded-2xl border border-slate-200">
               <div className="space-y-2">
                 <label className="text-xs font-bold text-slate-700 uppercase tracking-wider block">Check-in Time</label>
                 <input
@@ -587,7 +559,7 @@ export default function TutorAttendancePage() {
               <button
                 onClick={handleSaveTutorSelf}
                 disabled={savingTutorSelf}
-                className="px-6 py-3 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-2xl text-xs shadow-md transition cursor-pointer disabled:opacity-50"
+                className="bg-white px-6 py-3 text-blue-800 font-bold rounded-2xl text-xs shadow-md transition cursor-pointer disabled:opacity-50 border border-[#9333EA]"
               >
                 {savingTutorSelf ? 'Recording...' : 'Record My Attendance →'}
               </button>
@@ -597,9 +569,9 @@ export default function TutorAttendancePage() {
           {/* Log History */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-wider text-slate-500">Tutor Attendance History</h4>
-            <div className="bg-white border border-slate-200/90 rounded-2xl overflow-hidden shadow-sm">
+            <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
+                <thead className="bg-white border-b border-blue-200 text-slate-600 font-bold uppercase tracking-wider text-[11px]">
                   <tr>
                     <th className="p-4">Date</th>
                     <th className="p-4">Check-in</th>
@@ -609,14 +581,12 @@ export default function TutorAttendancePage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium font-mono">
                   {tutorAttendanceHistory.map(rec => (
-                    <tr key={rec._id} className="hover:bg-slate-50/60">
+                    <tr key={rec._id} className="hover:bg-white">
                       <td className="p-4 font-bold text-slate-900">{rec.date}</td>
                       <td className="p-4 text-emerald-700 font-bold">{rec.checkIn || '—'}</td>
-                      <td className="p-4 text-purple-700 font-bold">{rec.checkOut || '—'}</td>
+                      <td className="p-4 text-blue-800 font-bold">{rec.checkOut || '—'}</td>
                       <td className="p-4">
-                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                          rec.status === 'Present' ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
-                        }`}>
+                        <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${ rec.status === 'Present' ? 'bg-white text-emerald-800' : 'bg-white text-rose-800' }`}>
                           {rec.status}
                         </span>
                       </td>
@@ -648,12 +618,12 @@ export default function TutorAttendancePage() {
               </button>
             </div>
 
-            <div className="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs">
+            <div className="space-y-2 bg-white p-3.5 rounded-2xl border border-slate-200 text-xs">
               <p className="text-slate-700">
                 <strong>Student:</strong> {selectedLeaveForApproval.studentId?.name}
               </p>
               <p className="text-slate-700">
-                <strong>Leave Date:</strong> <span className="font-mono font-bold text-purple-700">{selectedLeaveForApproval.leaveDate}</span> ({selectedLeaveForApproval.leaveType})
+                <strong>Leave Date:</strong> <span className="font-mono font-bold text-blue-800">{selectedLeaveForApproval.leaveDate}</span> ({selectedLeaveForApproval.leaveType})
               </p>
               <p className="text-slate-600">
                 <strong>Student Reason:</strong> "{selectedLeaveForApproval.reason}"
@@ -675,7 +645,7 @@ export default function TutorAttendancePage() {
                     key={preset}
                     type="button"
                     onClick={() => setApprovalReason(preset)}
-                    className="px-2.5 py-1 bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 rounded-xl font-medium transition cursor-pointer"
+                    className="px-2.5 py-1 bg-white hover:bg-blue-50 text-pink-700 border border-pink-200 rounded-xl font-medium transition cursor-pointer"
                   >
                     {preset}
                   </button>
@@ -697,7 +667,7 @@ export default function TutorAttendancePage() {
             </div>
 
             {approvalError && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-xs font-bold text-rose-700 flex items-center space-x-2">
+              <div className="p-3 bg-white border border-rose-200 rounded-xl text-xs font-bold text-rose-700 flex items-center space-x-2">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
                 <span>{approvalError}</span>
               </div>
@@ -707,7 +677,7 @@ export default function TutorAttendancePage() {
               <button
                 type="button"
                 onClick={() => setSelectedLeaveForApproval(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+                className="px-4 py-2 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
               >
                 Cancel
               </button>
@@ -715,7 +685,7 @@ export default function TutorAttendancePage() {
                 type="button"
                 onClick={handleConfirmApproval}
                 disabled={submittingApproval}
-                className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer disabled:opacity-50"
+                className="bg-white px-5 py-2.5 text-emerald-700 font-bold rounded-xl text-xs shadow-md transition cursor-pointer disabled:opacity-50 border border-emerald-600"
               >
                 {submittingApproval ? 'Approving...' : 'Confirm & Approve Leave'}
               </button>

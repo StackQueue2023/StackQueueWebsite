@@ -36,11 +36,11 @@ export default function StatusBadge({
   }
 
   const styles = {
-    green: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    yellow: 'bg-amber-50 text-amber-800 border-amber-200',
-    red: 'bg-red-50 text-red-700 border-red-200',
-    blue: 'bg-purple-50 text-purple-700 border-purple-200',
-    purple: 'bg-purple-50 text-purple-700 border-purple-200'
+    green: 'bg-white text-emerald-700 border-emerald-300',
+    yellow: 'bg-white text-amber-700 border-amber-400',
+    red: 'bg-white text-slate-700 border-slate-300',
+    blue: 'bg-white text-blue-700 border-blue-300',
+    purple: 'bg-white text-[#9333EA] border-purple-300'
   };
 
   const sizes = {

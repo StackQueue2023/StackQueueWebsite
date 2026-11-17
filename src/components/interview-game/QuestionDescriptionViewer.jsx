@@ -30,7 +30,7 @@ export function renderRichInline(text) {
       return (
         <code
           key={index}
-          className="px-1.5 py-0.5 mx-0.5 bg-slate-100 text-purple-700 font-mono text-xs rounded border border-slate-200"
+          className="px-1.5 py-0.5 mx-0.5 bg-white text-purple-700 font-mono text-xs rounded border border-slate-200"
         >
           {code}
         </code>
@@ -41,7 +41,7 @@ export function renderRichInline(text) {
       return (
         <span
           key={index}
-          className="font-bold text-slate-900 bg-purple-50/80 text-purple-900 px-1 py-0.2 rounded border border-purple-200/50"
+          className="font-bold text-slate-900 bg-white text-purple-900 px-1 py-0.2 rounded border border-purple-200/50"
         >
           {bold}
         </span>
@@ -160,30 +160,24 @@ export default function QuestionDescriptionViewer({ question }) {
       <div className="space-y-2">
         <div className="flex flex-wrap items-center gap-2">
           {question.technology && (
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white text-indigo-700 border border-indigo-200">
               {question.technology}
             </span>
           )}
           {question.category && (
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-purple-100 text-purple-700 border border-purple-200">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-white text-purple-700 border border-purple-200">
               {question.category}
             </span>
           )}
           {question.difficulty && (
             <span
-              className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${
-                question.difficulty.toLowerCase() === 'easy'
-                  ? 'bg-emerald-100 text-emerald-700 border border-emerald-200'
-                  : question.difficulty.toLowerCase() === 'medium'
-                  ? 'bg-amber-100 text-amber-700 border border-amber-200'
-                  : 'bg-rose-100 text-rose-700 border border-rose-200'
-              }`}
+              className={`px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase ${ question.difficulty.toLowerCase() === 'easy' ? 'bg-white text-emerald-700 border border-emerald-200' : question.difficulty.toLowerCase() === 'medium' ? 'bg-white text-amber-700 border border-amber-200' : 'bg-white text-rose-700 border border-rose-200' }`}
             >
               {question.difficulty}
             </span>
           )}
           {question.domain && (
-            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-slate-100 text-slate-700 border border-slate-200">
+            <span className="px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-white text-slate-700 border border-slate-200">
               {question.domain.toUpperCase()}
             </span>
           )}
@@ -201,7 +195,7 @@ export default function QuestionDescriptionViewer({ question }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-purple-200 bg-purple-50/60 p-4 shadow-2xs"
+                  className="rounded-xl border border-purple-200 bg-white p-4 shadow-2xs"
                 >
                   <div className="flex items-center space-x-2 text-xs font-bold text-purple-900 uppercase tracking-wide mb-2">
                     <UserCheck className="w-4 h-4 text-purple-700" />
@@ -219,7 +213,7 @@ export default function QuestionDescriptionViewer({ question }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-emerald-200/80 bg-emerald-50/40 p-4 shadow-2xs"
+                  className="rounded-xl border border-emerald-200/80 bg-white p-4 shadow-2xs"
                 >
                   <div className="flex items-center space-x-2 text-xs font-bold text-emerald-900 uppercase tracking-wide mb-2.5">
                     <CheckCircle2 className="w-4 h-4 text-emerald-700" />
@@ -242,7 +236,7 @@ export default function QuestionDescriptionViewer({ question }) {
               return (
                 <div
                   key={idx}
-                  className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-2xs"
+                  className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs"
                 >
                   <div className="flex items-center space-x-2 text-xs font-bold text-slate-800 uppercase tracking-wide mb-2">
                     <Terminal className="w-4 h-4 text-indigo-600" />
@@ -295,7 +289,7 @@ export default function QuestionDescriptionViewer({ question }) {
         </div>
       ) : (
         // Plain or general markdown fallback rendered cleanly
-        <div className="rounded-xl border border-slate-200 bg-slate-50/70 p-4 shadow-2xs space-y-3">
+        <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-2xs space-y-3">
           <div className="flex items-center space-x-2 text-xs font-black uppercase tracking-wider text-slate-500">
             <FileText className="w-4 h-4 text-purple-600" />
             <span>Problem Description</span>
@@ -317,7 +311,7 @@ export default function QuestionDescriptionViewer({ question }) {
 
       {/* Input / Output / Constraints Card */}
       {(question.inputFormat || question.outputFormat || question.constraints) && (
-        <div className="rounded-xl border border-slate-200 bg-slate-50 p-3.5 space-y-2.5 text-xs">
+        <div className="rounded-xl border border-slate-200 bg-white p-3.5 space-y-2.5 text-xs">
           {question.inputFormat && (
             <div>
               <span className="font-bold text-slate-700 block mb-0.5">Input Format:</span>
@@ -375,7 +369,7 @@ export default function QuestionDescriptionViewer({ question }) {
             {exList.map((ex, idx) => (
               <div
                 key={idx}
-                className="bg-slate-50/90 rounded-xl p-3.5 border border-slate-200 space-y-2 text-xs"
+                className="bg-white rounded-xl p-3.5 border border-slate-200 space-y-2 text-xs"
               >
                 <div className="font-bold text-slate-700 text-[11px] uppercase tracking-wide text-purple-800">
                   Example {idx + 1}:

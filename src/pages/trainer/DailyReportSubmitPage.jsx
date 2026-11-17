@@ -229,10 +229,10 @@ export default function DailyReportSubmitPage() {
   return (
     <div className="space-y-6 pb-16 max-w-6xl mx-auto px-4">
       {/* Top Header Banner - White Background with Linear Gradient Text */}
-      <div className="rounded-3xl bg-white border border-slate-200/90 p-6 md:p-8 shadow-sm relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-pink-500/10 via-fuchsia-500/10 to-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="rounded-3xl bg-white border border-blue-200 p-6 md:p-8 shadow-sm relative overflow-hidden">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
             <Building2 className="w-4 h-4 text-pink-600" />
             <span className="bg-gradient-to-r from-pink-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent font-extrabold">
               College Training Management System
@@ -261,8 +261,8 @@ export default function DailyReportSubmitPage() {
 
           {trainings.length === 0 ? (
             /* EMPTY STATE WHEN NO COLLEGE TRAINING IS ASSIGNED */
-            <div className="bg-white border border-pink-200/80 rounded-3xl p-12 text-center space-y-4 shadow-sm bg-gradient-to-b from-pink-50/30 to-purple-50/20">
-              <div className="w-16 h-16 rounded-2xl bg-gradient-to-r from-pink-500 to-violet-600 text-white flex items-center justify-center mx-auto shadow-md">
+            <div className="bg-white border border-pink-200/80 rounded-3xl p-12 text-center space-y-4 shadow-sm">
+              <div className="bg-white w-16 h-16 rounded-2xl text-blue-800 flex items-center justify-center mx-auto shadow-md border border-[#9333EA]">
                 <Building2 className="w-8 h-8" />
               </div>
               <div className="space-y-1">
@@ -283,27 +283,25 @@ export default function DailyReportSubmitPage() {
                   <div className="space-y-4">
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-1">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-purple-100 text-purple-800 border border-purple-200">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-white text-purple-800 border border-blue-200">
                           Batch: {t.batchName}
                         </span>
-                        <h3 className="text-lg font-black text-slate-900 group-hover:text-purple-700 transition">{t.collegeName}</h3>
+                        <h3 className="text-lg font-black text-slate-900 group-hover:text-[#0F172A] transition">{t.collegeName}</h3>
                         <p className="text-xs font-bold text-pink-600">{t.trainingName}</p>
                       </div>
-                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-wider ${
-                        t.status === 'COMPLETED' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-pink-100 text-pink-800 border border-pink-300'
-                      }`}>
+                      <span className={`px-3 py-1 rounded-full text-[10px] font-bold font-mono uppercase tracking-wider ${ t.status === 'COMPLETED' ? 'bg-white text-emerald-800 border border-emerald-300' : 'bg-white text-pink-800 border border-pink-300' }`}>
                         {t.status}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-3 bg-gradient-to-r from-pink-50/50 via-fuchsia-50/40 to-purple-50/50 p-3.5 rounded-2xl text-center border border-pink-100">
+                    <div className="bg-white grid grid-cols-3 gap-3 p-3.5 rounded-2xl text-center border border-pink-100">
                       <div>
                         <span className="text-[10px] font-bold text-slate-400 block uppercase">Students</span>
                         <span className="text-sm font-black text-slate-900 font-mono">{t.totalStudents}</span>
                       </div>
                       <div>
                         <span className="text-[10px] font-bold text-slate-400 block uppercase">Duration</span>
-                        <span className="text-sm font-black text-purple-700 font-mono">{t.totalDays} Days</span>
+                        <span className="text-sm font-black text-blue-800 font-mono">{t.totalDays} Days</span>
                       </div>
                       <div>
                         <span className="text-[10px] font-bold text-slate-400 block uppercase">Progress</span>
@@ -315,11 +313,11 @@ export default function DailyReportSubmitPage() {
                     <div className="space-y-1.5">
                       <div className="flex justify-between text-[11px] font-bold text-slate-600">
                         <span>Overall Training Completion</span>
-                        <span className="text-purple-700 font-mono">{t.progressPercent}%</span>
+                        <span className="text-blue-800 font-mono">{t.progressPercent}%</span>
                       </div>
-                      <div className="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden p-0.5 border border-slate-200">
+                      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden p-0.5 border border-blue-200">
                         <div
-                          className="h-full bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 rounded-full transition-all duration-500"
+                          className="bg-sq-gradient h-full rounded-full transition-all duration-500"
                           style={{ width: `${t.progressPercent}%` }}
                         />
                       </div>
@@ -328,7 +326,7 @@ export default function DailyReportSubmitPage() {
 
                   <button
                     onClick={() => handleOpenTraining(t._id)}
-                    className="w-full py-3 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold text-xs rounded-2xl shadow-md flex items-center justify-center space-x-2 transition cursor-pointer"
+                    className="bg-white w-full py-3 text-blue-800 font-bold text-xs rounded-2xl shadow-md flex items-center justify-center space-x-2 transition cursor-pointer border border-[#9333EA]"
                   >
                     <Building2 className="w-4 h-4" />
                     <span>Open Training Management →</span>
@@ -350,9 +348,9 @@ export default function DailyReportSubmitPage() {
               setViewState('list');
               loadAssignedTrainings();
             }}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer shadow-xs"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-white border border-blue-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-white transition cursor-pointer shadow-xs"
           >
-            <ChevronLeft className="w-4 h-4 text-purple-600" />
+            <ChevronLeft className="w-4 h-4 text-blue-800" />
             <span>← Back to All College Trainings</span>
           </button>
 
@@ -366,38 +364,38 @@ export default function DailyReportSubmitPage() {
               <div className="bg-white border border-pink-200 rounded-3xl p-6 md:p-8 space-y-6 shadow-sm">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-100 pb-5">
                   <div className="space-y-1">
-                    <span className="px-3 py-1 bg-pink-100 text-pink-800 border border-pink-200 rounded-full font-mono text-xs font-bold uppercase">
+                    <span className="px-3 py-1 bg-white text-pink-800 border border-pink-200 rounded-full font-mono text-xs font-bold uppercase">
                       Batch: {trainingDetails.training.batchName}
                     </span>
                     <h2 className="text-2xl font-black text-slate-900">{trainingDetails.training.collegeName}</h2>
-                    <p className="text-sm font-bold text-purple-700">{trainingDetails.training.trainingName}</p>
+                    <p className="text-sm font-bold text-blue-800">{trainingDetails.training.trainingName}</p>
                   </div>
 
-                  <div className="flex items-center space-x-4 text-xs font-semibold text-slate-600 font-mono bg-slate-50 p-3 rounded-2xl border border-slate-200">
+                  <div className="flex items-center space-x-4 text-xs font-semibold text-slate-600 font-mono bg-white p-3 rounded-2xl border border-slate-200">
                     <div>
                       <span className="text-slate-400 block text-[10px] uppercase font-bold">Assigned Tutor</span>
                       <strong className="text-slate-900">{trainingDetails.training.tutorName}</strong>
                     </div>
-                    <div className="border-l border-slate-200 pl-4">
+                    <div className="border-l border-blue-200 pl-4">
                       <span className="text-slate-400 block text-[10px] uppercase font-bold">Total Enrolled</span>
-                      <strong className="text-purple-700">{trainingDetails.training.totalStudents} Students</strong>
+                      <strong className="text-blue-800">{trainingDetails.training.totalStudents} Students</strong>
                     </div>
                   </div>
                 </div>
 
                 {/* Progress Bar & Training Days Summary */}
-                <div className="bg-gradient-to-r from-pink-50/60 via-fuchsia-50/40 to-purple-50/60 p-5 rounded-2xl border border-pink-200/80 space-y-3">
+                <div className="bg-white p-5 rounded-2xl border border-pink-200/80 space-y-3">
                   <div className="flex flex-col md:flex-row md:items-center justify-between text-xs font-bold gap-2">
                     <span className="text-slate-800 flex items-center space-x-1.5">
                       <Activity className="w-4 h-4 text-pink-600" />
                       <span>Training Schedule Progress: <strong>Day {trainingDetails.progress.completedDaysCount} of {trainingDetails.training.totalDays}</strong></span>
                     </span>
-                    <span className="text-purple-700 font-mono text-sm">{trainingDetails.progress.progressPercent}% Completed</span>
+                    <span className="text-blue-800 font-mono text-sm">{trainingDetails.progress.progressPercent}% Completed</span>
                   </div>
 
-                  <div className="w-full h-3 bg-white rounded-full overflow-hidden p-0.5 border border-pink-200 shadow-inner">
+                  <div className="w-full h-3 bg-slate-200 rounded-full overflow-hidden p-0.5 border border-pink-200 shadow-inner">
                     <div
-                      className="h-full bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 rounded-full transition-all duration-500"
+                      className="bg-sq-gradient h-full rounded-full transition-all duration-500"
                       style={{ width: `${trainingDetails.progress.progressPercent}%` }}
                     />
                   </div>
@@ -405,7 +403,7 @@ export default function DailyReportSubmitPage() {
                   <div className="flex items-center justify-between text-[11px] font-bold text-slate-500 pt-1">
                     <span>Completed Days: <strong className="text-emerald-700 font-mono">{trainingDetails.progress.completedDaysCount} Days</strong></span>
                     <span>Remaining Days: <strong className="text-pink-600 font-mono">{trainingDetails.progress.remainingDaysCount} Days</strong></span>
-                    <span>Total Students: <strong className="text-purple-700 font-mono">{trainingDetails.training.totalStudents}</strong></span>
+                    <span>Total Students: <strong className="text-blue-800 font-mono">{trainingDetails.training.totalStudents}</strong></span>
                   </div>
                 </div>
               </div>
@@ -418,7 +416,7 @@ export default function DailyReportSubmitPage() {
                     <span>Day-by-Day Training Timeline &amp; Access Gate</span>
                   </h3>
                   <span className="text-xs text-slate-500 font-semibold">
-                    Current Active Day: <strong className="text-purple-700 font-mono">Day {trainingDetails.progress.currentAvailableDay}</strong>
+                    Current Active Day: <strong className="text-blue-800 font-mono">Day {trainingDetails.progress.currentAvailableDay}</strong>
                   </span>
                 </div>
 
@@ -426,13 +424,7 @@ export default function DailyReportSubmitPage() {
                   {trainingDetails.timeline.map((dayItem) => (
                     <div
                       key={dayItem.dayNumber}
-                      className={`bg-white border rounded-2xl p-5 shadow-xs transition space-y-3 flex items-center justify-between ${
-                        dayItem.isCompleted
-                          ? 'border-emerald-200 bg-emerald-50/20'
-                          : dayItem.isEditable
-                            ? 'border-pink-300 ring-2 ring-pink-500/20 bg-gradient-to-r from-pink-50/40 to-purple-50/30'
-                            : 'border-slate-200 opacity-70 bg-slate-50/50'
-                      }`}
+                      className={`bg-white border rounded-2xl p-5 shadow-xs transition space-y-3 flex items-center justify-between ${ dayItem.isCompleted ? 'border-slate-200 bg-white' : dayItem.isEditable ? 'bg-white border-pink-300 ring-2 ring-pink-500/20' : 'border-slate-200 opacity-70 bg-white' }`}
                     >
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
@@ -465,7 +457,7 @@ export default function DailyReportSubmitPage() {
                         {dayItem.isCompleted ? (
                           <button
                             onClick={() => handleOpenDayReport(dayItem.dayNumber)}
-                            className="px-3.5 py-2 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 border border-emerald-300 font-bold rounded-xl text-xs transition cursor-pointer flex items-center space-x-1.5"
+                            className="px-3.5 py-2 bg-white hover:bg-white text-emerald-900 border border-emerald-300 font-bold rounded-xl text-xs transition cursor-pointer flex items-center space-x-1.5"
                           >
                             <Eye className="w-3.5 h-3.5 text-emerald-700" />
                             <span>View Day {dayItem.dayNumber} Report</span>
@@ -473,14 +465,14 @@ export default function DailyReportSubmitPage() {
                         ) : dayItem.isEditable ? (
                           <button
                             onClick={() => handleOpenDayReport(dayItem.dayNumber)}
-                            className="px-4 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center space-x-1.5 animate-pulse"
+                            className="bg-white px-4 py-2 text-blue-800 font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center space-x-1.5 animate-pulse border border-[#9333EA]"
                           >
                             <span>Fill Day {dayItem.dayNumber} Report →</span>
                           </button>
                         ) : (
                           <button
                             disabled
-                            className="px-3.5 py-2 bg-slate-100 text-slate-400 border border-slate-200 font-bold rounded-xl text-xs opacity-60 cursor-not-allowed flex items-center space-x-1"
+                            className="px-3.5 py-2 bg-white text-slate-400 border border-blue-200 font-bold rounded-xl text-xs opacity-60 cursor-not-allowed flex items-center space-x-1"
                           >
                             <Lock className="w-3.5 h-3.5" />
                             <span>Locked 🔒</span>
@@ -503,9 +495,9 @@ export default function DailyReportSubmitPage() {
         <div className="space-y-6">
           <button
             onClick={() => handleOpenTraining(selectedTrainingId)}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-slate-50 transition cursor-pointer shadow-xs"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-white border border-blue-200 rounded-xl text-xs font-bold text-slate-700 hover:bg-white transition cursor-pointer shadow-xs"
           >
-            <ChevronLeft className="w-4 h-4 text-purple-600" />
+            <ChevronLeft className="w-4 h-4 text-blue-800" />
             <span>← Back to Training Timeline</span>
           </button>
 
@@ -519,22 +511,18 @@ export default function DailyReportSubmitPage() {
               <div className="bg-white border border-pink-200 rounded-3xl p-6 shadow-sm space-y-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
-                    <span className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-pink-500 to-violet-600 text-white font-black text-lg flex items-center justify-center shadow-md">
+                    <span className="bg-blue-50 w-10 h-10 rounded-2xl text-blue-800 font-black text-lg flex items-center justify-center shadow-md border border-[#9333EA]">
                       D{selectedDayNumber}
                     </span>
                     <div>
                       <h2 className="text-xl font-black text-slate-900">Day {selectedDayNumber} Training Report</h2>
                       <p className="text-xs text-slate-500 font-semibold">
-                        College: <strong className="text-slate-800">{dayReportData.trainingInfo?.collegeName}</strong> | Batch: <strong className="text-purple-700">{dayReportData.trainingInfo?.batchName}</strong>
+                        College: <strong className="text-slate-800">{dayReportData.trainingInfo?.collegeName}</strong> | Batch: <strong className="text-blue-800">{dayReportData.trainingInfo?.batchName}</strong>
                       </p>
                     </div>
                   </div>
 
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold font-mono ${
-                    dayReportData.isCompleted
-                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                      : 'bg-gradient-to-r from-pink-500 to-violet-600 text-white shadow-xs'
-                  }`}>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold font-mono ${ dayReportData.isCompleted ? 'bg-white text-emerald-800 border border-emerald-300' : 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' }`}>
                     {dayReportData.isCompleted ? '✓ COMPLETED & LOGGED' : '⚡ EDITABLE AVAILABLE DAY'}
                   </span>
                 </div>
@@ -543,7 +531,7 @@ export default function DailyReportSubmitPage() {
               {/* READ-ONLY VIEW IF DAY IS COMPLETED */}
               {dayReportData.isCompleted ? (
                 <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-6 shadow-sm text-xs">
-                  <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl flex items-center justify-between">
+                  <div className="bg-white border border-slate-200 p-4 rounded-2xl flex items-center justify-between">
                     <div className="flex items-center space-x-2 text-emerald-900 font-bold">
                       <CheckCircle2 className="w-5 h-5 text-emerald-600" />
                       <span>Day {selectedDayNumber} Report has been submitted and stored in the database.</span>
@@ -552,29 +540,29 @@ export default function DailyReportSubmitPage() {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
-                      <span className="text-[10px] font-bold text-purple-700 uppercase">Morning Session Topic Covered</span>
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-800 uppercase">Morning Session Topic Covered</span>
                       <p className="text-slate-900 font-semibold">{dayReportData.data?.morningTopic}</p>
                     </div>
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
-                      <span className="text-[10px] font-bold text-purple-700 uppercase">Afternoon Session Topic Covered</span>
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-800 uppercase">Afternoon Session Topic Covered</span>
                       <p className="text-slate-900 font-semibold">{dayReportData.data?.afternoonTopic}</p>
                     </div>
                   </div>
 
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
-                    <span className="text-[10px] font-bold text-purple-700 uppercase">Student Attendance Summary</span>
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+                    <span className="text-[10px] font-bold text-blue-800 uppercase">Student Attendance Summary</span>
                     <div className="flex items-center space-x-6 text-slate-800 font-bold font-mono">
                       <span>Total: {dayReportData.data?.totalStudents}</span>
                       <span className="text-emerald-700">Present: {dayReportData.data?.studentsPresent}</span>
                       <span className="text-rose-700">Absent: {dayReportData.data?.studentsAbsent}</span>
-                      <span className="text-purple-700">Attendance: {((dayReportData.data?.studentsPresent / dayReportData.data?.totalStudents) * 100).toFixed(1)}%</span>
+                      <span className="text-blue-800">Attendance: {((dayReportData.data?.studentsPresent / dayReportData.data?.totalStudents) * 100).toFixed(1)}%</span>
                     </div>
                   </div>
 
                   {dayReportData.data?.practicalTasks?.length > 0 && (
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
-                      <span className="text-[10px] font-bold text-purple-700 uppercase">Practical Tasks Conducted</span>
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
+                      <span className="text-[10px] font-bold text-blue-800 uppercase">Practical Tasks Conducted</span>
                       <ul className="list-disc list-inside space-y-1 text-slate-800 font-medium">
                         {dayReportData.data.practicalTasks.map((task, idx) => (
                           <li key={idx}>{task}</li>
@@ -584,7 +572,7 @@ export default function DailyReportSubmitPage() {
                   )}
 
                   {dayReportData.data?.complaintReported && (
-                    <div className="bg-rose-50 p-4 rounded-2xl border border-rose-200 space-y-1">
+                    <div className="bg-white p-4 rounded-2xl border border-rose-200 space-y-1">
                       <span className="text-[10px] font-bold text-rose-700 uppercase font-mono">Complaint Reported</span>
                       <p className="text-slate-800 leading-relaxed font-semibold">
                         Category: {dayReportData.data?.complaintCategory} | Raised By: {dayReportData.data?.complaintRaisedBy} ({dayReportData.data?.complaintName || 'N/A'}) | Priority: {dayReportData.data?.complaintPriority}
@@ -594,8 +582,8 @@ export default function DailyReportSubmitPage() {
                   )}
 
                   {dayReportData.data?.trainerRemarks && (
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
-                      <span className="text-[10px] font-bold text-purple-700 uppercase">Trainer Remarks</span>
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-bold text-blue-800 uppercase">Trainer Remarks</span>
                       <p className="text-slate-800 leading-relaxed font-medium">{dayReportData.data?.trainerRemarks}</p>
                     </div>
                   )}
@@ -620,7 +608,7 @@ export default function DailyReportSubmitPage() {
                           value={morningTopic}
                           onChange={e => setMorningTopic(e.target.value)}
                           placeholder="e.g. Java OOP Concepts, Classes, Objects & Constructors"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          className="w-full bg-white border border-slate-200 rounded-2xl p-3 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                       </div>
 
@@ -632,7 +620,7 @@ export default function DailyReportSubmitPage() {
                           value={afternoonTopic}
                           onChange={e => setAfternoonTopic(e.target.value)}
                           placeholder="e.g. Exception Handling, Try-Catch Blocks & Custom Exceptions"
-                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          className="w-full bg-white border border-slate-200 rounded-2xl p-3 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                       </div>
                     </div>
@@ -646,7 +634,7 @@ export default function DailyReportSubmitPage() {
                         <span>2. Student Attendance Verification *</span>
                       </h3>
 
-                      <span className="px-3 py-1 bg-purple-100 text-purple-800 border border-purple-200 rounded-full font-mono font-bold text-xs">
+                      <span className="px-3 py-1 bg-white text-purple-800 border border-blue-200 rounded-full font-mono font-bold text-xs">
                         Total Enrolled: {totalStudents} Students
                       </span>
                     </div>
@@ -661,7 +649,7 @@ export default function DailyReportSubmitPage() {
                           max={totalStudents}
                           value={studentsPresent}
                           onChange={e => setStudentsPresent(e.target.value)}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 font-mono font-bold text-slate-900 text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-2.5 font-mono font-bold text-slate-900 text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                       </div>
 
@@ -674,24 +662,24 @@ export default function DailyReportSubmitPage() {
                           max={totalStudents}
                           value={studentsAbsent}
                           onChange={e => setStudentsAbsent(e.target.value)}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-2xl px-4 py-2.5 font-mono font-bold text-slate-900 text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          className="w-full bg-white border border-slate-200 rounded-2xl px-4 py-2.5 font-mono font-bold text-slate-900 text-sm focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         />
                       </div>
                     </div>
 
                     {/* Attendance Validation Error Box / Success Summary */}
                     {!isAttendanceValid ? (
-                      <div className="bg-rose-50 border border-rose-200 text-rose-800 p-3.5 rounded-2xl text-xs font-bold flex items-center space-x-2">
+                      <div className="bg-white border border-rose-200 text-rose-800 p-3.5 rounded-2xl text-xs font-bold flex items-center space-x-2">
                         <AlertCircle className="w-4 h-4 text-rose-600 flex-shrink-0" />
                         <span>Attendance Validation Error: Present ({studentsPresent}) + Absent ({studentsAbsent}) must equal Total Students ({totalStudents}).</span>
                       </div>
                     ) : (
-                      <div className="bg-gradient-to-r from-pink-50/70 via-fuchsia-50/50 to-purple-50/70 border border-pink-200 p-3.5 rounded-2xl flex items-center justify-between text-xs font-mono font-bold">
+                      <div className="bg-white border border-pink-200 p-3.5 rounded-2xl flex items-center justify-between text-xs font-mono font-bold">
                         <div className="flex items-center space-x-4">
                           <span className="text-emerald-700">Present: {studentsPresent}</span>
                           <span className="text-rose-700">Absent: {studentsAbsent}</span>
                         </div>
-                        <span className="text-purple-700">Attendance Rate: {attendancePercent}%</span>
+                        <span className="text-blue-800">Attendance Rate: {attendancePercent}%</span>
                       </div>
                     )}
                   </div>
@@ -704,18 +692,18 @@ export default function DailyReportSubmitPage() {
                         <span>3. Practical Session &amp; Hands-On Tasks</span>
                       </h3>
 
-                      <div className="flex items-center bg-slate-100 p-1 rounded-xl font-bold">
+                      <div className="flex items-center bg-white p-1 rounded-xl font-bold">
                         <button
                           type="button"
                           onClick={() => setPracticalConducted(true)}
-                          className={`px-3 py-1 rounded-lg transition ${practicalConducted ? 'bg-gradient-to-r from-pink-500 to-violet-600 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${practicalConducted ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           Yes
                         </button>
                         <button
                           type="button"
                           onClick={() => setPracticalConducted(false)}
-                          className={`px-3 py-1 rounded-lg transition ${!practicalConducted ? 'bg-slate-800 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${!practicalConducted ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           No
                         </button>
@@ -727,19 +715,19 @@ export default function DailyReportSubmitPage() {
                         <label className="text-slate-700 font-bold block">Practical Session Tasks Conducted Today</label>
                         {practicalTasks.map((task, idx) => (
                           <div key={idx} className="flex items-center space-x-2">
-                            <span className="font-mono font-bold text-purple-700 text-xs w-6">{idx + 1}.</span>
+                            <span className="font-mono font-bold text-blue-800 text-xs w-6">{idx + 1}.</span>
                             <input
                               type="text"
                               value={task}
                               onChange={e => handleUpdatePracticalTask(idx, e.target.value)}
                               placeholder={`Task ${idx + 1} description...`}
-                              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                              className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                             />
                             {practicalTasks.length > 1 && (
                               <button
                                 type="button"
                                 onClick={() => handleRemovePracticalTask(idx)}
-                                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition"
+                                className="p-2 text-slate-400 hover:text-rose-600 hover:bg-white rounded-xl transition"
                               >
                                 <Trash2 className="w-4 h-4" />
                               </button>
@@ -750,7 +738,7 @@ export default function DailyReportSubmitPage() {
                         <button
                           type="button"
                           onClick={handleAddPracticalTask}
-                          className="px-3.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition border border-purple-200"
+                          className="px-3.5 py-1.5 bg-white hover:bg-white text-blue-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition border border-blue-200"
                         >
                           <Plus className="w-4 h-4" />
                           <span>+ Add Another Task</span>
@@ -767,18 +755,18 @@ export default function DailyReportSubmitPage() {
                         <span>4. Student Feedback Received Today</span>
                       </h3>
 
-                      <div className="flex items-center bg-slate-100 p-1 rounded-xl font-bold">
+                      <div className="flex items-center bg-white p-1 rounded-xl font-bold">
                         <button
                           type="button"
                           onClick={() => setStudentFeedbackReceived(true)}
-                          className={`px-3 py-1 rounded-lg transition ${studentFeedbackReceived ? 'bg-gradient-to-r from-pink-500 to-violet-600 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${studentFeedbackReceived ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           Yes
                         </button>
                         <button
                           type="button"
                           onClick={() => setStudentFeedbackReceived(false)}
-                          className={`px-3 py-1 rounded-lg transition ${!studentFeedbackReceived ? 'bg-slate-800 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${!studentFeedbackReceived ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           No
                         </button>
@@ -794,7 +782,7 @@ export default function DailyReportSubmitPage() {
                             value={studentFeedback}
                             onChange={e => setStudentFeedback(e.target.value)}
                             placeholder="Overall feedback received from class..."
-                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="w-full bg-white border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                           />
                         </div>
 
@@ -805,7 +793,7 @@ export default function DailyReportSubmitPage() {
                             value={studentPositiveFeedback}
                             onChange={e => setStudentPositiveFeedback(e.target.value)}
                             placeholder="Aspects students appreciated..."
-                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="w-full bg-white border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                           />
                         </div>
 
@@ -816,7 +804,7 @@ export default function DailyReportSubmitPage() {
                             value={studentDifficulties}
                             onChange={e => setStudentDifficulties(e.target.value)}
                             placeholder="Topics students struggled with..."
-                            className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                            className="w-full bg-white border border-slate-200 rounded-2xl p-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                           />
                         </div>
                       </div>
@@ -831,18 +819,18 @@ export default function DailyReportSubmitPage() {
                         <span>5. Student / Staff Complaint Section</span>
                       </h3>
 
-                      <div className="flex items-center bg-slate-100 p-1 rounded-xl font-bold">
+                      <div className="flex items-center bg-white p-1 rounded-xl font-bold">
                         <button
                           type="button"
                           onClick={() => setComplaintReported(true)}
-                          className={`px-3 py-1 rounded-lg transition ${complaintReported ? 'bg-gradient-to-r from-pink-500 to-violet-600 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${complaintReported ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           Yes
                         </button>
                         <button
                           type="button"
                           onClick={() => setComplaintReported(false)}
-                          className={`px-3 py-1 rounded-lg transition ${!complaintReported ? 'bg-slate-800 text-white shadow-xs' : 'text-slate-600'}`}
+                          className={`px-3 py-1 rounded-lg transition ${!complaintReported ? 'bg-white text-blue-800 shadow-xs border border-[#9333EA]' : 'text-slate-600'}`}
                         >
                           No
                         </button>
@@ -850,14 +838,14 @@ export default function DailyReportSubmitPage() {
                     </div>
 
                     {complaintReported && (
-                      <div className="space-y-4 pt-2 bg-pink-50/30 p-4 rounded-2xl border border-pink-100">
+                      <div className="space-y-4 pt-2 bg-white p-4 rounded-2xl border border-pink-100">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                           <div>
                             <label className="text-slate-700 font-bold block mb-1">Complaint Raised By</label>
                             <select
                               value={complaintRaisedBy}
                               onChange={e => setComplaintRaisedBy(e.target.value)}
-                              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-800"
+                              className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 font-bold text-slate-800"
                             >
                               <option value="Student">Student</option>
                               <option value="Staff">Staff</option>
@@ -872,7 +860,7 @@ export default function DailyReportSubmitPage() {
                               value={complaintName}
                               onChange={e => setComplaintName(e.target.value)}
                               placeholder="Name of person raising complaint"
-                              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-800"
+                              className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-800"
                             />
                           </div>
 
@@ -881,7 +869,7 @@ export default function DailyReportSubmitPage() {
                             <select
                               value={complaintCategory}
                               onChange={e => setComplaintCategory(e.target.value)}
-                              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-800"
+                              className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 font-bold text-slate-800"
                             >
                               <option value="Training">Training</option>
                               <option value="Tutor">Tutor</option>
@@ -911,7 +899,7 @@ export default function DailyReportSubmitPage() {
                           <select
                             value={complaintPriority}
                             onChange={e => setComplaintPriority(e.target.value)}
-                            className="w-full md:w-1/3 bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-800"
+                            className="w-full md:w-1/3 bg-white border border-blue-200 rounded-xl px-3 py-2 font-bold text-slate-800"
                           >
                             <option value="Low">Low</option>
                             <option value="Medium">Medium</option>
@@ -934,38 +922,38 @@ export default function DailyReportSubmitPage() {
                       value={trainerRemarks}
                       onChange={e => setTrainerRemarks(e.target.value)}
                       placeholder="Mention student engagement, technical/lab issues, training progress, topics requiring revision..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-3.5 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                      className="w-full bg-white border border-slate-200 rounded-2xl p-3.5 text-slate-900 font-medium focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
                     />
                   </div>
 
                   {/* SECTION 7: SUMMARY CARD & SUBMIT */}
-                  <div className="bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white rounded-3xl p-6 space-y-4 shadow-xl">
-                    <div className="flex items-center justify-between border-b border-white/20 pb-3">
+                  <div className="bg-white rounded-3xl p-6 space-y-4 shadow-md border border-[#9333EA]">
+                    <div className="flex items-center justify-between border-b border-blue-200 pb-3">
                       <div>
-                        <h4 className="font-black text-lg text-white">Day {selectedDayNumber} Report Summary</h4>
-                        <p className="text-xs text-pink-100">Review your daily log entries before submitting to database.</p>
+                        <h4 className="font-black text-lg text-[#0F172A]">Day {selectedDayNumber} Report Summary</h4>
+                        <p className="text-xs text-slate-500">Review your daily log entries before submitting to database.</p>
                       </div>
-                      <span className="px-3 py-1 bg-white/20 rounded-full font-mono text-xs font-bold">
+                      <span className="px-3 py-1 bg-white border border-blue-200 text-[#9333EA] rounded-full font-mono text-xs font-bold">
                         {dayReportData?.data?.date || new Date().toISOString().split('T')[0]}
                       </span>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium text-pink-50">
-                      <p>Morning Topic: <strong className="text-white">{morningTopic || 'Not entered'}</strong></p>
-                      <p>Afternoon Topic: <strong className="text-white">{afternoonTopic || 'Not entered'}</strong></p>
-                      <p>Students Present: <strong className="text-white">{studentsPresent} / {totalStudents} ({attendancePercent}%)</strong></p>
-                      <p>Practical Session: <strong className="text-white">{practicalConducted ? `Yes (${practicalTasks.length} tasks)` : 'No'}</strong></p>
-                      <p>Student Feedback: <strong className="text-white">{studentFeedbackReceived ? 'Received' : 'None'}</strong></p>
-                      <p>Complaint Logged: <strong className="text-white">{complaintReported ? `Yes (${complaintCategory})` : 'No'}</strong></p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-medium text-slate-600">
+                      <p>Morning Topic: <strong className="text-slate-900">{morningTopic || 'Not entered'}</strong></p>
+                      <p>Afternoon Topic: <strong className="text-slate-900">{afternoonTopic || 'Not entered'}</strong></p>
+                      <p>Students Present: <strong className="text-slate-900">{studentsPresent} / {totalStudents} ({attendancePercent}%)</strong></p>
+                      <p>Practical Session: <strong className="text-slate-900">{practicalConducted ? `Yes (${practicalTasks.length} tasks)` : 'No'}</strong></p>
+                      <p>Student Feedback: <strong className="text-slate-900">{studentFeedbackReceived ? 'Received' : 'None'}</strong></p>
+                      <p>Complaint Logged: <strong className="text-slate-900">{complaintReported ? `Yes (${complaintCategory})` : 'No'}</strong></p>
                     </div>
 
                     <div className="pt-2 flex justify-end">
                       <button
                         type="submit"
                         disabled={submittingReport || !isAttendanceValid}
-                        className="px-8 py-3.5 bg-white text-purple-900 hover:bg-pink-50 font-black rounded-2xl text-xs shadow-lg transition cursor-pointer disabled:opacity-50 flex items-center space-x-2"
+                        className="px-8 py-3.5 bg-white border-2 border-[#9333EA] text-blue-800 hover:border-[#E02B91] font-black rounded-2xl text-xs shadow-sm transition cursor-pointer disabled:opacity-50 flex items-center space-x-2"
                       >
-                        <Check className="w-4 h-4 text-pink-600" />
+                        <Check className="w-4 h-4 text-[#9333EA]" />
                         <span>{submittingReport ? 'Saving Day Report...' : `Submit Day ${selectedDayNumber} Report`}</span>
                       </button>
                     </div>

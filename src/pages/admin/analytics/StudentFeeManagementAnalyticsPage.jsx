@@ -10,21 +10,21 @@ export default function StudentFeeManagementAnalyticsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <Link
           to="/admin/analytics"
-          className="inline-flex items-center space-x-2 text-xs font-bold text-purple-700 bg-white hover:bg-purple-50 px-4 py-2 rounded-xl border border-purple-200 shadow-2xs transition group"
+          className="inline-flex items-center space-x-2 text-xs font-bold text-blue-800 bg-white hover:bg-white px-4 py-2 rounded-xl border border-blue-200 shadow-2xs transition group"
         >
           <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
           <span>Back to Analytics Hub</span>
         </Link>
 
         <div className="flex items-center space-x-2 text-slate-400 text-xs">
-          <Link to="/admin/analytics" className="hover:text-purple-600 transition font-medium">Analytics Hub</Link>
+          <Link to="/admin/analytics" className="hover:text-blue-800 transition font-medium">Analytics Hub</Link>
           <span>/</span>
-          <span className="text-purple-700 font-bold">Fee Management & Collections</span>
+          <span className="text-blue-800 font-bold">Fee Management & Collections</span>
         </div>
       </div>
 
       {/* Embedded Complete Fee Dashboard */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 shadow-xs">
+      <div className="bg-white rounded-3xl border border-slate-200 p-6 md:p-8 shadow-xs">
         <FeeManagementDashboard showHeader={true} />
       </div>
     </div>

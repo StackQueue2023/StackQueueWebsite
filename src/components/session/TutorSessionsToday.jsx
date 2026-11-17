@@ -58,31 +58,31 @@ export default function TutorSessionsToday() {
     switch (status) {
       case 'LIVE':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-red-100 text-red-700 border border-red-200 animate-pulse">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider bg-white text-red-700 border border-red-200 animate-pulse">
             LIVE NOW
           </span>
         );
       case 'DELAYED':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-100 text-amber-800 border border-amber-200">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-amber-800 border border-amber-200">
             DELAYED
           </span>
         );
       case 'COMPLETED':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-100 text-emerald-800 border border-emerald-200">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-emerald-800 border border-emerald-200">
             COMPLETED
           </span>
         );
       case 'MISSED':
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-200">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-rose-800 border border-rose-200">
             MISSED
           </span>
         );
       default:
         return (
-          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-purple-100 text-purple-800 border border-purple-200">
+          <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-purple-800 border border-blue-200">
             UPCOMING
           </span>
         );
@@ -90,18 +90,18 @@ export default function TutorSessionsToday() {
   };
 
   return (
-    <div className="bg-white border border-slate-200/90 shadow-sm p-5 rounded-2xl space-y-4">
+    <div className="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-        <div className="flex items-center space-x-2 text-purple-600 font-bold text-xs uppercase tracking-wider">
+        <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
           <Calendar className="w-4 h-4" />
           <span>Today's Teaching Sessions ({sessions.length})</span>
         </div>
 
         <button
           onClick={handleSendMorningDigest}
-          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-200 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition"
+          className="px-3 py-1.5 bg-white hover:bg-white text-slate-700 border border-blue-200 rounded-xl text-xs font-semibold flex items-center space-x-1.5 transition"
         >
-          <Send className="w-3.5 h-3.5 text-purple-600" />
+          <Send className="w-3.5 h-3.5 text-blue-800" />
           <span>{digestStatus || 'Send Morning SMS Digest'}</span>
         </button>
       </div>
@@ -111,7 +111,7 @@ export default function TutorSessionsToday() {
           <div className="w-6 h-6 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
         </div>
       ) : sessions.length === 0 ? (
-        <div className="text-center py-8 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50/50">
+        <div className="text-center py-8 border-2 border-dashed border-blue-200 rounded-2xl bg-white">
           <Calendar className="w-8 h-8 text-slate-300 mx-auto mb-2" />
           <p className="text-sm font-bold text-slate-600">No live classes scheduled for today.</p>
           <p className="text-xs text-slate-400 mt-1">Check back later or contact administration for schedule updates.</p>
@@ -134,11 +134,7 @@ export default function TutorSessionsToday() {
             return (
               <div
                 key={s._id}
-                className={`p-4 rounded-xl border transition flex flex-col md:flex-row md:items-center justify-between gap-4 ${
-                  isLive
-                    ? 'bg-red-50/70 border-red-200 shadow-sm'
-                    : 'bg-slate-50 border-slate-200'
-                }`}
+                className={`p-4 rounded-xl border transition flex flex-col md:flex-row md:items-center justify-between gap-4 ${ isLive ? 'bg-white border-red-200 shadow-sm' : 'bg-white border-blue-200' }`}
               >
                 {/* Session Info */}
                 <div className="space-y-1.5">
@@ -149,20 +145,12 @@ export default function TutorSessionsToday() {
                     </span>
 
                     {/* Online vs Offline Badge */}
-                    <span className={`px-2 py-0.5 text-[10px] font-extrabold rounded-full ${
-                      isOnline
-                        ? 'bg-purple-100 text-purple-800 border border-purple-200'
-                        : 'bg-emerald-100 text-emerald-800 border border-emerald-200'
-                    }`}>
+                    <span className={`px-2 py-0.5 text-[10px] font-extrabold rounded-full ${ isOnline ? 'bg-white text-purple-800 border border-blue-200' : 'bg-white text-emerald-800 border border-emerald-200' }`}>
                       {isOnline ? '🌐 ONLINE' : '📍 OFFLINE'}
                     </span>
 
                     {/* Single Student vs Batch Badge */}
-                    <span className={`px-2 py-0.5 text-[10px] font-extrabold rounded-full ${
-                      isBatch
-                        ? 'bg-fuchsia-100 text-fuchsia-800 border border-fuchsia-200'
-                        : 'bg-amber-100 text-amber-800 border border-amber-200'
-                    }`}>
+                    <span className={`px-2 py-0.5 text-[10px] font-extrabold rounded-full ${ isBatch ? 'bg-white text-fuchsia-800 border border-fuchsia-200' : 'bg-white text-amber-800 border border-amber-200' }`}>
                       {isBatch
                         ? (s.batchId?.name ? `🎓 Batch: ${s.batchId.name}` : `🎓 Batch (${s.studentIds?.length || 0} Students)`)
                         : (targetStudentName ? `👤 Single Student: ${targetStudentName}` : '👤 Single Student')
@@ -172,7 +160,7 @@ export default function TutorSessionsToday() {
 
                   <h3 className="text-sm font-bold text-slate-900">{s.title || s.topic}</h3>
                   {s.courseId?.title && (
-                    <p className="text-xs text-purple-600 font-semibold">Course: {s.courseId.title}</p>
+                    <p className="text-xs text-blue-800 font-semibold">Course: {s.courseId.title}</p>
                   )}
 
                   <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 pt-0.5">
@@ -197,7 +185,7 @@ export default function TutorSessionsToday() {
                       href={s.meetingLink}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-3.5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs flex items-center space-x-1.5 transition shadow-sm"
+                      className="bg-white px-3.5 py-2 text-blue-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition shadow-sm border border-[#9333EA]"
                     >
                       <Video className="w-3.5 h-3.5" />
                       <span>Join Live Class</span>
@@ -208,7 +196,7 @@ export default function TutorSessionsToday() {
                   {!isLive && !isCompleted && (
                     <button
                       onClick={() => handleStartSession(s._id)}
-                      className="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition"
+                      className="bg-white px-3.5 py-2 text-emerald-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition border border-emerald-600"
                     >
                       <Play className="w-3.5 h-3.5 fill-current" />
                       <span>START SESSION</span>
@@ -218,7 +206,7 @@ export default function TutorSessionsToday() {
                   {isLive && (
                     <button
                       onClick={() => setActiveEndSession(s)}
-                      className="px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition"
+                      className="bg-white px-3.5 py-2 text-blue-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-sm transition border border-[#9333EA]"
                     >
                       <Square className="w-3.5 h-3.5 fill-current" />
                       <span>END SESSION</span>
@@ -226,7 +214,7 @@ export default function TutorSessionsToday() {
                   )}
 
                   {isCompleted && (
-                    <span className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-600 text-xs font-semibold flex items-center space-x-1 border border-slate-200">
+                    <span className="px-3 py-1.5 rounded-xl bg-white text-slate-600 text-xs font-semibold flex items-center space-x-1 border border-blue-200">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                       <span>Concluded ({s.actualDurationMinutes || 60}m)</span>
                     </span>

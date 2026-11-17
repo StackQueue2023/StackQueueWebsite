@@ -11,7 +11,7 @@ export default function NotFoundPage() {
   return (
     <div className="min-h-[75vh] flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white border border-slate-200/90 rounded-2xl p-8 text-center shadow-sm space-y-6">
-        <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-2xl flex items-center justify-center mx-auto border border-purple-200/80">
+        <div className="w-16 h-16 bg-white text-purple-600 rounded-2xl flex items-center justify-center mx-auto border border-purple-200/80">
           <FileQuestion className="w-8 h-8" />
         </div>
 
@@ -37,9 +37,9 @@ export default function NotFoundPage() {
               </Button>
             </Link>
           )}
-          <Link to="/games" className="w-full sm:w-auto">
+          <Link to="/interview-game" className="w-full sm:w-auto">
             <Button variant="secondary" className="w-full">
-              Browse Games
+              Interview Arena
             </Button>
           </Link>
         </div>

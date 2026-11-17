@@ -48,7 +48,7 @@ export default function Modal({
             </div>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-lg transition"
+              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-white rounded-lg transition"
             >
               <X className="w-5 h-5" />
             </button>

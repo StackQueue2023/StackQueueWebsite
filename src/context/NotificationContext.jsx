@@ -88,7 +88,7 @@ export function NotificationProvider({ children }) {
             <button
               type="button"
               onClick={closeNotification}
-              className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition"
+              className="absolute top-4 right-4 p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-white transition"
               title="Close Notification"
             >
               <X className="w-5 h-5" />
@@ -97,17 +97,17 @@ export function NotificationProvider({ children }) {
             {/* Notification Content */}
             <div className="flex items-start space-x-3.5 pt-1">
               {notification.type === 'success' && (
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-10 h-10 rounded-xl bg-white border border-emerald-200 text-emerald-600 flex items-center justify-center shrink-0 shadow-xs">
                   <CheckCircle2 className="w-6 h-6" />
                 </div>
               )}
               {notification.type === 'error' && (
-                <div className="w-10 h-10 rounded-xl bg-red-50 border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-10 h-10 rounded-xl bg-white border border-red-200 text-red-600 flex items-center justify-center shrink-0 shadow-xs">
                   <AlertTriangle className="w-6 h-6" />
                 </div>
               )}
               {notification.type === 'info' && (
-                <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 text-purple-600 flex items-center justify-center shrink-0 shadow-xs">
+                <div className="w-10 h-10 rounded-xl bg-white border border-purple-200 text-purple-600 flex items-center justify-center shrink-0 shadow-xs">
                   <Info className="w-6 h-6" />
                 </div>
               )}
@@ -127,7 +127,7 @@ export function NotificationProvider({ children }) {
               <button
                 type="button"
                 onClick={closeNotification}
-                className="px-5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-bold rounded-xl shadow-md shadow-purple-500/20 transition"
+                className="bg-white px-5 py-2 text-sq-gradient text-xs font-bold rounded-xl shadow-md shadow-purple-500/20 transition border border-[#9333EA]"
               >
                 OK
               </button>

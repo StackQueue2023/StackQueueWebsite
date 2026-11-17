@@ -17,7 +17,7 @@ export default function TestCasePanel({
   return (
     <div className="flex flex-col h-full bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm">
       {/* Tab Navigation Header */}
-      <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex items-center justify-between text-xs overflow-x-auto shrink-0">
+      <div className="bg-white px-4 py-2 border-b border-slate-200 flex items-center justify-between text-xs overflow-x-auto shrink-0">
         <div className="flex items-center space-x-2">
           {testCases.map((tc, idx) => {
             const res = results.find(r => r.caseNumber === idx + 1);
@@ -36,11 +36,7 @@ export default function TestCasePanel({
               <button
                 key={idx}
                 onClick={() => setActiveTab(idx)}
-                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-medium transition text-xs cursor-pointer ${
-                  activeTab === idx
-                    ? 'bg-white text-purple-700 border border-purple-200 shadow-xs font-bold'
-                    : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-                }`}
+                className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg font-medium transition text-xs cursor-pointer ${ activeTab === idx ? 'bg-white text-purple-700 border border-purple-200 shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-white' }`}
               >
                 {statusBadge}
                 <span>Case {idx + 1}</span>
@@ -50,11 +46,7 @@ export default function TestCasePanel({
 
           <button
             onClick={() => setActiveTab('custom')}
-            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg font-medium transition text-xs cursor-pointer ${
-              activeTab === 'custom'
-                ? 'bg-purple-50 text-purple-700 border border-purple-200 font-bold'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
-            }`}
+            className={`flex items-center space-x-1 px-3 py-1.5 rounded-lg font-medium transition text-xs cursor-pointer ${ activeTab === 'custom' ? 'bg-white text-purple-700 border border-purple-200 font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-white' }`}
           >
             <Terminal className="w-3 h-3" />
             <span>Custom Input</span>
@@ -65,13 +57,7 @@ export default function TestCasePanel({
         {runResult && (
           <div className="flex items-center space-x-3 text-xs font-mono ml-2 shrink-0">
             <span
-              className={`font-semibold px-2.5 py-0.5 rounded text-[11px] ${
-                runResult.allPassed
-                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                  : globalStatus === 'COMPILATION_ERROR'
-                  ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                  : 'bg-rose-50 text-rose-700 border border-rose-200'
-              }`}
+              className={`font-semibold px-2.5 py-0.5 rounded text-[11px] ${ runResult.allPassed ? 'bg-white text-emerald-700 border border-emerald-200' : globalStatus === 'COMPILATION_ERROR' ? 'bg-white text-amber-700 border border-amber-200' : 'bg-white text-rose-700 border border-rose-200' }`}
             >
               {globalStatus === 'COMPILATION_ERROR'
                 ? 'COMPILATION ERROR'
@@ -104,7 +90,7 @@ export default function TestCasePanel({
                 onChange={(e) => onCustomInputChange(e.target.value)}
                 placeholder="Enter input here (e.g. 4 or 100 or [1, 2, 3])..."
                 rows={4}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 font-mono resize-none text-xs"
+                className="w-full bg-white border border-slate-200 rounded-xl p-3 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 font-mono resize-none text-xs"
               />
             </div>
 
@@ -112,7 +98,7 @@ export default function TestCasePanel({
               <button
                 onClick={onRunCustom}
                 disabled={isRunningCustom || !customInput.trim()}
-                className="flex items-center space-x-1.5 px-4 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition disabled:opacity-50 cursor-pointer shadow-md shadow-purple-500/20"
+                className="bg-white flex items-center space-x-1.5 px-4 py-2 text-sq-gradient rounded-xl text-xs font-bold transition disabled:opacity-50 cursor-pointer shadow-md shadow-purple-500/20 border border-[#9333EA]"
               >
                 {isRunningCustom ? (
                   <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -130,11 +116,11 @@ export default function TestCasePanel({
                   Custom Execution Output:
                 </div>
                 {results[0].error ? (
-                  <pre className="bg-rose-50 border border-rose-200 rounded-xl p-3 text-rose-800 font-mono text-xs whitespace-pre-wrap overflow-x-auto">
+                  <pre className="bg-white border border-rose-200 rounded-xl p-3 text-rose-800 font-mono text-xs whitespace-pre-wrap overflow-x-auto">
                     {results[0].error}
                   </pre>
                 ) : (
-                  <pre className="bg-slate-900 text-emerald-400 border border-slate-800 rounded-xl p-3 font-mono text-xs whitespace-pre-wrap overflow-x-auto">
+                  <pre className="bg-white text-emerald-400 border border-slate-800 rounded-xl p-3 font-mono text-xs whitespace-pre-wrap overflow-x-auto">
                     {results[0].actual || '<No output returned>'}
                   </pre>
                 )}
@@ -158,7 +144,7 @@ export default function TestCasePanel({
               <div className="space-y-4">
                 {/* Global / Specific Error Display (Compilation Error, Runtime Error, Timeout) */}
                 {runResult?.error && (globalStatus === 'COMPILATION_ERROR' || globalStatus === 'RUNTIME_ERROR' || globalStatus === 'TIME_LIMIT_EXCEEDED' || globalStatus === 'SECURITY_VIOLATION') && (
-                  <div className="bg-rose-50/90 border border-rose-300 p-4 rounded-xl space-y-2">
+                  <div className="bg-white border border-rose-300 p-4 rounded-xl space-y-2">
                     <div className="flex items-center space-x-2 text-rose-900 font-bold text-xs uppercase tracking-wider font-sans">
                       <AlertTriangle className="w-4 h-4 text-rose-600" />
                       <span>{globalStatus.replace(/_/g, ' ')}</span>
@@ -172,11 +158,7 @@ export default function TestCasePanel({
                 {/* Result Status Banner for Test Case */}
                 {currentResult && (
                   <div
-                    className={`p-3 rounded-xl border flex items-center justify-between ${
-                      currentResult.passed
-                        ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                        : 'bg-rose-50 border-rose-200 text-rose-800'
-                    }`}
+                    className={`p-3 rounded-xl border flex items-center justify-between ${ currentResult.passed ? 'bg-white border-emerald-200 text-emerald-800' : 'bg-white border-rose-200 text-rose-800' }`}
                   >
                     <div className="flex items-center space-x-2">
                       {currentResult.passed ? (
@@ -209,7 +191,7 @@ export default function TestCasePanel({
                   <div className="text-slate-500 text-[11px] font-sans font-bold mb-1">
                     Input:
                   </div>
-                  <pre className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-800 overflow-x-auto whitespace-pre-wrap">
+                  <pre className="bg-white border border-slate-200 rounded-xl p-3 text-slate-800 overflow-x-auto whitespace-pre-wrap">
                     {currentCase.input || '<empty>'}
                   </pre>
                 </div>
@@ -219,7 +201,7 @@ export default function TestCasePanel({
                   <div className="text-slate-500 text-[11px] font-sans font-bold mb-1">
                     Expected Output:
                   </div>
-                  <pre className="bg-slate-50 border border-slate-200 rounded-xl p-3 text-emerald-700 font-bold overflow-x-auto whitespace-pre-wrap">
+                  <pre className="bg-white border border-slate-200 rounded-xl p-3 text-emerald-700 font-bold overflow-x-auto whitespace-pre-wrap">
                     {currentCase.expectedOutput}
                   </pre>
                 </div>
@@ -231,11 +213,7 @@ export default function TestCasePanel({
                       Your Output:
                     </div>
                     <pre
-                      className={`border rounded-xl p-3 overflow-x-auto whitespace-pre-wrap ${
-                        currentResult.passed
-                          ? 'bg-emerald-50/40 border-emerald-200 text-emerald-800 font-semibold'
-                          : 'bg-rose-50/40 border-rose-200 text-rose-800 font-semibold'
-                      }`}
+                      className={`border rounded-xl p-3 overflow-x-auto whitespace-pre-wrap ${ currentResult.passed ? 'bg-white border-emerald-200 text-emerald-800 font-semibold' : 'bg-white border-rose-200 text-rose-800 font-semibold' }`}
                     >
                       {currentResult.actual !== undefined && currentResult.actual !== ''
                         ? currentResult.actual
@@ -246,7 +224,7 @@ export default function TestCasePanel({
 
                 {/* Explanation */}
                 {currentCase.explanation && (
-                  <div className="text-slate-600 font-sans text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div className="text-slate-600 font-sans text-xs bg-white p-3 rounded-xl border border-slate-200">
                     <span className="font-bold text-slate-700">Explanation: </span>
                     {currentCase.explanation}
                   </div>

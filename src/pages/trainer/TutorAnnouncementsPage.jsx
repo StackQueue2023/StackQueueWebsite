@@ -26,9 +26,9 @@ export default function TutorAnnouncementsPage() {
     <div className="space-y-6 pb-16 max-w-5xl mx-auto px-4">
       {/* Pink-to-Violet Header Banner */}
       <div className="rounded-3xl bg-white border border-slate-200/90 p-6 md:p-8 shadow-sm relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-pink-500/10 via-fuchsia-500/10 to-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
             <Megaphone className="w-4 h-4 text-pink-600" />
             <span className="bg-gradient-to-r from-pink-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent font-extrabold">
               Tutor Notice Board
@@ -59,7 +59,7 @@ export default function TutorAnnouncementsPage() {
             <div key={item._id} className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm space-y-3">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div className="flex items-center space-x-2">
-                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono uppercase bg-pink-100 text-pink-800 border border-pink-200">
+                  <span className="px-3 py-1 rounded-full text-xs font-bold font-mono uppercase bg-white text-pink-800 border border-pink-200">
                     {item.type}
                   </span>
                   <span className="text-slate-400 font-mono text-xs font-bold">{item.announcementDate}</span>
@@ -68,7 +68,7 @@ export default function TutorAnnouncementsPage() {
 
               <h2 className="text-lg font-black text-slate-900">{item.title}</h2>
 
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
+              <div className="bg-white p-4 rounded-xl border border-slate-100 text-xs text-slate-700 leading-relaxed font-medium whitespace-pre-wrap">
                 {item.message}
               </div>
             </div>

@@ -50,7 +50,7 @@ export default function AchievementsPage() {
           </p>
         </div>
 
-        <div className="bg-slate-50 border border-slate-200 px-5 py-3 rounded-xl text-center shrink-0">
+        <div className="bg-white border border-slate-200 px-5 py-3 rounded-xl text-center shrink-0">
           <p className="text-[10px] uppercase font-bold text-slate-500">Unlocked Badges</p>
           <p className="text-xl font-black text-amber-700 font-mono">
             {unlockedCount} / {totalBadges}
@@ -66,18 +66,14 @@ export default function AchievementsPage() {
             return (
               <div
                 key={badge.id}
-                className={`p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all shadow-sm ${
-                  badge.isUnlocked
-                    ? 'bg-white border-amber-200'
-                    : 'bg-slate-50 border-slate-200 opacity-60'
-                }`}
+                className={`p-5 rounded-2xl border flex flex-col justify-between space-y-4 transition-all shadow-sm ${ badge.isUnlocked ? 'bg-white border-amber-200' : 'bg-white border-slate-200 opacity-60' }`}
               >
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <div className={`w-12 h-12 rounded-xl bg-gradient-to-tr ${badge.color || 'from-amber-400 to-orange-500'} p-0.5 shadow-sm flex items-center justify-center text-2xl`}>
+                    <div className={`bg-white w-12 h-12 rounded-xl ${badge.color || 'from-amber-400 to-orange-500'} p-0.5 shadow-sm flex items-center justify-center text-2xl`}>
                       {badge.isUnlocked ? '🏆' : <Lock className="w-5 h-5 text-slate-400" />}
                     </div>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-50 text-amber-700 border border-amber-200 font-bold">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-white text-amber-700 border border-amber-200 font-bold">
                       +{badge.xpBonus} XP
                     </span>
                   </div>
@@ -113,7 +109,7 @@ export default function AchievementsPage() {
         <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs font-mono">
-              <thead className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+              <thead className="bg-white text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
                 <tr>
                   <th className="px-4 py-3 font-semibold">Reason</th>
                   <th className="px-4 py-3 font-semibold">Description</th>
@@ -131,7 +127,7 @@ export default function AchievementsPage() {
                   </tr>
                 ) : (
                   xpHistory.map((tx) => (
-                    <tr key={tx._id} className="hover:bg-slate-50 transition">
+                    <tr key={tx._id} className="hover:bg-white transition">
                       <td className="px-4 py-3 text-purple-700 font-semibold uppercase text-[11px]">
                         {tx.reason.replace(/_/g, ' ')}
                       </td>

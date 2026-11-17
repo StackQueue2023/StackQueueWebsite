@@ -45,16 +45,14 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-2 bg-slate-50 border border-slate-200 p-1.5 rounded-xl text-xs">
+        <div className="flex flex-col sm:flex-row gap-2 bg-white border border-slate-200 p-1.5 rounded-xl text-xs">
           {/* Scope */}
           <div className="flex rounded-lg bg-white border border-slate-200 p-0.5 shadow-xs">
             {['global', 'batch', 'course'].map((s) => (
               <button
                 key={s}
                 onClick={() => setScopeFilter(s)}
-                className={`px-3 py-1 rounded-md capitalize font-semibold transition ${
-                  scopeFilter === s ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
-                }`}
+                className={`px-3 py-1 rounded-md capitalize font-semibold transition ${ scopeFilter === s ? 'bg-white text-sq-gradient shadow-sm border border-[#9333EA]' : 'text-slate-600 hover:text-slate-900' }`}
               >
                 {s}
               </button>
@@ -67,9 +65,7 @@ export default function LeaderboardPage() {
               <button
                 key={t}
                 onClick={() => setTimeFilter(t)}
-                className={`px-3 py-1 rounded-md capitalize font-semibold transition ${
-                  timeFilter === t ? 'bg-amber-600 text-white shadow-sm' : 'text-slate-600 hover:text-slate-900'
-                }`}
+                className={`px-3 py-1 rounded-md capitalize font-semibold transition ${ timeFilter === t ? 'bg-white text-amber-700 shadow-sm border border-amber-600' : 'text-slate-600 hover:text-slate-900' }`}
               >
                 {t.replace('-', ' ')}
               </button>
@@ -85,7 +81,7 @@ export default function LeaderboardPage() {
           {top3[1] && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5 flex flex-col items-center text-center space-y-3 order-2 md:order-1 relative overflow-hidden shadow-sm">
               <div className="absolute top-3 left-3 text-slate-500 text-xs font-mono font-bold">#2 Rank</div>
-              <div className="w-16 h-16 rounded-2xl bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-lg text-slate-700 shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center font-bold text-lg text-slate-700 shadow-xs">
                 {top3[1].name.charAt(0)}
               </div>
               <div>
@@ -100,12 +96,12 @@ export default function LeaderboardPage() {
 
           {/* 1st Place (Gold Champion) */}
           {top3[0] && (
-            <div className="bg-gradient-to-b from-amber-50/60 to-white border-2 border-amber-300 rounded-2xl p-6 flex flex-col items-center text-center space-y-3 order-1 md:order-2 shadow-md relative overflow-hidden scale-105">
+            <div className="bg-white border-2 border-slate-200 rounded-2xl p-6 flex flex-col items-center text-center space-y-3 order-1 md:order-2 shadow-md relative overflow-hidden scale-105">
               <div className="absolute top-3 left-3 flex items-center space-x-1 text-amber-700 text-xs font-mono font-bold">
                 <Medal className="w-4 h-4 fill-amber-500 text-amber-600" />
                 <span>#1 Champion</span>
               </div>
-              <div className="w-20 h-20 rounded-2xl bg-amber-100 border-2 border-amber-300 flex items-center justify-center font-black text-2xl text-amber-700 shadow-sm">
+              <div className="w-20 h-20 rounded-2xl bg-white border-2 border-amber-300 flex items-center justify-center font-black text-2xl text-amber-700 shadow-sm">
                 {top3[0].name.charAt(0)}
               </div>
               <div>
@@ -124,7 +120,7 @@ export default function LeaderboardPage() {
           {top3[2] && (
             <div className="bg-white border border-slate-200 rounded-2xl p-5 flex flex-col items-center text-center space-y-3 order-3 relative overflow-hidden shadow-sm">
               <div className="absolute top-3 left-3 text-amber-800 text-xs font-mono font-bold">#3 Rank</div>
-              <div className="w-16 h-16 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-center font-bold text-lg text-amber-800 shadow-xs">
+              <div className="w-16 h-16 rounded-2xl bg-white border border-amber-200 flex items-center justify-center font-bold text-lg text-amber-800 shadow-xs">
                 {top3[2].name.charAt(0)}
               </div>
               <div>
@@ -157,7 +153,7 @@ export default function LeaderboardPage() {
 
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50 text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
+              <thead className="bg-white text-slate-700 uppercase text-[10px] tracking-wider border-b border-slate-200">
                 <tr>
                   <th className="px-4 py-3 font-semibold text-center w-16">Rank</th>
                   <th className="px-4 py-3 font-semibold">Student</th>
@@ -170,13 +166,13 @@ export default function LeaderboardPage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {leaderboard.map((row) => (
-                  <tr key={row.studentId} className="hover:bg-slate-50 transition">
+                  <tr key={row.studentId} className="hover:bg-white transition">
                     <td className="px-4 py-3 text-center font-mono font-bold text-slate-800">
                       {row.rank === 1 ? '🥇' : row.rank === 2 ? '🥈' : row.rank === 3 ? '🥉' : `#${row.rank}`}
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center space-x-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-purple-50 flex items-center justify-center font-bold text-xs text-purple-700 border border-purple-200">
+                        <div className="w-7 h-7 rounded-lg bg-white flex items-center justify-center font-bold text-xs text-purple-700 border border-purple-200">
                           {row.name.charAt(0)}
                         </div>
                         <span className="font-semibold text-slate-900">{row.name}</span>
@@ -192,7 +188,7 @@ export default function LeaderboardPage() {
                       {row.xp}
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <span className="px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 text-[11px] font-semibold">
+                      <span className="px-2 py-0.5 rounded bg-white text-purple-700 border border-purple-200 text-[11px] font-semibold">
                         Lv.{row.level?.level || 1}
                       </span>
                     </td>

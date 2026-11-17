@@ -252,7 +252,7 @@ export default function ProgrammingGamesPage() {
       <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/90 p-6 md:p-8 shadow-sm">
         <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6 relative z-10">
           <div className="space-y-3 max-w-2xl">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 border border-purple-200 rounded-full text-purple-700 text-xs font-semibold">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-white border border-purple-200 rounded-full text-purple-700 text-xs font-semibold">
               <Code2 className="w-3.5 h-3.5" />
               <span>{questions.length} Interview Challenges • 10 Progression Levels</span>
             </div>
@@ -265,14 +265,14 @@ export default function ProgrammingGamesPage() {
 
             {/* Overall Progress Pills */}
             <div className="flex flex-wrap items-center gap-4 pt-2">
-              <div className="flex items-center space-x-2 bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200">
+              <div className="flex items-center space-x-2 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200">
                 <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 <span className="text-xs font-semibold text-slate-700">
                   Solved: <strong className="text-emerald-600">{totalSolved}</strong> / {questions.length}
                 </span>
               </div>
 
-              <div className="flex items-center space-x-2 bg-slate-50 px-3.5 py-1.5 rounded-xl border border-slate-200">
+              <div className="flex items-center space-x-2 bg-white px-3.5 py-1.5 rounded-xl border border-slate-200">
                 <Sparkles className="w-4 h-4 text-amber-500" />
                 <span className="text-xs font-semibold text-slate-700">
                   Total XP: <strong className="text-amber-600">{progressStats?.progress?.totalInterviewXp || 0}</strong>
@@ -285,28 +285,28 @@ export default function ProgrammingGamesPage() {
           <div className="flex flex-col sm:flex-row lg:flex-col gap-3 shrink-0">
             <button
               onClick={() => navigate('/interview-game/interview-mode')}
-              className="flex items-center justify-between p-4 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-2xl shadow-md shadow-purple-500/20 transition group cursor-pointer"
+              className="bg-white flex items-center justify-between p-4 text-sq-gradient rounded-2xl shadow-sm transition group cursor-pointer border border-[#9333EA] hover:border-[#E02B91]"
             >
               <div className="flex items-center space-x-3 text-left">
-                <div className="p-2.5 bg-white/20 rounded-xl">
-                  <Timer className="w-5 h-5 text-white" />
+                <div className="p-2.5 bg-white border border-purple-200 rounded-xl">
+                  <Timer className="w-5 h-5 text-[#9333EA]" />
                 </div>
                 <div>
-                  <div className="text-xs font-bold uppercase tracking-wider text-purple-100">
+                  <div className="text-xs font-bold uppercase tracking-wider text-[#9333EA]">
                     Timed Challenge
                   </div>
-                  <div className="text-sm font-bold">Start Mock Interview</div>
+                  <div className="text-sm font-bold text-sq-gradient">Start Mock Interview</div>
                 </div>
               </div>
-              <ChevronRight className="w-5 h-5 text-purple-200 group-hover:translate-x-1 transition ml-4" />
+              <ChevronRight className="w-5 h-5 text-[#9333EA] group-hover:translate-x-1 transition ml-4" />
             </button>
 
             <button
               onClick={() => navigate('/interview-game/progress')}
-              className="flex items-center justify-between p-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-800 rounded-2xl shadow-sm transition group"
+              className="flex items-center justify-between p-4 bg-white hover:bg-white border border-slate-200 text-slate-800 rounded-2xl shadow-sm transition group"
             >
               <div className="flex items-center space-x-3 text-left">
-                <div className="p-2.5 bg-emerald-50 rounded-xl">
+                <div className="p-2.5 bg-white rounded-xl">
                   <BarChart3 className="w-5 h-5 text-emerald-600" />
                 </div>
                 <div>
@@ -324,10 +324,10 @@ export default function ProgrammingGamesPage() {
       {dailyChallenge?.question && (
         <div
           onClick={() => navigate(`/interview-game/question/${dailyChallenge.question._id}`)}
-          className="p-5 rounded-2xl bg-amber-50/70 border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm cursor-pointer hover:border-amber-300 hover:shadow-md transition"
+          className="p-5 rounded-2xl bg-white border border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm cursor-pointer hover:border-amber-300 hover:shadow-md transition"
         >
           <div className="flex items-center space-x-4">
-            <div className="p-3 rounded-2xl bg-amber-100 text-amber-700 border border-amber-200 shrink-0">
+            <div className="p-3 rounded-2xl bg-white text-amber-700 border border-amber-200 shrink-0">
               <Calendar className="w-6 h-6" />
             </div>
             <div>
@@ -335,7 +335,7 @@ export default function ProgrammingGamesPage() {
                 <span className="text-xs font-bold uppercase tracking-wider text-amber-800">
                   Daily Coding Challenge
                 </span>
-                <span className="px-2 py-0.5 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full border border-amber-200">
+                <span className="px-2 py-0.5 bg-white text-amber-800 text-[10px] font-bold rounded-full border border-amber-200">
                   +20 Bonus XP
                 </span>
               </div>
@@ -353,7 +353,7 @@ export default function ProgrammingGamesPage() {
               e.stopPropagation();
               navigate(`/interview-game/question/${dailyChallenge.question._id}`);
             }}
-            className="flex items-center justify-center space-x-2 px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs rounded-xl shadow-sm transition shrink-0 cursor-pointer"
+            className="bg-white flex items-center justify-center space-x-2 px-5 py-2.5 text-slate-950 font-bold text-xs rounded-xl shadow-sm transition shrink-0 cursor-pointer"
           >
             <span>Solve Daily Question</span>
             <ArrowUpRight className="w-4 h-4" />
@@ -386,19 +386,11 @@ export default function ProgrammingGamesPage() {
                 key={d.key}
                 onClick={() => handleSelectDomain(d.key)}
                 title={d.title}
-                className={`flex flex-col items-center justify-between p-4 rounded-2xl border text-center transition-all relative overflow-hidden group cursor-pointer ${
-                  isSelected
-                    ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white border-purple-600 shadow-md ring-2 ring-purple-500/30 scale-[1.02]'
-                    : 'bg-white border-slate-200 hover:border-purple-400 text-slate-700 hover:bg-purple-50/50 shadow-xs'
-                }`}
+                className={`flex flex-col items-center justify-between p-4 rounded-2xl border text-center transition-all relative overflow-hidden group cursor-pointer ${ isSelected ? 'bg-white text-sq-gradient border-purple-600 shadow-md ring-2 ring-purple-500/30 scale-[1.02] border' : 'bg-white border-slate-200 hover:border-purple-400 text-slate-700 hover:bg-white shadow-xs' }`}
               >
                 <div className="text-2xl mb-1 group-hover:scale-110 transition-transform">{d.icon}</div>
                 <div className="text-xs font-black tracking-tight">{d.title}</div>
-                <div className={`text-[10px] font-bold mt-1.5 px-2.5 py-0.5 rounded-full ${
-                  isSelected
-                    ? 'bg-white/20 text-white'
-                    : 'bg-slate-100 text-slate-600'
-                }`}>
+                <div className={`text-[10px] font-bold mt-1.5 px-2.5 py-0.5 rounded-full border ${ isSelected ? 'bg-white border-purple-300 text-[#9333EA]' : 'bg-white border-slate-200 text-slate-600' }`}>
                   {d.count} Qs
                 </div>
               </button>
@@ -409,8 +401,8 @@ export default function ProgrammingGamesPage() {
 
       {/* Needs Domain Selection Notice */}
       {needsDomainSelection && (
-        <div className="p-6 rounded-2xl bg-purple-50 border border-purple-200 text-center space-y-3">
-          <div className="w-12 h-12 mx-auto rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
+        <div className="p-6 rounded-2xl bg-white border border-purple-200 text-center space-y-3">
+          <div className="w-12 h-12 mx-auto rounded-full bg-white flex items-center justify-center text-purple-600">
             <BookOpen className="w-6 h-6" />
           </div>
           <h3 className="text-base font-bold text-slate-900">Select Your Domain Track to Start Practicing</h3>
@@ -430,23 +422,19 @@ export default function ProgrammingGamesPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search questions by domain, title, tags or #..."
-            className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
           />
         </div>
 
         {/* Filter Pills */}
         <div className="flex flex-wrap items-center gap-2">
           {/* Difficulty filter */}
-          <div className="flex items-center space-x-1 bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs">
+          <div className="flex items-center space-x-1 bg-white p-1 rounded-xl border border-slate-200 text-xs">
             {['all', 'easy', 'medium', 'hard'].map((d) => (
               <button
                 key={d}
                 onClick={() => setSelectedDifficulty(d)}
-                className={`px-2.5 py-1 rounded-lg capitalize transition ${
-                  selectedDifficulty === d
-                    ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white font-semibold shadow-sm'
-                    : 'text-slate-600 hover:text-slate-900'
-                }`}
+                className={`px-2.5 py-1 rounded-lg capitalize transition ${ selectedDifficulty === d ? 'bg-white text-sq-gradient font-semibold shadow-sm border border-[#9333EA]' : 'text-slate-600 hover:text-slate-900' }`}
               >
                 {d}
               </button>
@@ -456,7 +444,7 @@ export default function ProgrammingGamesPage() {
           {selectedDomain !== 'all' && (
             <button
               onClick={() => setSelectedDomain('all')}
-              className="px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 rounded-xl text-xs transition border border-purple-200 font-bold flex items-center gap-1"
+              className="px-3 py-1.5 bg-white hover:bg-white text-purple-700 rounded-xl text-xs transition border border-purple-200 font-bold flex items-center gap-1"
             >
               Domain: {DOMAIN_CONFIGS.find(d => d.key === selectedDomain)?.title || selectedDomain} ✕
             </button>
@@ -465,7 +453,7 @@ export default function ProgrammingGamesPage() {
           {selectedLevel !== 'all' && (
             <button
               onClick={() => setSelectedLevel('all')}
-              className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs transition border border-slate-200 font-medium"
+              className="px-3 py-1.5 bg-white hover:bg-white text-slate-700 rounded-xl text-xs transition border border-slate-200 font-medium"
             >
               Reset Level Filter ✕
             </button>
@@ -474,7 +462,7 @@ export default function ProgrammingGamesPage() {
           {(selectedDomain !== 'all' || selectedDifficulty !== 'all' || selectedLevel !== 'all' || searchQuery) && (
             <button
               onClick={resetAllFilters}
-              className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs transition font-semibold flex items-center space-x-1"
+              className="px-3 py-1.5 bg-white hover:bg-white text-slate-600 rounded-xl text-xs transition font-semibold flex items-center space-x-1"
             >
               <RotateCcw className="w-3 h-3" />
               <span>Reset All</span>
@@ -508,7 +496,7 @@ export default function ProgrammingGamesPage() {
           </div>
           <button
             onClick={resetAllFilters}
-            className="px-4 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-bold rounded-xl shadow-md shadow-purple-500/20 transition inline-flex items-center space-x-2"
+            className="bg-white px-4 py-2 text-sq-gradient text-xs font-bold rounded-xl shadow-md shadow-purple-500/20 transition inline-flex items-center space-x-2 border border-[#9333EA]"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset All Filters</span>
@@ -528,13 +516,7 @@ export default function ProgrammingGamesPage() {
                     navigate(`/interview-game/question/${q._id}`);
                   }
                 }}
-                className={`group rounded-2xl border transition-all p-5 flex flex-col justify-between ${
-                  isLocked
-                    ? 'bg-slate-50 border-slate-200/70 opacity-60 cursor-not-allowed'
-                    : q.isSolved
-                    ? 'bg-white hover:bg-emerald-50/20 border-emerald-300 hover:border-emerald-500 shadow-sm cursor-pointer'
-                    : 'bg-white hover:bg-purple-50/20 border-slate-200/90 hover:border-purple-400 shadow-sm cursor-pointer'
-                }`}
+                className={`group rounded-2xl border transition-all p-5 flex flex-col justify-between ${ isLocked ? 'bg-white border-slate-200/70 opacity-60 cursor-not-allowed' : q.isSolved ? 'bg-white hover:bg-white border-emerald-300 hover:border-emerald-500 shadow-sm cursor-pointer' : 'bg-white hover:bg-white border-slate-200/90 hover:border-purple-400 shadow-sm cursor-pointer' }`}
               >
                 {/* Header */}
                 <div className="space-y-2">
@@ -545,13 +527,7 @@ export default function ProgrammingGamesPage() {
 
                     <div className="flex items-center space-x-2">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${
-                          q.difficulty === 'Easy'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : q.difficulty === 'Medium'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-rose-50 text-rose-700 border border-rose-200'
-                        }`}
+                        className={`px-2 py-0.5 rounded text-[10px] font-semibold uppercase ${ q.difficulty === 'Easy' ? 'bg-white text-emerald-700 border border-emerald-200' : q.difficulty === 'Medium' ? 'bg-white text-amber-700 border border-amber-200' : 'bg-white text-rose-700 border border-rose-200' }`}
                       >
                         {q.difficulty}
                       </span>

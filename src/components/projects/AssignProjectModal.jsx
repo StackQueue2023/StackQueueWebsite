@@ -146,16 +146,16 @@ export default function AssignProjectModal({
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
-      <div className="bg-white border border-purple-200 rounded-2xl max-w-lg w-full shadow-2xl relative my-auto overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-2xl max-w-lg w-full shadow-2xl relative my-auto overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-purple-50 via-pink-50/40 to-white border-b border-purple-100 flex items-center justify-between">
+        <div className="bg-white px-6 py-4 border-b border-amber-300 flex items-center justify-between">
           <div className="flex items-center space-x-2.5">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white flex items-center justify-center shadow-sm">
+            <div className="bg-yellow-50 w-8 h-8 rounded-xl text-amber-700 flex items-center justify-center shadow-sm border border-amber-600">
               <UserCheck className="w-4 h-4" />
             </div>
             <div>
               <h2 className="text-sm font-black text-slate-900">Assign Final Project to Student</h2>
-              <p className="text-[11px] text-purple-700 font-medium">Tutor Management & Milestone Workflow</p>
+              <p className="text-[11px] text-amber-900 font-medium">Tutor Management & Milestone Workflow</p>
             </div>
           </div>
           <button onClick={onClose} className="p-1 text-slate-400 hover:text-slate-700 rounded-lg transition">
@@ -166,7 +166,7 @@ export default function AssignProjectModal({
         {/* Form Body */}
         <form onSubmit={handleSubmit} className="p-6 space-y-4 text-xs text-slate-800">
           {errorMessage && (
-            <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 flex items-center space-x-2">
+            <div className="p-3 bg-white border border-rose-200 rounded-xl text-rose-800 flex items-center space-x-2">
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
               <span>{errorMessage}</span>
             </div>
@@ -179,7 +179,7 @@ export default function AssignProjectModal({
               <select
                 value={projectRequirementId}
                 onChange={e => setProjectRequirementId(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
               >
                 {requirements.map(r => (
                   <option key={r._id} value={r._id}>
@@ -188,7 +188,7 @@ export default function AssignProjectModal({
                 ))}
               </select>
             ) : (
-              <div className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-900">
+              <div className="p-2.5 bg-white border border-amber-300 rounded-xl font-bold text-slate-900">
                 {currentDisplayReq?.title || 'Project Requirement'}
               </div>
             )}
@@ -199,7 +199,7 @@ export default function AssignProjectModal({
             <div className="flex items-center justify-between">
               <label className="font-bold text-slate-700">Assign To Student *</label>
               {loadingStudents && (
-                <span className="text-[11px] text-purple-600 font-medium flex items-center gap-1">
+                <span className="text-[11px] text-amber-900 font-medium flex items-center gap-1">
                   <span className="w-2.5 h-2.5 rounded-full border-2 border-purple-600 border-t-transparent animate-spin" />
                   Loading students...
                 </span>
@@ -207,7 +207,7 @@ export default function AssignProjectModal({
             </div>
 
             {fetchError ? (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-center justify-between">
+              <div className="p-3 bg-white border border-rose-200 rounded-xl flex items-center justify-between">
                 <div className="flex items-center space-x-2 text-rose-800 text-xs">
                   <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                   <span>{fetchError}</span>
@@ -215,7 +215,7 @@ export default function AssignProjectModal({
                 <button
                   type="button"
                   onClick={loadStudents}
-                  className="px-2.5 py-1 text-xs font-bold text-rose-700 bg-rose-100 hover:bg-rose-200 rounded-lg flex items-center gap-1 transition"
+                  className="px-2.5 py-1 text-xs font-bold text-rose-700 bg-white hover:bg-white rounded-lg flex items-center gap-1 transition"
                 >
                   <RefreshCw className="w-3 h-3" />
                   Retry
@@ -231,7 +231,7 @@ export default function AssignProjectModal({
                       placeholder="Filter by student name, ID or email..."
                       value={searchQuery}
                       onChange={e => setSearchQuery(e.target.value)}
-                      className="w-full pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                      className="w-full pl-8 pr-3 py-1.5 text-xs bg-white border border-amber-300 rounded-lg text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-purple-500"
                     />
                   </div>
                 )}
@@ -241,7 +241,7 @@ export default function AssignProjectModal({
                   value={studentId}
                   onChange={e => setStudentId(e.target.value)}
                   disabled={loadingStudents || filteredStudents.length === 0}
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-60"
+                  className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-slate-900 font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500 disabled:opacity-60"
                 >
                   {loadingStudents ? (
                     <option value="">Loading students...</option>
@@ -273,7 +273,7 @@ export default function AssignProjectModal({
               required
               value={deadline}
               onChange={e => setDeadline(e.target.value)}
-              className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-semibold"
+              className="w-full px-3 py-2 bg-white border border-amber-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-semibold"
             />
           </div>
 
@@ -285,7 +285,7 @@ export default function AssignProjectModal({
               value={tutorInstructions}
               onChange={e => setTutorInstructions(e.target.value)}
               placeholder="Add specific instructions for this student (e.g. Focus on clean modular architecture and unit tests before submitting)..."
-              className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-xs leading-relaxed"
+              className="w-full p-2.5 bg-white border border-amber-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-xs leading-relaxed"
             />
           </div>
 
@@ -297,12 +297,12 @@ export default function AssignProjectModal({
               value={expectedDeliverables}
               onChange={e => setExpectedDeliverables(e.target.value)}
               placeholder="List expected deliverables..."
-              className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-[11px] resize-none"
+              className="w-full p-2.5 bg-yellow-50 border border-amber-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 font-mono text-[11px] resize-none"
             />
           </div>
 
           {/* Note on Duplication */}
-          <p className="text-[11px] text-slate-500 italic bg-purple-50/50 p-2.5 rounded-lg border border-purple-100">
+          <p className="text-[11px] text-slate-500 italic bg-white p-2.5 rounded-lg border border-amber-300">
             System automatically prevents duplicate active assignments for the same student on this project.
           </p>
 
@@ -312,14 +312,14 @@ export default function AssignProjectModal({
               type="button"
               onClick={onClose}
               disabled={submitting}
-              className="px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 font-semibold rounded-xl border border-slate-200 transition"
+              className="px-4 py-2 bg-white hover:bg-white text-slate-700 font-semibold rounded-xl border border-amber-300 transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting || loadingStudents || filteredStudents.length === 0}
-              className="px-6 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl shadow-md shadow-purple-500/20 transition disabled:opacity-50"
+              className="bg-white px-6 py-2 text-amber-700 font-bold rounded-xl shadow-md shadow-purple-500/20 transition disabled:opacity-50 border border-amber-600"
             >
               {submitting ? 'Assigning...' : 'Assign Project'}
             </button>

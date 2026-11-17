@@ -54,14 +54,25 @@ export function AuthProvider({ children }) {
     setProfile(null);
   };
 
-  // Cross-tab and window broadcast listener for logout
+  // Cross-tab and window broadcast listener for logout & real-time XP sync
   useEffect(() => {
     const handleLogoutEvent = () => {
       performLogoutState();
     };
+    const handleStorageSync = (e) => {
+      if (e.key === 'cq_profile' && e.newValue) {
+        try {
+          setProfile(JSON.parse(e.newValue));
+        } catch (_) {}
+      } else if (e.key === 'cq_token' && !e.newValue) {
+        performLogoutState();
+      }
+    };
     window.addEventListener('auth-logout', handleLogoutEvent);
+    window.addEventListener('storage', handleStorageSync);
     return () => {
       window.removeEventListener('auth-logout', handleLogoutEvent);
+      window.removeEventListener('storage', handleStorageSync);
     };
   }, []);
 
@@ -163,6 +174,41 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Immediately synchronize XP balance from a verified backend submission response
+  const applyXpUpdate = ({ totalXp, xpAwarded = 0, xpEarned = 0, level = null, feature = '' } = {}) => {
+    const awarded = Number(xpAwarded || xpEarned || 0);
+    let computedTotal = null;
+
+    setProfile((prev) => {
+      const prevXp = Number(prev?.totalXp ?? 0);
+      computedTotal = typeof totalXp === 'number' && !Number.isNaN(totalXp)
+        ? totalXp
+        : prevXp + Math.max(0, awarded);
+
+      const nextProfile = {
+        ...(prev || {}),
+        totalXp: computedTotal,
+        ...(level ? { currentLevel: level } : {})
+      };
+      try {
+        localStorage.setItem('cq_profile', JSON.stringify(nextProfile));
+      } catch (_) {}
+      return nextProfile;
+    });
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('sq-xp-updated', {
+        detail: {
+          totalXp: computedTotal,
+          xpAwarded: awarded,
+          level,
+          feature,
+          timestamp: Date.now()
+        }
+      }));
+    }
+  };
+
   const refreshProfile = async () => {
     try {
       const res = await api.get('/auth/me');
@@ -190,6 +236,7 @@ export function AuthProvider({ children }) {
       logout,
       quickDemoSwitch,
       refreshProfile,
+      applyXpUpdate,
       getRoleDashboard,
       isStudent,
       isTutor,

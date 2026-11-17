@@ -22,7 +22,7 @@ export default function HintModal({
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-5">
           <div className="flex items-center space-x-2.5">
-            <div className="p-2 rounded-xl bg-amber-50 text-amber-600 border border-amber-200">
+            <div className="p-2 rounded-xl bg-white text-amber-600 border border-amber-200">
               <Lightbulb className="w-5 h-5" />
             </div>
             <div>
@@ -32,14 +32,14 @@ export default function HintModal({
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition"
+            className="p-1.5 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-white transition"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Bonus alert */}
-        <div className="flex items-center space-x-2 text-xs bg-amber-50 border border-amber-200 text-amber-800 p-3 rounded-xl mb-5">
+        <div className="flex items-center space-x-2 text-xs bg-white border border-amber-200 text-amber-800 p-3 rounded-xl mb-5">
           <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
           <span>
             <strong>Pro Tip:</strong> Solving this question with <strong>0 hints used</strong> awards a <strong>+5 XP No-Hint Bonus</strong>!
@@ -56,13 +56,7 @@ export default function HintModal({
             return (
               <div
                 key={idx}
-                className={`rounded-xl border transition-all p-4 ${
-                  isUnlocked
-                    ? 'bg-purple-50/40 border-purple-200 shadow-xs'
-                    : canUnlock
-                    ? 'bg-slate-50 border-slate-200'
-                    : 'bg-slate-50/50 border-slate-100 opacity-60'
-                }`}
+                className={`rounded-xl border transition-all p-4 ${ isUnlocked ? 'bg-white border-purple-200 shadow-xs' : canUnlock ? 'bg-white border-slate-200' : 'bg-white border-slate-100 opacity-60' }`}
               >
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-2">
@@ -77,7 +71,7 @@ export default function HintModal({
                   {!isUnlocked && canUnlock && (
                     <button
                       onClick={() => onUnlockHint(idx + 1)}
-                      className="flex items-center space-x-1.5 px-3 py-1 bg-amber-500 hover:bg-amber-600 text-slate-950 rounded-lg text-xs font-bold transition active:scale-95 shadow-xs"
+                      className="bg-white flex items-center space-x-1.5 px-3 py-1 text-slate-950 rounded-lg text-xs font-bold transition active:scale-95 shadow-xs"
                     >
                       <Eye className="w-3.5 h-3.5" />
                       <span>Reveal Hint {idx + 1}</span>
@@ -106,7 +100,7 @@ export default function HintModal({
           </span>
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-semibold transition"
+            className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-lg text-xs font-semibold transition"
           >
             Back to Editor
           </button>

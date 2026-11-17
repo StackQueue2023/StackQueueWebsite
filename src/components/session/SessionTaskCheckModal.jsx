@@ -88,7 +88,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
         </div>
 
         {errorMsg && (
-          <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+          <div className="p-3 rounded-xl bg-white border border-rose-200 text-xs text-rose-700">
             {errorMsg}
           </div>
         )}
@@ -96,7 +96,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
         {/* Step 1: Mandatory Question */}
         {step === 'question' && (
           <div className="space-y-4">
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-center">
+            <div className="p-4 rounded-xl bg-white border border-blue-200 space-y-2 text-center">
               <HelpCircle className="w-8 h-8 text-amber-500 mx-auto" />
               <h4 className="text-sm font-bold text-slate-900">
                 Did you assign a homework or practice task for this session?
@@ -110,7 +110,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
               <button
                 type="button"
                 onClick={() => setStep('create_task')}
-                className="py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition shadow-sm"
+                className="bg-white py-3 px-4 text-emerald-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition shadow-sm border border-emerald-600"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>YES, Assign Task Now</span>
@@ -119,7 +119,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
               <button
                 type="button"
                 onClick={() => setStep('confirm_no')}
-                className="py-3 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition border border-slate-200"
+                className="py-3 px-4 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs flex items-center justify-center space-x-2 transition border border-blue-200"
               >
                 <span>NO, End Without Task</span>
               </button>
@@ -135,7 +135,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
               <select
                 value={selectedStudentId}
                 onChange={(e) => setSelectedStudentId(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
               >
                 {session.studentIds?.map((st) => (
                   <option key={st._id} value={st._id}>
@@ -152,7 +152,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
                 required
                 value={taskTitle}
                 onChange={(e) => setTaskTitle(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
               />
             </div>
 
@@ -163,7 +163,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
                 required
                 value={taskDescription}
                 onChange={(e) => setTaskDescription(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
               />
             </div>
 
@@ -175,13 +175,13 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
                   required
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
-                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100"
                 />
               </div>
 
               <div className="space-y-1">
                 <label className="text-slate-700 font-semibold">Expected Reward:</label>
-                <div className="py-2 px-3 bg-amber-50 border border-amber-200 rounded-xl font-mono text-amber-700 font-bold text-center">
+                <div className="py-2 px-3 bg-white border border-amber-200 rounded-xl font-mono text-amber-700 font-bold text-center">
                   +40 XP to Student
                 </div>
               </div>
@@ -191,14 +191,14 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
               <button
                 type="button"
                 onClick={() => setStep('question')}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition"
+                className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-semibold transition"
               >
                 Back
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center space-x-1.5 shadow-sm transition"
+                className="bg-white px-5 py-2.5 text-emerald-700 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm transition border border-emerald-600"
               >
                 <Send className="w-3.5 h-3.5" />
                 <span>{isSubmitting ? 'Saving...' : 'Assign Task & End Session'}</span>
@@ -210,7 +210,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
         {/* Step 3: Confirm No Task */}
         {step === 'confirm_no' && (
           <div className="space-y-4 text-xs">
-            <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 space-y-2">
+            <div className="p-4 rounded-xl bg-white border border-amber-200 space-y-2">
               <div className="flex items-center space-x-2 text-amber-700 font-bold">
                 <AlertTriangle className="w-4 h-4" />
                 <span>Confirm End Session Without Task</span>
@@ -224,7 +224,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
               <button
                 type="button"
                 onClick={() => setStep('question')}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition"
+                className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-semibold transition"
               >
                 Back
               </button>
@@ -232,7 +232,7 @@ export default function SessionTaskCheckModal({ session, onClose, onSessionEnded
                 type="button"
                 onClick={handleConfirmNoTask}
                 disabled={isSubmitting}
-                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold flex items-center space-x-1.5 shadow-sm transition"
+                className="bg-white px-5 py-2.5 text-blue-800 rounded-xl font-bold flex items-center space-x-1.5 shadow-sm transition border border-[#9333EA]"
               >
                 <span>{isSubmitting ? 'Ending...' : 'Yes, End Session Now'}</span>
               </button>

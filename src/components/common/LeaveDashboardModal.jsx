@@ -33,7 +33,7 @@ export default function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="absolute top-3.5 right-3.5 p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition cursor-pointer"
+          className="absolute top-3.5 right-3.5 p-1 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-white transition cursor-pointer"
           aria-label="Close"
         >
           <X className="w-4 h-4" />
@@ -52,14 +52,14 @@ export default function LogoutConfirmModal({ isOpen, onConfirm, onCancel }) {
           <button
             type="button"
             onClick={onCancel}
-            className="flex-1 py-2.5 px-5 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold text-sm hover:bg-slate-50 active:scale-98 transition shadow-xs cursor-pointer"
+            className="flex-1 py-2.5 px-5 rounded-xl border border-blue-200 bg-white text-slate-700 font-semibold text-sm hover:bg-white active:scale-98 transition shadow-xs cursor-pointer"
           >
             No
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="flex-1 py-2.5 px-5 rounded-xl bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] text-white font-semibold text-sm hover:opacity-95 active:scale-98 transition shadow-md shadow-pink-500/20 cursor-pointer"
+            className="bg-white flex-1 py-2.5 px-5 rounded-xl text-blue-800 font-semibold text-sm hover:opacity-95 active:scale-98 transition shadow-md shadow-pink-500/20 cursor-pointer border border-[#9333EA]"
           >
             Yes
           </button>

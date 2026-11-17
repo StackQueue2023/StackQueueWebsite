@@ -89,7 +89,7 @@ export default function LiveClassCard() {
     return (
       <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center justify-between">
         <div className="flex items-center space-x-3">
-          <div className="w-10 h-10 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center text-slate-500">
+          <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-slate-500">
             <Calendar className="w-5 h-5" />
           </div>
           <div>
@@ -97,7 +97,7 @@ export default function LiveClassCard() {
             <p className="text-xs text-slate-500">Review your homework tasks or solve practice challenges in the Game Hub.</p>
           </div>
         </div>
-        <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-slate-100 text-slate-600 border border-slate-200">
+        <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-white text-slate-600 border border-blue-200">
           All Caught Up
         </span>
       </div>
@@ -108,28 +108,24 @@ export default function LiveClassCard() {
   const isCompleted = session.status === 'COMPLETED';
 
   return (
-    <div className={`relative overflow-hidden rounded-2xl border p-5 transition-all shadow-sm ${
-      isLive 
-        ? 'bg-rose-50/80 border-rose-300 shadow-rose-100' 
-        : 'bg-white border-slate-200'
-    }`}>
+    <div className={`relative overflow-hidden rounded-2xl border p-5 transition-all shadow-sm ${ isLive ? 'bg-white border-rose-300 shadow-rose-100' : 'bg-white border-blue-200' }`}>
       <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Left: Info */}
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
             {isLive ? (
-              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider bg-white text-rose-800 border border-rose-300 animate-pulse">
                 <Radio className="w-3.5 h-3.5 text-rose-600" />
                 <span>Class is In-Progress</span>
               </span>
             ) : isCompleted ? (
-              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white text-emerald-700 border border-emerald-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                 <span>Session Completed</span>
               </span>
             ) : (
-              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-purple-50 text-purple-700 border border-purple-200">
-                <Clock className="w-3.5 h-3.5 text-purple-600" />
+              <span className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-white text-blue-800 border border-blue-200">
+                <Clock className="w-3.5 h-3.5 text-blue-800" />
                 <span>Upcoming Class</span>
               </span>
             )}
@@ -150,7 +146,7 @@ export default function LiveClassCard() {
 
           <div className="flex flex-wrap items-center gap-4 text-xs text-slate-500 pt-1">
             <div className="flex items-center space-x-1.5">
-              <User className="w-3.5 h-3.5 text-purple-600" />
+              <User className="w-3.5 h-3.5 text-blue-800" />
               <span>Tutor: <strong className="text-slate-800">{session.tutorId?.name || 'Prof. Marcus Miller'}</strong></span>
             </div>
             {session.courseId?.title && (
@@ -170,7 +166,7 @@ export default function LiveClassCard() {
               href={session.meetingLink || 'https://meet.google.com/cq-live-class'}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl text-xs shadow-sm flex items-center justify-center space-x-2 transition transform hover:scale-[1.02] active:scale-[0.98]"
+              className="bg-white px-6 py-3 text-blue-800 font-bold rounded-xl text-xs shadow-sm flex items-center justify-center space-x-2 transition transform hover:scale-[1.02] active:scale-[0.98] border border-[#9333EA]"
             >
               <Video className="w-4 h-4" />
               <span>JOIN LIVE CLASS</span>
@@ -180,7 +176,7 @@ export default function LiveClassCard() {
             <button
               disabled
               title="Class link activates 10 minutes before scheduled start"
-              className="px-6 py-3 bg-slate-100 text-slate-400 font-bold rounded-xl text-xs border border-slate-200 cursor-not-allowed flex items-center justify-center space-x-2"
+              className="px-6 py-3 bg-white text-slate-400 font-bold rounded-xl text-xs border border-blue-200 cursor-not-allowed flex items-center justify-center space-x-2"
             >
               <Video className="w-4 h-4 opacity-40" />
               <span>{isCompleted ? 'CLASS CONCLUDED' : 'JOIN CLASS (LOCKED)'}</span>

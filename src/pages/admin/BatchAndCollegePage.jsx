@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import api from '../../api/client';
 import EmploymentBadge from '../../components/common/EmploymentBadge';
+import CollegeTrainingSyllabusManager from '../../components/syllabus/CollegeTrainingSyllabusManager';
+import CollegeFinancialManagementHub from '../../components/college/CollegeFinancialManagementHub';
 import {
   GraduationCap, Building2, Users, BookOpen, Calendar, Clock, Plus,
   Search, FileText, CheckCircle2, XCircle, Download, Send, UserCheck,
   BarChart3, Layers, FileCheck, Mail, RefreshCw, AlertCircle, X, ChevronRight,
   Award, Upload, Eye, Check, Edit3, Trash2, AlertTriangle, MapPin, Phone, User,
-  Lock, Unlock, Key, History, ShieldCheck, CheckSquare, Square, Copy
+  Lock, Unlock, Key, History, ShieldCheck, CheckSquare, Square, Copy, Save, Sparkles,
+  TrendingUp
 } from 'lucide-react';
 
 export default function BatchAndCollegePage() {
+  const navigate = useNavigate();
   const cachedCol = api.peekCache?.('/admin/colleges');
   const cachedBat = api.peekCache?.('/admin/batches?batchType=COLLEGE_TRAINING');
   const cachedCou = api.peekCache?.('/admin/domain-management/courses');
@@ -35,6 +40,7 @@ export default function BatchAndCollegePage() {
   // Partner Colleges Directory Modal state
   const [isPartnerCollegesModalOpen, setIsPartnerCollegesModalOpen] = useState(false);
   const [collegeSearchTerm, setCollegeSearchTerm] = useState('');
+  const [primaryView, setPrimaryView] = useState('financial-hub'); // 'financial-hub' | 'colleges-directory'
 
   // College Form state (Add & Edit)
   const [editingCollegeId, setEditingCollegeId] = useState(null);
@@ -77,6 +83,45 @@ export default function BatchAndCollegePage() {
   const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
   const [selectedHistoryStudent, setSelectedHistoryStudent] = useState(null);
 
+  // Student Lifecycle Management States (Reset Password, Edit Student, Delete Confirmation)
+  const [isResetPasswordModalOpen, setIsResetPasswordModalOpen] = useState(false);
+  const [selectedStudentForPassword, setSelectedStudentForPassword] = useState(null);
+  const [customPasswordInput, setCustomPasswordInput] = useState('');
+  const [autoGeneratePassword, setAutoGeneratePassword] = useState(true);
+  const [submittingPasswordReset, setSubmittingPasswordReset] = useState(false);
+  const [generatedPasswordResult, setGeneratedPasswordResult] = useState(null);
+  const [copiedPassword, setCopiedPassword] = useState(false);
+
+  const [isEditStudentModalOpen, setIsEditStudentModalOpen] = useState(false);
+  const [editStudentForm, setEditStudentForm] = useState({
+    studentUserId: '',
+    studentId: '',
+    name: '',
+    department: 'CSE',
+    academicYear: '1st Year',
+    username: '',
+    email: '',
+    courseId: '',
+    enrollmentStatus: 'ACTIVE',
+    loginAccess: 'ACTIVE'
+  });
+  const [submittingStudentEdit, setSubmittingStudentEdit] = useState(false);
+
+  // Password Management Inside Edit Modal
+  const [showPasswordSection, setShowPasswordSection] = useState(false);
+  const [editModalAutoGenerate, setEditModalAutoGenerate] = useState(true);
+  const [editModalCustomPassword, setEditModalCustomPassword] = useState('');
+  const [editModalPasswordResult, setEditModalPasswordResult] = useState(null);
+  const [editModalCopiedPassword, setEditModalCopiedPassword] = useState(false);
+  const [submittingModalPasswordReset, setSubmittingModalPasswordReset] = useState(false);
+
+  const [isDeleteStudentModalOpen, setIsDeleteStudentModalOpen] = useState(false);
+  const [studentToDelete, setStudentToDelete] = useState(null);
+  const [deletingStudent, setDeletingStudent] = useState(false);
+
+  const [statusConfirmTarget, setStatusConfirmTarget] = useState(null);
+  const [submittingStatusToggle, setSubmittingStatusToggle] = useState(false);
+
   // Batch Wizard State (4 Steps)
   const [batchStep, setBatchStep] = useState(1);
 
@@ -90,6 +135,22 @@ export default function BatchAndCollegePage() {
   const [bTrainerId, setBTrainerId] = useState('');
   const [bStartDate, setBStartDate] = useState(new Date().toISOString().split('T')[0]);
   const [bEndDate, setBEndDate] = useState('');
+
+  // Dynamic Department Management States
+  const [collegeDepartments, setCollegeDepartments] = useState([]);
+  const [loadingDepartments, setLoadingDepartments] = useState(false);
+  const [isAddDeptModalOpen, setIsAddDeptModalOpen] = useState(false);
+  const [newDeptForm, setNewDeptForm] = useState({ name: '', code: '', description: '' });
+  const [addDeptTargetCollegeId, setAddDeptTargetCollegeId] = useState('');
+  const [submittingDept, setSubmittingDept] = useState(false);
+
+  const [isManageDeptModalOpen, setIsManageDeptModalOpen] = useState(false);
+  const [manageDeptCollegeId, setManageDeptCollegeId] = useState('');
+  const [editingDeptId, setEditingDeptId] = useState(null);
+  const [editingDeptForm, setEditingDeptForm] = useState({ name: '', code: '', description: '' });
+  const [submittingEditDept, setSubmittingEditDept] = useState(false);
+  const [deletingDeptId, setDeletingDeptId] = useState(null);
+  const [deptSearchTerm, setDeptSearchTerm] = useState('');
 
   // Step 2: Schedule & Timings
   const [bSatInc, setBSatInc] = useState(false);
@@ -182,6 +243,36 @@ export default function BatchAndCollegePage() {
     loadAllData(!!hasCached);
   }, []);
 
+  // Lock outer page scrolling when any modal is open
+  const isAnyModalActive = Boolean(
+    isBatchModalOpen ||
+    isEditBatchModalOpen ||
+    isCollegeModalOpen ||
+    isPartnerCollegesModalOpen ||
+    isAddStudentsModalOpen ||
+    isEditStudentModalOpen ||
+    isAddDeptModalOpen ||
+    isManageDeptModalOpen ||
+    isAssignCourseModalOpen ||
+    isHistoryModalOpen ||
+    isResetPasswordModalOpen ||
+    isDeleteStudentModalOpen ||
+    isDeleteCollegeModalOpen ||
+    isDeleteConfirmModalOpen ||
+    isCompleteConfirmModalOpen ||
+    statusConfirmTarget
+  );
+
+  useEffect(() => {
+    if (isAnyModalActive) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = originalOverflow || 'unset';
+      };
+    }
+  }, [isAnyModalActive]);
+
   const loadAllData = async (isSilent = false) => {
     if (!isSilent) setLoading(true);
     try {
@@ -226,6 +317,172 @@ export default function BatchAndCollegePage() {
   const showToast = (message, type = 'success') => {
     setToastNotification({ message, type });
     setTimeout(() => setToastNotification(null), 3500);
+  };
+
+  // ─── Dynamic Department Management Handlers ─────────────────────────
+  const fetchCollegeDepartments = async (colId, selectDeptCode = null) => {
+    if (!colId) {
+      setCollegeDepartments([]);
+      return;
+    }
+    setLoadingDepartments(true);
+    try {
+      const res = await api.get(`/admin/departments?collegeId=${colId}`);
+      if (res.data?.success) {
+        const depts = res.data.data || [];
+        setCollegeDepartments(depts);
+        if (selectDeptCode) {
+          setBDepartment(selectDeptCode);
+        } else if (depts.length > 0) {
+          // If current bDepartment is not present in this college's departments, default to first department
+          const hasCurrent = depts.some(d => d.code === bDepartment || d.name === bDepartment);
+          if (!hasCurrent) {
+            setBDepartment(depts[0].code || depts[0].name);
+          }
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load departments:', err);
+    } finally {
+      setLoadingDepartments(false);
+    }
+  };
+
+  useEffect(() => {
+    if (bCollegeId) {
+      fetchCollegeDepartments(bCollegeId);
+    } else {
+      setCollegeDepartments([]);
+    }
+  }, [bCollegeId]);
+
+  const handleDepartmentDropdownChange = (val) => {
+    if (val === '__ADD_NEW_DEPT__') {
+      openAddDepartmentModal(bCollegeId);
+      return;
+    }
+    setBDepartment(val);
+  };
+
+  const openAddDepartmentModal = (targetColId = null) => {
+    const effectiveColId = targetColId || bCollegeId || (editBatchModalOpen ? editBatchForm.collegeId : selectedCollegeId);
+    if (!effectiveColId) {
+      showToast('Please select a Partner College first before adding a department.', 'error');
+      return;
+    }
+    setAddDeptTargetCollegeId(effectiveColId);
+    setNewDeptForm({ name: '', code: '', description: '' });
+    setIsAddDeptModalOpen(true);
+  };
+
+  const handleSaveDepartment = async (e) => {
+    e.preventDefault();
+    if (!newDeptForm.name.trim() || !addDeptTargetCollegeId) {
+      showToast('Department Name and College are required.', 'error');
+      return;
+    }
+
+    setSubmittingDept(true);
+    try {
+      const res = await api.post('/admin/departments', {
+        collegeId: addDeptTargetCollegeId,
+        name: newDeptForm.name.trim(),
+        code: newDeptForm.code ? newDeptForm.code.trim().toUpperCase() : '',
+        description: newDeptForm.description.trim()
+      });
+
+      if (res.data?.success) {
+        const createdDept = res.data.data;
+        showToast(res.data.message || `Department "${createdDept.name}" added successfully.`, 'success');
+        setIsAddDeptModalOpen(false);
+        setNewDeptForm({ name: '', code: '', description: '' });
+
+        // Refresh and auto-select
+        const deptCodeOrName = createdDept.code || createdDept.name;
+        if (addDeptTargetCollegeId === bCollegeId) {
+          await fetchCollegeDepartments(bCollegeId, deptCodeOrName);
+        } else if (editBatchModalOpen && addDeptTargetCollegeId === editBatchForm.collegeId) {
+          setEditBatchForm(prev => ({ ...prev, department: deptCodeOrName }));
+          await fetchCollegeDepartments(addDeptTargetCollegeId);
+        } else {
+          await fetchCollegeDepartments(addDeptTargetCollegeId);
+        }
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to add department.', 'error');
+    } finally {
+      setSubmittingDept(false);
+    }
+  };
+
+  const openManageDepartmentsModal = (colId = null) => {
+    const effectiveColId = colId || bCollegeId || selectedCollegeId;
+    if (!effectiveColId) {
+      showToast('Please select a Partner College first.', 'error');
+      return;
+    }
+    setManageDeptCollegeId(effectiveColId);
+    setEditingDeptId(null);
+    setDeptSearchTerm('');
+    setIsManageDeptModalOpen(true);
+    fetchCollegeDepartments(effectiveColId);
+  };
+
+  const handleStartEditDept = (dept) => {
+    setEditingDeptId(dept._id);
+    setEditingDeptForm({
+      name: dept.name,
+      code: dept.code,
+      description: dept.description || ''
+    });
+  };
+
+  const handleSaveEditDept = async (deptId) => {
+    if (!editingDeptForm.name.trim()) {
+      showToast('Department Name cannot be empty.', 'error');
+      return;
+    }
+
+    setSubmittingEditDept(true);
+    try {
+      const res = await api.put(`/admin/departments/${deptId}`, {
+        name: editingDeptForm.name.trim(),
+        code: editingDeptForm.code ? editingDeptForm.code.trim().toUpperCase() : '',
+        description: editingDeptForm.description.trim()
+      });
+
+      if (res.data?.success) {
+        showToast('Department updated successfully.', 'success');
+        setEditingDeptId(null);
+        fetchCollegeDepartments(manageDeptCollegeId);
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to update department.', 'error');
+    } finally {
+      setSubmittingEditDept(false);
+    }
+  };
+
+  const handleDeleteDept = async (deptId) => {
+    const deptToDelete = collegeDepartments.find(d => d._id === deptId);
+    if (!deptToDelete) return;
+
+    if (!window.confirm(`Are you sure you want to delete department "${deptToDelete.name}" (${deptToDelete.code})?\n\nThis will remove it from the college's department catalog.`)) {
+      return;
+    }
+
+    setDeletingDeptId(deptId);
+    try {
+      const res = await api.delete(`/admin/departments/${deptId}`);
+      if (res.data?.success) {
+        showToast(res.data.message || 'Department deleted successfully.', 'success');
+        fetchCollegeDepartments(manageDeptCollegeId);
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to delete department.', 'error');
+    } finally {
+      setDeletingDeptId(null);
+    }
   };
 
   const resetCollegeForm = () => {
@@ -489,10 +746,10 @@ export default function BatchAndCollegePage() {
     setParsedStudents([]);
   };
 
-  const openBatchDetails = async (id) => {
+  const openBatchDetails = async (id, initialTab = 'overview') => {
     setSelectedBatchId(id);
     setLoadingDetails(true);
-    setActiveTab('overview');
+    setActiveTab(initialTab);
     try {
       const res = await api.get(`/admin/batches/${id}/details`);
       if (res.data.success) {
@@ -701,6 +958,10 @@ export default function BatchAndCollegePage() {
   const openEditBatchModal = () => {
     if (!batchDetails?.batch) return;
     const b = batchDetails.batch;
+    const colId = b.collegeId?._id || b.collegeId || '';
+    if (colId) {
+      fetchCollegeDepartments(colId);
+    }
     setEditBatchForm({
       name: b.name || '',
       code: b.code || '',
@@ -881,21 +1142,209 @@ export default function BatchAndCollegePage() {
     }
   };
 
-  // Handle Single Student Removal from Batch
-  const handleRemoveStudentFromBatch = async (studentUserId, studentName) => {
-    if (!batchDetails?.batch?._id) return;
-    if (!window.confirm(`Are you sure you want to remove ${studentName} from this batch? (Student account will NOT be deleted)`)) return;
+  // ─── Student Lifecycle Handlers (Password, Edit, Delete) ─────────
+  const openResetPasswordModal = (student) => {
+    setSelectedStudentForPassword(student);
+    setCustomPasswordInput('');
+    setAutoGeneratePassword(true);
+    setGeneratedPasswordResult(null);
+    setCopiedPassword(false);
+    setIsResetPasswordModalOpen(true);
+  };
 
+  const handleResetPasswordSubmit = async (e) => {
+    e.preventDefault();
+    if (!selectedStudentForPassword?._id || !batchDetails?.batch?._id) return;
+
+    if (!autoGeneratePassword && (!customPasswordInput || customPasswordInput.length < 6)) {
+      showToast('Custom password must be at least 6 characters long.', 'error');
+      return;
+    }
+
+    setSubmittingPasswordReset(true);
     try {
-      const res = await api.delete(`/admin/batches/${batchDetails.batch._id}/students/${studentUserId}`);
-      if (res.data.success) {
-        alert(res.data.message || 'Student removed from batch successfully.');
-        openBatchDetails(batchDetails.batch._id);
+      const res = await api.post(
+        `/admin/batches/${batchDetails.batch._id}/students/${selectedStudentForPassword._id}/reset-password`,
+        {
+          customPassword: autoGeneratePassword ? '' : customPasswordInput.trim()
+        }
+      );
+
+      if (res.data?.success) {
+        setGeneratedPasswordResult(res.data.temporaryPassword);
+        showToast('Temporary password generated successfully.', 'success');
+        refreshBatchDetails();
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to reset student password.', 'error');
+    } finally {
+      setSubmittingPasswordReset(false);
+    }
+  };
+
+  const openEditStudentModal = (student) => {
+    const courseIdVal = student.activeEnrollment?.courseId?._id || student.activeEnrollment?.courseId || batchDetails?.batch?.courseId?._id || '';
+    const initialAccess = student.loginAccessStatus
+      ? student.loginAccessStatus === 'ACTIVE'
+      : (student.isActive !== false && (!student.activeEnrollment || student.activeEnrollment.accountStatus === 'ACTIVE'));
+    const accessStr = initialAccess ? 'ACTIVE' : 'DEACTIVE';
+
+    setEditStudentForm({
+      studentUserId: student._id,
+      studentId: student.studentId || '',
+      name: student.name || '',
+      department: student.department || batchDetails?.batch?.department || 'CSE',
+      academicYear: student.academicYear || batchDetails?.batch?.academicYear || '1st Year',
+      username: student.activeEnrollment?.courseUsername || student.username || '',
+      email: student.email || '',
+      courseId: courseIdVal,
+      enrollmentStatus: student.enrollmentStatus || (student.activeEnrollment ? 'ACTIVE' : 'PENDING'),
+      loginAccess: accessStr,
+      _originalLoginAccess: accessStr
+    });
+
+    // Reset password management sub-state inside Edit modal
+    setShowPasswordSection(false);
+    setEditModalAutoGenerate(true);
+    setEditModalCustomPassword('');
+    setEditModalPasswordResult(null);
+    setEditModalCopiedPassword(false);
+    setSubmittingModalPasswordReset(false);
+
+    setIsEditStudentModalOpen(true);
+  };
+
+  const handleModalResetPasswordSubmit = async () => {
+    if (!editStudentForm.studentUserId || !batchDetails?.batch?._id) return;
+
+    if (!editModalAutoGenerate && (!editModalCustomPassword || editModalCustomPassword.length < 6)) {
+      showToast('Custom password must be at least 6 characters long.', 'error');
+      return;
+    }
+
+    setSubmittingModalPasswordReset(true);
+    try {
+      const res = await api.post(
+        `/admin/batches/${batchDetails.batch._id}/students/${editStudentForm.studentUserId}/reset-password`,
+        {
+          customPassword: editModalAutoGenerate ? '' : editModalCustomPassword.trim()
+        }
+      );
+
+      if (res.data?.success) {
+        setEditModalPasswordResult(res.data.temporaryPassword);
+        showToast('Temporary password generated successfully.', 'success');
+        refreshBatchDetails();
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to reset student password.', 'error');
+    } finally {
+      setSubmittingModalPasswordReset(false);
+    }
+  };
+
+  const handleEditStudentSubmit = async (e) => {
+    e.preventDefault();
+    if (!editStudentForm.studentUserId || !batchDetails?.batch?._id) return;
+
+    if (editStudentForm.loginAccess === 'DEACTIVE' && editStudentForm._originalLoginAccess === 'ACTIVE') {
+      const confirmDeactive = window.confirm(
+        `Are you sure you want to deactivate login access for ${editStudentForm.name} (${editStudentForm.studentId})?\n\nThis will immediately revoke all active login sessions and block access to STACK QUEUE. Student records and progress will be preserved.`
+      );
+      if (!confirmDeactive) return;
+    }
+
+    setSubmittingStudentEdit(true);
+    try {
+      const res = await api.put(
+        `/admin/batches/${batchDetails.batch._id}/students/${editStudentForm.studentUserId}`,
+        editStudentForm
+      );
+
+      if (res.data?.success) {
+        showToast('Student details updated successfully.', 'success');
+        setIsEditStudentModalOpen(false);
+        refreshBatchDetails();
         loadAllData();
       }
     } catch (err) {
-      alert(err.response?.data?.message || 'Failed to remove student from batch.');
+      showToast(err.response?.data?.message || 'Failed to update student details.', 'error');
+    } finally {
+      setSubmittingStudentEdit(false);
     }
+  };
+
+  const openStatusToggleModal = (student, targetStatus) => {
+    const isCurrentlyActive = student.loginAccessStatus
+      ? student.loginAccessStatus === 'ACTIVE'
+      : (student.isActive !== false && (!student.activeEnrollment || student.activeEnrollment.accountStatus === 'ACTIVE'));
+    const next = targetStatus || (isCurrentlyActive ? 'DEACTIVE' : 'ACTIVE');
+    setStatusConfirmTarget({
+      studentUserId: student._id,
+      studentName: student.name,
+      studentId: student.studentId || 'N/A',
+      nextStatus: next
+    });
+  };
+
+  const handleConfirmStatusToggle = async () => {
+    if (!statusConfirmTarget?.studentUserId || !batchDetails?.batch?._id) return;
+
+    setSubmittingStatusToggle(true);
+    try {
+      const res = await api.patch(
+        `/admin/batches/${batchDetails.batch._id}/students/${statusConfirmTarget.studentUserId}/status`,
+        { status: statusConfirmTarget.nextStatus }
+      );
+
+      if (res.data?.success) {
+        showToast(res.data.message || `Student account status updated to ${statusConfirmTarget.nextStatus}.`, 'success');
+        setStatusConfirmTarget(null);
+        refreshBatchDetails();
+        loadAllData();
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to update student status.', 'error');
+    } finally {
+      setSubmittingStatusToggle(false);
+    }
+  };
+
+  const openDeleteStudentModal = (student) => {
+    setStudentToDelete({
+      studentUserId: student._id,
+      studentName: student.name,
+      studentId: student.studentId || 'N/A'
+    });
+    setIsDeleteStudentModalOpen(true);
+  };
+
+  const handleConfirmDeleteStudent = async () => {
+    if (!studentToDelete?.studentUserId || !batchDetails?.batch?._id) return;
+
+    setDeletingStudent(true);
+    try {
+      const res = await api.delete(
+        `/admin/batches/${batchDetails.batch._id}/students/${studentToDelete.studentUserId}`
+      );
+
+      if (res.data?.success) {
+        showToast(res.data.message || 'Student removed from batch successfully.', 'success');
+        setIsDeleteStudentModalOpen(false);
+        setStudentToDelete(null);
+        refreshBatchDetails();
+        loadAllData();
+      }
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to remove student.', 'error');
+    } finally {
+      setDeletingStudent(false);
+    }
+  };
+
+  // Handle Single Student Removal from Batch (fallback)
+  const handleRemoveStudentFromBatch = async (studentUserId, studentName) => {
+    openDeleteStudentModal({ _id: studentUserId, name: studentName, studentId: 'N/A' });
   };
 
   // Selected College Object
@@ -967,12 +1416,12 @@ export default function BatchAndCollegePage() {
   return (
     <div className="space-y-6 pb-16 max-w-7xl mx-auto px-4">
       {/* Top Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
-              <GraduationCap className="w-4 h-4 text-purple-600" />
+            <div className="bg-white inline-flex items-center space-x-2 text-blue-800 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-blue-200/80 shadow-2xs">
+              <GraduationCap className="w-4 h-4 text-blue-800" />
               <span>College Training Batches</span>
             </div>
             <h1 className="text-3xl font-black tracking-tight text-slate-900">College Training Batches</h1>
@@ -983,13 +1432,21 @@ export default function BatchAndCollegePage() {
 
           <div className="flex flex-wrap items-center gap-3">
             <button
+              onClick={() => navigate('/admin/training-performance')}
+              className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-md shadow-purple-500/20 cursor-pointer"
+              title="Open Training Performance Dashboard"
+            >
+              <TrendingUp className="w-4 h-4 text-white" />
+              <span>Training Performance</span>
+            </button>
+            <button
               onClick={() => {
                 resetCollegeForm();
                 setIsCollegeModalOpen(true);
               }}
-              className="px-4 py-2.5 bg-white hover:bg-purple-50/80 text-purple-800 border border-purple-200 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-xs cursor-pointer"
+              className="px-4 py-2.5 bg-white hover:bg-white text-purple-800 border border-blue-200 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-xs cursor-pointer"
             >
-              <Building2 className="w-4 h-4 text-purple-600" />
+              <Building2 className="w-4 h-4 text-blue-800" />
               <span>Add College</span>
             </button>
             <button
@@ -997,7 +1454,7 @@ export default function BatchAndCollegePage() {
                 resetBatchForm();
                 setIsBatchModalOpen(true);
               }}
-              className="px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-purple-500/25 cursor-pointer"
+              className="bg-white px-5 py-2.5 text-blue-700 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-purple-500/25 cursor-pointer border border-blue-600"
             >
               <Plus className="w-4 h-4" />
               <span>Create Training Batch</span>
@@ -1014,11 +1471,11 @@ export default function BatchAndCollegePage() {
             setCollegeFilter('ALL');
             setSearchTerm('');
           }}
-          className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:border-purple-300 hover:shadow-md transition-all cursor-pointer group"
+          className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center justify-between shadow-sm hover:border-slate-200 hover:shadow-md transition-all cursor-pointer group"
           title="Click to view all partner colleges"
         >
           <div className="flex items-center space-x-4">
-            <div className="w-12 h-12 rounded-xl bg-purple-50 group-hover:bg-purple-100 flex items-center justify-center text-purple-600 transition">
+            <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-800 transition">
               <Building2 className="w-6 h-6" />
             </div>
             <div>
@@ -1026,11 +1483,11 @@ export default function BatchAndCollegePage() {
               <h3 className="text-2xl font-black text-slate-900">{colleges.length}</h3>
             </div>
           </div>
-          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
+          <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-blue-800 group-hover:translate-x-1 transition-all" />
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-emerald-600">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -1040,7 +1497,7 @@ export default function BatchAndCollegePage() {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-violet-50 flex items-center justify-center text-violet-600">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-violet-600">
             <UserCheck className="w-6 h-6" />
           </div>
           <div>
@@ -1052,7 +1509,7 @@ export default function BatchAndCollegePage() {
         </div>
 
         <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-          <div className="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+          <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-amber-600">
             <BookOpen className="w-6 h-6" />
           </div>
           <div>
@@ -1062,8 +1519,57 @@ export default function BatchAndCollegePage() {
         </div>
       </div>
 
-      {/* VIEW LEVEL 1: ALL PARTNER COLLEGES */}
-      {!selectedCollegeId ? (
+      {/* VIEW SWITCHER: FINANCIAL & BATCH SYSTEM vs PARTNER COLLEGES DIRECTORY */}
+      <div className="flex items-center justify-between bg-slate-100 p-1.5 rounded-2xl">
+        <div className="flex items-center space-x-2">
+          <button
+            type="button"
+            onClick={() => {
+              setPrimaryView('financial-hub');
+              setSelectedCollegeId(null);
+            }}
+            className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center space-x-2 transition cursor-pointer ${
+              primaryView === 'financial-hub'
+                ? 'bg-white text-blue-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <GraduationCap className="w-4 h-4" />
+            <span>College Training & Financial System</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setPrimaryView('colleges-directory')}
+            className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center space-x-2 transition cursor-pointer ${
+              primaryView === 'colleges-directory'
+                ? 'bg-white text-purple-700 shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <Building2 className="w-4 h-4" />
+            <span>Partner Colleges Directory ({colleges.length})</span>
+          </button>
+        </div>
+      </div>
+
+      {primaryView === 'financial-hub' ? (
+        <CollegeFinancialManagementHub
+          onOpenCreateBatch={() => {
+            resetBatchForm();
+            setIsBatchModalOpen(true);
+          }}
+          onOpenAddCollege={() => {
+            resetCollegeForm();
+            setIsCollegeModalOpen(true);
+          }}
+          onSelectBatchDetails={(b) => {
+            openBatchDetails(b._id, 'overview');
+          }}
+        />
+      ) : (
+        <>
+          {/* VIEW LEVEL 1: ALL PARTNER COLLEGES */}
+          {!selectedCollegeId ? (
         <div className="space-y-6">
           {/* Filter & Search Bar for Colleges */}
           <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
@@ -1074,7 +1580,7 @@ export default function BatchAndCollegePage() {
                 placeholder="Search partner colleges by name, code, location, or contact..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
+                className="w-full bg-white border border-blue-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
               />
             </div>
 
@@ -1091,7 +1597,7 @@ export default function BatchAndCollegePage() {
                       setSearchTerm('');
                     }
                   }}
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:border-purple-500"
+                  className="bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:border-purple-500"
                 >
                   <option value="ALL">All Partner Colleges ({colleges.length})</option>
                   {colleges.map(c => (
@@ -1106,9 +1612,9 @@ export default function BatchAndCollegePage() {
                   resetCollegeForm();
                   setIsCollegeModalOpen(true);
                 }}
-                className="px-3.5 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                className="px-3.5 py-2 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
               >
-                <Building2 className="w-4 h-4 text-purple-600" />
+                <Building2 className="w-4 h-4 text-blue-800" />
                 <span>Add College</span>
               </button>
             </div>
@@ -1119,7 +1625,7 @@ export default function BatchAndCollegePage() {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
                 <h2 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center space-x-2">
-                  <Building2 className="w-4 h-4 text-purple-600" />
+                  <Building2 className="w-4 h-4 text-blue-800" />
                   <span>Partner Colleges ({filteredColleges.length})</span>
                 </h2>
                 <p className="text-xs text-slate-500 mt-0.5">
@@ -1141,7 +1647,7 @@ export default function BatchAndCollegePage() {
                     resetCollegeForm();
                     setIsCollegeModalOpen(true);
                   }}
-                  className="mt-2 inline-flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-sm transition cursor-pointer"
+                  className="bg-white mt-2 inline-flex items-center space-x-2 px-4 py-2 text-blue-700 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer border border-blue-600"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Add Partner College</span>
@@ -1162,18 +1668,16 @@ export default function BatchAndCollegePage() {
                         setCollegeFilter(col._id);
                         setSearchTerm('');
                       }}
-                      className="bg-white border border-slate-200 hover:border-purple-300 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all space-y-4 flex flex-col justify-between cursor-pointer group"
+                      className="bg-white border border-slate-200 hover:border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-lg transition-all space-y-4 flex flex-col justify-between cursor-pointer group"
                     >
                       <div className="space-y-3">
                         {/* Top: Code, Status & Quick Action Buttons */}
                         <div className="flex items-start justify-between gap-2">
                           <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-200 uppercase">
+                            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white text-blue-800 border border-blue-200 uppercase">
                               {col.code || 'COLLEGE'}
                             </span>
-                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                              col.isActive !== false ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-600'
-                            }`}>
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${ col.isActive !== false ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-slate-600' }`}>
                               {col.isActive !== false ? 'Active' : 'Inactive'}
                             </span>
                           </div>
@@ -1186,7 +1690,7 @@ export default function BatchAndCollegePage() {
                                 e.stopPropagation();
                                 handleStartEditCollege(col);
                               }}
-                              className="p-1.5 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+                              className="p-1.5 text-slate-400 hover:text-blue-800 hover:bg-white rounded-lg transition"
                             >
                               <Edit3 className="w-3.5 h-3.5" />
                             </button>
@@ -1197,7 +1701,7 @@ export default function BatchAndCollegePage() {
                                 e.stopPropagation();
                                 handleStartDeleteCollege(col);
                               }}
-                              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-white rounded-lg transition"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
                             </button>
@@ -1206,7 +1710,7 @@ export default function BatchAndCollegePage() {
 
                         {/* College Name & Location */}
                         <div>
-                          <h3 className="text-base font-black text-slate-900 group-hover:text-purple-700 transition">
+                          <h3 className="text-base font-black text-slate-900 group-hover:text-[#0F172A] transition">
                             {col.name}
                           </h3>
                           <p className="text-xs text-slate-500 flex items-center space-x-1 mt-1 font-medium">
@@ -1216,7 +1720,7 @@ export default function BatchAndCollegePage() {
                         </div>
 
                         {/* Contact Details */}
-                        <div className="bg-slate-50/80 rounded-xl p-2.5 text-xs text-slate-600 space-y-1 font-medium border border-slate-100">
+                        <div className="bg-white rounded-xl p-2.5 text-xs text-slate-600 space-y-1 font-medium border border-slate-100">
                           <p className="flex items-center space-x-1.5 truncate">
                             <User className="w-3.5 h-3.5 text-purple-500 shrink-0" />
                             <span className="text-slate-400">Contact:</span>
@@ -1244,12 +1748,12 @@ export default function BatchAndCollegePage() {
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Assigned Courses:</span>
                             <div className="flex flex-wrap gap-1">
                               {colCourses.slice(0, 3).map((crs, cIdx) => (
-                                <span key={cIdx} className="px-2 py-0.5 bg-purple-50 text-purple-700 border border-purple-100 rounded-md text-[10px] font-semibold truncate max-w-[140px]">
+                                <span key={cIdx} className="px-2 py-0.5 bg-white text-blue-800 border border-blue-200 rounded-md text-[10px] font-semibold truncate max-w-[140px]">
                                   {crs}
                                 </span>
                               ))}
                               {colCourses.length > 3 && (
-                                <span className="px-1.5 py-0.5 bg-slate-100 text-slate-600 rounded-md text-[10px] font-bold">
+                                <span className="px-1.5 py-0.5 bg-white text-slate-600 rounded-md text-[10px] font-bold">
                                   +{colCourses.length - 3} more
                                 </span>
                               )}
@@ -1262,8 +1766,8 @@ export default function BatchAndCollegePage() {
                       <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs gap-2">
                         <div className="flex items-center space-x-3">
                           <span className="flex items-center space-x-1 font-bold text-slate-700">
-                            <GraduationCap className="w-3.5 h-3.5 text-purple-600" />
-                            <span className="text-purple-700 font-mono">{colBatches.length}</span>
+                            <GraduationCap className="w-3.5 h-3.5 text-blue-800" />
+                            <span className="text-blue-800 font-mono">{colBatches.length}</span>
                             <span className="text-[11px] text-slate-500 font-normal">Batches</span>
                           </span>
                           <span className="flex items-center space-x-1 font-bold text-slate-700">
@@ -1280,7 +1784,7 @@ export default function BatchAndCollegePage() {
                             setCollegeFilter(col._id);
                             setSearchTerm('');
                           }}
-                          className="px-3.5 py-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold flex items-center space-x-1 transition shadow-sm text-xs group-hover:shadow-md shrink-0 cursor-pointer"
+                          className="bg-white px-3.5 py-1.5 text-blue-700 rounded-xl font-bold flex items-center space-x-1 transition shadow-sm text-xs group-hover:shadow-md shrink-0 cursor-pointer border border-blue-600"
                         >
                           <span>View Trainings</span>
                           <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
@@ -1297,7 +1801,7 @@ export default function BatchAndCollegePage() {
         /* VIEW LEVEL 2: TRAINING BATCHES OF SELECTED COLLEGE */
         <div className="space-y-6">
           {/* Breadcrumb & College Details Header Card */}
-          <div className="bg-white border border-purple-200/80 rounded-2xl p-5 shadow-sm space-y-3">
+          <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="space-y-1">
                 <button
@@ -1307,17 +1811,17 @@ export default function BatchAndCollegePage() {
                     setCollegeFilter('ALL');
                     setSearchTerm('');
                   }}
-                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-purple-700 hover:text-purple-900 transition mb-1 cursor-pointer group"
+                  className="inline-flex items-center space-x-1.5 text-xs font-bold text-blue-800 hover:text-purple-900 transition mb-1 cursor-pointer group"
                 >
                   <span className="text-purple-500 group-hover:-translate-x-0.5 transition-transform">←</span>
                   <span>Back to All Partner Colleges</span>
                 </button>
                 <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                  <span className="text-xs font-bold font-mono px-2 py-0.5 rounded bg-purple-100 text-purple-800 border border-purple-200 uppercase">
+                  <span className="text-xs font-bold font-mono px-2 py-0.5 rounded bg-white text-purple-800 border border-blue-200 uppercase">
                     {selectedCollege?.code || 'COLLEGE'}
                   </span>
                   <h2 className="text-xl font-black text-slate-900">{selectedCollege?.name}</h2>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-emerald-700 border border-emerald-200">
                     {selectedCollege?.city || 'Partner Institute'}
                   </span>
                 </div>
@@ -1341,7 +1845,7 @@ export default function BatchAndCollegePage() {
                     setBCollegeId(selectedCollegeId);
                     setIsBatchModalOpen(true);
                   }}
-                  className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-md cursor-pointer"
+                  className="bg-white px-4 py-2.5 text-blue-700 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-md cursor-pointer border border-blue-600"
                 >
                   <Plus className="w-4 h-4" />
                   <span>New Training Batch</span>
@@ -1359,7 +1863,7 @@ export default function BatchAndCollegePage() {
                 placeholder={`Search batches in ${selectedCollege?.name || 'college'}...`}
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
+                className="w-full bg-white border border-blue-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
               />
             </div>
 
@@ -1379,7 +1883,7 @@ export default function BatchAndCollegePage() {
                     }
                     setSearchTerm('');
                   }}
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                  className="bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
                 >
                   <option value="ALL">← All Partner Colleges</option>
                   {colleges.map(c => (
@@ -1393,7 +1897,7 @@ export default function BatchAndCollegePage() {
                 <select
                   value={statusFilter}
                   onChange={e => setStatusFilter(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                  className="bg-white border border-blue-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
                 >
                   <option value="ALL">All Statuses</option>
                   <option value="active">Active</option>
@@ -1408,7 +1912,7 @@ export default function BatchAndCollegePage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider flex items-center space-x-2">
-                <GraduationCap className="w-4 h-4 text-purple-600" />
+                <GraduationCap className="w-4 h-4 text-blue-800" />
                 <span>Training Batches at {selectedCollege?.name} ({filteredBatches.length})</span>
               </h3>
             </div>
@@ -1427,7 +1931,7 @@ export default function BatchAndCollegePage() {
                     setBCollegeId(selectedCollegeId);
                     setIsBatchModalOpen(true);
                   }}
-                  className="mt-2 inline-flex items-center space-x-2 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-sm transition cursor-pointer"
+                  className="bg-white mt-2 inline-flex items-center space-x-2 px-4 py-2 text-blue-700 rounded-xl text-xs font-bold shadow-sm transition cursor-pointer border border-blue-600"
                 >
                   <Plus className="w-4 h-4" />
                   <span>Create College Training Batch</span>
@@ -1439,17 +1943,17 @@ export default function BatchAndCollegePage() {
                   <div
                     key={b._id}
                     onClick={() => openBatchDetails(b._id)}
-                    className="bg-white border border-slate-200 hover:border-purple-300 rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between cursor-pointer group"
+                    className="bg-white border border-slate-200 hover:border-slate-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition space-y-4 flex flex-col justify-between cursor-pointer group"
                   >
                     <div className="space-y-3">
                       <div className="flex items-start justify-between gap-2">
                         <div>
-                          <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100 uppercase">
+                          <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white text-blue-800 border border-blue-200 uppercase">
                             {b.code}
                           </span>
-                          <h4 className="font-bold text-slate-900 text-base mt-1 group-hover:text-purple-700 transition">{b.name}</h4>
+                          <h4 className="font-bold text-slate-900 text-base mt-1 group-hover:text-[#0F172A] transition">{b.name}</h4>
                         </div>
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-emerald-700 border border-emerald-200">
                           {b.status || 'Active'}
                         </span>
                       </div>
@@ -1480,17 +1984,43 @@ export default function BatchAndCollegePage() {
                         <span className="font-bold text-slate-900">{b.totalStudents || 0}</span>
                       </div>
 
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          openBatchDetails(b._id);
-                        }}
-                        className="px-3 py-1.5 bg-slate-900 hover:bg-purple-600 text-white rounded-lg font-bold flex items-center space-x-1 transition text-[11px] cursor-pointer"
-                      >
-                        <span>View Batch Details</span>
-                        <ChevronRight className="w-3.5 h-3.5" />
-                      </button>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/admin/training-performance?batchId=${b._id}&collegeId=${b.collegeId?._id || b.collegeId || selectedCollegeId || ''}`);
+                          }}
+                          className="bg-indigo-50 hover:bg-indigo-100 px-2.5 py-1.5 text-indigo-700 rounded-lg font-bold flex items-center space-x-1 transition text-[11px] cursor-pointer border border-indigo-200"
+                          title="Open Training Performance"
+                        >
+                          <TrendingUp className="w-3.5 h-3.5 text-indigo-600" />
+                          <span>Performance</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openBatchDetails(b._id, 'modules');
+                          }}
+                          className="bg-purple-50 hover:bg-purple-100 px-2.5 py-1.5 text-purple-700 rounded-lg font-bold flex items-center space-x-1 transition text-[11px] cursor-pointer border border-purple-200"
+                          title="Manage Syllabus & Generated Modules"
+                        >
+                          <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+                          <span>Syllabus & Modules</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openBatchDetails(b._id);
+                          }}
+                          className="bg-white px-3 py-1.5 text-blue-700 rounded-lg font-bold flex items-center space-x-1 transition text-[11px] cursor-pointer border border-blue-600"
+                        >
+                          <span>View Details</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -1499,61 +2029,67 @@ export default function BatchAndCollegePage() {
           </div>
         </div>
       )}
+        </>
+      )}
 
       {/* ────────────────────────────────────────────────────────── */}
       {/* MODAL: PARTNER COLLEGES DIRECTORY LIST & DETAILS */}
       {/* ────────────────────────────────────────────────────────── */}
       {isPartnerCollegesModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-5xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative border border-slate-100 my-8 max-h-[90vh] flex flex-col">
-            <button
-              onClick={() => setIsPartnerCollegesModalOpen(false)}
-              className="absolute right-6 top-6 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <div className="bg-white rounded-3xl max-w-5xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-7 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl space-y-4">
+              <button
+                type="button"
+                onClick={() => setIsPartnerCollegesModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            {/* Header */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-4 pr-8">
-              <div className="space-y-1">
-                <div className="flex items-center space-x-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
-                    <Building2 className="w-5 h-5" />
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pr-8">
+                <div className="space-y-1">
+                  <div className="flex items-center space-x-2.5">
+                    <div className="w-9 h-9 rounded-xl bg-blue-50 text-blue-800 flex items-center justify-center font-bold">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-2xl font-black text-slate-900">Partner Colleges Directory</h2>
+                    <span className="px-2.5 py-0.5 rounded-full bg-white text-purple-800 text-xs font-bold font-mono">
+                      {colleges.length} Institutes
+                    </span>
                   </div>
-                  <h2 className="text-2xl font-black text-slate-900">Partner Colleges Directory</h2>
-                  <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-xs font-bold font-mono">
-                    {colleges.length} Institutes
-                  </span>
+                  <p className="text-xs text-slate-500">View, manage, edit and track partner institution metrics, contacts, and training cohorts.</p>
                 </div>
-                <p className="text-xs text-slate-500">View, manage, edit and track partner institution metrics, contacts, and training cohorts.</p>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetCollegeForm();
+                    setIsCollegeModalOpen(true);
+                  }}
+                  className="bg-white px-4 py-2.5 text-blue-700 hover:bg-blue-50 rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-md shrink-0 cursor-pointer border border-blue-600"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span>Add New Partner College</span>
+                </button>
               </div>
 
-              <button
-                onClick={() => {
-                  resetCollegeForm();
-                  setIsCollegeModalOpen(true);
-                }}
-                className="px-4 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-md shrink-0 cursor-pointer"
-              >
-                <Plus className="w-4 h-4" />
-                <span>Add New Partner College</span>
-              </button>
+              {/* Search Filter */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={collegeSearchTerm}
+                  onChange={e => setCollegeSearchTerm(e.target.value)}
+                  placeholder="Search colleges by name, code, location, or contact person..."
+                  className="w-full pl-10 pr-4 py-2.5 bg-white border border-blue-200 rounded-xl text-xs text-slate-900 font-medium focus:outline-none focus:border-purple-500 transition"
+                />
+              </div>
             </div>
 
-            {/* Search Filter */}
-            <div className="relative">
-              <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
-              <input
-                type="text"
-                value={collegeSearchTerm}
-                onChange={e => setCollegeSearchTerm(e.target.value)}
-                placeholder="Search colleges by name, code, location, or contact person..."
-                className="w-full pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 font-medium focus:outline-none focus:border-purple-500 transition"
-              />
-            </div>
-
-            {/* College Cards List */}
-            <div className="overflow-y-auto flex-1 pr-1 space-y-4">
+            {/* SCROLLABLE LIST */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4">
               {(() => {
                 const filteredColleges = colleges.filter(c => {
                   if (!collegeSearchTerm.trim()) return true;
@@ -1570,7 +2106,7 @@ export default function BatchAndCollegePage() {
 
                 if (filteredColleges.length === 0) {
                   return (
-                    <div className="text-center py-12 bg-slate-50 rounded-2xl border border-dashed border-slate-200 space-y-3">
+                    <div className="text-center py-12 bg-white rounded-2xl border border-dashed border-slate-200 space-y-3">
                       <Building2 className="w-10 h-10 text-slate-300 mx-auto" />
                       <p className="text-sm font-bold text-slate-600">No partner colleges found.</p>
                       <p className="text-xs text-slate-400">Try matching a different search keyword or click "Add New Partner College".</p>
@@ -1579,18 +2115,16 @@ export default function BatchAndCollegePage() {
                 }
 
                 return filteredColleges.map((col) => (
-                  <div key={col._id} className="bg-slate-50/70 border border-slate-200 hover:border-purple-200 rounded-2xl p-5 space-y-4 transition hover:bg-white hover:shadow-sm">
+                  <div key={col._id} className="bg-white border border-slate-200 hover:border-slate-200 rounded-2xl p-5 space-y-4 transition hover:bg-white hover:shadow-sm">
                     {/* Top Row: Info & Badges */}
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200/60 pb-3">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-blue-200 pb-3">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2 flex-wrap gap-y-1">
-                          <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-800 border border-purple-200 uppercase">
+                          <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-white text-purple-800 border border-blue-200 uppercase">
                             {col.code}
                           </span>
                           <h3 className="text-base font-black text-slate-900">{col.name}</h3>
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                            col.isActive !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-700'
-                          }`}>
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${ col.isActive !== false ? 'bg-white text-emerald-800' : 'bg-white text-slate-700' }`}>
                             {col.isActive !== false ? 'Active' : 'Inactive'}
                           </span>
                         </div>
@@ -1605,15 +2139,15 @@ export default function BatchAndCollegePage() {
                         <button
                           type="button"
                           onClick={() => handleStartEditCollege(col)}
-                          className="px-3 py-1.5 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
+                          className="px-3 py-1.5 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
                         >
-                          <Edit3 className="w-3.5 h-3.5 text-purple-600" />
+                          <Edit3 className="w-3.5 h-3.5 text-blue-800" />
                           <span>Edit</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => handleStartDeleteCollege(col)}
-                          className="px-3 py-1.5 bg-white hover:bg-rose-50 text-rose-700 border border-rose-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
+                          className="px-3 py-1.5 bg-white hover:bg-white text-rose-700 border border-rose-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
                         >
                           <Trash2 className="w-3.5 h-3.5 text-rose-600" />
                           <span>Delete</span>
@@ -1623,7 +2157,7 @@ export default function BatchAndCollegePage() {
 
                     {/* Middle Row: Contact Info & Metrics Grid */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
-                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-slate-200/80">
+                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-blue-200">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Contact Person</span>
                         <span className="font-bold text-slate-800 flex items-center space-x-1.5">
                           <User className="w-3.5 h-3.5 text-purple-500 shrink-0" />
@@ -1631,7 +2165,7 @@ export default function BatchAndCollegePage() {
                         </span>
                       </div>
 
-                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-slate-200/80">
+                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-blue-200">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Contact Email</span>
                         <span className="font-mono font-medium text-slate-800 flex items-center space-x-1.5 truncate" title={col.contactEmail}>
                           <Mail className="w-3.5 h-3.5 text-purple-500 shrink-0" />
@@ -1639,7 +2173,7 @@ export default function BatchAndCollegePage() {
                         </span>
                       </div>
 
-                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-slate-200/80">
+                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-blue-200">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Contact Phone</span>
                         <span className="font-mono font-medium text-slate-800 flex items-center space-x-1.5">
                           <Phone className="w-3.5 h-3.5 text-purple-500 shrink-0" />
@@ -1647,7 +2181,7 @@ export default function BatchAndCollegePage() {
                         </span>
                       </div>
 
-                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-slate-200/80">
+                      <div className="space-y-0.5 bg-white p-3 rounded-xl border border-blue-200">
                         <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Registered Date</span>
                         <span className="font-medium text-slate-700">
                           {col.createdAt ? new Date(col.createdAt).toLocaleDateString() : 'N/A'}
@@ -1659,8 +2193,8 @@ export default function BatchAndCollegePage() {
                     <div className="flex flex-wrap items-center justify-between gap-3 pt-1 text-xs">
                       <div className="flex items-center space-x-4">
                         <span className="flex items-center space-x-1.5 font-bold text-slate-700">
-                          <Building2 className="w-3.5 h-3.5 text-purple-600" />
-                          <span>Batches: <strong className="text-purple-700 font-mono">{col.batchesCount || 0}</strong></span>
+                          <Building2 className="w-3.5 h-3.5 text-blue-800" />
+                          <span>Batches: <strong className="text-blue-800 font-mono">{col.batchesCount || 0}</strong></span>
                         </span>
                         <span className="flex items-center space-x-1.5 font-bold text-slate-700">
                           <Users className="w-3.5 h-3.5 text-emerald-600" />
@@ -1672,7 +2206,7 @@ export default function BatchAndCollegePage() {
                         <span className="text-[11px] font-bold text-slate-500">Assigned Courses:</span>
                         {col.assignedCourses?.length > 0 ? (
                           col.assignedCourses.map((crs, cIdx) => (
-                            <span key={cIdx} className="px-2 py-0.5 bg-purple-100 text-purple-800 rounded text-[10px] font-bold">
+                            <span key={cIdx} className="px-2 py-0.5 bg-white text-purple-800 rounded text-[10px] font-bold">
                               {crs}
                             </span>
                           ))
@@ -1685,6 +2219,17 @@ export default function BatchAndCollegePage() {
                 ));
               })()}
             </div>
+
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsPartnerCollegesModalOpen(false)}
+                className="px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 rounded-xl font-bold transition border border-slate-200 text-xs cursor-pointer"
+              >
+                Close Directory
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -1693,29 +2238,37 @@ export default function BatchAndCollegePage() {
       {/* MODAL: ADD / EDIT PARTNER COLLEGE */}
       {/* ────────────────────────────────────────────────────────── */}
       {isCollegeModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-lg w-full p-6 space-y-5 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => {
-                setIsCollegeModalOpen(false);
-                resetCollegeForm();
-              }}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <form
+            onSubmit={handleSaveCollege}
+            className="bg-white rounded-3xl max-w-lg w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+          >
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-6 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCollegeModalOpen(false);
+                  resetCollegeForm();
+                }}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="space-y-1 border-b border-slate-100 pb-3">
-              <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
-                <Building2 className="w-5 h-5 text-purple-600" />
-                <span>{editingCollegeId ? 'Edit Partner College' : 'Add Partner College'}</span>
-              </h2>
-              <p className="text-xs text-slate-500">
-                {editingCollegeId ? 'Update institution details, contact info, and status.' : 'Enter institution details to link training batches.'}
-              </p>
+              <div className="space-y-1 pr-8">
+                <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
+                  <Building2 className="w-5 h-5 text-blue-800" />
+                  <span>{editingCollegeId ? 'Edit Partner College' : 'Add Partner College'}</span>
+                </h2>
+                <p className="text-xs text-slate-500">
+                  {editingCollegeId ? 'Update institution details, contact info, and status.' : 'Enter institution details to link training batches.'}
+                </p>
+              </div>
             </div>
 
-            <form onSubmit={handleSaveCollege} className="space-y-4 text-xs">
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4 text-xs font-medium">
               <div className="space-y-1">
                 <label className="text-slate-700 font-bold">Institution Full Name *</label>
                 <input
@@ -1724,7 +2277,7 @@ export default function BatchAndCollegePage() {
                   value={collegeName}
                   onChange={e => setCollegeName(e.target.value)}
                   placeholder="e.g. Apex Institute of Engineering & Tech"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500 font-medium"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500 font-medium"
                 />
               </div>
 
@@ -1737,7 +2290,7 @@ export default function BatchAndCollegePage() {
                     value={collegeCode}
                     onChange={e => setCollegeCode(e.target.value)}
                     placeholder="e.g. APEX-IT"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 uppercase font-mono focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 uppercase font-mono focus:outline-none focus:border-purple-500"
                   />
                 </div>
 
@@ -1749,7 +2302,7 @@ export default function BatchAndCollegePage() {
                     value={city}
                     onChange={e => setCity(e.target.value)}
                     placeholder="e.g. San Francisco"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
                   />
                 </div>
               </div>
@@ -1761,7 +2314,7 @@ export default function BatchAndCollegePage() {
                   value={address}
                   onChange={e => setAddress(e.target.value)}
                   placeholder="e.g. 123 University Campus Way, Tech Park"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
                 />
               </div>
 
@@ -1772,7 +2325,7 @@ export default function BatchAndCollegePage() {
                   value={contactPerson}
                   onChange={e => setContactPerson(e.target.value)}
                   placeholder="e.g. Dr. Robert Vance (Placement Officer)"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
                 />
               </div>
 
@@ -1784,7 +2337,7 @@ export default function BatchAndCollegePage() {
                     value={contactEmail}
                     onChange={e => setContactEmail(e.target.value)}
                     placeholder="e.g. placement@apex.edu"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 focus:outline-none focus:border-purple-500"
                   />
                 </div>
 
@@ -1795,7 +2348,7 @@ export default function BatchAndCollegePage() {
                     value={contactPhone}
                     onChange={e => setContactPhone(e.target.value)}
                     placeholder="e.g. +1 555 019 2831"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 font-mono focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 font-mono focus:outline-none focus:border-purple-500"
                   />
                 </div>
               </div>
@@ -1805,34 +2358,35 @@ export default function BatchAndCollegePage() {
                 <select
                   value={isActive ? 'active' : 'inactive'}
                   onChange={e => setIsActive(e.target.value === 'active')}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 text-slate-900 font-medium focus:outline-none focus:border-purple-500"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2.5 text-slate-900 font-medium focus:outline-none focus:border-purple-500"
                 >
                   <option value="active">Active</option>
                   <option value="inactive">Inactive</option>
                 </select>
               </div>
+            </div>
 
-              <div className="flex justify-end space-x-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsCollegeModalOpen(false);
-                    resetCollegeForm();
-                  }}
-                  className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold transition cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submittingCollege}
-                  className="px-5 py-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white rounded-xl font-bold shadow-md transition cursor-pointer"
-                >
-                  {submittingCollege ? (editingCollegeId ? 'Saving Changes...' : 'Adding College...') : (editingCollegeId ? 'Save Changes' : 'Add Partner College')}
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsCollegeModalOpen(false);
+                  resetCollegeForm();
+                }}
+                className="px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 rounded-xl font-bold transition border border-slate-200 text-xs cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submittingCollege}
+                className="bg-white px-6 py-2.5 text-blue-700 hover:bg-blue-50 rounded-xl font-bold shadow-md transition cursor-pointer border border-blue-600 text-xs disabled:opacity-50"
+              >
+                {submittingCollege ? (editingCollegeId ? 'Saving Changes...' : 'Adding College...') : (editingCollegeId ? 'Save Changes' : 'Add Partner College')}
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
@@ -1847,7 +2401,7 @@ export default function BatchAndCollegePage() {
                 setIsDeleteCollegeModalOpen(false);
                 setCollegeToDelete(null);
               }}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -1861,7 +2415,7 @@ export default function BatchAndCollegePage() {
 
             {/* Warning if linked records exist */}
             {(collegeToDelete.batchesCount > 0 || collegeToDelete.studentsCount > 0) && (
-              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs flex items-start space-x-2.5">
+              <div className="p-3 bg-white border border-amber-200 rounded-xl text-amber-900 text-xs flex items-start space-x-2.5">
                 <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
                 <div className="space-y-0.5">
                   <span className="font-bold block text-amber-950">Linked Records Notice</span>
@@ -1879,7 +2433,7 @@ export default function BatchAndCollegePage() {
                   setIsDeleteCollegeModalOpen(false);
                   setCollegeToDelete(null);
                 }}
-                className="px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+                className="px-5 py-2.5 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
               >
                 Cancel
               </button>
@@ -1887,7 +2441,7 @@ export default function BatchAndCollegePage() {
                 type="button"
                 onClick={handleConfirmDeleteCollege}
                 disabled={deletingCollege}
-                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs transition shadow-sm cursor-pointer"
+                className="bg-white px-5 py-2.5 text-blue-700 font-bold rounded-xl text-xs transition shadow-sm cursor-pointer border border-blue-600"
               >
                 {deletingCollege ? 'Deleting...' : 'Delete'}
               </button>
@@ -1898,11 +2452,7 @@ export default function BatchAndCollegePage() {
 
       {/* TOAST NOTIFICATION BANNER */}
       {toastNotification && (
-        <div className={`fixed bottom-5 right-5 z-[200] px-4 py-3 rounded-2xl shadow-xl border flex items-center space-x-2.5 text-xs font-bold transition-all ${
-          toastNotification.type === 'error'
-            ? 'bg-rose-50 text-rose-800 border-rose-200'
-            : 'bg-emerald-50 text-emerald-800 border-emerald-200'
-        }`}>
+        <div className={`fixed bottom-5 right-5 z-[200] px-4 py-3 rounded-2xl shadow-xl border flex items-center space-x-2.5 text-xs font-bold transition-all ${ toastNotification.type === 'error' ? 'bg-white text-rose-800 border-rose-200' : 'bg-white text-emerald-800 border-emerald-200' }`}>
           {toastNotification.type === 'error' ? (
             <AlertCircle className="w-4 h-4 text-rose-600" />
           ) : (
@@ -1916,24 +2466,26 @@ export default function BatchAndCollegePage() {
       {/* MODAL: CREATE TRAINING BATCH WIZARD (4 STEPS) */}
       {/* ────────────────────────────────────────────────────────── */}
       {isBatchModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
-          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative border border-slate-100 my-8">
-            <button
-              onClick={() => setIsBatchModalOpen(false)}
-              className="absolute right-6 top-6 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <div className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-7 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl space-y-4">
+              <button
+                type="button"
+                onClick={() => setIsBatchModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+                aria-label="Close modal"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            {/* Header & Step Indicator */}
-            <div className="space-y-4">
-              <div>
-                <h2 className="text-2xl font-black text-slate-900">Create Full Training Batch Cohort</h2>
-                <p className="text-xs text-slate-500">Configure schedule, college contacts, student import, and auto-generated student credentials.</p>
+              <div className="pr-8">
+                <h2 className="text-xl md:text-2xl font-black text-slate-900">Create Full Training Batch Cohort</h2>
+                <p className="text-xs text-slate-500 mt-0.5">Configure schedule, college contacts, student import, and auto-generated student credentials.</p>
               </div>
 
               {/* Progress Steps Bar */}
-              <div className="grid grid-cols-4 gap-2 border-b border-slate-100 pb-4">
+              <div className="grid grid-cols-4 gap-2">
                 {[
                   { step: 1, label: 'Batch Info' },
                   { step: 2, label: 'Schedule & Timings' },
@@ -1942,14 +2494,9 @@ export default function BatchAndCollegePage() {
                 ].map(s => (
                   <button
                     key={s.step}
+                    type="button"
                     onClick={() => handleStepNavigation(s.step)}
-                    className={`py-2 px-1 text-center rounded-xl font-bold text-xs transition border ${
-                      batchStep === s.step
-                        ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white border-purple-400 shadow-sm'
-                        : batchStep > s.step
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                        : 'bg-slate-50 text-slate-500 border-slate-200'
-                    }`}
+                    className={`py-2 px-1 text-center rounded-xl font-bold text-xs transition border cursor-pointer ${ batchStep === s.step ? 'bg-white text-blue-700 border-purple-400 shadow-sm border' : batchStep > s.step ? 'bg-white text-emerald-700 border-emerald-200' : 'bg-white text-slate-500 border-blue-200' }`}
                   >
                     {s.step}. {s.label}
                   </button>
@@ -1957,8 +2504,10 @@ export default function BatchAndCollegePage() {
               </div>
             </div>
 
-            {/* STEP 1: BATCH INFO */}
-            {batchStep === 1 && (
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-6">
+              {/* STEP 1: BATCH INFO */}
+              {batchStep === 1 && (
               <div className="space-y-4 text-xs">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
@@ -1969,7 +2518,7 @@ export default function BatchAndCollegePage() {
                       value={bName}
                       onChange={e => setBName(e.target.value)}
                       placeholder="e.g. CSE 2026 Batch Alpha"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
                     />
                   </div>
 
@@ -1981,7 +2530,7 @@ export default function BatchAndCollegePage() {
                       value={bCode}
                       onChange={e => setBCode(e.target.value)}
                       placeholder="e.g. CSE-2026-A"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 uppercase font-mono text-slate-900 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 uppercase font-mono text-slate-900 focus:outline-none focus:border-purple-500"
                     />
                   </div>
                 </div>
@@ -1993,7 +2542,7 @@ export default function BatchAndCollegePage() {
                       <button
                         type="button"
                         onClick={() => setIsCollegeModalOpen(true)}
-                        className="text-[11px] font-bold text-purple-600 hover:text-purple-800 flex items-center space-x-1 cursor-pointer"
+                        className="text-[11px] font-bold text-blue-800 hover:text-purple-800 flex items-center space-x-1 cursor-pointer"
                       >
                         <Plus className="w-3 h-3" />
                         <span>Add New College</span>
@@ -2002,7 +2551,7 @@ export default function BatchAndCollegePage() {
                     <select
                       value={bCollegeId}
                       onChange={e => setBCollegeId(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 font-medium"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 font-medium"
                     >
                       <option value="">-- Select Partner College --</option>
                       {colleges.map(c => (
@@ -2014,17 +2563,52 @@ export default function BatchAndCollegePage() {
                   </div>
 
                   <div className="space-y-1">
-                    <label className="text-slate-700 font-bold">Department *</label>
+                    <div className="flex items-center justify-between">
+                      <label className="text-slate-700 font-bold">Department *</label>
+                      <div className="flex items-center space-x-2">
+                        <button
+                          type="button"
+                          onClick={() => openAddDepartmentModal(bCollegeId)}
+                          className="text-[11px] font-bold text-blue-800 hover:text-purple-800 flex items-center space-x-0.5 cursor-pointer"
+                          title="Add custom department to this college"
+                        >
+                          <Plus className="w-3 h-3" />
+                          <span>Add New Department</span>
+                        </button>
+                        {bCollegeId && (
+                          <button
+                            type="button"
+                            onClick={() => openManageDepartmentsModal(bCollegeId)}
+                            className="text-[11px] font-semibold text-slate-500 hover:text-slate-800 cursor-pointer"
+                            title="Manage, edit, or delete departments"
+                          >
+                            <span>Manage</span>
+                          </button>
+                        )}
+                      </div>
+                    </div>
                     <select
                       value={bDepartment}
-                      onChange={e => setBDepartment(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
+                      onChange={e => handleDepartmentDropdownChange(e.target.value)}
+                      disabled={!bCollegeId}
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 font-medium disabled:bg-slate-50 disabled:text-slate-400"
                     >
-                      <option value="CSE">CSE (Computer Science)</option>
-                      <option value="IT">IT (Information Tech)</option>
-                      <option value="AIDS">AIDS (AI & Data Science)</option>
-                      <option value="ECE">ECE (Electronics)</option>
-                      <option value="MECH">MECH (Mechanical)</option>
+                      {!bCollegeId ? (
+                        <option value="">-- Select Partner College First --</option>
+                      ) : collegeDepartments.length === 0 ? (
+                        <option value="">-- Loading Departments... --</option>
+                      ) : (
+                        collegeDepartments.map(d => (
+                          <option key={d._id} value={d.code || d.name}>
+                            {d.name} {d.code ? `(${d.code})` : ''}
+                          </option>
+                        ))
+                      )}
+                      {bCollegeId && (
+                        <option value="__ADD_NEW_DEPT__" className="font-bold text-purple-700 bg-purple-50">
+                          + Add New Department...
+                        </option>
+                      )}
                     </select>
                   </div>
                 </div>
@@ -2038,7 +2622,7 @@ export default function BatchAndCollegePage() {
                       value={bCourseId}
                       onChange={e => setBCourseId(e.target.value)}
                       placeholder="Type or select course name..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
                     />
                     <datalist id="courses-datalist">
                       {courses.map(c => (
@@ -2061,7 +2645,7 @@ export default function BatchAndCollegePage() {
                           setBTutorResumeUrl('');
                         }
                       }}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 font-semibold"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 font-semibold"
                     >
                       <option value="">-- Select Tutor from Database --</option>
                       {tutors.map(t => (
@@ -2078,7 +2662,7 @@ export default function BatchAndCollegePage() {
                   const selT = tutors.find(t => String(t._id) === String(bTrainerId) || String(t.userId) === String(bTrainerId) || t.fullName === bTrainerId);
                   if (!selT) {
                     return (
-                      <div className="bg-amber-50/70 border border-amber-200 p-3 rounded-2xl text-[11px] text-amber-800 font-medium">
+                      <div className="bg-blue-50 border border-amber-200 p-3 rounded-2xl text-[11px] text-amber-800 font-medium">
                         Please select an active tutor above to auto-load stored tutor profile details and Resume PDF.
                       </div>
                     );
@@ -2087,12 +2671,12 @@ export default function BatchAndCollegePage() {
                   const resumeFileName = selT.resumeDocument?.fileName || 'Tutor_Resume.pdf';
 
                   return (
-                    <div className="bg-purple-50/40 border border-purple-200/80 p-4 rounded-2xl space-y-2.5 text-xs">
+                    <div className="bg-white border border-slate-200/80 p-4 rounded-2xl space-y-2.5 text-xs">
                       <div className="flex items-center justify-between">
-                        <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 bg-purple-100/70 px-2.5 py-0.5 rounded-full border border-purple-200">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-blue-800 bg-white px-2.5 py-0.5 rounded-full border border-blue-200">
                           Auto-Loaded Tutor Details (Read-Only)
                         </span>
-                        <span className="font-mono text-slate-600 font-bold bg-white px-2 py-0.5 rounded border border-slate-200 text-[11px]">
+                        <span className="font-mono text-slate-600 font-bold bg-white px-2 py-0.5 rounded border border-blue-200 text-[11px]">
                           ID: {selT.tutorId || 'TUT'}
                         </span>
                       </div>
@@ -2127,16 +2711,16 @@ export default function BatchAndCollegePage() {
                       </div>
 
                       {/* Resume PDF Status & View Button */}
-                      <div className="pt-2 border-t border-purple-200/60 flex flex-wrap items-center justify-between gap-2">
+                      <div className="pt-2 border-t border-blue-200/60 flex flex-wrap items-center justify-between gap-2">
                         <div className="flex items-center space-x-2">
                           <span className="font-bold text-slate-700">Tutor Resume PDF:</span>
                           {resumeUrl ? (
-                            <span className="font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg text-[11px] font-bold flex items-center space-x-1">
+                            <span className="font-mono text-emerald-800 bg-white border border-emerald-200 px-2.5 py-0.5 rounded-lg text-[11px] font-bold flex items-center space-x-1">
                               <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                               <span className="truncate max-w-[200px]">{resumeFileName}</span>
                             </span>
                           ) : (
-                            <span className="bg-amber-100 text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-lg text-[11px] font-bold">
+                            <span className="bg-white text-amber-900 border border-amber-300 px-2.5 py-0.5 rounded-lg text-[11px] font-bold">
                               Resume not available
                             </span>
                           )}
@@ -2147,7 +2731,7 @@ export default function BatchAndCollegePage() {
                             href={resumeUrl.startsWith('http') ? resumeUrl : `http://localhost:5000${resumeUrl}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="px-3.5 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition"
+                            className="bg-white px-3.5 py-1.5 text-blue-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition border border-blue-600"
                           >
                             <FileText className="w-3.5 h-3.5" />
                             <span>View PDF</span>
@@ -2165,7 +2749,7 @@ export default function BatchAndCollegePage() {
                       type="date"
                       value={bStartDate}
                       onChange={e => setBStartDate(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
                     />
                   </div>
 
@@ -2175,18 +2759,9 @@ export default function BatchAndCollegePage() {
                       type="date"
                       value={bEndDate}
                       onChange={e => setBEndDate(e.target.value)}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500"
                     />
                   </div>
-                </div>
-
-                <div className="flex justify-end pt-4">
-                  <button
-                    onClick={() => handleStepNavigation(2)}
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 transition cursor-pointer"
-                  >
-                    Next: Schedule & Timings →
-                  </button>
                 </div>
               </div>
             )}
@@ -2203,11 +2778,7 @@ export default function BatchAndCollegePage() {
                         key={day}
                         type="button"
                         onClick={() => toggleDay(day)}
-                        className={`px-3 py-1.5 rounded-xl font-bold border transition ${
-                          bTrainingDays.includes(day)
-                            ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white border-purple-400'
-                            : 'bg-slate-50 text-slate-600 border-slate-200'
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl font-bold border transition ${ bTrainingDays.includes(day) ? 'bg-white text-blue-700 border-purple-400 border' : 'bg-white text-slate-600 border-blue-200' }`}
                       >
                         {day}
                       </button>
@@ -2216,13 +2787,13 @@ export default function BatchAndCollegePage() {
                 </div>
 
                 {/* Explicit Weekend Toggles */}
-                <div className="grid grid-cols-2 gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+                <div className="grid grid-cols-2 gap-4 bg-white p-4 rounded-2xl border border-slate-200">
                   <label className="flex items-center space-x-2 font-bold text-slate-800 cursor-pointer">
                     <input
                       type="checkbox"
                       checked={bSatInc}
                       onChange={e => handleSatToggle(e.target.checked)}
-                      className="rounded text-purple-600 focus:ring-purple-500 w-4 h-4"
+                      className="rounded text-blue-800 focus:ring-purple-500 w-4 h-4"
                     />
                     <span>Include Saturday Training</span>
                   </label>
@@ -2232,7 +2803,7 @@ export default function BatchAndCollegePage() {
                       type="checkbox"
                       checked={bSunInc}
                       onChange={e => handleSunToggle(e.target.checked)}
-                      className="rounded text-purple-600 focus:ring-purple-500 w-4 h-4"
+                      className="rounded text-blue-800 focus:ring-purple-500 w-4 h-4"
                     />
                     <span>Include Sunday Training</span>
                   </label>
@@ -2247,7 +2818,7 @@ export default function BatchAndCollegePage() {
                       value={bStartTime}
                       onChange={e => setBStartTime(e.target.value)}
                       placeholder="09:00 AM"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
@@ -2258,7 +2829,7 @@ export default function BatchAndCollegePage() {
                       value={bEndTime}
                       onChange={e => setBEndTime(e.target.value)}
                       placeholder="04:30 PM"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
@@ -2269,7 +2840,7 @@ export default function BatchAndCollegePage() {
                       value={bBreakStart}
                       onChange={e => setBBreakStart(e.target.value)}
                       placeholder="01:00 PM"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
@@ -2280,13 +2851,13 @@ export default function BatchAndCollegePage() {
                       value={bBreakEnd}
                       onChange={e => setBBreakEnd(e.target.value)}
                       placeholder="02:00 PM"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
                 </div>
 
                 {/* Daily Report Automation Time */}
-                <div className="bg-amber-50 border border-amber-200 p-4 rounded-2xl space-y-2">
+                <div className="bg-white border border-slate-200 p-4 rounded-2xl space-y-2">
                   <div className="flex items-center space-x-2 text-amber-800 font-bold">
                     <Clock className="w-4 h-4" />
                     <span>Daily Automated Progress PDF & Email Time</span>
@@ -2313,19 +2884,19 @@ export default function BatchAndCollegePage() {
                       type="date"
                       value={newHolidayDate}
                       onChange={e => setNewHolidayDate(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-900"
+                      className="bg-white border border-blue-200 rounded-xl px-3 py-1.5 text-xs text-slate-900"
                     />
                     <input
                       type="text"
                       placeholder="Holiday Description (e.g. Festival)"
                       value={newHolidayTitle}
                       onChange={e => setNewHolidayTitle(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-900 flex-1"
+                      className="bg-white border border-blue-200 rounded-xl px-3 py-1.5 text-xs text-slate-900 flex-1"
                     />
                     <button
                       type="button"
                       onClick={handleAddHoliday}
-                      className="px-3 py-1.5 bg-slate-800 text-white rounded-xl font-bold text-xs"
+                      className="bg-white px-3 py-1.5 text-blue-700 rounded-xl font-bold text-xs border border-blue-600"
                     >
                       + Add Date
                     </button>
@@ -2335,7 +2906,7 @@ export default function BatchAndCollegePage() {
                     {bHolidays.map((h, idx) => (
                       <span
                         key={idx}
-                        className="px-2.5 py-1 bg-red-50 text-red-700 border border-red-200 rounded-lg font-mono text-[11px] flex items-center space-x-1.5"
+                        className="px-2.5 py-1 bg-white text-red-700 border border-red-200 rounded-lg font-mono text-[11px] flex items-center space-x-1.5"
                       >
                         <span>{h.date}: {h.title}</span>
                         <button onClick={() => handleRemoveHoliday(idx)} className="text-red-500 hover:text-red-900">
@@ -2344,21 +2915,6 @@ export default function BatchAndCollegePage() {
                       </span>
                     ))}
                   </div>
-                </div>
-
-                <div className="flex justify-between pt-4">
-                  <button
-                    onClick={() => handleStepNavigation(1)}
-                    className="px-5 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl"
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    onClick={() => handleStepNavigation(3)}
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 transition cursor-pointer"
-                  >
-                    Next: College Contacts →
-                  </button>
                 </div>
               </div>
             )}
@@ -2376,7 +2932,7 @@ export default function BatchAndCollegePage() {
                       value={bGuideName}
                       onChange={e => setBGuideName(e.target.value)}
                       placeholder="e.g. Prof. R. Sharma"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
@@ -2387,7 +2943,7 @@ export default function BatchAndCollegePage() {
                       value={bGuideEmail}
                       onChange={e => setBGuideEmail(e.target.value)}
                       placeholder="e.g. r.sharma@apex.edu"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
                 </div>
@@ -2400,7 +2956,7 @@ export default function BatchAndCollegePage() {
                       value={bPlacementEmail}
                       onChange={e => setBPlacementEmail(e.target.value)}
                       placeholder="e.g. placement@apex.edu"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
@@ -2412,21 +2968,21 @@ export default function BatchAndCollegePage() {
                         placeholder="HOD Name"
                         value={bHodName}
                         onChange={e => setBHodName(e.target.value)}
-                        className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                        className="bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                       />
                       <input
                         type="email"
                         placeholder="HOD Email"
                         value={bHodEmail}
                         onChange={e => setBHodEmail(e.target.value)}
-                        className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                        className="bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                       />
                     </div>
                   </div>
                 </div>
 
                 {/* ATTACHED TUTOR RESUME SUMMARY (READ-ONLY) */}
-                <div className="bg-slate-50 border border-slate-200 p-3.5 rounded-2xl space-y-1.5">
+                <div className="bg-white border border-slate-200 p-3.5 rounded-2xl space-y-1.5">
                   <label className="text-slate-800 font-bold block text-xs">Attached Tutor Resume PDF (From Tutor Management)</label>
                   {(() => {
                     const selT = tutors.find(t => String(t._id) === String(bTrainerId) || String(t.userId) === String(bTrainerId) || t.fullName === bTrainerId);
@@ -2436,7 +2992,7 @@ export default function BatchAndCollegePage() {
                     if (resumeUrl) {
                       return (
                         <div className="flex items-center justify-between text-xs pt-1">
-                          <span className="font-mono text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200 font-bold flex items-center space-x-1">
+                          <span className="font-mono text-emerald-800 bg-white px-2.5 py-1 rounded-lg border border-emerald-200 font-bold flex items-center space-x-1">
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                             <span>{fileName}</span>
                           </span>
@@ -2444,7 +3000,7 @@ export default function BatchAndCollegePage() {
                             href={resumeUrl.startsWith('http') ? resumeUrl : `http://localhost:5000${resumeUrl}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="text-purple-600 hover:underline font-bold text-xs flex items-center space-x-1"
+                            className="text-blue-800 hover:underline font-bold text-xs flex items-center space-x-1"
                           >
                             <FileText className="w-3.5 h-3.5" />
                             <span>View PDF</span>
@@ -2453,26 +3009,11 @@ export default function BatchAndCollegePage() {
                       );
                     }
                     return (
-                      <span className="text-amber-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 font-bold text-xs inline-block">
+                      <span className="text-amber-800 bg-white px-2.5 py-1 rounded-lg border border-amber-200 font-bold text-xs inline-block">
                         Resume not available for selected tutor
                       </span>
                     );
                   })()}
-                </div>
-
-                <div className="flex justify-between pt-4">
-                  <button
-                    onClick={() => handleStepNavigation(2)}
-                    className="px-5 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl"
-                  >
-                    ← Back
-                  </button>
-                  <button
-                    onClick={() => handleStepNavigation(4)}
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl shadow-lg shadow-purple-500/25 transition cursor-pointer"
-                  >
-                    Next: Student PDF Import →
-                  </button>
                 </div>
               </div>
             )}
@@ -2480,9 +3021,9 @@ export default function BatchAndCollegePage() {
             {/* STEP 4: STUDENT PDF IMPORT */}
             {batchStep === 4 && (
               <div className="space-y-5 text-xs">
-                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
                   <h3 className="font-bold text-slate-900 flex items-center space-x-2">
-                    <Upload className="w-4 h-4 text-purple-600" />
+                    <Upload className="w-4 h-4 text-blue-800" />
                     <span>Upload Student List PDF / File or Paste Roster</span>
                   </h3>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2503,7 +3044,7 @@ export default function BatchAndCollegePage() {
                         value={importText}
                         onChange={e => setImportText(e.target.value)}
                         placeholder="John Doe, john@student.edu, CSE, 1st Year&#10;Alice Smith, alice@student.edu, CSE, 1st Year"
-                        className="w-full bg-white border border-slate-200 rounded-xl p-2 font-mono text-[11px] text-slate-900 focus:outline-none focus:border-purple-500"
+                        className="w-full bg-blue-50 border border-blue-200 rounded-xl p-2 font-mono text-[11px] text-slate-900 focus:outline-none focus:border-purple-500"
                       />
                     </div>
                   </div>
@@ -2512,7 +3053,7 @@ export default function BatchAndCollegePage() {
                     type="button"
                     onClick={handleParseStudents}
                     disabled={parsingPdf}
-                    className="px-4 py-2 bg-slate-900 text-white rounded-xl font-bold flex items-center space-x-2 transition"
+                    className="bg-white px-4 py-2 text-blue-700 rounded-xl font-bold flex items-center space-x-2 transition border border-blue-600"
                   >
                     <RefreshCw className={`w-3.5 h-3.5 ${parsingPdf ? 'animate-spin' : ''}`} />
                     <span>{parsingPdf ? 'Parsing File...' : 'Parse & Validate Student Roster'}</span>
@@ -2527,13 +3068,13 @@ export default function BatchAndCollegePage() {
                         Parsed Roster Preview ({parsedStudents.filter(s => s.isValid).length} Valid / {parsedStudents.length} Total)
                       </span>
                       <span className="text-[11px] text-slate-500">
-                        Usernames: <strong className="text-purple-600 font-mono">DEPT+ROMAN_YEAR+SEQ</strong> &bull; Initial Password: <strong className="text-purple-600 font-mono">6-char (e.g. IT0001, CSE001)</strong>
+                        Usernames: <strong className="text-blue-800 font-mono">DEPT+ROMAN_YEAR+SEQ</strong> &bull; Initial Password: <strong className="text-blue-800 font-mono">6-char (e.g. IT0001, CSE001)</strong>
                       </span>
                     </div>
 
-                    <div className="max-h-60 overflow-y-auto border border-slate-200 rounded-xl">
+                    <div className="max-h-60 overflow-y-auto border border-blue-200 rounded-xl">
                       <table className="w-full text-left border-collapse">
-                        <thead className="bg-slate-100 text-slate-700 font-bold sticky top-0">
+                        <thead className="bg-white text-slate-700 font-bold sticky top-0">
                           <tr>
                             <th className="p-2 border-b">Status</th>
                             <th className="p-2 border-b">Name</th>
@@ -2550,7 +3091,7 @@ export default function BatchAndCollegePage() {
                             const padLen = Math.max(2, 6 - cleanDept.length);
                             const initialPwd = `${cleanDept}${String(idx + 1).padStart(padLen, '0')}`;
                             return (
-                              <tr key={idx} className={s.isValid ? 'bg-white' : 'bg-red-50/50'}>
+                              <tr key={idx} className={s.isValid ? 'bg-white' : 'bg-white'}>
                                 <td className="p-2">
                                   {s.isValid ? (
                                     <span className="text-emerald-600 font-bold flex items-center space-x-1">
@@ -2568,10 +3109,10 @@ export default function BatchAndCollegePage() {
                                 <td className="p-2 font-mono text-slate-600">{s.email}</td>
                                 <td className="p-2">{s.department}</td>
                                 <td className="p-2">{s.academicYear}</td>
-                                <td className="p-2 font-mono text-purple-700 font-bold">
+                                <td className="p-2 font-mono text-blue-800 font-bold">
                                   {cleanDept}I{String(idx + 1).padStart(2, '0')}
                                 </td>
-                                <td className="p-2 font-mono text-purple-700 font-bold">
+                                <td className="p-2 font-mono text-blue-800 font-bold">
                                   {initialPwd}
                                 </td>
                               </tr>
@@ -2583,25 +3124,67 @@ export default function BatchAndCollegePage() {
                   </div>
                 )}
 
-                <div className="flex justify-between pt-4 border-t border-slate-100">
-                  <button
-                    onClick={() => handleStepNavigation(3)}
-                    className="px-5 py-2.5 bg-slate-100 text-slate-700 font-bold rounded-xl"
-                  >
-                    ← Back
-                  </button>
+                </div>
+              )}
+            </div>
 
+            {/* FIXED FOOTER / ACTION BUTTONS */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-between">
+              <div>
+                {batchStep > 1 ? (
                   <button
+                    type="button"
+                    onClick={() => handleStepNavigation(batchStep - 1)}
+                    className="px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-700 font-bold rounded-xl transition border border-slate-200 cursor-pointer text-xs flex items-center space-x-1"
+                  >
+                    <span>← Back</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={() => setIsBatchModalOpen(false)}
+                    className="px-5 py-2.5 bg-white hover:bg-slate-100 text-slate-600 font-bold rounded-xl transition border border-slate-200 cursor-pointer text-xs"
+                  >
+                    Cancel
+                  </button>
+                )}
+              </div>
+
+              <div className="flex items-center space-x-3">
+                {batchStep > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => setIsBatchModalOpen(false)}
+                    className="px-4 py-2.5 text-slate-500 hover:text-slate-700 font-bold text-xs transition cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                )}
+                {batchStep < 4 ? (
+                  <button
+                    type="button"
+                    onClick={() => handleStepNavigation(batchStep + 1)}
+                    className="bg-white px-6 py-2.5 text-blue-700 hover:bg-blue-50 font-bold rounded-xl shadow-lg shadow-purple-500/20 transition cursor-pointer border border-blue-600 text-xs flex items-center space-x-1"
+                  >
+                    <span>
+                      {batchStep === 1 && 'Next: Schedule & Timings →'}
+                      {batchStep === 2 && 'Next: College Contacts →'}
+                      {batchStep === 3 && 'Next: Student PDF Import →'}
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
                     onClick={handleCreateFullBatch}
                     disabled={submittingBatch}
-                    className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl font-bold shadow-lg shadow-emerald-600/20 text-sm flex items-center space-x-2 transition"
+                    className="bg-white px-8 py-2.5 text-emerald-700 hover:bg-emerald-50 rounded-xl font-bold shadow-lg shadow-emerald-600/20 text-xs flex items-center space-x-2 transition border border-emerald-600 cursor-pointer disabled:opacity-50"
                   >
                     <Check className="w-4 h-4" />
                     <span>{submittingBatch ? 'Creating Cohort & Accounts...' : 'Confirm & Create Full Batch'}</span>
                   </button>
-                </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         </div>
       )}
@@ -2611,10 +3194,10 @@ export default function BatchAndCollegePage() {
       {/* ────────────────────────────────────────────────────────── */}
       {selectedBatchId && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex justify-end">
-          <div className="bg-white max-w-5xl w-full h-full overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative border-l border-slate-200">
+          <div className="bg-white max-w-5xl w-full h-full overflow-y-auto p-6 md:p-8 space-y-6 shadow-2xl relative border-l border-blue-200">
             <button
               onClick={() => setSelectedBatchId(null)}
-              className="absolute right-6 top-6 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              className="absolute right-6 top-6 p-2 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white"
             >
               <X className="w-6 h-6" />
             </button>
@@ -2626,10 +3209,10 @@ export default function BatchAndCollegePage() {
             ) : (
               <div className="space-y-6">
                 {/* Batch Header Summary with Action Buttons */}
-                <div className="space-y-2 border-b border-slate-200 pb-4">
+                <div className="space-y-2 border-b border-blue-200 pb-4">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
-                      <div className="flex items-center space-x-2 text-xs font-mono font-bold text-purple-600">
+                      <div className="flex items-center space-x-2 text-xs font-mono font-bold text-blue-800">
                         <span>CODE: {batchDetails.batch.code}</span>
                         <span>•</span>
                         <span>DEPARTMENT: {batchDetails.batch.department}</span>
@@ -2643,7 +3226,7 @@ export default function BatchAndCollegePage() {
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={openEditBatchModal}
-                        className="px-3 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs"
+                        className="px-3 py-2 bg-white hover:bg-white text-amber-800 border border-amber-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs"
                       >
                         <FileText className="w-3.5 h-3.5" />
                         <span>Edit Batch</span>
@@ -2651,7 +3234,7 @@ export default function BatchAndCollegePage() {
 
                       <button
                         onClick={openAddStudentsModal}
-                        className="px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
+                        className="px-3 py-2 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
                       >
                         <Plus className="w-3.5 h-3.5" />
                         <span>+ Add Students</span>
@@ -2659,7 +3242,7 @@ export default function BatchAndCollegePage() {
 
                       <button
                         onClick={() => openAssignCourseModal()}
-                        className="px-3.5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition cursor-pointer"
+                        className="bg-white px-3.5 py-2 text-blue-700 rounded-xl text-xs font-bold flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition cursor-pointer border border-blue-600"
                         title="Assign new or additional course to batch students"
                       >
                         <GraduationCap className="w-3.5 h-3.5" />
@@ -2668,7 +3251,7 @@ export default function BatchAndCollegePage() {
 
                       <button
                         onClick={openBatchCompleteModal}
-                        className="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
+                        className="px-3 py-2 bg-white hover:bg-white text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs cursor-pointer"
                         title="Mark batch course as completed and deactivate credentials"
                       >
                         <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
@@ -2677,7 +3260,7 @@ export default function BatchAndCollegePage() {
 
                       <button
                         onClick={() => setIsDeleteConfirmModalOpen(true)}
-                        className="px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs"
+                        className="px-3 py-2 bg-white hover:bg-white text-red-600 border border-red-200 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition shadow-xs"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                         <span>Delete Batch</span>
@@ -2687,12 +3270,12 @@ export default function BatchAndCollegePage() {
                 </div>
 
                 {/* 8 Tabs Navigation */}
-                <div className="flex flex-wrap gap-2 border-b border-slate-200 pb-2">
+                <div className="flex flex-wrap gap-2 border-b border-blue-200 pb-2">
                   {[
                     { id: 'overview', label: '1. Overview', icon: BarChart3 },
                     { id: 'students', label: `2. Students Roster (${batchDetails.students?.length || 0})`, icon: Users },
                     { id: 'schedule', label: '3. Training Schedule', icon: Calendar },
-                    { id: 'modules', label: '4. Modules & Progress', icon: Layers },
+                    { id: 'modules', label: '4. Syllabus & Modules', icon: BookOpen },
                     { id: 'tutor', label: '5. Tutor Details', icon: UserCheck },
                     { id: 'attendance', label: '6. Attendance Log', icon: CheckCircle2 },
                     { id: 'updates', label: '7. Daily Updates', icon: FileText },
@@ -2703,11 +3286,7 @@ export default function BatchAndCollegePage() {
                       <button
                         key={t.id}
                         onClick={() => setActiveTab(t.id)}
-                        className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition ${
-                          activeTab === t.id
-                            ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white shadow-sm'
-                            : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                        }`}
+                        className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition ${ activeTab === t.id ? 'bg-white text-blue-700 shadow-sm border border-blue-600' : 'bg-white text-slate-600 hover:bg-white' }`}
                       >
                         <IconComp className="w-3.5 h-3.5" />
                         <span>{t.label}</span>
@@ -2720,19 +3299,19 @@ export default function BatchAndCollegePage() {
                 {activeTab === 'overview' && (
                   <div className="space-y-6 text-xs">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
                         <span className="text-slate-400 font-bold uppercase text-[10px]">Academic Year</span>
                         <h4 className="text-lg font-black text-slate-900">{batchDetails.batch.academicYear}</h4>
                       </div>
-                      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
                         <span className="text-slate-400 font-bold uppercase text-[10px]">Total Enrolled</span>
                         <h4 className="text-lg font-black text-slate-900">{batchDetails.students?.length} Students</h4>
                       </div>
-                      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
                         <span className="text-slate-400 font-bold uppercase text-[10px]">Daily Report Time</span>
-                        <h4 className="text-lg font-black text-amber-700">{batchDetails.batch.dailyReportTime || '18:00'}</h4>
+                        <h4 className="text-lg font-black text-[#0F172A]">{batchDetails.batch.dailyReportTime || '18:00'}</h4>
                       </div>
-                      <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-1">
+                      <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-1">
                         <span className="text-slate-400 font-bold uppercase text-[10px]">Assigned Tutor</span>
                         <h4 className="text-lg font-black text-slate-900">{batchDetails.batch.trainerId?.name || 'N/A'}</h4>
                       </div>
@@ -2741,7 +3320,7 @@ export default function BatchAndCollegePage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div className="bg-white border border-slate-200 p-5 rounded-2xl space-y-3">
                         <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
-                          <Building2 className="w-4 h-4 text-purple-600" />
+                          <Building2 className="w-4 h-4 text-blue-800" />
                           <span>College Contacts</span>
                         </h3>
                         <p><strong>Guide:</strong> {batchDetails.batch.collegeGuideName || 'N/A'} ({batchDetails.batch.collegeGuideEmail || 'N/A'})</p>
@@ -2751,7 +3330,7 @@ export default function BatchAndCollegePage() {
 
                       <div className="bg-white border border-slate-200 p-5 rounded-2xl space-y-3">
                         <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
-                          <Clock className="w-4 h-4 text-purple-600" />
+                          <Clock className="w-4 h-4 text-blue-800" />
                           <span>Training Hours & Schedule</span>
                         </h3>
                         <p><strong>Timing:</strong> {batchDetails.batch.startTime} - {batchDetails.batch.endTime}</p>
@@ -2766,10 +3345,10 @@ export default function BatchAndCollegePage() {
                 {activeTab === 'students' && (
                   <div className="space-y-4 text-xs">
                     {/* Header and Quick Stats */}
-                    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div className="bg-white border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
                       <div>
                         <h3 className="font-black text-slate-900 text-sm flex items-center gap-2">
-                          <Users className="w-4 h-4 text-purple-600" />
+                          <Users className="w-4 h-4 text-blue-800" />
                           <span>College Batch Student Course Lifecycle</span>
                         </h3>
                         <p className="text-[11px] text-slate-500 mt-0.5">
@@ -2780,14 +3359,14 @@ export default function BatchAndCollegePage() {
                       <div className="flex flex-wrap items-center gap-2">
                         <button
                           onClick={() => openAssignCourseModal()}
-                          className="px-3.5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 shadow-sm hover:opacity-95 transition cursor-pointer"
+                          className="bg-white px-3.5 py-2 text-blue-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 shadow-sm hover:opacity-95 transition cursor-pointer border border-blue-600"
                         >
                           <Plus className="w-3.5 h-3.5" />
                           <span>Assign New Course</span>
                         </button>
                         <button
                           onClick={openBatchCompleteModal}
-                          className="px-3.5 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                          className="px-3.5 py-2 bg-white hover:bg-white text-emerald-800 border border-emerald-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
                         >
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                           <span>Mark Batch Completed</span>
@@ -2796,10 +3375,10 @@ export default function BatchAndCollegePage() {
                     </div>
 
                     {/* Students Roster Table */}
-                    <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-2xs bg-white">
+                    <div className="border border-blue-200 rounded-2xl overflow-hidden shadow-2xs bg-white">
                       <div className="overflow-x-auto">
                         <table className="w-full text-left border-collapse">
-                          <thead className="bg-slate-100/80 text-slate-700 font-bold text-[11px] uppercase tracking-wider font-mono">
+                          <thead className="bg-white text-slate-700 font-bold text-[11px] uppercase tracking-wider font-mono">
                             <tr>
                               <th className="p-3">Student ID</th>
                               <th className="p-3">Name</th>
@@ -2821,12 +3400,14 @@ export default function BatchAndCollegePage() {
                             ) : (
                               batchDetails.students?.map((s, idx) => {
                                 const hasActive = !!s.activeEnrollment;
-                                const isLoginActive = s.loginAccessStatus === 'ACTIVE';
+                                const isLoginActive = s.loginAccessStatus
+                                  ? s.loginAccessStatus === 'ACTIVE'
+                                  : (s.isActive !== false && (!s.activeEnrollment || s.activeEnrollment.accountStatus === 'ACTIVE'));
                                 const completedCount = s.completedEnrollments?.length || 0;
 
                                 return (
-                                  <tr key={s._id || idx} className="hover:bg-slate-50/80 transition-colors">
-                                    <td className="p-3 font-mono font-bold text-purple-700">
+                                  <tr key={s._id || idx} className="hover:bg-white transition-colors">
+                                    <td className="p-3 font-mono font-bold text-blue-800">
                                       {s.studentId || 'N/A'}
                                     </td>
                                     <td className="p-3">
@@ -2851,66 +3432,86 @@ export default function BatchAndCollegePage() {
                                     </td>
                                     <td className="p-3">
                                       {hasActive ? (
-                                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200">
+                                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-white text-emerald-700 border border-emerald-200">
                                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                                           <span>ACTIVE</span>
                                         </span>
                                       ) : completedCount > 0 ? (
-                                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-purple-50 text-purple-700 border border-purple-200">
+                                        <span className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full text-[10px] font-black bg-white text-blue-800 border border-blue-200">
                                           <span>COMPLETED</span>
                                         </span>
                                       ) : (
-                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-500">
+                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-slate-500">
                                           PENDING
                                         </span>
                                       )}
                                     </td>
                                     <td className="p-3">
                                       {isLoginActive ? (
-                                        <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200" title="Active login credentials">
-                                          <Key className="w-3 h-3 text-emerald-600" />
-                                          <span>Active</span>
+                                        <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-emerald-50 text-emerald-700 border border-emerald-200" title="Active login credentials">
+                                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                                          <span>ACTIVE</span>
                                         </span>
                                       ) : (
-                                        <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-xl text-[10px] font-bold bg-slate-100 text-slate-600 border border-slate-200" title="Login access revoked upon course completion">
-                                          <Lock className="w-3 h-3 text-slate-400" />
-                                          <span>Deactivated</span>
+                                        <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-[10px] font-black bg-slate-100 text-slate-600 border border-slate-200" title="Login access deactivated">
+                                          <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                                          <span>DEACTIVE</span>
                                         </span>
                                       )}
                                     </td>
                                     <td className="p-3">
                                       <button
                                         onClick={() => openHistoryModal(s)}
-                                        className="inline-flex items-center space-x-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-slate-100 hover:bg-slate-200 text-slate-700 transition"
+                                        className="inline-flex items-center space-x-1 px-2 py-1 rounded-lg text-[10px] font-bold bg-white hover:bg-white text-slate-700 transition"
                                       >
                                         <History className="w-3 h-3 text-slate-500" />
                                         <span>{completedCount} Completed</span>
                                       </button>
                                     </td>
                                     <td className="p-3 text-right">
-                                      <div className="flex items-center justify-end gap-1.5">
+                                      <div className="flex items-center justify-end gap-1.5 flex-nowrap">
+                                        {/* 1. Complete */}
                                         {hasActive && (
                                           <button
+                                            type="button"
                                             onClick={() => openStudentCompleteModal(s, s.activeEnrollment)}
-                                            className="px-2.5 py-1 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-lg font-bold text-[11px] transition inline-flex items-center space-x-1"
+                                            className="px-2.5 py-1 bg-white hover:bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg font-bold text-[11px] transition inline-flex items-center space-x-1 shadow-2xs cursor-pointer"
                                             title="Mark current course completed and immediately deactivate login access"
                                           >
-                                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                                             <span>Complete</span>
                                           </button>
                                         )}
+
+                                        {/* 2. Assign */}
                                         <button
+                                          type="button"
                                           onClick={() => openAssignCourseModal(s._id)}
-                                          className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg font-bold text-[11px] transition inline-flex items-center space-x-1"
+                                          className="px-2.5 py-1 bg-white hover:bg-blue-50 text-blue-700 border border-blue-200 rounded-lg font-bold text-[11px] transition inline-flex items-center space-x-1 shadow-2xs cursor-pointer"
                                           title="Assign a new or next course to this student"
                                         >
-                                          <GraduationCap className="w-3 h-3 text-purple-600" />
+                                          <GraduationCap className="w-3.5 h-3.5 text-blue-600" />
                                           <span>Assign</span>
                                         </button>
+
+                                        {/* 3. Edit Icon */}
                                         <button
-                                          onClick={() => handleRemoveStudentFromBatch(s._id, s.name)}
-                                          className="p-1 text-slate-400 hover:text-red-600 rounded-lg transition"
-                                          title="Remove student from this batch"
+                                          type="button"
+                                          onClick={() => openEditStudentModal(s)}
+                                          className="w-7 h-7 bg-white hover:bg-purple-50 text-purple-600 hover:text-purple-700 border border-slate-200 hover:border-purple-300 rounded-lg transition-colors inline-flex items-center justify-center shadow-2xs cursor-pointer shrink-0"
+                                          title="Edit Student"
+                                          aria-label="Edit Student"
+                                        >
+                                          <Edit3 className="w-3.5 h-3.5" />
+                                        </button>
+
+                                        {/* 4. Delete Icon */}
+                                        <button
+                                          type="button"
+                                          onClick={() => openDeleteStudentModal(s)}
+                                          className="w-7 h-7 bg-white hover:bg-rose-50 text-rose-500 hover:text-rose-600 border border-slate-200 hover:border-rose-300 rounded-lg transition-colors inline-flex items-center justify-center shadow-2xs cursor-pointer shrink-0"
+                                          title="Delete Student"
+                                          aria-label="Delete Student"
                                         >
                                           <Trash2 className="w-3.5 h-3.5" />
                                         </button>
@@ -2930,7 +3531,7 @@ export default function BatchAndCollegePage() {
                 {/* TAB 3: TRAINING SCHEDULE */}
                 {activeTab === 'schedule' && (
                   <div className="space-y-4 text-xs">
-                    <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
                       <h3 className="font-bold text-slate-900 text-sm">Configured Schedule Parameters</h3>
                       <p><strong>Active Days:</strong> {batchDetails.batch.trainingDays?.join(', ')}</p>
                       <p><strong>Saturday Included:</strong> {batchDetails.batch.saturdayIncluded ? 'YES' : 'NO'}</p>
@@ -2947,7 +3548,7 @@ export default function BatchAndCollegePage() {
                       ) : (
                         <div className="flex flex-wrap gap-2">
                           {batchDetails.batch.holidays?.map((h, i) => (
-                            <span key={i} className="px-3 py-1.5 bg-red-50 text-red-700 border border-red-200 rounded-xl font-mono">
+                            <span key={i} className="px-3 py-1.5 bg-white text-red-700 border border-red-200 rounded-xl font-mono">
                               {h.date}: {h.title}
                             </span>
                           ))}
@@ -2957,40 +3558,14 @@ export default function BatchAndCollegePage() {
                   </div>
                 )}
 
-                {/* TAB 4: MODULES & PROGRESS */}
+                {/* TAB 4: SYLLABUS & MODULES */}
                 {activeTab === 'modules' && (
-                  <div className="space-y-4 text-xs">
-                    <div className="bg-purple-50/70 border border-purple-200 p-4 rounded-2xl text-purple-900 leading-relaxed">
-                      <strong>Module Completion Rule:</strong> A Module is marked <strong>COMPLETED</strong> for the batch ONLY when EVERY active student completes EVERY required task in that module.
-                    </div>
-
-                    <div className="space-y-3">
-                      {batchDetails.modulesProgress?.map(mod => (
-                        <div key={mod.moduleId} className="bg-white border border-slate-200 p-4 rounded-2xl space-y-2">
-                          <div className="flex items-center justify-between">
-                            <h4 className="font-bold text-slate-900 text-sm">{mod.title}</h4>
-                            <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase ${
-                              mod.isCompleted
-                                ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
-                                : 'bg-amber-50 text-amber-800 border border-amber-200'
-                            }`}>
-                              {mod.isCompleted ? 'MODULE COMPLETED FOR BATCH' : 'IN PROGRESS'}
-                            </span>
-                          </div>
-                          <p className="text-slate-600">{mod.description || 'Module tasks and practical coding challenges.'}</p>
-                          <div className="flex items-center space-x-4 pt-1">
-                            <div className="flex-1 bg-slate-100 h-2.5 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full ${mod.isCompleted ? 'bg-emerald-500' : 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91]'}`}
-                                style={{ width: `${mod.batchProgressPercent}%` }}
-                              />
-                            </div>
-                            <span className="font-bold text-slate-900">{mod.completedStudentsCount} / {mod.totalStudentsCount} Students Completed</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+                  <CollegeTrainingSyllabusManager
+                    batchId={selectedBatchId}
+                    batch={batchDetails?.batch}
+                    college={batchDetails?.batch?.collegeId}
+                    onRefreshBatch={() => fetchBatchDetails(selectedBatchId)}
+                  />
                 )}
 
                 {/* TAB 5: TUTOR DETAILS */}
@@ -3012,15 +3587,15 @@ export default function BatchAndCollegePage() {
                               <img
                                 src={matchedTutor.profilePhotoUrl.startsWith('http') ? matchedTutor.profilePhotoUrl : `http://localhost:5000${matchedTutor.profilePhotoUrl}`}
                                 alt={name}
-                                className="w-14 h-14 rounded-2xl object-cover border border-slate-200 shadow-2xs"
+                                className="w-14 h-14 rounded-2xl object-cover border border-blue-200 shadow-2xs"
                               />
                             ) : (
-                              <div className="w-14 h-14 rounded-2xl bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white flex items-center justify-center text-xl font-black">
+                              <div className="bg-white w-14 h-14 rounded-2xl text-blue-700 flex items-center justify-center text-xl font-black border border-blue-600">
                                 {name.charAt(0).toUpperCase()}
                               </div>
                             )}
                             <div>
-                              <span className="text-[10px] font-black uppercase tracking-wider text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">
+                              <span className="text-[10px] font-black uppercase tracking-wider text-blue-800 bg-white px-2 py-0.5 rounded border border-blue-200">
                                 Assigned Batch Tutor
                               </span>
                               <h3 className="font-black text-slate-900 text-lg mt-0.5">{name}</h3>
@@ -3042,12 +3617,12 @@ export default function BatchAndCollegePage() {
                             <div className="flex items-center space-x-2">
                               <strong className="text-slate-800">Stored Resume PDF:</strong>
                               {resumeUrl ? (
-                                <span className="font-mono text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-lg font-bold flex items-center space-x-1">
+                                <span className="font-mono text-emerald-800 bg-white border border-emerald-200 px-2.5 py-0.5 rounded-lg font-bold flex items-center space-x-1">
                                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                                   <span>{fileName}</span>
                                 </span>
                               ) : (
-                                <span className="bg-amber-50 text-amber-800 border border-amber-200 px-2.5 py-0.5 rounded-lg font-bold">
+                                <span className="bg-white text-amber-800 border border-amber-200 px-2.5 py-0.5 rounded-lg font-bold">
                                   Resume not available
                                 </span>
                               )}
@@ -3058,7 +3633,7 @@ export default function BatchAndCollegePage() {
                                 href={resumeUrl.startsWith('http') ? resumeUrl : `http://localhost:5000${resumeUrl}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="px-4 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition cursor-pointer"
+                                className="bg-white px-4 py-2 text-blue-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition cursor-pointer border border-blue-600"
                               >
                                 <FileText className="w-4 h-4" />
                                 <span>View PDF</span>
@@ -3096,7 +3671,7 @@ export default function BatchAndCollegePage() {
                 {activeTab === 'updates' && (
                   <div className="space-y-6 text-xs">
                     {/* Add Daily Update Form */}
-                    <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-3">
+                    <div className="bg-white p-5 rounded-2xl border border-slate-200 space-y-3">
                       <h3 className="font-bold text-slate-900 text-sm">Log Today's Tutor Teaching Update</h3>
                       <form onSubmit={handleSaveTutorUpdate} className="space-y-3">
                         <div>
@@ -3107,7 +3682,7 @@ export default function BatchAndCollegePage() {
                             value={tutorTopic}
                             onChange={e => setTutorTopic(e.target.value)}
                             placeholder="e.g. OOP Inheritance & Method Overriding in Java"
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                            className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                           />
                         </div>
                         <div>
@@ -3117,13 +3692,13 @@ export default function BatchAndCollegePage() {
                             value={tutorActivity}
                             onChange={e => setTutorActivity(e.target.value)}
                             placeholder="e.g. Solved 3 challenges on polymorphic class structures."
-                            className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                            className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900"
                           />
                         </div>
                         <button
                           type="submit"
                           disabled={savingUpdate}
-                          className="px-5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold shadow-md shadow-purple-500/20 transition cursor-pointer"
+                          className="bg-white px-5 py-2 text-blue-700 rounded-xl font-bold shadow-md shadow-purple-500/20 transition cursor-pointer border border-blue-600"
                         >
                           {savingUpdate ? 'Saving...' : 'Save Teaching Update'}
                         </button>
@@ -3154,7 +3729,7 @@ export default function BatchAndCollegePage() {
                       <button
                         onClick={handleTriggerManualReport}
                         disabled={triggeringReport}
-                        className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold flex items-center space-x-2 transition"
+                        className="bg-white px-4 py-2 text-emerald-700 rounded-xl font-bold flex items-center space-x-2 transition border border-emerald-600"
                       >
                         <RefreshCw className={`w-3.5 h-3.5 ${triggeringReport ? 'animate-spin' : ''}`} />
                         <span>{triggeringReport ? 'Generating Report...' : 'Generate & Email Report Now'}</span>
@@ -3175,7 +3750,7 @@ export default function BatchAndCollegePage() {
                             href={`http://localhost:5000${rep.pdfPath}`}
                             target="_blank"
                             rel="noreferrer"
-                            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center space-x-1.5"
+                            className="bg-white px-4 py-2 text-blue-700 rounded-xl font-bold flex items-center space-x-1.5 border border-blue-600"
                           >
                             <Download className="w-3.5 h-3.5" />
                             <span>Download PDF</span>
@@ -3195,27 +3770,35 @@ export default function BatchAndCollegePage() {
       {/* MODAL: EDIT COLLEGE TRAINING BATCH */}
       {/* ────────────────────────────────────────────────────────── */}
       {isEditBatchModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsEditBatchModalOpen(false)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <form
+            onSubmit={handleSaveEditBatch}
+            className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+          >
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-6 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl">
+              <button
+                type="button"
+                onClick={() => setIsEditBatchModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="space-y-1 border-b border-slate-100 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
-                Batch Configuration
-              </span>
-              <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
-                <FileText className="w-5 h-5 text-amber-600" />
-                <span>Edit College Training Batch</span>
-              </h2>
-              <p className="text-xs text-slate-500">Update cohort information, partner college, domain, schedule, and guide contact details.</p>
+              <div className="space-y-1 pr-8">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 bg-amber-50 px-2.5 py-0.5 rounded-full border border-amber-200 inline-block">
+                  Batch Configuration
+                </span>
+                <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
+                  <FileText className="w-5 h-5 text-amber-600" />
+                  <span>Edit College Training Batch</span>
+                </h2>
+                <p className="text-xs text-slate-500">Update cohort information, partner college, domain, schedule, and guide contact details.</p>
+              </div>
             </div>
 
-            <form onSubmit={handleSaveEditBatch} className="space-y-4 text-xs font-medium">
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4 text-xs font-medium">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-slate-800 font-bold">Batch Name *</label>
@@ -3224,7 +3807,7 @@ export default function BatchAndCollegePage() {
                     required
                     value={editBatchForm.name}
                     onChange={e => setEditBatchForm({ ...editBatchForm, name: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3235,22 +3818,52 @@ export default function BatchAndCollegePage() {
                     required
                     value={editBatchForm.code}
                     onChange={e => setEditBatchForm({ ...editBatchForm, code: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 uppercase font-mono font-bold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 uppercase font-mono font-bold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-slate-800 font-bold">Department *</label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-slate-800 font-bold">Department *</label>
+                    <button
+                      type="button"
+                      onClick={() => openAddDepartmentModal(editBatchForm.collegeId)}
+                      className="text-[11px] font-bold text-amber-700 hover:text-amber-900 flex items-center space-x-0.5 cursor-pointer"
+                      title="Add new department to this college"
+                    >
+                      <Plus className="w-3 h-3 text-amber-600" />
+                      <span>Add Department</span>
+                    </button>
+                  </div>
                   <select
                     value={editBatchForm.department}
-                    onChange={e => setEditBatchForm({ ...editBatchForm, department: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    onChange={e => {
+                      if (e.target.value === '__ADD_NEW_DEPT__') {
+                        openAddDepartmentModal(editBatchForm.collegeId);
+                        return;
+                      }
+                      setEditBatchForm({ ...editBatchForm, department: e.target.value });
+                    }}
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   >
-                    <option value="CSE">CSE</option>
-                    <option value="IT">IT</option>
-                    <option value="ECE">ECE</option>
-                    <option value="AIDS">AIDS</option>
-                    <option value="MECH">MECH</option>
+                    {collegeDepartments.length > 0 ? (
+                      collegeDepartments.map(d => (
+                        <option key={d._id} value={d.code || d.name}>
+                          {d.name} {d.code ? `(${d.code})` : ''}
+                        </option>
+                      ))
+                    ) : (
+                      <>
+                        <option value="CSE">CSE (Computer Science)</option>
+                        <option value="IT">IT (Information Tech)</option>
+                        <option value="AIDS">AIDS (AI & Data Science)</option>
+                        <option value="ECE">ECE (Electronics)</option>
+                        <option value="MECH">MECH (Mechanical)</option>
+                      </>
+                    )}
+                    <option value="__ADD_NEW_DEPT__" className="font-bold text-purple-700 bg-purple-50">
+                      + Add New Department...
+                    </option>
                   </select>
                 </div>
 
@@ -3259,7 +3872,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={editBatchForm.academicYear}
                     onChange={e => setEditBatchForm({ ...editBatchForm, academicYear: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   >
                     <option value="1st Year">1st Year</option>
                     <option value="2nd Year">2nd Year</option>
@@ -3273,7 +3886,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={editBatchForm.collegeId}
                     onChange={e => setEditBatchForm({ ...editBatchForm, collegeId: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   >
                     {colleges.map(c => (
                       <option key={c._id} value={c._id}>{c.name} ({c.code})</option>
@@ -3286,7 +3899,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={editBatchForm.courseId}
                     onChange={e => setEditBatchForm({ ...editBatchForm, courseId: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   >
                     {courses.map(c => (
                       <option key={c._id} value={c._id}>{c.title}</option>
@@ -3299,7 +3912,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={editBatchForm.trainerId}
                     onChange={e => setEditBatchForm({ ...editBatchForm, trainerId: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   >
                     {tutors.map(t => (
                       <option key={t._id || t.userId} value={t._id || t.userId}>{t.name || t.fullName}</option>
@@ -3314,7 +3927,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.dailyReportTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, dailyReportTime: e.target.value })}
                     placeholder="18:00"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3324,7 +3937,7 @@ export default function BatchAndCollegePage() {
                     type="date"
                     value={editBatchForm.startDate}
                     onChange={e => setEditBatchForm({ ...editBatchForm, startDate: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3334,7 +3947,7 @@ export default function BatchAndCollegePage() {
                     type="date"
                     value={editBatchForm.endDate}
                     onChange={e => setEditBatchForm({ ...editBatchForm, endDate: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3345,7 +3958,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.startTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, startTime: e.target.value })}
                     placeholder="09:00 AM"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3356,7 +3969,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.endTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, endTime: e.target.value })}
                     placeholder="04:30 PM"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3367,7 +3980,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.breakStartTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, breakStartTime: e.target.value })}
                     placeholder="01:00 PM"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3378,7 +3991,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.breakEndTime}
                     onChange={e => setEditBatchForm({ ...editBatchForm, breakEndTime: e.target.value })}
                     placeholder="02:00 PM"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3389,7 +4002,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.collegeGuideName}
                     onChange={e => setEditBatchForm({ ...editBatchForm, collegeGuideName: e.target.value })}
                     placeholder="Prof. Smith"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3400,7 +4013,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.collegeGuideEmail}
                     onChange={e => setEditBatchForm({ ...editBatchForm, collegeGuideEmail: e.target.value })}
                     placeholder="guide@college.edu"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3411,7 +4024,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.hodName}
                     onChange={e => setEditBatchForm({ ...editBatchForm, hodName: e.target.value })}
                     placeholder="Dr. Johnson"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3422,7 +4035,7 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.hodEmail}
                     onChange={e => setEditBatchForm({ ...editBatchForm, hodEmail: e.target.value })}
                     placeholder="hod@college.edu"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
 
@@ -3433,30 +4046,31 @@ export default function BatchAndCollegePage() {
                     value={editBatchForm.placementOfficeEmail}
                     onChange={e => setEditBatchForm({ ...editBatchForm, placementOfficeEmail: e.target.value })}
                     placeholder="placement@college.edu"
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 font-semibold focus:outline-none focus:border-amber-500"
                   />
                 </div>
               </div>
+            </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-4 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setIsEditBatchModalOpen(false)}
-                  className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold transition"
-                >
-                  Cancel
-                </button>
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => setIsEditBatchModalOpen(false)}
+                className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold transition border border-slate-200 text-xs cursor-pointer"
+              >
+                Cancel
+              </button>
 
-                <button
-                  type="submit"
-                  disabled={submittingEditBatch}
-                  className="px-6 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold shadow-sm transition"
-                >
-                  {submittingEditBatch ? 'Saving Changes...' : 'Save Changes'}
-                </button>
-              </div>
-            </form>
-          </div>
+              <button
+                type="submit"
+                disabled={submittingEditBatch}
+                className="bg-white px-6 py-2.5 text-amber-700 hover:bg-amber-50 rounded-xl font-bold shadow-sm transition border border-amber-600 text-xs cursor-pointer disabled:opacity-50"
+              >
+                {submittingEditBatch ? 'Saving Changes...' : 'Save Changes'}
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
@@ -3464,52 +4078,53 @@ export default function BatchAndCollegePage() {
       {/* MODAL: ADD STUDENTS TO BATCH */}
       {/* ────────────────────────────────────────────────────────── */}
       {isAddStudentsModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-3xl w-full p-6 md:p-8 space-y-6 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsAddStudentsModalOpen(false)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
-            >
-              <X className="w-5 h-5" />
-            </button>
-
-            <div className="space-y-1 border-b border-slate-100 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
-                Batch Roster Management
-              </span>
-              <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
-                <Users className="w-5 h-5 text-purple-600" />
-                <span>Add Students to Batch ({batchDetails?.batch?.name})</span>
-              </h2>
-              <p className="text-xs text-slate-500">Append new or existing students to this batch without affecting existing enrolled students.</p>
-            </div>
-
-            {/* Sub-Tabs: Select Existing vs Upload PDF */}
-            <div className="flex items-center space-x-2 border-b border-slate-200 pb-2">
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <div className="bg-white rounded-3xl max-w-3xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-7 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl space-y-4">
               <button
-                onClick={() => setAddStudentsTab('select')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 ${
-                  addStudentsTab === 'select'
-                    ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                type="button"
+                onClick={() => setIsAddStudentsModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
               >
-                <Users className="w-3.5 h-3.5" />
-                <span>1. Select Existing Students</span>
+                <X className="w-5 h-5" />
               </button>
 
-              <button
-                onClick={() => setAddStudentsTab('pdf')}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 ${
-                  addStudentsTab === 'pdf'
-                    ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                <Upload className="w-3.5 h-3.5" />
-                <span>2. Upload Student Details PDF</span>
-              </button>
+              <div className="space-y-1 pr-8">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 bg-blue-50 px-2.5 py-0.5 rounded-full border border-blue-200 inline-block">
+                  Batch Roster Management
+                </span>
+                <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
+                  <Users className="w-5 h-5 text-blue-800" />
+                  <span>Add Students to Batch ({batchDetails?.batch?.name})</span>
+                </h2>
+                <p className="text-xs text-slate-500">Append new or existing students to this batch without affecting existing enrolled students.</p>
+              </div>
+
+              {/* Sub-Tabs: Select Existing vs Upload PDF */}
+              <div className="flex items-center space-x-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setAddStudentsTab('select')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${ addStudentsTab === 'select' ? 'bg-white text-blue-700 shadow-sm border border-blue-600' : 'bg-white text-slate-600 hover:bg-slate-100 border border-transparent' }`}
+                >
+                  <Users className="w-3.5 h-3.5" />
+                  <span>1. Select Existing Students</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setAddStudentsTab('pdf')}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${ addStudentsTab === 'pdf' ? 'bg-white text-blue-700 shadow-sm border border-blue-600' : 'bg-white text-slate-600 hover:bg-slate-100 border border-transparent' }`}
+                >
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>2. Upload Student Details PDF</span>
+                </button>
+              </div>
             </div>
+
+            {/* SCROLLABLE CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4">
 
             {/* TAB 1: SELECT EXISTING STUDENTS */}
             {addStudentsTab === 'select' && (
@@ -3521,16 +4136,16 @@ export default function BatchAndCollegePage() {
                     placeholder="Search by student name, email, or Student ID..."
                     value={addStudentsSearch}
                     onChange={e => setAddStudentsSearch(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
+                    className="w-full bg-white border border-blue-200 rounded-xl pl-9 pr-4 py-2.5 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
                   />
                 </div>
 
                 {loadingEligibleStudents ? (
                   <div className="p-8 text-center text-slate-500 font-bold">Loading eligible students...</div>
                 ) : (
-                  <div className="border border-slate-200 rounded-2xl max-h-64 overflow-y-auto">
+                  <div className="border border-blue-200 rounded-2xl max-h-64 overflow-y-auto">
                     <table className="w-full text-left border-collapse">
-                      <thead className="bg-slate-100 text-slate-700 font-bold sticky top-0">
+                      <thead className="bg-white text-slate-700 font-bold sticky top-0">
                         <tr>
                           <th className="p-3">Select</th>
                           <th className="p-3">Student ID</th>
@@ -3554,7 +4169,7 @@ export default function BatchAndCollegePage() {
                             const isChecked = selectedStudentUserIdsToAdd.includes(s._id);
 
                             return (
-                              <tr key={s._id} className="hover:bg-slate-50">
+                              <tr key={s._id} className="hover:bg-white">
                                 <td className="p-3">
                                   <input
                                     type="checkbox"
@@ -3567,18 +4182,18 @@ export default function BatchAndCollegePage() {
                                         setSelectedStudentUserIdsToAdd(prev => prev.filter(id => id !== s._id));
                                       }
                                     }}
-                                    className="w-4 h-4 text-purple-600 focus:ring-purple-500 rounded"
+                                    className="w-4 h-4 text-blue-800 focus:ring-purple-500 rounded"
                                   />
                                 </td>
-                                <td className="p-3 font-mono font-bold text-purple-600">{s.studentId || 'N/A'}</td>
+                                <td className="p-3 font-mono font-bold text-blue-800">{s.studentId || 'N/A'}</td>
                                 <td className="p-3 font-bold text-slate-900">{s.name}</td>
                                 <td className="p-3 font-mono text-slate-600">{s.email}</td>
-                                <td className="p-3 font-semibold text-purple-700">{s.studentType || 'LMS'}</td>
+                                <td className="p-3 font-semibold text-blue-800">{s.studentType || 'LMS'}</td>
                                 <td className="p-3">
                                   {isAlreadyInBatch ? (
-                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">Already Added</span>
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-slate-700">Already Added</span>
                                   ) : (
-                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Eligible</span>
+                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-800">Eligible</span>
                                   )}
                                 </td>
                               </tr>
@@ -3589,40 +4204,17 @@ export default function BatchAndCollegePage() {
                   </div>
                 )}
 
-                <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                  <span className="text-slate-500 font-bold">
-                    {selectedStudentUserIdsToAdd.length} new student(s) selected
-                  </span>
-
-                  <div className="flex space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => setIsAddStudentsModalOpen(false)}
-                      className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="button"
-                      disabled={submittingAppendStudents || selectedStudentUserIdsToAdd.length === 0}
-                      onClick={handleConfirmAppendStudents}
-                      className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold shadow-md shadow-purple-500/20 transition cursor-pointer"
-                    >
-                      {submittingAppendStudents ? 'Adding Students...' : `Add Selected Students (${selectedStudentUserIdsToAdd.length})`}
-                    </button>
-                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
             {/* TAB 2: UPLOAD STUDENT DETAILS PDF */}
             {addStudentsTab === 'pdf' && (
               <div className="space-y-4 text-xs font-medium">
                 <form onSubmit={handlePreviewPdfImport} className="space-y-3">
-                  <div className="border-2 border-dashed border-purple-200 rounded-2xl p-6 text-center space-y-3 bg-purple-50/50">
-                    <Upload className="w-8 h-8 text-purple-600 mx-auto" />
+                  <div className="border-2 border-dashed border-blue-200 rounded-2xl p-6 text-center space-y-3 bg-white">
+                    <Upload className="w-8 h-8 text-blue-800 mx-auto" />
                     <div>
-                      <label className="cursor-pointer px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold inline-block shadow-sm">
+                      <label className="bg-white cursor-pointer px-4 py-2 text-blue-700 rounded-xl font-bold inline-block shadow-sm border border-blue-600">
                         <span>Choose Student PDF File</span>
                         <input
                           type="file"
@@ -3644,14 +4236,14 @@ export default function BatchAndCollegePage() {
                       value={addStudentsPdfText}
                       onChange={e => setAddStudentsPdfText(e.target.value)}
                       placeholder="Paste student roster lines with name, email, department..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 font-mono text-[11px] focus:outline-none focus:border-purple-500"
+                      className="w-full bg-blue-50 border border-blue-200 rounded-xl p-3 font-mono text-[11px] focus:outline-none focus:border-purple-500"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={previewingPdf}
-                    className="w-full py-2.5 bg-purple-700 hover:bg-purple-800 text-white rounded-xl font-bold shadow-sm transition"
+                    className="bg-white w-full py-2.5 text-blue-700 rounded-xl font-bold shadow-sm transition border border-blue-600"
                   >
                     {previewingPdf ? 'Parsing & Previewing PDF...' : 'Preview PDF Import'}
                   </button>
@@ -3659,30 +4251,30 @@ export default function BatchAndCollegePage() {
 
                 {/* PDF PREVIEW RESULTS BOX */}
                 {pdfPreviewData && (
-                  <div className="space-y-4 border-t border-slate-200 pt-4">
+                  <div className="space-y-4 border-t border-blue-200 pt-4">
                     <h3 className="font-black text-slate-900 text-sm">PDF Import Preview</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                      <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                      <div className="bg-white p-3 rounded-xl border border-blue-200 text-center">
                         <span className="text-slate-400 font-bold uppercase text-[10px] block">Detected</span>
                         <span className="text-lg font-black text-slate-900">{pdfPreviewData.totalFound}</span>
                       </div>
-                      <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-center">
+                      <div className="bg-white p-3 rounded-xl border border-emerald-200 text-center">
                         <span className="text-emerald-700 font-bold uppercase text-[10px] block">New Students</span>
                         <span className="text-lg font-black text-emerald-800">+{pdfPreviewData.newStudentsCount}</span>
                       </div>
-                      <div className="bg-purple-50 p-3 rounded-xl border border-purple-200 text-center">
-                        <span className="text-purple-700 font-bold uppercase text-[10px] block">In System DB</span>
+                      <div className="bg-white p-3 rounded-xl border border-blue-200 text-center">
+                        <span className="text-blue-800 font-bold uppercase text-[10px] block">In System DB</span>
                         <span className="text-lg font-black text-purple-800">+{pdfPreviewData.existingDbCount}</span>
                       </div>
-                      <div className="bg-slate-100 p-3 rounded-xl border border-slate-300 text-center">
+                      <div className="bg-white p-3 rounded-xl border border-slate-300 text-center">
                         <span className="text-slate-600 font-bold uppercase text-[10px] block">Already in Batch</span>
                         <span className="text-lg font-black text-slate-700">{pdfPreviewData.alreadyInBatchCount}</span>
                       </div>
                     </div>
 
-                    <div className="border border-slate-200 rounded-2xl max-h-48 overflow-y-auto">
+                    <div className="border border-blue-200 rounded-2xl max-h-48 overflow-y-auto">
                       <table className="w-full text-left border-collapse">
-                        <thead className="bg-slate-100 text-slate-700 font-bold sticky top-0">
+                        <thead className="bg-white text-slate-700 font-bold sticky top-0">
                           <tr>
                             <th className="p-2.5">Name</th>
                             <th className="p-2.5">Email</th>
@@ -3692,19 +4284,19 @@ export default function BatchAndCollegePage() {
                         </thead>
                         <tbody className="divide-y divide-slate-100">
                           {pdfPreviewData.preview?.map((item, i) => (
-                            <tr key={i} className="hover:bg-slate-50">
+                            <tr key={i} className="hover:bg-white">
                               <td className="p-2.5 font-bold text-slate-900">{item.name}</td>
                               <td className="p-2.5 font-mono text-slate-600">{item.email}</td>
                               <td className="p-2.5">{item.department} ({item.academicYear})</td>
                               <td className="p-2.5">
                                 {item.statusTag === 'NEW' && (
-                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800">Genuinely New</span>
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-800">Genuinely New</span>
                                 )}
                                 {item.statusTag === 'EXISTS_IN_DB' && (
-                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800">Exists in DB</span>
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-purple-800">Exists in DB</span>
                                 )}
                                 {item.statusTag === 'ALREADY_IN_BATCH' && (
-                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-200 text-slate-700">Already in Batch</span>
+                                  <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-slate-700">Already in Batch</span>
                                 )}
                               </td>
                             </tr>
@@ -3712,28 +4304,56 @@ export default function BatchAndCollegePage() {
                         </tbody>
                       </table>
                     </div>
-
-                    <div className="flex items-center justify-end space-x-3 pt-2">
-                      <button
-                        type="button"
-                        onClick={() => setIsAddStudentsModalOpen(false)}
-                        className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold"
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        type="button"
-                        disabled={submittingAppendStudents}
-                        onClick={handleConfirmAppendStudents}
-                        className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold shadow-md shadow-purple-500/20 transition cursor-pointer"
-                      >
-                        {submittingAppendStudents ? 'Importing Students...' : 'Confirm & Add Students'}
-                      </button>
-                    </div>
                   </div>
                 )}
               </div>
             )}
+            </div>
+
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-between">
+              <div>
+                {addStudentsTab === 'select' ? (
+                  <span className="text-slate-600 font-bold text-xs">
+                    {selectedStudentUserIdsToAdd.length} new student(s) selected
+                  </span>
+                ) : (
+                  <span className="text-slate-600 font-bold text-xs">
+                    {pdfPreviewData ? `${pdfPreviewData.totalFound} student(s) detected` : 'Upload or paste PDF to preview'}
+                  </span>
+                )}
+              </div>
+
+              <div className="flex items-center space-x-3">
+                <button
+                  type="button"
+                  onClick={() => setIsAddStudentsModalOpen(false)}
+                  className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold transition border border-slate-200 text-xs cursor-pointer"
+                >
+                  Cancel
+                </button>
+
+                {addStudentsTab === 'select' ? (
+                  <button
+                    type="button"
+                    disabled={submittingAppendStudents || selectedStudentUserIdsToAdd.length === 0}
+                    onClick={handleConfirmAppendStudents}
+                    className="bg-white px-6 py-2.5 text-blue-700 hover:bg-blue-50 rounded-xl font-bold shadow-md transition cursor-pointer border border-blue-600 text-xs disabled:opacity-50"
+                  >
+                    {submittingAppendStudents ? 'Adding Students...' : `Add Selected Students (${selectedStudentUserIdsToAdd.length})`}
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    disabled={submittingAppendStudents || !pdfPreviewData}
+                    onClick={handleConfirmAppendStudents}
+                    className="bg-white px-6 py-2.5 text-blue-700 hover:bg-blue-50 rounded-xl font-bold shadow-md transition cursor-pointer border border-blue-600 text-xs disabled:opacity-50"
+                  >
+                    {submittingAppendStudents ? 'Importing Students...' : 'Confirm & Add Students'}
+                  </button>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       )}
@@ -3746,25 +4366,25 @@ export default function BatchAndCollegePage() {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-6 shadow-2xl relative border border-slate-100">
             <button
               onClick={() => setIsDeleteConfirmModalOpen(false)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="space-y-2 text-center">
-              <div className="w-12 h-12 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-white text-red-600 rounded-full flex items-center justify-center mx-auto">
                 <AlertCircle className="w-6 h-6" />
               </div>
               <h2 className="text-xl font-black text-slate-900">Delete College Training Batch</h2>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2 text-xs font-medium">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 space-y-2 text-xs font-medium">
               <p><strong>Batch:</strong> {batchDetails?.batch?.name}</p>
               <p><strong>Code:</strong> {batchDetails?.batch?.code}</p>
               <p><strong>Students Enrolled:</strong> {batchDetails?.students?.length} Students</p>
             </div>
 
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-4 text-amber-800 text-xs font-semibold leading-relaxed">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 text-amber-800 text-xs font-semibold leading-relaxed">
               ⚠️ <strong>Warning:</strong> Deleting this batch will remove this batch's training records and student enrollment from this batch. <strong>Student user accounts will NOT be deleted.</strong>
             </div>
 
@@ -3772,7 +4392,7 @@ export default function BatchAndCollegePage() {
               <button
                 type="button"
                 onClick={() => setIsDeleteConfirmModalOpen(false)}
-                className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs"
+                className="px-4 py-2 bg-white text-slate-700 hover:bg-white rounded-xl font-bold text-xs"
               >
                 Cancel
               </button>
@@ -3780,7 +4400,7 @@ export default function BatchAndCollegePage() {
                 type="button"
                 disabled={deletingBatch}
                 onClick={handleConfirmDeleteBatch}
-                className="px-6 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-bold text-xs shadow-sm transition"
+                className="bg-white px-6 py-2.5 text-blue-700 rounded-xl font-bold text-xs shadow-sm transition border border-blue-600"
               >
                 {deletingBatch ? 'Deleting Batch...' : 'Delete Batch'}
               </button>
@@ -3793,26 +4413,34 @@ export default function BatchAndCollegePage() {
       {/* MODAL 1: ASSIGN NEW COURSE TO BATCH STUDENTS */}
       {/* ────────────────────────────────────────────────────────── */}
       {isAssignCourseModalOpen && (
-        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-2xl w-full p-6 space-y-5 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
-            <button
-              onClick={() => setIsAssignCourseModalOpen(false)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
-            >
-              <X className="w-5 h-5" />
-            </button>
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <form
+            onSubmit={handleSubmitAssignCourse}
+            className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+          >
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-6 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl">
+              <button
+                type="button"
+                onClick={() => setIsAssignCourseModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="space-y-1 border-b border-slate-100 pb-3">
-              <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
-                <BookOpen className="w-5 h-5 text-purple-600" />
-                <span>Assign New Course to Batch Students</span>
-              </h2>
-              <p className="text-xs text-slate-500 font-medium">
-                Assign a new course to existing students in <strong className="text-purple-700">{batchDetails?.batch?.name}</strong>. Reuses existing student profiles and generates dedicated credentials for the new course without duplicating records.
-              </p>
+              <div className="space-y-1 pr-8">
+                <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
+                  <BookOpen className="w-5 h-5 text-blue-800" />
+                  <span>Assign New Course to Batch Students</span>
+                </h2>
+                <p className="text-xs text-slate-500 font-medium">
+                  Assign a new course to existing students in <strong className="text-blue-800">{batchDetails?.batch?.name}</strong>. Reuses existing student profiles and generates dedicated credentials for the new course without duplicating records.
+                </p>
+              </div>
             </div>
 
-            <form onSubmit={handleSubmitAssignCourse} className="space-y-4">
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-xs font-bold text-slate-700 mb-1">
@@ -3821,7 +4449,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={assignCourseForm.courseId}
                     onChange={(e) => setAssignCourseForm(prev => ({ ...prev, courseId: e.target.value }))}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                     required
                   >
                     <option value="">-- Choose Course --</option>
@@ -3840,7 +4468,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={assignCourseForm.tutorId}
                     onChange={(e) => setAssignCourseForm(prev => ({ ...prev, tutorId: e.target.value }))}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     <option value="">-- Batch Default Trainer --</option>
                     {tutors.map((tut) => (
@@ -3858,7 +4486,7 @@ export default function BatchAndCollegePage() {
                   <select
                     value={assignCourseForm.mode}
                     onChange={(e) => setAssignCourseForm(prev => ({ ...prev, mode: e.target.value }))}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     <option value="ONLINE">ONLINE</option>
                     <option value="OFFLINE">OFFLINE</option>
@@ -3874,7 +4502,7 @@ export default function BatchAndCollegePage() {
                     type="date"
                     value={assignCourseForm.startDate}
                     onChange={(e) => setAssignCourseForm(prev => ({ ...prev, startDate: e.target.value }))}
-                    className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
                 </div>
               </div>
@@ -3885,7 +4513,7 @@ export default function BatchAndCollegePage() {
                   id="sendCredentialsEmail"
                   checked={assignCourseForm.sendEmails}
                   onChange={(e) => setAssignCourseForm(prev => ({ ...prev, sendEmails: e.target.checked }))}
-                  className="rounded text-purple-600 focus:ring-purple-500 h-4 w-4"
+                  className="rounded text-blue-800 focus:ring-purple-500 h-4 w-4"
                 />
                 <label htmlFor="sendCredentialsEmail" className="text-xs font-semibold text-slate-700 cursor-pointer">
                   Send new course credentials to students automatically via email
@@ -3893,10 +4521,10 @@ export default function BatchAndCollegePage() {
               </div>
 
               {/* Student Multi-Selection Box */}
-              <div className="border border-slate-200 rounded-2xl p-4 bg-slate-50/50 space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+              <div className="border border-blue-200 rounded-2xl p-4 bg-white space-y-3">
+                <div className="flex items-center justify-between border-b border-blue-200 pb-2">
                   <div className="flex items-center space-x-2">
-                    <Users className="w-4 h-4 text-purple-600" />
+                    <Users className="w-4 h-4 text-blue-800" />
                     <span className="text-xs font-black text-slate-800">
                       Select Students ({assignCourseForm.studentUserIds.length} / {batchDetails?.students?.length || 0} selected)
                     </span>
@@ -3904,7 +4532,7 @@ export default function BatchAndCollegePage() {
                   <button
                     type="button"
                     onClick={handleSelectAllStudentsForCourse}
-                    className="text-xs font-bold text-purple-600 hover:text-purple-800 flex items-center space-x-1 cursor-pointer"
+                    className="text-xs font-bold text-blue-800 hover:text-purple-800 flex items-center space-x-1 cursor-pointer"
                   >
                     {assignCourseForm.studentUserIds.length === (batchDetails?.students?.length || 0) ? (
                       <>
@@ -3931,18 +4559,14 @@ export default function BatchAndCollegePage() {
                         <div
                           key={student._id}
                           onClick={() => handleToggleStudentSelection(student._id)}
-                          className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition ${
-                            isSelected
-                              ? 'bg-purple-50/80 border-purple-300 text-purple-900 font-semibold'
-                              : 'bg-white border-slate-200 hover:bg-slate-50 text-slate-700'
-                          }`}
+                          className={`flex items-center justify-between p-2.5 rounded-xl border text-xs cursor-pointer transition ${ isSelected ? 'bg-white border-blue-200 text-purple-900 font-semibold' : 'bg-white border-blue-200 hover:bg-white text-slate-700' }`}
                         >
                           <div className="flex items-center space-x-3">
                             <input
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => {}}
-                              className="rounded text-purple-600 focus:ring-purple-500 h-4 w-4 pointer-events-none"
+                              className="rounded text-blue-800 focus:ring-purple-500 h-4 w-4 pointer-events-none"
                             />
                             <div>
                               <p className="font-bold text-slate-900">{student.name}</p>
@@ -3953,15 +4577,11 @@ export default function BatchAndCollegePage() {
                           </div>
 
                           <div className="text-right flex items-center space-x-2">
-                            <span className="text-[11px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded font-medium">
+                            <span className="text-[11px] bg-white text-slate-700 px-2 py-0.5 rounded font-medium">
                               Current: {currentCourse}
                             </span>
                             <span
-                              className={`text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center space-x-1 ${
-                                isAccessActive
-                                  ? 'bg-emerald-100 text-emerald-800'
-                                  : 'bg-slate-200 text-slate-600'
-                              }`}
+                              className={`text-[10px] px-2 py-0.5 rounded-full font-bold flex items-center space-x-1 ${ isAccessActive ? 'bg-white text-emerald-800' : 'bg-white text-slate-600' }`}
                             >
                               {isAccessActive ? <Unlock className="w-2.5 h-2.5 inline mr-1" /> : <Lock className="w-2.5 h-2.5 inline mr-1" />}
                               <span>{isAccessActive ? 'Active' : 'Deactivated'}</span>
@@ -3977,30 +4597,31 @@ export default function BatchAndCollegePage() {
                   )}
                 </div>
               </div>
+            </div>
 
-              <div className="flex items-center justify-end space-x-3 pt-3 border-t border-slate-100">
-                <button
-                  type="button"
-                  onClick={() => setIsAssignCourseModalOpen(false)}
-                  className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={submittingAssignCourse || assignCourseForm.studentUserIds.length === 0}
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] disabled:opacity-50 text-white rounded-xl font-bold text-xs shadow-md shadow-purple-500/20 transition cursor-pointer flex items-center space-x-2"
-                >
-                  <BookOpen className="w-4 h-4" />
-                  <span>
-                    {submittingAssignCourse
-                      ? 'Assigning Course...'
-                      : `Assign Course to ${assignCourseForm.studentUserIds.length} Student${assignCourseForm.studentUserIds.length === 1 ? '' : 's'}`}
-                  </span>
-                </button>
-              </div>
-            </form>
-          </div>
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-end space-x-3">
+              <button
+                type="button"
+                onClick={() => setIsAssignCourseModalOpen(false)}
+                className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold text-xs transition border border-slate-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submittingAssignCourse || assignCourseForm.studentUserIds.length === 0}
+                className="bg-white px-6 py-2.5 disabled:opacity-50 text-blue-700 hover:bg-blue-50 rounded-xl font-bold text-xs shadow-md transition cursor-pointer flex items-center space-x-2 border border-blue-600"
+              >
+                <BookOpen className="w-4 h-4" />
+                <span>
+                  {submittingAssignCourse
+                    ? 'Assigning Course...'
+                    : `Assign Course to ${assignCourseForm.studentUserIds.length} Student${assignCourseForm.studentUserIds.length === 1 ? '' : 's'}`}
+                </span>
+              </button>
+            </div>
+          </form>
         </div>
       )}
 
@@ -4012,7 +4633,7 @@ export default function BatchAndCollegePage() {
           <div className="bg-white rounded-3xl max-w-3xl w-full p-6 space-y-5 shadow-2xl relative border border-slate-100 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setAssignedCredentialsResult(null)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -4027,7 +4648,7 @@ export default function BatchAndCollegePage() {
               </p>
             </div>
 
-            <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-emerald-900 text-xs font-semibold flex items-start space-x-2">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 text-emerald-900 text-xs font-semibold flex items-start space-x-2">
               <ShieldCheck className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
               <div>
                 <p className="font-bold">Login Access Status: ACTIVE</p>
@@ -4037,9 +4658,9 @@ export default function BatchAndCollegePage() {
               </div>
             </div>
 
-            <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
+            <div className="border border-blue-200 rounded-2xl overflow-hidden shadow-xs">
               <table className="w-full text-left text-xs">
-                <thead className="bg-slate-50 border-b border-slate-200 font-black text-slate-700">
+                <thead className="bg-white border-b border-blue-200 font-black text-slate-700">
                   <tr>
                     <th className="px-4 py-2.5">Student Name & ID</th>
                     <th className="px-4 py-2.5">Email</th>
@@ -4050,10 +4671,10 @@ export default function BatchAndCollegePage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
                   {assignedCredentialsResult.map((cred, idx) => (
-                    <tr key={idx} className="hover:bg-slate-50/60">
+                    <tr key={idx} className="hover:bg-white">
                       <td className="px-4 py-2.5">
                         <p className="font-bold text-slate-900">{cred.studentName}</p>
-                        <p className="text-[10px] font-mono text-purple-700">{cred.permanentStudentId || cred.studentId}</p>
+                        <p className="text-[10px] font-mono text-blue-800">{cred.permanentStudentId || cred.studentId}</p>
                       </td>
                       <td className="px-4 py-2.5 font-mono text-slate-600 text-[11px]">
                         {cred.email}
@@ -4063,12 +4684,12 @@ export default function BatchAndCollegePage() {
                       </td>
                       <td className="px-4 py-2.5 text-slate-800 font-bold">{cred.courseName}</td>
                       <td className="px-4 py-2.5">
-                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-purple-100 text-purple-900 border border-purple-200">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-white text-purple-900 border border-blue-200">
                           {cred.courseUsername}
                         </span>
                       </td>
                       <td className="px-4 py-2.5">
-                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-amber-100 text-amber-900 border border-amber-200">
+                        <span className="font-mono text-xs font-bold px-2 py-0.5 rounded bg-white text-amber-900 border border-amber-200">
                           {cred.temporaryPassword}
                         </span>
                       </td>
@@ -4088,7 +4709,7 @@ export default function BatchAndCollegePage() {
                   navigator.clipboard.writeText(text);
                   showToast('Credentials copied to clipboard!');
                 }}
-                className="px-4 py-2 bg-purple-50 text-purple-700 hover:bg-purple-100 border border-purple-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                className="px-4 py-2 bg-white text-blue-800 hover:bg-white border border-blue-200 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
               >
                 <Copy className="w-3.5 h-3.5" />
                 <span>Copy All to Clipboard</span>
@@ -4097,7 +4718,7 @@ export default function BatchAndCollegePage() {
               <button
                 type="button"
                 onClick={() => setAssignedCredentialsResult(null)}
-                className="px-6 py-2 bg-gradient-to-r from-[#8B2BE2] to-[#B829B6] text-white hover:opacity-95 rounded-xl font-bold text-xs shadow-sm transition cursor-pointer"
+                className="bg-white px-6 py-2 text-blue-700 hover:opacity-95 rounded-xl font-bold text-xs shadow-sm transition cursor-pointer border border-blue-600"
               >
                 Done
               </button>
@@ -4114,13 +4735,13 @@ export default function BatchAndCollegePage() {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative border border-slate-100">
             <button
               onClick={() => setIsCompleteConfirmModalOpen(false)}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="space-y-2 text-center">
-              <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto">
+              <div className="w-12 h-12 bg-white text-rose-600 rounded-full flex items-center justify-center mx-auto">
                 <Lock className="w-6 h-6" />
               </div>
               <h2 className="text-xl font-black text-slate-900">
@@ -4130,7 +4751,7 @@ export default function BatchAndCollegePage() {
               </h2>
             </div>
 
-            <div className="bg-rose-50 border border-rose-200 rounded-2xl p-4 text-rose-900 text-xs font-semibold leading-relaxed space-y-1.5">
+            <div className="bg-white border border-rose-200 rounded-2xl p-4 text-rose-900 text-xs font-semibold leading-relaxed space-y-1.5">
               <p className="font-bold flex items-center space-x-1">
                 <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />
                 <span>Immediate Login Access Deactivation</span>
@@ -4144,7 +4765,7 @@ export default function BatchAndCollegePage() {
               </p>
             </div>
 
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 space-y-2 text-xs font-medium">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 space-y-2 text-xs font-medium">
               <p><strong>Target:</strong> {completeTarget?.type === 'batch' ? `Entire Batch (${batchDetails?.batch?.name})` : completeTarget?.studentName}</p>
               <p><strong>Course:</strong> {completeTarget?.courseName}</p>
               {completeTarget?.type === 'batch' && (
@@ -4162,7 +4783,7 @@ export default function BatchAndCollegePage() {
                   value={completeTarget?.reason || ''}
                   onChange={(e) => setCompleteTarget(prev => ({ ...prev, reason: e.target.value }))}
                   placeholder="e.g. Training curriculum completed successfully"
-                  className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-rose-500"
+                  className="w-full px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold focus:outline-none focus:ring-2 focus:ring-rose-500"
                 />
               </div>
             </div>
@@ -4171,7 +4792,7 @@ export default function BatchAndCollegePage() {
               <button
                 type="button"
                 onClick={() => setIsCompleteConfirmModalOpen(false)}
-                className="px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-xl font-bold text-xs"
+                className="px-4 py-2 bg-white text-slate-700 hover:bg-white rounded-xl font-bold text-xs"
               >
                 Cancel
               </button>
@@ -4179,7 +4800,7 @@ export default function BatchAndCollegePage() {
                 type="button"
                 disabled={submittingComplete}
                 onClick={handleConfirmCompleteCourse}
-                className="px-6 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs shadow-sm transition flex items-center space-x-2 cursor-pointer"
+                className="bg-white px-6 py-2.5 text-blue-700 rounded-xl font-bold text-xs shadow-sm transition flex items-center space-x-2 cursor-pointer border border-blue-600"
               >
                 <Lock className="w-3.5 h-3.5" />
                 <span>{submittingComplete ? 'Revoking Access...' : 'Confirm & Revoke Access'}</span>
@@ -4200,14 +4821,14 @@ export default function BatchAndCollegePage() {
                 setIsHistoryModalOpen(false);
                 setSelectedHistoryStudent(null);
               }}
-              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white transition cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
 
             <div className="space-y-1 border-b border-slate-100 pb-3">
               <h2 className="text-xl font-black text-slate-900 flex items-center space-x-2">
-                <History className="w-5 h-5 text-purple-600" />
+                <History className="w-5 h-5 text-blue-800" />
                 <span>Student Course & Access History</span>
               </h2>
               <p className="text-xs text-slate-500 font-medium">
@@ -4216,14 +4837,14 @@ export default function BatchAndCollegePage() {
             </div>
 
             {/* Student Profile Card */}
-            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+            <div className="bg-white border border-slate-200 rounded-2xl p-4 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Student Name</span>
                 <span className="font-bold text-slate-900">{selectedHistoryStudent.name}</span>
               </div>
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Permanent ID</span>
-                <span className="font-mono font-bold text-purple-700">{selectedHistoryStudent.permanentStudentId || selectedHistoryStudent.studentId || 'N/A'}</span>
+                <span className="font-mono font-bold text-blue-800">{selectedHistoryStudent.permanentStudentId || selectedHistoryStudent.studentId || 'N/A'}</span>
               </div>
               <div>
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Email</span>
@@ -4242,20 +4863,20 @@ export default function BatchAndCollegePage() {
                 <span>Current Active Course</span>
               </h3>
               {selectedHistoryStudent.activeEnrollment ? (
-                <div className="p-3.5 bg-emerald-50/60 border border-emerald-200 rounded-2xl flex items-center justify-between">
+                <div className="p-3.5 bg-white border border-slate-200 rounded-2xl flex items-center justify-between">
                   <div className="space-y-1">
                     <p className="text-sm font-black text-emerald-950">{selectedHistoryStudent.activeEnrollment.courseName}</p>
                     <p className="text-[11px] font-medium text-emerald-800">
                       Username: <span className="font-mono font-bold text-emerald-900">{selectedHistoryStudent.activeEnrollment.courseUsername || 'Standard student account'}</span> | Mode: {selectedHistoryStudent.activeEnrollment.mode || 'ONLINE'}
                     </p>
                   </div>
-                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-emerald-100 text-emerald-800 border border-emerald-300 flex items-center space-x-1">
+                  <span className="px-2.5 py-1 rounded-full text-[10px] font-black uppercase bg-white text-emerald-800 border border-emerald-300 flex items-center space-x-1">
                     <Unlock className="w-2.5 h-2.5 mr-1" />
                     <span>Login Active</span>
                   </span>
                 </div>
               ) : (
-                <div className="p-3.5 bg-slate-50 border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 font-medium">
+                <div className="p-3.5 bg-white border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 font-medium">
                   No active course at this time. Student can be assigned a new course from the batch roster.
                 </div>
               )}
@@ -4264,18 +4885,18 @@ export default function BatchAndCollegePage() {
             {/* Completed Courses History */}
             <div className="space-y-2">
               <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center space-x-1.5">
-                <History className="w-3.5 h-3.5 text-purple-600" />
+                <History className="w-3.5 h-3.5 text-blue-800" />
                 <span>Completed Courses & Deactivated Logins ({selectedHistoryStudent.completedEnrollments?.length || 0})</span>
               </h3>
 
               {selectedHistoryStudent.completedEnrollments && selectedHistoryStudent.completedEnrollments.length > 0 ? (
                 <div className="space-y-2 max-h-60 overflow-y-auto pr-1">
                   {selectedHistoryStudent.completedEnrollments.map((enr, idx) => (
-                    <div key={idx} className="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div key={idx} className="p-3.5 bg-white border border-slate-200 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                       <div className="space-y-1">
                         <div className="flex items-center space-x-2">
                           <span className="font-black text-xs text-slate-900">{enr.courseName}</span>
-                          <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-slate-200 text-slate-800">
+                          <span className="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-white text-slate-800">
                             COMPLETED
                           </span>
                         </div>
@@ -4286,7 +4907,7 @@ export default function BatchAndCollegePage() {
                       </div>
 
                       <div className="flex items-center space-x-2 self-start sm:self-center">
-                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-rose-100 text-rose-800 border border-rose-200 flex items-center space-x-1">
+                        <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase bg-white text-rose-800 border border-rose-200 flex items-center space-x-1">
                           <Lock className="w-2.5 h-2.5 mr-1" />
                           <span>Login Deactivated</span>
                         </span>
@@ -4295,7 +4916,7 @@ export default function BatchAndCollegePage() {
                   ))}
                 </div>
               ) : (
-                <div className="p-4 bg-slate-50 border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 font-medium">
+                <div className="p-4 bg-white border border-dashed border-slate-200 rounded-2xl text-center text-xs text-slate-400 font-medium">
                   No previous completed courses recorded for this student.
                 </div>
               )}
@@ -4308,7 +4929,997 @@ export default function BatchAndCollegePage() {
                   setIsHistoryModalOpen(false);
                   setSelectedHistoryStudent(null);
                 }}
-                className="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs transition cursor-pointer"
+                className="px-6 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-bold text-xs transition cursor-pointer"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL 1: RESET STUDENT TEMPORARY PASSWORD */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {isResetPasswordModalOpen && selectedStudentForPassword && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative border border-slate-100">
+            <button
+              onClick={() => {
+                setIsResetPasswordModalOpen(false);
+                setSelectedStudentForPassword(null);
+                setGeneratedPasswordResult(null);
+              }}
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200 shrink-0">
+                <Key className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-black text-slate-900 text-base">Reset Student Password</h3>
+                <p className="text-xs text-slate-500">
+                  Manage temporary credentials & enforce first-login password update
+                </p>
+              </div>
+            </div>
+
+            {/* Student Info Card */}
+            <div className="bg-slate-50 p-3.5 rounded-2xl border border-slate-200 text-xs space-y-1">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-500 font-semibold">Student Name:</span>
+                <span className="font-bold text-slate-900">{selectedStudentForPassword.name}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-500 font-semibold">Student ID:</span>
+                <span className="font-mono font-bold text-blue-700">{selectedStudentForPassword.studentId || 'N/A'}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-500 font-semibold">Username:</span>
+                <span className="font-mono text-purple-700 font-bold">{selectedStudentForPassword.username}</span>
+              </div>
+            </div>
+
+            {/* Generated Password Result (Show ONCE with Copy) */}
+            {generatedPasswordResult ? (
+              <div className="space-y-4">
+                <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl space-y-2 text-center">
+                  <div className="inline-flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-600 text-white text-[10px] font-black uppercase tracking-wider">
+                    <CheckCircle2 className="w-3 h-3" />
+                    <span>Temporary Password Generated</span>
+                  </div>
+                  <p className="text-xs text-emerald-800 font-medium">
+                    This temporary password is displayed <strong>once</strong>. Please copy and provide it to the student.
+                  </p>
+                  <div className="bg-white border-2 border-emerald-300 rounded-xl p-3 flex items-center justify-between gap-2 shadow-xs">
+                    <span className="font-mono text-base font-black text-slate-900 tracking-wider">
+                      {generatedPasswordResult}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(generatedPasswordResult);
+                        setCopiedPassword(true);
+                        setTimeout(() => setCopiedPassword(false), 2500);
+                      }}
+                      className="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer shrink-0"
+                    >
+                      {copiedPassword ? (
+                        <>
+                          <Check className="w-3.5 h-3.5" />
+                          <span>Copied!</span>
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-3.5 h-3.5" />
+                          <span>Copy</span>
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="bg-blue-50/70 p-3 rounded-xl border border-blue-100 text-xs text-blue-800 space-y-1">
+                  <p className="font-bold flex items-center space-x-1">
+                    <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
+                    <span>Security & Account Policy</span>
+                  </p>
+                  <p className="text-[11px] text-blue-700 leading-relaxed">
+                    The student will be forced to change this temporary password immediately on next login. Passwords are securely hashed with bcrypt and never stored in plaintext.
+                  </p>
+                </div>
+
+                <div className="flex justify-end pt-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsResetPasswordModalOpen(false);
+                      setSelectedStudentForPassword(null);
+                      setGeneratedPasswordResult(null);
+                    }}
+                    className="px-5 py-2.5 bg-slate-900 text-white hover:bg-slate-800 rounded-xl font-bold text-xs cursor-pointer shadow-sm"
+                  >
+                    Done & Close
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <form onSubmit={handleResetPasswordSubmit} className="space-y-4">
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-slate-700 block">Password Option</label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setAutoGeneratePassword(true)}
+                      className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer ${
+                        autoGeneratePassword
+                          ? 'bg-amber-50 border-amber-300 text-amber-900 shadow-2xs'
+                          : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      }`}
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Auto-Generate</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setAutoGeneratePassword(false)}
+                      className={`p-2.5 rounded-xl border text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer ${
+                        !autoGeneratePassword
+                          ? 'bg-amber-50 border-amber-300 text-amber-900 shadow-2xs'
+                          : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      }`}
+                    >
+                      <Key className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Custom Password</span>
+                    </button>
+                  </div>
+                </div>
+
+                {!autoGeneratePassword && (
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Enter Custom Temporary Password (min 6 characters) *
+                    </label>
+                    <input
+                      type="text"
+                      required={!autoGeneratePassword}
+                      value={customPasswordInput}
+                      onChange={(e) => setCustomPasswordInput(e.target.value)}
+                      placeholder="e.g. StudentPass#2026"
+                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-mono font-bold text-slate-900 focus:outline-blue-500"
+                    />
+                  </div>
+                )}
+
+                <div className="bg-slate-50 p-3 rounded-xl border border-slate-200/80 text-[11px] text-slate-600 space-y-1">
+                  <p className="font-semibold text-slate-800">Password Lifecycle Rule:</p>
+                  <p className="leading-relaxed">
+                    Resetting will overwrite previous credentials and set <code>mustChangePassword: true</code>. Stored plaintext passwords cannot be viewed or exported.
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsResetPasswordModalOpen(false);
+                      setSelectedStudentForPassword(null);
+                    }}
+                    className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    disabled={submittingPasswordReset}
+                    className="px-5 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
+                  >
+                    <Key className="w-3.5 h-3.5" />
+                    <span>{submittingPasswordReset ? 'Resetting...' : 'Reset Temporary Password'}</span>
+                  </button>
+                </div>
+              </form>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL 2: EDIT STUDENT DETAILS */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {isEditStudentModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <form
+            onSubmit={handleEditStudentSubmit}
+            className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+          >
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-6 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl">
+              <button
+                type="button"
+                onClick={() => setIsEditStudentModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center space-x-3 pr-8">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-200 shrink-0">
+                  <Edit3 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-black text-slate-900 text-base">Edit Student Details</h3>
+                  <p className="text-xs text-slate-500">
+                    Update student identity, academic metadata, course enrollment, and login status
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-xs">
+                {/* Student ID */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Student ID *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editStudentForm.studentId}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, studentId: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono font-bold text-slate-900 focus:outline-purple-500"
+                  />
+                </div>
+
+                {/* Student Name */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Student Name *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editStudentForm.name}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, name: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-900 focus:outline-purple-500"
+                  />
+                </div>
+
+                {/* Department */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Department *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editStudentForm.department}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, department: e.target.value })}
+                    placeholder="e.g. CSE"
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-900 focus:outline-purple-500"
+                  />
+                </div>
+
+                {/* Academic Year */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Academic Year *</label>
+                  <select
+                    value={editStudentForm.academicYear}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, academicYear: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-900 focus:outline-purple-500"
+                  >
+                    <option value="1st Year">1st Year</option>
+                    <option value="2nd Year">2nd Year</option>
+                    <option value="3rd Year">3rd Year</option>
+                    <option value="4th Year">4th Year</option>
+                  </select>
+                </div>
+
+                {/* Username */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Login Username *</label>
+                  <input
+                    type="text"
+                    required
+                    value={editStudentForm.username}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, username: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono font-bold text-purple-700 focus:outline-purple-500"
+                  />
+                </div>
+
+                {/* Email Address */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Email Address *</label>
+                  <input
+                    type="email"
+                    required
+                    value={editStudentForm.email}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, email: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono text-slate-800 focus:outline-purple-500"
+                  />
+                </div>
+
+                {/* Current Course */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Current Course</label>
+                  <select
+                    value={editStudentForm.courseId}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, courseId: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-900 focus:outline-purple-500"
+                  >
+                    <option value="">-- Select Course --</option>
+                    {courses.map(c => (
+                      <option key={c._id} value={c._id}>
+                        {c.title} ({c.category || 'Course'})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Enrollment Status */}
+                <div>
+                  <label className="block font-bold text-slate-700 mb-1">Enrollment Status</label>
+                  <select
+                    value={editStudentForm.enrollmentStatus}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, enrollmentStatus: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-900 focus:outline-purple-500"
+                  >
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                    <option value="DROPPED">DROPPED</option>
+                    <option value="PENDING">PENDING</option>
+                  </select>
+                </div>
+
+                {/* Login Access Status */}
+                <div className="sm:col-span-2">
+                  <label className="block font-bold text-slate-700 mb-1">Login Access</label>
+                  <select
+                    value={editStudentForm.loginAccess}
+                    onChange={(e) => setEditStudentForm({ ...editStudentForm, loginAccess: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-900 focus:outline-purple-500"
+                  >
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="DEACTIVE">DEACTIVE</option>
+                  </select>
+                  {editStudentForm.loginAccess === 'DEACTIVE' && (
+                    <div className="mt-2.5 p-3 bg-amber-50 border border-amber-200 rounded-xl flex items-start space-x-2 text-[11px] text-amber-900">
+                      <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+                      <div>
+                        <strong className="font-bold">Deactivation Notice:</strong> Selecting <strong>DEACTIVE</strong> will immediately revoke student login access, terminate active sessions, and invalidate auth tokens. Course progress and academic records remain safely preserved.
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* ─────────────────────────────────────────────────── */}
+              {/* PASSWORD MANAGEMENT SECTION (Inside Edit Modal)     */}
+              {/* ─────────────────────────────────────────────────── */}
+              <div className="pt-3 border-t border-slate-100 space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2">
+                    <div className="w-8 h-8 rounded-xl bg-amber-50 text-amber-700 flex items-center justify-center border border-amber-200 shrink-0">
+                      <Key className="w-4 h-4 text-amber-600" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-xs text-slate-900">Student Password Management</h4>
+                      <p className="text-[10px] text-slate-400">Generate or set a new temporary password for student credentials</p>
+                    </div>
+                  </div>
+
+                  {!showPasswordSection && !editModalPasswordResult && (
+                    <button
+                      type="button"
+                      onClick={() => setShowPasswordSection(true)}
+                      className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer"
+                    >
+                      <Key className="w-3.5 h-3.5 text-amber-600" />
+                      <span>Reset Password</span>
+                    </button>
+                  )}
+                </div>
+
+                {/* Password Reset Box */}
+                {(showPasswordSection || editModalPasswordResult) && (
+                  <div className="bg-amber-50/50 border border-amber-200/80 rounded-2xl p-4 space-y-3">
+                    {editModalPasswordResult ? (
+                      <div className="space-y-3">
+                        <div className="bg-white border border-emerald-300 p-3.5 rounded-xl text-xs shadow-2xs space-y-2">
+                          <div className="flex items-center space-x-1.5 text-emerald-800 font-bold">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                            <span>New Temporary Password Generated</span>
+                          </div>
+                          <p className="text-[11px] text-slate-600 leading-relaxed">
+                            Provide this temporary password to <strong>{editStudentForm.name}</strong>. Student will be forced to change this password on their next login.
+                          </p>
+
+                          <div className="flex items-center justify-between bg-emerald-50/60 border border-emerald-200 rounded-xl px-3 py-2.5 font-mono font-black text-sm text-slate-900">
+                            <span className="tracking-wider text-emerald-950 font-bold">{editModalPasswordResult}</span>
+                            <button
+                              type="button"
+                              onClick={() => {
+                                navigator.clipboard.writeText(editModalPasswordResult);
+                                setEditModalCopiedPassword(true);
+                                showToast('Temporary password copied to clipboard!', 'success');
+                                setTimeout(() => setEditModalCopiedPassword(false), 2500);
+                              }}
+                              className="inline-flex items-center space-x-1 px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold transition cursor-pointer shadow-2xs"
+                            >
+                              {editModalCopiedPassword ? (
+                                <>
+                                  <Check className="w-3.5 h-3.5" />
+                                  <span>Copied!</span>
+                                </>
+                              ) : (
+                                <>
+                                  <Copy className="w-3.5 h-3.5" />
+                                  <span>Copy</span>
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        </div>
+
+                        <div className="flex justify-end">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setEditModalPasswordResult(null);
+                              setShowPasswordSection(true);
+                            }}
+                            className="text-[11px] text-amber-800 hover:text-amber-900 font-bold underline cursor-pointer"
+                          >
+                            Generate another password
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="space-y-3 text-xs">
+                        <div>
+                          <label className="font-bold text-slate-700 mb-1.5 block">Password Option</label>
+                          <div className="grid grid-cols-2 gap-2">
+                            <button
+                              type="button"
+                              onClick={() => setEditModalAutoGenerate(true)}
+                              className={`p-2 rounded-xl border text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer ${
+                                editModalAutoGenerate
+                                  ? 'bg-amber-100 border-amber-300 text-amber-900 shadow-2xs'
+                                  : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                              }`}
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                              <span>Auto-Generate</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => setEditModalAutoGenerate(false)}
+                              className={`p-2 rounded-xl border text-xs font-bold flex items-center justify-center space-x-1.5 transition cursor-pointer ${
+                                !editModalAutoGenerate
+                                  ? 'bg-amber-100 border-amber-300 text-amber-900 shadow-2xs'
+                                  : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                              }`}
+                            >
+                              <Key className="w-3.5 h-3.5 text-amber-600" />
+                              <span>Custom Password</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {!editModalAutoGenerate && (
+                          <div>
+                            <label className="block font-bold text-slate-700 mb-1">
+                              Enter Custom Temporary Password (min 6 characters) *
+                            </label>
+                            <input
+                              type="text"
+                              value={editModalCustomPassword}
+                              onChange={(e) => setEditModalCustomPassword(e.target.value)}
+                              placeholder="e.g. StudentPass#2026"
+                              className="w-full bg-white border border-amber-200 rounded-xl px-3 py-2 font-mono font-bold text-slate-900 focus:outline-amber-500"
+                            />
+                          </div>
+                        )}
+
+                        <div className="bg-amber-100/40 p-2.5 rounded-xl border border-amber-200/60 text-[11px] text-amber-900 leading-relaxed">
+                          <span className="font-bold">Security Rule:</span> Passwords are saved with bcrypt hashing. Plaintext passwords cannot be retrieved from the database. A temporary password requires the student to set a new password on their next login.
+                        </div>
+
+                        <div className="flex items-center justify-end space-x-2 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => setShowPasswordSection(false)}
+                            className="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-600 rounded-xl font-bold text-xs cursor-pointer"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            disabled={submittingModalPasswordReset}
+                            onClick={handleModalResetPasswordSubmit}
+                            className="px-4 py-1.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
+                          >
+                            <Key className="w-3.5 h-3.5" />
+                            <span>{submittingModalPasswordReset ? 'Saving...' : 'Confirm Reset Password'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+
+            </div>
+
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-end space-x-2">
+              <button
+                type="button"
+                onClick={() => setIsEditStudentModalOpen(false)}
+                className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold text-xs transition border border-slate-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submittingStudentEdit}
+                className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>{submittingStudentEdit ? 'Saving...' : 'Save Changes'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL 3: DELETE STUDENT CONFIRMATION */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {isDeleteStudentModalOpen && studentToDelete && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl relative border border-slate-100">
+            <button
+              onClick={() => {
+                setIsDeleteStudentModalOpen(false);
+                setStudentToDelete(null);
+              }}
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center border border-rose-200 shrink-0">
+                <Trash2 className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="font-black text-slate-900 text-base">Delete Student from Batch</h3>
+                <p className="text-xs text-slate-500">
+                  Confirm student removal and credential revocation
+                </p>
+              </div>
+            </div>
+
+            {/* Target Student Details Box */}
+            <div className="bg-rose-50/50 border border-rose-200 p-4 rounded-2xl space-y-1.5 text-xs">
+              <div className="flex items-center justify-between">
+                <span className="text-slate-500 font-semibold">Student Name:</span>
+                <span className="font-black text-slate-900">{studentToDelete.studentName}</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-slate-500 font-semibold">Student ID:</span>
+                <span className="font-mono font-bold text-rose-700">{studentToDelete.studentId}</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Are you sure you want to remove <strong>{studentToDelete.studentName}</strong> from this batch?
+              This will unassign the student and deactivate active batch credentials. Past completed courses and payment history will be safely preserved.
+            </p>
+
+            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsDeleteStudentModalOpen(false);
+                  setStudentToDelete(null);
+                }}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                onClick={handleConfirmDeleteStudent}
+                disabled={deletingStudent}
+                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>{deletingStudent ? 'Deleting...' : 'Confirm Delete'}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL 4: ACTIVATE / DEACTIVATE LOGIN ACCESS CONFIRMATION */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {statusConfirmTarget && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl relative border border-slate-100">
+            <button
+              onClick={() => setStatusConfirmTarget(null)}
+              className="absolute right-5 top-5 p-1 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex items-center space-x-3">
+              <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${
+                statusConfirmTarget.nextStatus === 'DEACTIVE'
+                  ? 'bg-rose-50 text-rose-600 border border-rose-200'
+                  : 'bg-emerald-50 text-emerald-600 border border-emerald-200'
+              }`}>
+                {statusConfirmTarget.nextStatus === 'DEACTIVE' ? (
+                  <Lock className="w-6 h-6 text-rose-600" />
+                ) : (
+                  <Unlock className="w-6 h-6 text-emerald-600" />
+                )}
+              </div>
+              <div>
+                <h3 className="text-base font-black text-slate-900">
+                  {statusConfirmTarget.nextStatus === 'DEACTIVE' ? 'Deactivate Login Access?' : 'Activate Login Access?'}
+                </h3>
+                <p className="text-xs text-slate-500">
+                  {statusConfirmTarget.studentName} ({statusConfirmTarget.studentId})
+                </p>
+              </div>
+            </div>
+
+            <div className={`p-3.5 rounded-2xl text-xs space-y-2 ${
+              statusConfirmTarget.nextStatus === 'DEACTIVE'
+                ? 'bg-amber-50/80 border border-amber-200 text-amber-950'
+                : 'bg-emerald-50/80 border border-emerald-200 text-emerald-950'
+            }`}>
+              {statusConfirmTarget.nextStatus === 'DEACTIVE' ? (
+                <>
+                  <div className="font-bold flex items-center gap-1.5 text-amber-900">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>Immediate Session & Credential Revocation</span>
+                  </div>
+                  <p className="text-[11px] text-amber-800 leading-relaxed">
+                    Student login credentials will be deactivated immediately. Active JWT sessions and login tokens will be revoked, preventing further access to STACK QUEUE.
+                  </p>
+                  <p className="text-[10px] text-amber-700 font-semibold pt-1 border-t border-amber-200/60">
+                    Student details, syllabus progress, test submissions, and payments will NOT be deleted.
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="font-bold flex items-center gap-1.5 text-emerald-900">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                    <span>Restore STACK QUEUE Login Access</span>
+                  </div>
+                  <p className="text-[11px] text-emerald-800 leading-relaxed">
+                    Student login access will be activated immediately. The student will be able to log in to STACK QUEUE and resume their training dashboard and coursework.
+                  </p>
+                </>
+              )}
+            </div>
+
+            <div className="flex items-center justify-end space-x-2 pt-2 border-t border-slate-100">
+              <button
+                type="button"
+                onClick={() => setStatusConfirmTarget(null)}
+                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="button"
+                disabled={submittingStatusToggle}
+                onClick={handleConfirmStatusToggle}
+                className={`px-5 py-2 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm ${
+                  statusConfirmTarget.nextStatus === 'DEACTIVE'
+                    ? 'bg-rose-600 hover:bg-rose-700'
+                    : 'bg-emerald-600 hover:bg-emerald-700'
+                }`}
+              >
+                {submittingStatusToggle ? (
+                  <span>Updating...</span>
+                ) : (
+                  <span>Confirm {statusConfirmTarget.nextStatus === 'DEACTIVE' ? 'Deactivation' : 'Activation'}</span>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL: ADD CUSTOM DEPARTMENT */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {isAddDeptModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <form
+            onSubmit={handleSaveDepartment}
+            className="bg-white rounded-3xl max-w-md w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150"
+          >
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl space-y-3">
+              <button
+                type="button"
+                onClick={() => setIsAddDeptModalOpen(false)}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center space-x-3 pr-8">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-200 shrink-0">
+                  <Building2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="font-black text-slate-900 text-base">Add New Department</h3>
+                  <p className="text-xs text-slate-500">
+                    Custom academic department for partner college
+                  </p>
+                </div>
+              </div>
+
+              {/* Target College Indicator */}
+              {(() => {
+                const targetCol = colleges.find(c => c._id === addDeptTargetCollegeId);
+                return targetCol ? (
+                  <div className="px-3 py-2 bg-purple-50/60 border border-purple-200 rounded-xl flex items-center justify-between text-xs">
+                    <span className="text-slate-600 font-semibold">Target College:</span>
+                    <span className="font-bold text-purple-900">{targetCol.name} ({targetCol.code})</span>
+                  </div>
+                ) : null;
+              })()}
+            </div>
+
+            {/* SCROLLABLE FORM CONTENT */}
+            <div className="sq-modal-body flex-1 px-6 py-4 space-y-3.5 text-xs">
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Department Name *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={newDeptForm.name}
+                  onChange={e => setNewDeptForm({ ...newDeptForm, name: e.target.value })}
+                  placeholder="e.g. Cyber Security, Civil Engineering, Biomedical"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-900 focus:outline-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Department Code <span className="font-normal text-slate-400">(Optional)</span>
+                </label>
+                <input
+                  type="text"
+                  value={newDeptForm.code}
+                  onChange={e => setNewDeptForm({ ...newDeptForm, code: e.target.value })}
+                  placeholder="e.g. CYBER, CIVIL, BME (Auto-generated if empty)"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 uppercase font-mono font-bold text-purple-700 focus:outline-purple-500"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 mb-1">
+                  Description <span className="font-normal text-slate-400">(Optional)</span>
+                </label>
+                <textarea
+                  rows="2"
+                  value={newDeptForm.description}
+                  onChange={e => setNewDeptForm({ ...newDeptForm, description: e.target.value })}
+                  placeholder="Brief curriculum description or domain notes..."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 font-medium text-slate-800 focus:outline-purple-500 resize-none text-xs"
+                />
+              </div>
+            </div>
+
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex items-center justify-end space-x-2">
+              <button
+                type="button"
+                onClick={() => setIsAddDeptModalOpen(false)}
+                className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold text-xs transition border border-slate-200 cursor-pointer"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={submittingDept}
+                className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 cursor-pointer shadow-sm disabled:opacity-50"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>{submittingDept ? 'Saving...' : 'Save Department'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* MODAL: MANAGE DEPARTMENTS (CRUD) */}
+      {/* ────────────────────────────────────────────────────────── */}
+      {isManageDeptModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 md:p-6 overflow-hidden">
+          <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl relative border border-slate-100 max-h-[90vh] flex flex-col overflow-hidden animate-in fade-in zoom-in-95 duration-150">
+            {/* FIXED HEADER */}
+            <div className="flex-shrink-0 px-6 pt-6 pb-4 md:px-8 md:pt-6 md:pb-4 border-b border-slate-100 relative bg-white rounded-t-3xl space-y-4">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsManageDeptModalOpen(false);
+                  setEditingDeptId(null);
+                }}
+                className="absolute right-5 top-5 p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center justify-between pr-8">
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-200 shrink-0">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-black text-slate-900 text-base">Department Management</h3>
+                    <p className="text-xs text-slate-500">
+                      {(() => {
+                        const col = colleges.find(c => c._id === manageDeptCollegeId);
+                        return col ? `${col.name} (${col.code})` : 'College Departments';
+                      })()}
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => openAddDepartmentModal(manageDeptCollegeId)}
+                  className="px-3.5 py-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1 shadow-2xs cursor-pointer"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  <span>Add Department</span>
+                </button>
+              </div>
+
+              {/* Search Input */}
+              <div className="relative">
+                <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+                <input
+                  type="text"
+                  value={deptSearchTerm}
+                  onChange={e => setDeptSearchTerm(e.target.value)}
+                  placeholder="Search departments by name or code..."
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs font-medium text-slate-900 focus:outline-purple-500"
+                />
+              </div>
+            </div>
+
+            {/* SCROLLABLE DEPARTMENT LIST */}
+            <div className="sq-modal-body flex-1 px-6 py-5 md:px-8 md:py-6 space-y-2">
+              {loadingDepartments ? (
+                <div className="text-center py-8 text-xs text-slate-400 font-semibold">
+                  Loading departments...
+                </div>
+              ) : collegeDepartments.filter(d => 
+                  !deptSearchTerm.trim() ||
+                  d.name.toLowerCase().includes(deptSearchTerm.toLowerCase()) ||
+                  d.code.toLowerCase().includes(deptSearchTerm.toLowerCase())
+                ).length === 0 ? (
+                <div className="text-center py-8 text-xs text-slate-400 font-semibold bg-slate-50 rounded-2xl border border-slate-100">
+                  No departments found matching "{deptSearchTerm}".
+                </div>
+              ) : (
+                collegeDepartments.filter(d => 
+                  !deptSearchTerm.trim() ||
+                  d.name.toLowerCase().includes(deptSearchTerm.toLowerCase()) ||
+                  d.code.toLowerCase().includes(deptSearchTerm.toLowerCase())
+                ).map(dept => {
+                  const isEditing = editingDeptId === dept._id;
+                  return (
+                    <div
+                      key={dept._id}
+                      className="p-3 bg-white border border-slate-200/90 hover:border-purple-200 rounded-2xl transition space-y-2 shadow-2xs"
+                    >
+                      {isEditing ? (
+                        <div className="space-y-2 text-xs">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-600 mb-0.5">Department Name *</label>
+                              <input
+                                type="text"
+                                value={editingDeptForm.name}
+                                onChange={e => setEditingDeptForm({ ...editingDeptForm, name: e.target.value })}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 font-bold text-slate-900 focus:outline-purple-500 text-xs"
+                              />
+                            </div>
+                            <div>
+                              <label className="block text-[10px] font-bold text-slate-600 mb-0.5">Department Code</label>
+                              <input
+                                type="text"
+                                value={editingDeptForm.code}
+                                onChange={e => setEditingDeptForm({ ...editingDeptForm, code: e.target.value })}
+                                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 uppercase font-mono font-bold text-purple-700 focus:outline-purple-500 text-xs"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex items-center justify-end space-x-1.5 pt-1">
+                            <button
+                              type="button"
+                              onClick={() => setEditingDeptId(null)}
+                              className="px-3 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold text-[11px] cursor-pointer"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="button"
+                              disabled={submittingEditDept}
+                              onClick={() => handleSaveEditDept(dept._id)}
+                              className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-bold text-[11px] flex items-center space-x-1 cursor-pointer"
+                            >
+                              <Save className="w-3 h-3" />
+                              <span>{submittingEditDept ? 'Saving...' : 'Save Changes'}</span>
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between">
+                          <div className="space-y-0.5">
+                            <div className="flex items-center space-x-2">
+                              <span className="font-mono font-black text-xs px-2 py-0.5 rounded-lg bg-purple-50 text-purple-700 border border-purple-200">
+                                {dept.code || 'N/A'}
+                              </span>
+                              <span className="font-bold text-slate-900 text-xs">{dept.name}</span>
+                            </div>
+                            {dept.description && (
+                              <p className="text-[10px] text-slate-500 pl-0.5">{dept.description}</p>
+                            )}
+                          </div>
+
+                          <div className="flex items-center space-x-1">
+                            <button
+                              type="button"
+                              onClick={() => handleStartEditDept(dept)}
+                              className="p-1.5 bg-white hover:bg-purple-50 text-purple-600 border border-slate-200 hover:border-purple-300 rounded-lg transition cursor-pointer"
+                              title="Edit Department"
+                            >
+                              <Edit3 className="w-3.5 h-3.5" />
+                            </button>
+                            <button
+                              type="button"
+                              disabled={deletingDeptId === dept._id}
+                              onClick={() => handleDeleteDept(dept._id)}
+                              className="p-1.5 bg-white hover:bg-rose-50 text-rose-500 border border-slate-200 hover:border-rose-300 rounded-lg transition cursor-pointer"
+                              title="Delete Department"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
+
+            {/* FIXED FOOTER */}
+            <div className="flex-shrink-0 px-6 py-4 md:px-8 md:py-4 border-t border-slate-100 bg-slate-50/80 rounded-b-3xl flex justify-end">
+              <button
+                type="button"
+                onClick={() => {
+                  setIsManageDeptModalOpen(false);
+                  setEditingDeptId(null);
+                }}
+                className="px-5 py-2.5 bg-white text-slate-700 hover:bg-slate-100 rounded-xl font-bold text-xs transition border border-slate-200 cursor-pointer"
               >
                 Close
               </button>

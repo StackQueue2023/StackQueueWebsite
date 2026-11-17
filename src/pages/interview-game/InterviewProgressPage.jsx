@@ -85,10 +85,10 @@ export default function InterviewProgressPage() {
       </div>
 
       {/* Hero Overview */}
-      <div className="relative overflow-hidden rounded-3xl bg-white border border-slate-200/90 p-8 shadow-sm">
+      <div className="relative overflow-hidden rounded-3xl bg-white border border-blue-200 p-8 shadow-sm">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 border border-purple-200 rounded-full text-purple-700 text-xs font-semibold">
+            <div className="inline-flex items-center space-x-2 px-3 py-1 bg-white border border-blue-200 rounded-full text-blue-800 text-xs font-semibold">
               <TrendingUp className="w-3.5 h-3.5" />
               <span>Interview Mastery Analytics</span>
             </div>
@@ -99,7 +99,7 @@ export default function InterviewProgressPage() {
           </div>
 
           <div className="flex items-center space-x-4 shrink-0">
-            <div className="bg-slate-50 border border-slate-200 p-4 rounded-2xl text-center min-w-[110px]">
+            <div className="bg-white border border-slate-200 p-4 rounded-2xl text-center min-w-[110px]">
               <div className="text-2xl font-black text-amber-600 font-mono">
                 {progress.totalInterviewXp}
               </div>
@@ -112,7 +112,7 @@ export default function InterviewProgressPage() {
       {/* Top 3 KPI Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Total Solved Card */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Problems Solved
@@ -134,7 +134,7 @@ export default function InterviewProgressPage() {
               <span className="text-amber-700">Medium: {progress.mediumSolved || 0}</span>
               <span className="text-rose-700">Hard: {progress.hardSolved || 0}</span>
             </div>
-            <div className="w-full bg-slate-100 rounded-full h-2 flex overflow-hidden">
+            <div className="w-full bg-slate-200 rounded-full h-2 flex overflow-hidden">
               <div
                 style={{ width: `${(progress.easySolved / 100) * 100}%` }}
                 className="bg-emerald-500"
@@ -152,16 +152,16 @@ export default function InterviewProgressPage() {
         </div>
 
         {/* Level Progression */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Progression Level
             </span>
-            <Layers className="w-5 h-5 text-purple-600" />
+            <Layers className="w-5 h-5 text-blue-800" />
           </div>
 
           <div className="flex items-baseline space-x-2">
-            <span className="text-4xl font-black text-purple-700 font-mono">
+            <span className="text-4xl font-black text-blue-800 font-mono">
               Level {progress.unlockedLevel || 1}
             </span>
             <span className="text-xs text-slate-400 font-mono">/ 10 Levels</span>
@@ -173,7 +173,7 @@ export default function InterviewProgressPage() {
         </div>
 
         {/* Submission Accuracy */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
               Accuracy Rate
@@ -197,9 +197,9 @@ export default function InterviewProgressPage() {
       </div>
 
       {/* Category Mastery Progress Grid */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-6 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-6 shadow-sm">
         <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
-          <BarChart3 className="w-4 h-4 text-purple-600" />
+          <BarChart3 className="w-4 h-4 text-blue-800" />
           <span>Category Mastery</span>
         </h3>
 
@@ -212,7 +212,7 @@ export default function InterviewProgressPage() {
             return (
               <div
                 key={cat}
-                className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-2.5"
+                className="bg-white border border-blue-200 rounded-xl p-4 space-y-2.5"
               >
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-bold text-slate-800">
@@ -226,13 +226,7 @@ export default function InterviewProgressPage() {
                 <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
                   <div
                     style={{ width: `${pct}%` }}
-                    className={`h-full rounded-full transition-all duration-500 ${
-                      pct === 100
-                        ? 'bg-emerald-500'
-                        : pct >= 50
-                        ? 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91]'
-                        : 'bg-amber-500'
-                    }`}
+                    className="h-full rounded-full transition-all duration-500 bg-sq-gradient"
                   ></div>
                 </div>
 
@@ -252,7 +246,7 @@ export default function InterviewProgressPage() {
       </div>
 
       {/* Solved Questions History Table */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl p-6 space-y-4 shadow-sm">
+      <div className="bg-white border border-slate-200 rounded-2xl p-6 space-y-4 shadow-sm">
         <h3 className="text-base font-bold text-slate-900 flex items-center space-x-2">
           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           <span>Solved Questions History ({progress.solvedQuestions?.length || 0})</span>
@@ -265,7 +259,7 @@ export default function InterviewProgressPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs text-slate-700">
-              <thead className="bg-slate-50 text-slate-500 uppercase font-mono text-[10px] border-b border-slate-200">
+              <thead className="bg-white text-slate-500 uppercase font-mono text-[10px] border-b border-blue-200">
                 <tr>
                   <th className="py-3 px-4">#</th>
                   <th className="py-3 px-4">Category</th>
@@ -277,20 +271,14 @@ export default function InterviewProgressPage() {
               </thead>
               <tbody className="divide-y divide-slate-100 font-mono">
                 {progress.solvedQuestions.map((sq, i) => (
-                  <tr key={i} className="hover:bg-slate-50/80 transition">
-                    <td className="py-3 px-4 font-bold text-purple-700">
+                  <tr key={i} className="hover:bg-white transition">
+                    <td className="py-3 px-4 font-bold text-blue-800">
                       Q{sq.questionNumber}
                     </td>
                     <td className="py-3 px-4 font-sans text-slate-800">{sq.category}</td>
                     <td className="py-3 px-4">
                       <span
-                        className={`px-2 py-0.5 rounded text-[10px] font-sans font-semibold ${
-                          sq.difficulty === 'Easy'
-                            ? 'text-emerald-700 bg-emerald-50 border border-emerald-200'
-                            : sq.difficulty === 'Medium'
-                            ? 'text-amber-700 bg-amber-50 border border-amber-200'
-                            : 'text-rose-700 bg-rose-50 border border-rose-200'
-                        }`}
+                        className={`px-2 py-0.5 rounded text-[10px] font-sans font-semibold ${ sq.difficulty === 'Easy' ? 'text-emerald-700 bg-white border border-emerald-200' : sq.difficulty === 'Medium' ? 'text-amber-700 bg-white border border-amber-200' : 'text-rose-700 bg-white border border-rose-200' }`}
                       >
                         {sq.difficulty}
                       </span>
@@ -300,7 +288,7 @@ export default function InterviewProgressPage() {
                     <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => navigate(`/interview-game/question/${sq.questionId}`)}
-                        className="text-xs text-purple-600 hover:text-purple-800 font-sans font-semibold flex items-center justify-end space-x-1 ml-auto cursor-pointer"
+                        className="text-xs text-blue-800 hover:text-purple-800 font-sans font-semibold flex items-center justify-end space-x-1 ml-auto cursor-pointer"
                       >
                         <span>Re-Solve</span>
                         <ChevronRight className="w-3.5 h-3.5" />

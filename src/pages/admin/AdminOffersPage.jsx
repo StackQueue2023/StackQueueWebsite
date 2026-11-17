@@ -253,27 +253,27 @@ export default function AdminOffersPage() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'Active':
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center space-x-1"><CheckCircle2 className="w-3 h-3" /><span>Active</span></span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-emerald-700 border border-emerald-200 flex items-center space-x-1"><CheckCircle2 className="w-3 h-3" /><span>Active</span></span>;
       case 'Scheduled':
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-purple-50 text-purple-700 border border-purple-200 flex items-center space-x-1"><Clock className="w-3 h-3" /><span>Scheduled</span></span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-purple-700 border border-purple-200 flex items-center space-x-1"><Clock className="w-3 h-3" /><span>Scheduled</span></span>;
       case 'Expired':
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-amber-50 text-amber-700 border border-amber-200 flex items-center space-x-1"><AlertTriangle className="w-3 h-3" /><span>Expired</span></span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-amber-700 border border-amber-200 flex items-center space-x-1"><AlertTriangle className="w-3 h-3" /><span>Expired</span></span>;
       case 'Inactive':
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-slate-100 text-slate-600 border border-slate-200">Inactive</span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-slate-600 border border-slate-200">Inactive</span>;
       case 'Draft':
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-purple-50 text-purple-700 border border-purple-200">Draft</span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-purple-700 border border-purple-200">Draft</span>;
       default:
-        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-slate-100 text-slate-600">{status}</span>;
+        return <span className="px-2.5 py-1 text-xs font-bold rounded-full bg-white text-slate-600">{status}</span>;
     }
   };
 
   return (
     <div className="space-y-6 pb-12 animate-fade-in max-w-7xl mx-auto">
       {/* Top Banner Header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5 shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white relative overflow-hidden rounded-3xl border border-purple-200/80 p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-5 shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
             <Gift className="w-3.5 h-3.5 text-purple-600" />
             <span>Promotions & Rewards</span>
           </div>
@@ -287,7 +287,7 @@ export default function AdminOffersPage() {
 
         <button
           onClick={openCreateModal}
-          className="relative z-10 px-6 py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-2xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-2 text-xs sm:text-sm shrink-0 active:scale-95 cursor-pointer"
+          className="bg-white relative z-10 px-6 py-3 text-sq-gradient font-bold rounded-2xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-2 text-xs sm:text-sm shrink-0 active:scale-95 cursor-pointer border border-[#9333EA]"
         >
           <Plus className="w-4 h-4 stroke-[3]" />
           <span>Create New Offer</span>
@@ -297,11 +297,7 @@ export default function AdminOffersPage() {
       {/* Global Feedback Banner */}
       {feedback && (
         <div
-          className={`p-4 rounded-xl border flex items-center justify-between text-sm ${
-            feedback.type === 'success'
-              ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-              : 'bg-rose-50 text-rose-800 border-rose-200'
-          }`}
+          className={`p-4 rounded-xl border flex items-center justify-between text-sm ${ feedback.type === 'success' ? 'bg-white text-emerald-800 border-emerald-200' : 'bg-white text-rose-800 border-rose-200' }`}
         >
           <div className="flex items-center space-x-2">
             {feedback.type === 'success' ? (
@@ -330,7 +326,7 @@ export default function AdminOffersPage() {
             placeholder="Search offers by title, coupon code, type..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+            className="w-full pl-9 pr-4 py-2 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
           />
         </div>
 
@@ -344,11 +340,7 @@ export default function AdminOffersPage() {
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition shrink-0 ${
-                statusFilter === st
-                  ? 'bg-purple-600 text-white shadow-sm'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition shrink-0 ${ statusFilter === st ? 'bg-white text-sq-gradient shadow-sm border border-[#9333EA]' : 'bg-white text-slate-600 hover:bg-white' }`}
             >
               {st}
             </button>
@@ -364,7 +356,7 @@ export default function AdminOffersPage() {
         </div>
       ) : filteredOffers.length === 0 ? (
         <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center">
-          <div className="w-16 h-16 bg-purple-50 text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-100">
+          <div className="w-16 h-16 bg-white text-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 border border-purple-100">
             <Tag className="w-8 h-8" />
           </div>
           <h3 className="text-base font-extrabold text-slate-800">No Offers Found</h3>
@@ -376,7 +368,7 @@ export default function AdminOffersPage() {
           {(searchQuery || statusFilter !== 'All') && (
             <button
               onClick={() => { setSearchQuery(''); setStatusFilter('All'); }}
-              className="mt-4 px-4 py-2 bg-slate-100 text-slate-700 hover:bg-slate-200 rounded-lg text-xs font-bold"
+              className="mt-4 px-4 py-2 bg-white text-slate-700 hover:bg-white rounded-lg text-xs font-bold"
             >
               Reset Search & Filters
             </button>
@@ -393,15 +385,13 @@ export default function AdminOffersPage() {
             return (
               <div
                 key={offer._id || offer.id}
-                className={`bg-white rounded-2xl border transition-all duration-200 hover:shadow-md flex flex-col justify-between overflow-hidden ${
-                  !offer.isActive ? 'border-slate-200 opacity-75' : 'border-purple-200 shadow-sm'
-                }`}
+                className={`bg-white rounded-2xl border transition-all duration-200 hover:shadow-md flex flex-col justify-between overflow-hidden ${ !offer.isActive ? 'border-slate-200 opacity-75' : 'border-purple-200 shadow-sm' }`}
               >
                 <div>
                   {/* Card Header Banner / Tag */}
-                  <div className="bg-gradient-to-r from-purple-50 to-indigo-50 p-4 border-b border-purple-100 flex items-start justify-between">
+                  <div className="bg-white p-4 border-b border-purple-100 flex items-start justify-between">
                     <div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full border border-purple-200">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 bg-white px-2 py-0.5 rounded-full border border-purple-200">
                         {offer.offerType || 'Course Discount'}
                       </span>
                       <h3 className="text-base font-extrabold text-slate-900 mt-1.5 leading-snug line-clamp-1">
@@ -414,12 +404,12 @@ export default function AdminOffersPage() {
                   {/* Card Body */}
                   <div className="p-4 space-y-3">
                     {/* Big Discount Value Display */}
-                    <div className="flex items-baseline space-x-2 bg-purple-500/5 p-3 rounded-xl border border-purple-100">
+                    <div className="bg-white flex items-baseline space-x-2 p-3 rounded-xl border border-purple-100">
                       <span className="text-2xl font-black text-purple-700 tracking-tight">
                         {discountLabel}
                       </span>
                       {offer.couponCode && (
-                        <span className="text-xs font-mono font-bold bg-purple-700 text-white px-2 py-0.5 rounded uppercase tracking-widest ml-auto">
+                        <span className="bg-white text-xs font-mono font-bold text-sq-gradient px-2 py-0.5 rounded uppercase tracking-widest ml-auto border border-[#9333EA]">
                           {offer.couponCode}
                         </span>
                       )}
@@ -449,7 +439,7 @@ export default function AdminOffersPage() {
                           <Layers className="w-3.5 h-3.5 text-slate-400" />
                           <span>Category:</span>
                         </span>
-                        <span className="font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded text-[11px]">
+                        <span className="font-semibold text-purple-700 bg-white px-2 py-0.5 rounded text-[11px]">
                           {offer.applicableStudentCategory || 'All Students'}
                         </span>
                       </div>
@@ -470,14 +460,10 @@ export default function AdminOffersPage() {
                 </div>
 
                 {/* Card Footer Actions */}
-                <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between gap-2">
+                <div className="p-4 bg-white border-t border-slate-100 flex items-center justify-between gap-2">
                   <button
                     onClick={() => handleToggleStatus(offer._id || offer.id)}
-                    className={`flex items-center space-x-1 text-xs font-bold px-2.5 py-1.5 rounded-lg border transition ${
-                      offer.isActive
-                        ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-                        : 'bg-slate-200 text-slate-700 border-slate-300 hover:bg-slate-300'
-                    }`}
+                    className={`flex items-center space-x-1 text-xs font-bold px-2.5 py-1.5 rounded-lg border transition ${ offer.isActive ? 'bg-white text-emerald-700 border-emerald-200 hover:bg-white' : 'bg-white text-slate-700 border-slate-300 hover:bg-white' }`}
                     title={offer.isActive ? 'Deactivate Offer' : 'Activate Offer'}
                   >
                     {offer.isActive ? <ToggleRight className="w-4 h-4 text-emerald-600" /> : <ToggleLeft className="w-4 h-4 text-slate-500" />}
@@ -512,18 +498,18 @@ export default function AdminOffersPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-2xl overflow-hidden my-8 animate-scale-up">
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-purple-700 to-indigo-700 p-5 text-white flex items-center justify-between">
+            <div className="bg-white p-5 flex items-center justify-between border-b border-purple-200">
               <div>
-                <h3 className="text-lg font-black tracking-tight">
+                <h3 className="text-lg font-black tracking-tight text-sq-gradient">
                   {editingOffer ? 'Edit Promotional Offer' : 'Create New Promotional Offer'}
                 </h3>
-                <p className="text-purple-100 text-xs mt-0.5">
+                <p className="text-slate-500 text-xs mt-0.5">
                   Set discount parameters, coupon codes, validity dates, and target audiences.
                 </p>
               </div>
               <button
                 onClick={() => setIsModalOpen(false)}
-                className="p-1 rounded-lg text-purple-200 hover:text-white hover:bg-white/10 transition"
+                className="p-1.5 rounded-lg text-slate-600 hover:text-[#9333EA] bg-white border border-slate-200 transition"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -710,14 +696,14 @@ export default function AdminOffersPage() {
                 <button
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl text-xs font-bold"
+                  className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-white rounded-xl text-xs font-bold"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-md transition disabled:opacity-50"
+                  className="bg-white px-5 py-2 text-sq-gradient rounded-xl text-xs font-bold shadow-md transition disabled:opacity-50 border border-[#9333EA]"
                 >
                   {submitting ? 'Saving...' : (editingOffer ? 'Update Offer' : 'Publish Offer')}
                 </button>
@@ -731,7 +717,7 @@ export default function AdminOffersPage() {
       {deleteTargetOffer && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-md p-6 text-center animate-scale-up">
-            <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-full flex items-center justify-center mx-auto mb-3">
+            <div className="w-12 h-12 bg-white text-rose-600 rounded-full flex items-center justify-center mx-auto mb-3">
               <AlertTriangle className="w-6 h-6" />
             </div>
             <h3 className="text-base font-extrabold text-slate-900">Delete Offer?</h3>
@@ -743,7 +729,7 @@ export default function AdminOffersPage() {
               <button
                 type="button"
                 onClick={() => setDeleteTargetOffer(null)}
-                className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl text-xs font-bold"
+                className="px-4 py-2 border border-slate-300 text-slate-700 hover:bg-white rounded-xl text-xs font-bold"
               >
                 Cancel
               </button>
@@ -751,7 +737,7 @@ export default function AdminOffersPage() {
                 type="button"
                 disabled={deleting}
                 onClick={handleDeleteOffer}
-                className="px-5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-md transition disabled:opacity-50"
+                className="bg-white px-5 py-2 text-sq-gradient rounded-xl text-xs font-bold shadow-md transition disabled:opacity-50 border border-[#9333EA]"
               >
                 {deleting ? 'Deleting...' : 'Delete Offer'}
               </button>

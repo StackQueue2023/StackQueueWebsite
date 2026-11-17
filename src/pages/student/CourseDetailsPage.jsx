@@ -10,10 +10,10 @@ import {
 
 /* ── Domain colour & metadata with dynamic fallback ── */
 const DOMAIN_META = {
-  java:   { label:'Java',   icon:'☕', color:'from-orange-500 to-red-500',    bg:'bg-orange-50',   border:'border-orange-200', text:'text-orange-700',  ring:'#F97316', ringBg:'#FFF7ED' },
-  python: { label:'Python', icon:'🐍', color:'from-blue-500 to-cyan-500',     bg:'bg-blue-50',     border:'border-blue-200',   text:'text-blue-700',    ring:'#3B82F6', ringBg:'#EFF6FF' },
-  cpp:    { label:'C++',    icon:'⚡', color:'from-purple-500 to-indigo-500', bg:'bg-purple-50',   border:'border-purple-200', text:'text-purple-700',  ring:'#8B5CF6', ringBg:'#F5F3FF' },
-  react:  { label:'React',  icon:'⚛️', color:'from-cyan-500 to-teal-500',     bg:'bg-cyan-50',     border:'border-cyan-200',   text:'text-cyan-700',    ring:'#06B6D4', ringBg:'#ECFEFF' },
+  java:   { label:'Java',   icon:'☕', color:'from-blue-600 to-blue-700',       bg:'bg-white', border:'border-blue-200',   text:'text-blue-700',   ring:'#2563EB', ringBg:'#FFFFFF' },
+  python: { label:'Python', icon:'🐍', color:'from-blue-500 to-cyan-500',     bg:'bg-white', border:'border-blue-200',   text:'text-blue-700',   ring:'#3B82F6', ringBg:'#FFFFFF' },
+  cpp:    { label:'C++',    icon:'⚡', color:'from-purple-500 to-indigo-500', bg:'bg-white', border:'border-blue-200', text:'text-blue-800', ring:'#8B5CF6', ringBg:'#FFFFFF' },
+  react:  { label:'React',  icon:'⚛️', color:'from-blue-600 to-indigo-600',   bg:'bg-white', border:'border-blue-200',   text:'text-blue-700',   ring:'#2563EB', ringBg:'#FFFFFF' },
 };
 
 function getDomainMeta(domainKey) {
@@ -23,7 +23,7 @@ function getDomainMeta(domainKey) {
     label: domainKey ? domainKey.charAt(0).toUpperCase() + domainKey.slice(1) : 'Course',
     icon: '💻',
     color: 'from-violet-600 to-indigo-600',
-    bg: 'bg-indigo-50',
+    bg: 'bg-white',
     border: 'border-indigo-200',
     text: 'text-indigo-700',
     ring: '#6366F1',
@@ -68,10 +68,10 @@ function CircleRing({ pct = 0, label, sub, size = 135, stroke = 12, color = '#8B
 /* ── Status Badge ── */
 function StatusBadge({ status }) {
   const map = {
-    locked:      { label:'🔒 Locked',      cls:'bg-slate-100 text-slate-500 border-slate-200' },
-    available:   { label:'🔓 Available',   cls:'bg-purple-50 text-purple-700 border-purple-200' },
-    in_progress: { label:'🔄 In Progress', cls:'bg-amber-50 text-amber-700 border-amber-200' },
-    completed:   { label:'✅ Completed',   cls:'bg-emerald-50 text-emerald-700 border-emerald-200' },
+    locked:      { label:'🔒 Locked',      cls:'bg-white text-slate-500 border-blue-200' },
+    available:   { label:'🔓 Available',   cls:'bg-white text-blue-800 border-blue-200' },
+    in_progress: { label:'🔄 In Progress', cls:'bg-white text-amber-700 border-amber-200' },
+    completed:   { label:'✅ Completed',   cls:'bg-white text-emerald-700 border-emerald-200' },
   };
   const s = map[status] || map.locked;
   return (
@@ -91,8 +91,9 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
   const meta = getDomainMeta(domain);
 
   const isModuleLocked = isCompletedCourse ? false : (mod.status === 'not_started' || mod.isLocked);
-  const completedCount = isCompletedCourse ? tasks.length : tasks.filter(t => t.status === 'completed').length;
-  const pct = isCompletedCourse ? 100 : (tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : (mod.progress || 0));
+  const completedCount = isCompletedCourse ? tasks.length : tasks.filter(t => t.status === 'completed' || t.isSolved).length;
+  const rawPct = isCompletedCourse ? 100 : (tasks.length > 0 ? Math.round((completedCount / tasks.length) * 100) : Math.round(mod.progress || 0));
+  const pct = Math.min(100, Math.max(0, rawPct));
 
   const fetchTasks = async () => {
     setLoading(true);
@@ -141,18 +142,16 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
   };
 
   return (
-    <div className={`border rounded-2xl overflow-hidden bg-white shadow-xs transition ${
-      isModuleLocked ? 'border-slate-200 opacity-90' : 'border-slate-300'
-    }`}>
+    <div className={`border rounded-2xl overflow-hidden bg-white shadow-xs transition ${ isModuleLocked ? 'border-blue-200 opacity-90' : 'border-slate-300' }`}>
       {/* Module header button */}
       <button onClick={toggle}
-        className="w-full flex items-center gap-4 p-5 hover:bg-slate-50/70 transition text-left group cursor-pointer">
+        className="w-full flex items-center gap-4 p-5 hover:bg-white transition text-left group cursor-pointer">
         <div className={`w-11 h-11 rounded-xl flex items-center justify-center font-black text-base shadow shrink-0 ${
           isCompletedCourse || mod.status === 'completed'
-            ? 'bg-emerald-600 text-white'
+            ? 'bg-white text-emerald-700 border border-emerald-600'
             : mod.status === 'processing'
-            ? `bg-gradient-to-br ${meta.color} text-white`
-            : 'bg-slate-200 text-slate-500 border border-slate-300'
+            ? 'bg-white text-blue-700 border border-blue-600'
+            : 'bg-white text-slate-500 border border-slate-300'
         }`}>
           {isModuleLocked ? <Lock className="w-5 h-5 text-slate-500" /> : mod.order}
         </div>
@@ -163,19 +162,19 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
               Module {mod.order}: {mod.title}
             </p>
             {isCompletedCourse ? (
-              <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
+              <span className="px-2 py-0.5 rounded-md bg-white text-emerald-700 border border-emerald-200 text-[10px] font-bold">
                 ✅ Completed
               </span>
             ) : mod.status === 'processing' ? (
-              <span className="px-2.5 py-0.5 rounded-md bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-bold flex items-center gap-1">
+              <span className="px-2.5 py-0.5 rounded-md bg-white text-blue-800 border border-blue-200 text-[10px] font-bold flex items-center gap-1">
                 🔓 Unlocked · Processing
               </span>
             ) : mod.status === 'completed' ? (
-              <span className="px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold">
+              <span className="px-2.5 py-0.5 rounded-md bg-white text-emerald-700 border border-emerald-200 text-[10px] font-bold">
                 ✅ Completed by Tutor
               </span>
             ) : (
-              <span className="px-2.5 py-0.5 rounded-md bg-slate-100 text-slate-500 border border-slate-200 text-[10px] font-bold flex items-center gap-1">
+              <span className="px-2.5 py-0.5 rounded-md bg-white text-slate-500 border border-blue-200 text-[10px] font-bold flex items-center gap-1">
                 🔒 Locked
               </span>
             )}
@@ -183,20 +182,20 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
 
           {tasks.length > 0 ? (
             <div className="flex items-center gap-2 mt-1.5">
-              <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                <div className={`h-full bg-gradient-to-r ${meta.color} rounded-full`} style={{ width: `${pct}%` }}/>
+              <div className="w-28 h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div className="bg-sq-gradient h-full rounded-full transition-all duration-500" style={{ width: `${pct}%` }}/>
               </div>
               <span className={`text-[11px] font-black ${meta.text}`}>{pct}%</span>
               <span className="text-[11px] text-slate-400">· {completedCount}/{tasks.length} tasks completed</span>
             </div>
           ) : (
             <div className="flex items-center gap-2 mt-1.5">
-              <div className="w-24 h-1.5 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
-                <div className={`h-full bg-gradient-to-r ${meta.color} rounded-full`} style={{ width: isCompletedCourse ? '100%' : `${pct}%` }}/>
+              <div className="w-28 h-2 bg-slate-200 rounded-full overflow-hidden">
+                <div className="bg-sq-gradient h-full rounded-full transition-all duration-500" style={{ width: `${pct}%` }}/>
               </div>
-              <span className={`text-[11px] font-black ${meta.text}`}>{isCompletedCourse ? '100%' : `${pct}%`}</span>
+              <span className={`text-[11px] font-black ${meta.text}`}>{pct}%</span>
               <span className="text-[11px] text-slate-400">
-                · {loading ? 'Loading...' : (isCompletedCourse ? '100% Completed · Click to view tasks' : isModuleLocked ? 'Module locked by tutor · Click to view syllabus' : 'Unlocked · Click to view tasks')}
+                · {loading ? 'Loading...' : (isCompletedCourse ? '100% Completed · Click to view tasks' : (mod.totalTasks > 0 ? `${mod.completedTasks || 0}/${mod.totalTasks} tasks completed` : (isModuleLocked ? 'Module locked by tutor · Click to view syllabus' : 'Unlocked · Click to view tasks')))}
               </span>
             </div>
           )}
@@ -214,7 +213,7 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
       {open && (
         <div className="border-t border-slate-100 divide-y divide-slate-50">
           {isModuleLocked && (
-            <div className="bg-amber-50/70 border-b border-amber-200/60 px-5 py-2.5 flex items-center gap-2 text-xs font-semibold text-amber-800">
+            <div className="bg-white border-b border-amber-200/60 px-5 py-2.5 flex items-center gap-2 text-xs font-semibold text-amber-800">
               <Lock className="w-3.5 h-3.5 shrink-0 text-amber-600" />
               <span>This module is currently locked by your tutor. You cannot attempt these questions until your tutor sets the module to <strong>Processing</strong>.</span>
             </div>
@@ -229,13 +228,8 @@ function ModuleRow({ mod, domain, onTaskClick, isCompletedCourse, locationQuery 
               <button key={task._id}
                 onClick={() => clickable && onTaskClick(task, mod, reload, tasks)}
                 disabled={!clickable}
-                className={`w-full flex items-center gap-4 px-5 py-3.5 text-left transition
-                  ${clickable ? 'hover:bg-purple-50/40 cursor-pointer' : 'cursor-not-allowed opacity-60'}`}>
-                <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[11px] font-black shrink-0
-                  ${task.status === 'completed' || isCompletedCourse ? 'border-emerald-400 bg-emerald-50 text-emerald-700'
-                  : task.status === 'in_progress' ? 'border-amber-400 bg-amber-50 text-amber-700'
-                  : task.status === 'available'   ? 'border-purple-400 bg-purple-50 text-purple-700'
-                  : 'border-slate-300 bg-slate-50 text-slate-400'}`}>
+                className={`w-full flex items-center gap-4 px-5 py-3.5 text-left transition ${clickable ? 'hover:bg-white cursor-pointer' : 'cursor-not-allowed opacity-60'}`}>
+                <div className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-[11px] font-black shrink-0 ${task.status === 'completed' || isCompletedCourse ? 'border-emerald-400 bg-white text-emerald-700' : task.status === 'in_progress' ? 'border-amber-400 bg-white text-amber-700' : task.status === 'available' ? 'border-purple-400 bg-white text-blue-800' : 'border-slate-300 bg-white text-slate-400'}`}>
                   {task.status === 'completed' || isCompletedCourse ? <CheckCircle2 className="w-3.5 h-3.5"/>
                     : (task.status === 'locked' || isModuleLocked) ? <Lock className="w-3 h-3"/>
                     : <span>{idx + 1}</span>}
@@ -332,58 +326,72 @@ export default function CourseDetailsPage() {
     <div className="space-y-6 pb-16 max-w-4xl mx-auto">
 
       {/* ── TOP NAV BAR: Back button + Title ── */}
-      <div className="flex items-center gap-3">
-        <button
-          onClick={() => navigate('/student')}
-          title="Back to Dashboard"
-          className="p-2.5 hover:bg-slate-100 rounded-xl transition text-slate-600 border border-slate-200 cursor-pointer shadow-2xs flex items-center justify-center"
-        >
-          <ArrowLeft className="w-5 h-5"/>
-        </button>
-        <div className="flex-1 min-w-0">
-          <div className="flex flex-wrap items-center gap-2.5">
-            <span className="text-2xl">{meta.icon}</span>
-            <h1 className="text-2xl font-black text-slate-900">{courseTitle}</h1>
-            <span className={`px-3 py-0.5 rounded-full bg-gradient-to-r ${meta.color} text-white text-[10px] font-black`}>
-              {course?.category || `${courseTitle} Domain`}
-            </span>
-            {isCompletedCourse ? (
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black border border-emerald-300 flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3"/> 100% Completed
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex items-center gap-3 flex-1 min-w-0">
+          <button
+            onClick={() => navigate('/student')}
+            title="Back to Dashboard"
+            className="p-2.5 hover:bg-white rounded-xl transition text-slate-600 border border-blue-200 cursor-pointer shadow-2xs flex items-center justify-center shrink-0"
+          >
+            <ArrowLeft className="w-5 h-5"/>
+          </button>
+          <div className="flex-1 min-w-0">
+            <div className="flex flex-wrap items-center gap-2.5">
+              <span className="text-2xl">{meta.icon}</span>
+              <h1 className="text-2xl font-black text-[#0F172A]">{courseTitle}</h1>
+              <span className="bg-white px-3 py-0.5 rounded-full text-blue-700 border border-blue-300 text-[10px] font-black">
+                {course?.category || `${courseTitle} Domain`}
               </span>
-            ) : (
-              <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[10px] font-black border border-purple-200">
-                Active Learning
-              </span>
-            )}
-            {domainData?.batch ? (
-              <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-800 border border-purple-200 text-[10px] font-bold font-mono">
-                Batch: {domainData.batch.name}
-              </span>
-            ) : (
-              <span className="px-2.5 py-0.5 rounded-full bg-violet-50 text-violet-800 border border-violet-200 text-[10px] font-bold">
-                Individual Student Track
-              </span>
-            )}
-            {tutor && (
-              <span className="text-xs text-slate-400 font-semibold">
-                Tutor: <strong className="text-slate-700">{tutor.name}</strong>
-              </span>
-            )}
+              {isCompletedCourse ? (
+                <span className="px-2.5 py-0.5 rounded-full bg-white text-emerald-800 text-[10px] font-black border border-emerald-300 flex items-center gap-1">
+                  <CheckCircle2 className="w-3 h-3"/> 100% Completed
+                </span>
+              ) : (
+                <span className="px-2.5 py-0.5 rounded-full bg-white text-purple-800 text-[10px] font-black border border-blue-200">
+                  Active Learning
+                </span>
+              )}
+              {domainData?.batch ? (
+                <span className="px-2.5 py-0.5 rounded-full bg-white text-purple-800 border border-blue-200 text-[10px] font-bold font-mono">
+                  Batch: {domainData.batch.name}
+                </span>
+              ) : (
+                <span className="px-2.5 py-0.5 rounded-full bg-white text-violet-800 border border-violet-200 text-[10px] font-bold">
+                  Individual Student Track
+                </span>
+              )}
+              {tutor && (
+                <span className="text-xs text-slate-400 font-semibold">
+                  Tutor: <strong className="text-slate-700">{tutor.name}</strong>
+                </span>
+              )}
+            </div>
           </div>
         </div>
+
+        {/* Adaptive Assessment CTA */}
+        <button
+          onClick={() => {
+            const cId = course?._id || domainData?.course?._id || domainData?.domainId;
+            if (cId) navigate(`/student/adaptive-questions/${cId}`);
+          }}
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-bold text-xs shadow hover:shadow-md transition cursor-pointer shrink-0 self-start sm:self-auto"
+        >
+          <Zap className="w-4 h-4 fill-amber-300 text-amber-300" />
+          <span>Adaptive Assessment</span>
+        </button>
       </div>
 
       {/* ── COMPLETED COURSE BANNER (if archive) ── */}
       {isCompletedCourse && (
-        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border-2 border-emerald-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+        <div className="bg-white border-2 border-slate-200 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
           <div className="flex items-start sm:items-center gap-3.5">
-            <div className="w-11 h-11 rounded-xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md">
+            <div className="bg-white w-11 h-11 rounded-xl text-emerald-700 flex items-center justify-center shrink-0 shadow-md border border-emerald-600">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
+                <span className="text-[10px] font-black uppercase tracking-wider text-emerald-800 bg-white px-2.5 py-0.5 rounded-full border border-emerald-300">
                   Completed Course Archive
                 </span>
                 {domainData?.completedInfo?.completedAt && (
@@ -399,9 +407,9 @@ export default function CourseDetailsPage() {
           </div>
           <button
             onClick={() => navigate('/student')}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-slate-50 border border-slate-300 text-slate-800 font-bold text-xs rounded-xl shadow-xs hover:shadow transition shrink-0 cursor-pointer"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-white border border-slate-300 text-slate-800 font-bold text-xs rounded-xl shadow-xs hover:shadow transition shrink-0 cursor-pointer"
           >
-            <RotateCcw className="w-3.5 h-3.5 text-purple-600" />
+            <RotateCcw className="w-3.5 h-3.5 text-blue-800" />
             <span>Return to Dashboard</span>
           </button>
         </div>
@@ -461,12 +469,12 @@ export default function CourseDetailsPage() {
         {/* Stats metrics row */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-px border-t border-slate-100">
           {[
-            { label:'Syllabus Progress', value:`${syllabusProgress}%`, icon:BookOpen, color:'text-purple-600' },
+            { label:'Syllabus Progress', value:`${syllabusProgress}%`, icon:BookOpen, color:'text-blue-800' },
             { label:'Tasks Done', value:`${completedTasks}/${totalTasks}`, icon:Target, color:'text-orange-600' },
             { label:'Points Earned', value:totalPoints, icon:Zap, color:'text-amber-600' },
-            { label:'Modules', value:modules.length, icon:Award, color:'text-purple-600' },
+            { label:'Modules', value:modules.length, icon:Award, color:'text-blue-800' },
           ].map(({ label, value, icon: Icon, color }) => (
-            <div key={label} className="flex items-center gap-3 p-4 bg-slate-50">
+            <div key={label} className="flex items-center gap-3 p-4 bg-white">
               <Icon className={`w-4 h-4 ${color} shrink-0`}/>
               <div>
                 <p className="text-[10px] text-slate-500 font-semibold uppercase tracking-wider">{label}</p>
@@ -491,7 +499,7 @@ export default function CourseDetailsPage() {
         </div>
 
         {modules.length === 0 ? (
-          <div className="text-center py-14 border-2 border-dashed border-slate-200 rounded-2xl bg-white">
+          <div className="text-center py-14 border-2 border-dashed border-blue-200 rounded-2xl bg-white">
             <BookOpen className="w-10 h-10 text-slate-300 mx-auto mb-2"/>
             <p className="text-sm font-bold text-slate-600">No modules found for this domain.</p>
             <p className="text-xs text-slate-400 mt-1">The tutor will add modules and tasks soon.</p>

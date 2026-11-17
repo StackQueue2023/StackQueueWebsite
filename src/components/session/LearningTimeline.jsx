@@ -46,25 +46,25 @@ export default function LearningTimeline({ studentId }) {
   return (
     <div className="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2 text-purple-700 font-bold text-xs uppercase tracking-wider">
+        <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
           <Compass className="w-4 h-4" />
           <span>Curriculum Journey & Topic Progression</span>
         </div>
-        <span className="text-xs font-mono font-bold text-purple-600">
+        <span className="text-xs font-mono font-bold text-blue-800">
           {progress.completedTopicsCount} / {progress.totalTopicsCount} Topics ({progress.overallPercentage}%)
         </span>
       </div>
 
       {/* Progress Bar */}
-      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden border border-slate-200">
+      <div className="w-full h-2 bg-slate-200 rounded-full overflow-hidden">
         <div 
-          className="h-full bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] rounded-full transition-all duration-500"
+          className="bg-sq-gradient h-full rounded-full transition-all duration-500"
           style={{ width: `${progress.overallPercentage}%` }}
         />
       </div>
 
       {/* Next Up Recommendation Banner */}
-      <div className="p-3.5 bg-purple-50/60 border border-purple-200/80 rounded-xl space-y-1">
+      <div className="p-3.5 bg-white border border-blue-200/80 rounded-xl space-y-1">
         <div className="flex items-center space-x-2 text-purple-800 font-bold text-[11px] uppercase tracking-wider">
           <Sparkles className="w-3.5 h-3.5 text-amber-500" />
           <span>What's Next In Your Syllabus:</span>
@@ -86,13 +86,7 @@ export default function LearningTimeline({ studentId }) {
             return (
               <div key={idx} className="relative flex items-start space-x-3 text-xs">
                 {/* Dot */}
-                <div className={`absolute -left-6 top-0.5 w-5 h-5 rounded-full flex items-center justify-center ${
-                  topic.isCompleted 
-                    ? 'bg-emerald-100 text-emerald-700 border border-emerald-300' 
-                    : isCurrent
-                    ? 'bg-purple-100 text-purple-700 border border-purple-400 animate-pulse'
-                    : 'bg-slate-100 text-slate-400 border border-slate-200'
-                }`}>
+                <div className={`absolute -left-6 top-0.5 w-5 h-5 rounded-full flex items-center justify-center ${ topic.isCompleted ? 'bg-white text-emerald-700 border border-emerald-300' : isCurrent ? 'bg-white text-blue-800 border border-purple-400 animate-pulse' : 'bg-white text-slate-400 border border-blue-200' }`}>
                   {topic.isCompleted ? (
                     <CheckCircle2 className="w-3.5 h-3.5" />
                   ) : (
@@ -103,13 +97,7 @@ export default function LearningTimeline({ studentId }) {
                 {/* Content */}
                 <div className="flex-1 flex items-center justify-between">
                   <div>
-                    <span className={`font-semibold ${
-                      topic.isCompleted 
-                        ? 'text-slate-400 line-through decoration-slate-300' 
-                        : isCurrent
-                        ? 'text-purple-700 font-bold'
-                        : 'text-slate-700'
-                    }`}>
+                    <span className={`font-semibold ${ topic.isCompleted ? 'text-slate-400 line-through decoration-slate-300' : isCurrent ? 'text-blue-800 font-bold' : 'text-slate-700' }`}>
                       {topic.title}
                     </span>
                     <span className="text-[10px] text-slate-400 ml-2">
@@ -118,7 +106,7 @@ export default function LearningTimeline({ studentId }) {
                   </div>
 
                   {isCurrent && (
-                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200 shrink-0">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-blue-800 border border-blue-200 shrink-0">
                       CURRENT
                     </span>
                   )}

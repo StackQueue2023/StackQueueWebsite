@@ -102,7 +102,7 @@ export default function AdminInquiriesPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 mb-1">
+          <div className="inline-flex items-center space-x-1.5 text-xs font-bold text-purple-700 bg-white px-2.5 py-0.5 rounded-full border border-purple-200 mb-1">
             <Mail className="w-3.5 h-3.5" />
             <span>Admissions & Contact CRM</span>
           </div>
@@ -117,7 +117,7 @@ export default function AdminInquiriesPage() {
             <span className="text-xs text-slate-500 block">Total</span>
             <span className="text-sm font-bold text-slate-900">{counts.total}</span>
           </div>
-          <div className="bg-amber-50 px-4 py-2 rounded-xl border border-amber-200 shadow-sm text-center">
+          <div className="bg-white px-4 py-2 rounded-xl border border-amber-200 shadow-sm text-center">
             <span className="text-xs text-amber-700 block">Unread</span>
             <span className="text-sm font-bold text-amber-800">{counts.unread}</span>
           </div>
@@ -131,11 +131,7 @@ export default function AdminInquiriesPage() {
             <button
               key={st}
               onClick={() => setStatusFilter(st)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                statusFilter === st
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${ statusFilter === st ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : 'bg-white text-slate-600 hover:bg-white' }`}
             >
               {st}
             </button>
@@ -149,7 +145,7 @@ export default function AdminInquiriesPage() {
             placeholder="Search inquiries..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3.5 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white"
+            className="w-full pl-9 pr-3.5 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white"
           />
         </div>
       </div>
@@ -167,22 +163,12 @@ export default function AdminInquiriesPage() {
               <div
                 key={msg._id}
                 onClick={() => handleSelectMessage(msg)}
-                className={`p-3.5 rounded-xl cursor-pointer transition-all ${
-                  activeMessage?._id === msg._id
-                    ? 'bg-purple-50/80 border border-purple-200'
-                    : 'hover:bg-slate-50'
-                }`}
+                className={`p-3.5 rounded-xl cursor-pointer transition-all ${ activeMessage?._id === msg._id ? 'bg-white border border-purple-200' : 'hover:bg-white' }`}
               >
                 <div className="flex items-start justify-between gap-2 mb-1">
                   <p className="font-bold text-xs text-slate-900 truncate">{msg.name}</p>
                   <span
-                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                      msg.status === 'UNREAD'
-                        ? 'bg-amber-100 text-amber-800'
-                        : msg.status === 'REPLIED'
-                        ? 'bg-emerald-100 text-emerald-800'
-                        : 'bg-slate-100 text-slate-700'
-                    }`}
+                    className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ msg.status === 'UNREAD' ? 'bg-white text-amber-800' : msg.status === 'REPLIED' ? 'bg-white text-emerald-800' : 'bg-white text-slate-700' }`}
                   >
                     {msg.status}
                   </span>
@@ -224,7 +210,7 @@ export default function AdminInquiriesPage() {
 
                 <button
                   onClick={() => handleDelete(activeMessage._id)}
-                  className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                  className="p-2 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg transition"
                   title="Delete message"
                 >
                   <Trash2 className="w-4 h-4" />
@@ -232,7 +218,7 @@ export default function AdminInquiriesPage() {
               </div>
 
               {/* Inquiry Message Box */}
-              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200">
+              <div className="bg-white p-4 rounded-xl border border-slate-200">
                 <p className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Message Content</p>
                 <p className="text-xs text-slate-800 leading-relaxed whitespace-pre-wrap">{activeMessage.message}</p>
                 <p className="text-[10px] text-slate-400 mt-3 flex items-center gap-1">
@@ -255,7 +241,7 @@ export default function AdminInquiriesPage() {
                 </div>
 
                 {feedback && (
-                  <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
+                  <div className="p-3 rounded-xl bg-white border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
                     <span>{feedback}</span>
                   </div>
@@ -267,12 +253,12 @@ export default function AdminInquiriesPage() {
                     value={replyText}
                     onChange={(e) => setReplyText(e.target.value)}
                     placeholder="Write your email reply or internal academic counselor notes..."
-                    className="w-full p-3 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white resize-none"
+                    className="w-full p-3 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:bg-white resize-none"
                   />
                   <button
                     type="submit"
                     disabled={replying || !replyText.trim()}
-                    className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs shadow-lg shadow-purple-500/25 transition flex items-center gap-2 disabled:opacity-50 cursor-pointer"
+                    className="bg-white px-6 py-2.5 text-sq-gradient font-bold rounded-xl text-xs shadow-lg shadow-purple-500/25 transition flex items-center gap-2 disabled:opacity-50 cursor-pointer border border-[#9333EA]"
                   >
                     <Send className="w-3.5 h-3.5" />
                     <span>{replying ? 'Saving...' : 'Save Reply & Mark Handled'}</span>

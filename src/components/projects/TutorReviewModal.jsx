@@ -132,11 +132,11 @@ export default function TutorReviewModal({
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm overflow-y-auto animate-fade-in">
-      <div className="bg-white border border-purple-200 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl relative my-auto overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-2xl max-w-4xl w-full max-h-[92vh] flex flex-col shadow-2xl relative my-auto overflow-hidden">
         {/* Header */}
-        <div className="px-6 py-4 bg-gradient-to-r from-purple-50 via-pink-50/40 to-white border-b border-purple-100 flex items-center justify-between shrink-0">
+        <div className="bg-white px-6 py-4 border-b border-amber-300 flex items-center justify-between shrink-0">
           <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white flex items-center justify-center shadow-sm">
+            <div className="bg-yellow-50 w-9 h-9 rounded-xl text-amber-700 flex items-center justify-center shadow-sm border border-amber-600">
               <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
@@ -144,10 +144,10 @@ export default function TutorReviewModal({
                 <h2 className="text-sm font-black text-slate-900">
                   Tutor Code Review & Evaluation
                 </h2>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-purple-100 text-purple-800 border border-purple-200">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-purple-800 border border-amber-300">
                   Version {latestSub?.versionNumber || 1}
                 </span>
-                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200">
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-white text-amber-800 border border-amber-200">
                   {assignment?.status || 'Submitted'}
                 </span>
               </div>
@@ -159,7 +159,7 @@ export default function TutorReviewModal({
 
           <div className="flex items-center space-x-2">
             {/* Tab switchers */}
-            <div className="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200 text-xs">
+            <div className="flex bg-white p-0.5 rounded-lg border border-amber-300 text-xs">
               <button
                 type="button"
                 onClick={() => setActiveTab('review')}
@@ -191,7 +191,7 @@ export default function TutorReviewModal({
         ) : (
           <div className="flex-1 overflow-y-auto p-6 space-y-6 text-xs text-slate-800">
             {errorMessage && (
-              <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl text-rose-800 flex items-center space-x-2">
+              <div className="p-3 bg-white border border-rose-200 rounded-xl text-rose-800 flex items-center space-x-2">
                 <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span>{errorMessage}</span>
               </div>
@@ -206,10 +206,10 @@ export default function TutorReviewModal({
                 {submissions.map((sub) => {
                   const subReview = reviews.find(r => r.submissionVersion === sub.versionNumber);
                   return (
-                    <div key={sub._id} className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
+                    <div key={sub._id} className="p-4 bg-white border border-slate-200 rounded-2xl space-y-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
-                          <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-700 font-mono font-bold text-xs border border-purple-200">
+                          <span className="px-2.5 py-0.5 rounded-full bg-white text-amber-900 font-mono font-bold text-xs border border-amber-300">
                             Version {sub.versionNumber}
                           </span>
                           <span className="text-slate-500 font-mono text-[11px]">
@@ -220,7 +220,7 @@ export default function TutorReviewModal({
                           href={sub.githubRepoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-purple-600 hover:text-purple-800 font-mono flex items-center space-x-1"
+                          className="text-amber-900 hover:text-purple-800 font-mono flex items-center space-x-1"
                         >
                           <span>{sub.githubRepoUrl}</span>
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -228,17 +228,17 @@ export default function TutorReviewModal({
                       </div>
 
                       {sub.implementationNotes && (
-                        <div className="bg-white p-3 rounded-xl border border-slate-200 text-slate-700 leading-relaxed">
+                        <div className="bg-white p-3 rounded-xl border border-amber-300 text-slate-700 leading-relaxed">
                           <span className="font-bold block text-slate-800 mb-0.5">Student Implementation Notes:</span>
                           <p>{sub.implementationNotes}</p>
                         </div>
                       )}
 
                       {subReview && (
-                        <div className="p-3 bg-purple-50/70 border border-purple-200 rounded-xl text-purple-900 space-y-1.5">
+                        <div className="p-3 bg-white border border-amber-300 rounded-xl text-purple-900 space-y-1.5">
                           <div className="flex items-center justify-between font-bold">
                             <span>Tutor Review Feedback ({subReview.decision}):</span>
-                            <span className="text-[10px] font-mono text-purple-700">{new Date(subReview.reviewedAt).toLocaleDateString()}</span>
+                            <span className="text-[10px] font-mono text-amber-900">{new Date(subReview.reviewedAt).toLocaleDateString()}</span>
                           </div>
                           <p className="leading-relaxed whitespace-pre-line text-xs font-sans">
                             {subReview.remarks}
@@ -253,10 +253,10 @@ export default function TutorReviewModal({
               /* Main Review Form */
               <>
                 {/* 1. Deliverables Banner: GitHub link, Demo link, Commit SHA */}
-                <div className="p-4 bg-gradient-to-r from-purple-50/80 via-white to-pink-50/40 border border-purple-200 rounded-2xl space-y-3 shadow-2xs">
+                <div className="bg-white p-4 border border-slate-200 rounded-2xl space-y-3 shadow-2xs">
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div className="space-y-1">
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-amber-900 font-mono">
                         Submitted Deliverable Links
                       </span>
                       <div className="flex items-center space-x-2">
@@ -264,7 +264,7 @@ export default function TutorReviewModal({
                           href={latestSub?.githubRepoUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold font-mono text-xs shadow-sm transition"
+                          className="bg-white inline-flex items-center space-x-1.5 px-3 py-1.5 text-amber-700 rounded-xl font-bold font-mono text-xs shadow-sm transition border border-amber-600"
                         >
                           <span>Open GitHub Repository</span>
                           <ExternalLink className="w-3.5 h-3.5" />
@@ -275,7 +275,7 @@ export default function TutorReviewModal({
                             href={latestSub.liveDemoUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-white hover:bg-slate-50 text-purple-700 border border-purple-300 rounded-xl font-bold text-xs shadow-2xs transition"
+                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-white hover:bg-white text-amber-900 border border-amber-300 rounded-xl font-bold text-xs shadow-2xs transition"
                           >
                             <span>Live Demo</span>
                             <ExternalLink className="w-3.5 h-3.5" />
@@ -298,7 +298,7 @@ export default function TutorReviewModal({
                   </div>
 
                   {latestSub?.implementationNotes && (
-                    <div className="bg-white p-3 rounded-xl border border-slate-200 text-slate-700 leading-relaxed text-xs">
+                    <div className="bg-white p-3 rounded-xl border border-amber-300 text-slate-700 leading-relaxed text-xs">
                       <span className="font-bold text-slate-900 block mb-0.5">Student Notes:</span>
                       {latestSub.implementationNotes}
                     </div>
@@ -315,7 +315,7 @@ export default function TutorReviewModal({
                             href={sc.url}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-16 h-16 rounded-xl border border-slate-200 overflow-hidden hover:border-purple-400 transition"
+                            className="w-16 h-16 rounded-xl border border-amber-300 overflow-hidden hover:border-purple-400 transition"
                           >
                             <img src={sc.url} alt={sc.originalName || 'Preview'} className="w-full h-full object-cover" />
                           </a>
@@ -329,10 +329,10 @@ export default function TutorReviewModal({
                 <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <label className="font-bold text-slate-800 flex items-center space-x-1.5">
-                      <CheckSquare className="w-4 h-4 text-purple-600" />
+                      <CheckSquare className="w-4 h-4 text-amber-900" />
                       <span>Requirements Completion Checklist</span>
                     </label>
-                    <span className="text-[11px] text-purple-700 font-bold">
+                    <span className="text-[11px] text-amber-900 font-bold">
                       {completedRequirements.length} of {requirement?.requiredFeatures?.length || 0} Met
                     </span>
                   </div>
@@ -344,17 +344,13 @@ export default function TutorReviewModal({
                         <div
                           key={idx}
                           onClick={() => handleToggleCompleted(feat.title)}
-                          className={`p-3 rounded-xl border flex items-start space-x-2.5 cursor-pointer transition ${
-                            isChecked
-                              ? 'bg-purple-50/60 border-purple-200 text-purple-900'
-                              : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                          }`}
+                          className={`p-3 rounded-xl border flex items-start space-x-2.5 cursor-pointer transition ${ isChecked ? 'bg-white border-amber-300 text-purple-900' : 'bg-white border-amber-300 text-slate-600 hover:bg-white' }`}
                         >
                           <input
                             type="checkbox"
                             checked={isChecked}
                             onChange={() => {}}
-                            className="mt-0.5 rounded text-purple-600 focus:ring-purple-500"
+                            className="mt-0.5 rounded text-amber-900 focus:ring-purple-500"
                           />
                           <div className="space-y-0.5 flex-1">
                             <span className="font-bold block leading-snug">{feat.title}</span>
@@ -371,7 +367,7 @@ export default function TutorReviewModal({
                 {/* 3. Student-Specific Remarks & Feedback */}
                 <div className="space-y-1">
                   <label className="font-bold text-slate-800 flex items-center space-x-1.5">
-                    <MessageSquare className="w-4 h-4 text-purple-600" />
+                    <MessageSquare className="w-4 h-4 text-amber-900" />
                     <span>Student-Specific Remarks & Detailed Feedback *</span>
                   </label>
                   <textarea
@@ -380,14 +376,14 @@ export default function TutorReviewModal({
                     value={remarks}
                     onChange={e => setRemarks(e.target.value)}
                     placeholder="Provide constructive feedback directly to the student on their repository architecture, commit hygiene, implementation details, and any required fixes..."
-                    className="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-xs leading-relaxed"
+                    className="w-full p-3 bg-white border border-amber-300 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none text-xs leading-relaxed"
                   />
                 </div>
 
                 {/* 4. Missing Features, Bugs, and Required Improvements (Bullet Points) */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   {/* Missing Features */}
-                  <div className="space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div className="space-y-1.5 bg-white p-3 rounded-xl border border-amber-300">
                     <span className="font-bold text-slate-700 text-[11px] block">Missing Features</span>
                     <div className="flex space-x-1">
                       <input
@@ -395,12 +391,12 @@ export default function TutorReviewModal({
                         value={missingInput}
                         onChange={e => setMissingInput(e.target.value)}
                         placeholder="Add missing item..."
-                        className="flex-1 px-2 py-1 bg-white border border-slate-200 rounded text-[11px] text-slate-900 focus:outline-none"
+                        className="flex-1 px-2 py-1 bg-white border border-amber-300 rounded text-[11px] text-slate-900 focus:outline-none"
                       />
                       <button
                         type="button"
                         onClick={() => handleAddBullet(missingInput, setMissingInput, missingFeatures, setMissingFeatures)}
-                        className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded text-[11px]"
+                        className="bg-white px-2 py-1 text-amber-700 rounded text-[11px] border border-amber-600"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -418,7 +414,7 @@ export default function TutorReviewModal({
                   </div>
 
                   {/* Bugs Identified */}
-                  <div className="space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div className="space-y-1.5 bg-white p-3 rounded-xl border border-amber-300">
                     <span className="font-bold text-slate-700 text-[11px] block">Bugs / Issues Found</span>
                     <div className="flex space-x-1">
                       <input
@@ -426,12 +422,12 @@ export default function TutorReviewModal({
                         value={bugInput}
                         onChange={e => setBugInput(e.target.value)}
                         placeholder="Add bug..."
-                        className="flex-1 px-2 py-1 bg-white border border-slate-200 rounded text-[11px] text-slate-900 focus:outline-none"
+                        className="flex-1 px-2 py-1 bg-white border border-amber-300 rounded text-[11px] text-slate-900 focus:outline-none"
                       />
                       <button
                         type="button"
                         onClick={() => handleAddBullet(bugInput, setBugInput, bugsIdentified, setBugsIdentified)}
-                        className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded text-[11px]"
+                        className="bg-white px-2 py-1 text-amber-700 rounded text-[11px] border border-amber-600"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
@@ -449,7 +445,7 @@ export default function TutorReviewModal({
                   </div>
 
                   {/* Required Improvements */}
-                  <div className="space-y-1.5 bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div className="space-y-1.5 bg-white p-3 rounded-xl border border-amber-300">
                     <span className="font-bold text-slate-700 text-[11px] block">Required Improvements</span>
                     <div className="flex space-x-1">
                       <input
@@ -457,17 +453,17 @@ export default function TutorReviewModal({
                         value={improvementInput}
                         onChange={e => setImprovementInput(e.target.value)}
                         placeholder="Add improvement..."
-                        className="flex-1 px-2 py-1 bg-white border border-slate-200 rounded text-[11px] text-slate-900 focus:outline-none"
+                        className="flex-1 px-2 py-1 bg-white border border-amber-300 rounded text-[11px] text-slate-900 focus:outline-none"
                       />
                       <button
                         type="button"
                         onClick={() => handleAddBullet(improvementInput, setImprovementInput, requiredImprovements, setRequiredImprovements)}
-                        className="px-2 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded text-[11px]"
+                        className="bg-white px-2 py-1 text-amber-700 rounded text-[11px] border border-amber-600"
                       >
                         <Plus className="w-3 h-3" />
                       </button>
                     </div>
-                    <ul className="space-y-1 text-[11px] font-medium text-purple-700 list-disc list-inside">
+                    <ul className="space-y-1 text-[11px] font-medium text-amber-900 list-disc list-inside">
                       {requiredImprovements.map((imp, i) => (
                         <li key={i} className="flex items-center justify-between">
                           <span className="truncate">{imp}</span>
@@ -494,7 +490,7 @@ export default function TutorReviewModal({
                     value={privateEvaluationNotes}
                     onChange={e => setPrivateEvaluationNotes(e.target.value)}
                     placeholder="Confidential notes for Executive Admin review regarding candidate performance, problem-solving independence..."
-                    className="w-full p-2.5 bg-amber-50/40 border border-amber-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none text-xs"
+                    className="w-full p-2.5 bg-white border border-amber-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-amber-500 resize-none text-xs"
                   />
                 </div>
               </>
@@ -503,12 +499,12 @@ export default function TutorReviewModal({
         )}
 
         {/* Modal Action Buttons */}
-        <div className="px-6 py-4 bg-slate-50 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3 shrink-0">
+        <div className="px-6 py-4 bg-white border-t border-amber-300 flex flex-wrap items-center justify-between gap-3 shrink-0">
           <button
             type="button"
             onClick={onClose}
             disabled={submitting}
-            className="px-4 py-2 bg-white hover:bg-slate-100 text-slate-700 rounded-xl font-semibold border border-slate-200 transition"
+            className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-semibold border border-amber-300 transition"
           >
             Close
           </button>
@@ -519,7 +515,7 @@ export default function TutorReviewModal({
               type="button"
               onClick={() => handleReviewSubmit('RevisionRequired')}
               disabled={submitting}
-              className="px-4 py-2 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-300 rounded-xl font-bold transition flex items-center space-x-1.5 shadow-2xs"
+              className="px-4 py-2 bg-white hover:bg-white text-amber-800 border border-amber-300 rounded-xl font-bold transition flex items-center space-x-1.5 shadow-2xs"
             >
               <AlertTriangle className="w-3.5 h-3.5" />
               <span>Request Revisions</span>
@@ -530,7 +526,7 @@ export default function TutorReviewModal({
               type="button"
               onClick={() => handleReviewSubmit('ApprovedForAdmin')}
               disabled={submitting}
-              className="px-5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold shadow-md shadow-purple-500/20 transition flex items-center space-x-1.5"
+              className="bg-white px-5 py-2 text-amber-700 rounded-xl font-bold shadow-md shadow-purple-500/20 transition flex items-center space-x-1.5 border border-amber-600"
             >
               <Lock className="w-3.5 h-3.5" />
               <span>Submit to Admin for Final Approval</span>

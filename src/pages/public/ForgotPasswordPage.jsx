@@ -74,7 +74,7 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-slate-50">
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center p-4 bg-white">
       <div className="max-w-md w-full bg-white rounded-3xl border border-slate-200 shadow-lg p-8 sm:p-10">
         <div className="text-center mb-6">
           <Link to="/" className="inline-block mb-3 group" title="STACK QUEUE — Inclusive Learning">
@@ -93,7 +93,7 @@ export default function ForgotPasswordPage() {
         </div>
 
         {errorMsg && (
-          <div className="mb-6 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs flex items-center space-x-2">
+          <div className="mb-6 p-3.5 rounded-xl bg-white border border-red-200 text-red-700 text-xs flex items-center space-x-2">
             <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
             <span>{errorMsg}</span>
           </div>
@@ -101,14 +101,14 @@ export default function ForgotPasswordPage() {
 
         {successMsg ? (
           <div className="space-y-6 text-center">
-            <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs space-y-2">
+            <div className="p-4 rounded-2xl bg-white border border-emerald-200 text-emerald-800 text-xs space-y-2">
               <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
               <p className="font-bold text-sm">Password Reset Complete!</p>
               <p>{successMsg}</p>
             </div>
             <Link
               to="/login"
-              className="inline-block w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition"
+              className="bg-white inline-block w-full py-3 text-sq-gradient font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition border border-[#9333EA]"
             >
               Proceed to Sign In
             </Link>
@@ -128,7 +128,7 @@ export default function ForgotPasswordPage() {
                   placeholder="e.g. student01 or student@example.com"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full pl-9 pr-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+                  className="w-full pl-9 pr-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
                 />
               </div>
             </div>
@@ -136,7 +136,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition disabled:opacity-50 cursor-pointer"
+              className="bg-white w-full py-3 text-sq-gradient font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition disabled:opacity-50 cursor-pointer border border-[#9333EA]"
             >
               {loading ? 'Sending Code...' : 'Send 6-Digit OTP'}
             </button>
@@ -145,9 +145,9 @@ export default function ForgotPasswordPage() {
           /* Step 2 Form */
           <form onSubmit={handleResetPassword} className="space-y-4">
             {demoOtpNotice && (
-              <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs flex items-center justify-between">
+              <div className="p-3 rounded-xl bg-white border border-amber-200 text-amber-800 text-xs flex items-center justify-between">
                 <span>Demo OTP Code: <strong className="font-mono text-sm">{demoOtpNotice}</strong></span>
-                <span className="text-[10px] bg-amber-200/70 px-1.5 py-0.5 rounded font-semibold">Pre-filled</span>
+                <span className="text-[10px] bg-white px-1.5 py-0.5 rounded font-semibold">Pre-filled</span>
               </div>
             )}
 
@@ -162,7 +162,7 @@ export default function ForgotPasswordPage() {
                 placeholder="6-digit code"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono font-bold tracking-widest text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white text-center"
+                className="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-mono font-bold tracking-widest text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white text-center"
               />
             </div>
 
@@ -178,7 +178,7 @@ export default function ForgotPasswordPage() {
                   placeholder="Min 6 characters"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+                  className="w-full pl-9 pr-10 py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
                 />
                 <button
                   type="button"
@@ -203,7 +203,7 @@ export default function ForgotPasswordPage() {
                   placeholder="Repeat new password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  className="w-full pl-9 pr-10 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
+                  className="w-full pl-9 pr-10 py-2.5 bg-white border border-slate-300 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white"
                 />
                 <button
                   type="button"
@@ -219,7 +219,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition disabled:opacity-50 cursor-pointer"
+              className="bg-white w-full py-3 text-sq-gradient font-bold rounded-xl text-xs shadow-md shadow-purple-500/20 transition disabled:opacity-50 cursor-pointer border border-[#9333EA]"
             >
               {loading ? 'Updating Password...' : 'Save New Password & Log In'}
             </button>

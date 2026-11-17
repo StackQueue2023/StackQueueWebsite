@@ -192,17 +192,17 @@ export default function AdminLiveMonitorPage() {
 
       {/* ── TOAST NOTIFICATION ── */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700 animate-slide-in-right text-xs sm:text-sm font-semibold">
+        <div className="bg-white fixed bottom-6 right-6 z-50 text-sq-gradient px-5 py-3 rounded-2xl shadow-2xl flex items-center gap-3 border border-slate-700 animate-slide-in-right text-xs sm:text-sm font-semibold">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white relative overflow-hidden rounded-3xl border border-purple-200/80 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
             <Radio className="w-3.5 h-3.5 text-rose-500 animate-pulse" />
             <span>Institute Operations Center</span>
           </div>
@@ -215,7 +215,7 @@ export default function AdminLiveMonitorPage() {
         <div className="relative z-10 flex items-center space-x-3 shrink-0 self-start md:self-center">
           <button
             onClick={fetchLiveMonitor}
-            className="px-3.5 py-2.5 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200/80 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
+            className="px-3.5 py-2.5 bg-white hover:bg-white text-purple-900 border border-purple-200/80 rounded-xl text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer"
           >
             <RefreshCw className="w-3.5 h-3.5 text-purple-600" />
             <span>Refresh</span>
@@ -223,7 +223,7 @@ export default function AdminLiveMonitorPage() {
 
           <button
             onClick={handleOpenAssignModal}
-            className="px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-purple-500/25 transition cursor-pointer"
+            className="bg-white px-5 py-2.5 text-sq-gradient rounded-xl text-xs font-bold flex items-center space-x-2 shadow-lg shadow-purple-500/25 transition cursor-pointer border border-[#9333EA]"
           >
             <Plus className="w-4 h-4 stroke-[3]" />
             <span>Assign Live Class</span>
@@ -248,13 +248,13 @@ export default function AdminLiveMonitorPage() {
           <span className="text-[10px] text-rose-700 font-mono">In-Progress Now</span>
         </div>
 
-        <div className="bg-white border border-amber-200 p-4 rounded-2xl space-y-1 shadow-2xs">
+        <div className="bg-white border border-slate-200 p-4 rounded-2xl space-y-1 shadow-2xs">
           <span className="text-amber-700 text-xs font-bold">Delayed Starts</span>
           <p className="text-2xl font-black text-amber-700">{stats.delayed}</p>
           <span className="text-[10px] text-amber-800 font-mono">&gt;10m Past Scheduled</span>
         </div>
 
-        <div className="bg-white border border-emerald-200 p-4 rounded-2xl space-y-1 shadow-2xs">
+        <div className="bg-white border border-slate-200 p-4 rounded-2xl space-y-1 shadow-2xs">
           <span className="text-emerald-700 text-xs font-bold">Completed</span>
           <p className="text-2xl font-black text-emerald-800">{stats.completed}</p>
           <span className="text-[10px] text-emerald-700 font-mono">Concluded Today</span>
@@ -281,11 +281,7 @@ export default function AdminLiveMonitorPage() {
               <button
                 key={st}
                 onClick={() => setFilterStatus(st)}
-                className={`px-3 py-1 rounded-xl font-mono text-[11px] transition cursor-pointer ${
-                  filterStatus === st
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold shadow-xs'
-                    : 'bg-slate-100 text-slate-600 hover:text-purple-900 border border-slate-200'
-                }`}
+                className={`px-3 py-1 rounded-xl font-mono text-[11px] transition cursor-pointer ${ filterStatus === st ? 'bg-white text-sq-gradient font-bold shadow-xs border border-[#9333EA]' : 'bg-white text-slate-600 hover:text-purple-900 border border-slate-200' }`}
               >
                 {st}
               </button>
@@ -296,7 +292,7 @@ export default function AdminLiveMonitorPage() {
         {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs text-slate-800">
-            <thead className="bg-slate-50 text-slate-700 uppercase font-mono text-[10px] border-b border-slate-200">
+            <thead className="bg-white text-slate-700 uppercase font-mono text-[10px] border-b border-slate-200">
               <tr>
                 <th className="py-3 px-4">Session & Topic</th>
                 <th className="py-3 px-4">Assigned Student</th>
@@ -322,7 +318,7 @@ export default function AdminLiveMonitorPage() {
                   const firstStudent = s.studentIds && s.studentIds.length > 0 ? s.studentIds[0] : null;
 
                   return (
-                    <tr key={s._id} className="hover:bg-slate-50/80 transition">
+                    <tr key={s._id} className="hover:bg-white transition">
                       <td className="py-3.5 px-4 space-y-0.5">
                         <div className="flex items-center space-x-1.5">
                           <span className="text-[10px] font-mono text-slate-400">{s.sessionId}</span>
@@ -335,7 +331,7 @@ export default function AdminLiveMonitorPage() {
 
                       <td className="py-3.5 px-4">
                         <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 rounded-full bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-700 font-bold text-[10px]">
+                          <div className="w-6 h-6 rounded-full bg-white border border-purple-200 flex items-center justify-center text-purple-700 font-bold text-[10px]">
                             {firstStudent?.name?.charAt(0) || 'S'}
                           </div>
                           <div>
@@ -347,7 +343,7 @@ export default function AdminLiveMonitorPage() {
 
                       <td className="py-3.5 px-4">
                         <div className="flex items-center space-x-2">
-                          <div className="w-6 h-6 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center text-pink-700 font-bold text-[10px]">
+                          <div className="w-6 h-6 rounded-full bg-white border border-pink-200 flex items-center justify-center text-pink-700 font-bold text-[10px]">
                             {s.tutorId?.name?.charAt(0) || 'T'}
                           </div>
                           <div>
@@ -358,7 +354,7 @@ export default function AdminLiveMonitorPage() {
                       </td>
 
                       <td className="py-3.5 px-4">
-                        <span className="text-xs font-bold text-slate-800 bg-slate-100 px-2.5 py-1 rounded-lg border border-slate-200 inline-block">
+                        <span className="text-xs font-bold text-slate-800 bg-white px-2.5 py-1 rounded-lg border border-slate-200 inline-block">
                           {s.courseId?.title || 'Full Stack'}
                         </span>
                       </td>
@@ -371,24 +367,24 @@ export default function AdminLiveMonitorPage() {
                       <td className="py-3.5 px-4">
                         <div className="flex flex-col space-y-1 items-start">
                           {isLive && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200 flex items-center gap-1">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-rose-700 border border-rose-200 flex items-center gap-1">
                               <span className="w-1.5 h-1.5 rounded-full bg-rose-500 animate-pulse" />
                               <span>LIVE</span>
                             </span>
                           )}
                           {isDelayed && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200 flex items-center space-x-1">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-800 border border-amber-200 flex items-center space-x-1">
                               <AlertTriangle className="w-3 h-3 text-amber-600" />
                               <span>DELAYED +{s.delayMinutes || 12}m</span>
                             </span>
                           )}
                           {status === 'COMPLETED' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200">
                               COMPLETED
                             </span>
                           )}
                           {status === 'UPCOMING' && (
-                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">
+                            <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-purple-700 border border-purple-200">
                               UPCOMING
                             </span>
                           )}
@@ -402,7 +398,7 @@ export default function AdminLiveMonitorPage() {
                               href={s.meetingLink}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 transition text-[11px] font-bold"
+                              className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-white hover:bg-white text-purple-700 border border-purple-200 transition text-[11px] font-bold"
                             >
                               <Video className="w-3 h-3 text-purple-600" />
                               <span>Join</span>
@@ -412,7 +408,7 @@ export default function AdminLiveMonitorPage() {
 
                           <button
                             onClick={() => handleDeleteLiveClass(s._id)}
-                            className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                            className="p-1 text-slate-400 hover:text-rose-600 hover:bg-white rounded-lg transition"
                             title="Delete live class assignment"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -436,9 +432,9 @@ export default function AdminLiveMonitorPage() {
           <div className="bg-white rounded-3xl max-w-xl w-full shadow-2xl border border-slate-100 overflow-hidden max-h-[90vh] flex flex-col my-auto animate-scale-up">
 
             {/* Modal Header */}
-            <div className="flex items-start justify-between border-b border-slate-100 p-5 shrink-0 bg-purple-50/30">
+            <div className="flex items-start justify-between border-b border-slate-100 p-5 shrink-0 bg-white">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-2xl bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white flex items-center justify-center text-lg shadow-md shrink-0">
+                <div className="bg-white w-10 h-10 rounded-2xl text-sq-gradient flex items-center justify-center text-lg shadow-md shrink-0 border border-[#9333EA]">
                   <Video className="w-5 h-5" />
                 </div>
                 <div>
@@ -453,7 +449,7 @@ export default function AdminLiveMonitorPage() {
               <button
                 type="button"
                 onClick={() => setAssignModalOpen(false)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
+                className="p-1.5 text-slate-400 hover:text-slate-600 hover:bg-white rounded-xl transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -464,7 +460,7 @@ export default function AdminLiveMonitorPage() {
 
               {/* Error / Warning Notice Banner */}
               {errorMessage && (
-                <div className="p-4 bg-rose-50 rounded-2xl border border-rose-200 text-xs text-rose-800 space-y-1 font-medium flex items-start gap-2">
+                <div className="p-4 bg-white rounded-2xl border border-rose-200 text-xs text-rose-800 space-y-1 font-medium flex items-start gap-2">
                   <AlertTriangle className="w-4 h-4 text-rose-600 shrink-0 mt-0.5" />
                   <div>{errorMessage}</div>
                 </div>
@@ -478,7 +474,7 @@ export default function AdminLiveMonitorPage() {
                 </label>
 
                 {loadingStudents ? (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-500 font-medium flex items-center gap-2">
+                  <div className="p-3 bg-white rounded-xl border border-slate-200 text-xs text-slate-500 font-medium flex items-center gap-2">
                     <div className="w-4 h-4 border-2 border-purple-600 border-t-transparent rounded-full animate-spin" />
                     <span>Loading existing students from database...</span>
                   </div>
@@ -487,7 +483,7 @@ export default function AdminLiveMonitorPage() {
                     required
                     value={selectedStudentUserId}
                     onChange={(e) => handleSelectStudent(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-purple-400 focus:bg-white"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-900 focus:ring-2 focus:ring-purple-400 focus:bg-white"
                   >
                     <option value="">-- Choose Existing Student --</option>
                     {students.map((s) => (
@@ -501,13 +497,13 @@ export default function AdminLiveMonitorPage() {
 
               {/* 2. AUTOMATICALLY POPULATED READ-ONLY STUDENT METADATA */}
               {selectedStudent && (
-                <div className="p-4 bg-purple-50/50 rounded-2xl border border-purple-100 space-y-3">
+                <div className="p-4 bg-white rounded-2xl border border-purple-100 space-y-3">
                   <div className="flex items-center justify-between text-[11px] font-black uppercase tracking-wider text-purple-700">
                     <span className="flex items-center gap-1">
                       <UserCheck className="w-3.5 h-3.5 text-purple-600" />
                       <span>Auto-Populated Student System Record</span>
                     </span>
-                    <span className="text-[10px] bg-purple-100 px-2 py-0.5 rounded text-purple-800 font-mono">Read-Only</span>
+                    <span className="text-[10px] bg-white px-2 py-0.5 rounded text-purple-800 font-mono">Read-Only</span>
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
@@ -543,9 +539,7 @@ export default function AdminLiveMonitorPage() {
                         disabled
                         readOnly
                         value={selectedStudent.course ? selectedStudent.course.title : 'No Course Assigned'}
-                        className={`w-full bg-white border rounded-xl px-3 py-1.5 text-xs font-bold cursor-not-allowed opacity-90 ${
-                          selectedStudent.course ? 'border-slate-200 text-slate-800' : 'border-rose-200 text-rose-600'
-                        }`}
+                        className={`w-full bg-white border rounded-xl px-3 py-1.5 text-xs font-bold cursor-not-allowed opacity-90 ${ selectedStudent.course ? 'border-slate-200 text-slate-800' : 'border-rose-200 text-rose-600' }`}
                       />
                     </div>
 
@@ -559,9 +553,7 @@ export default function AdminLiveMonitorPage() {
                         disabled
                         readOnly
                         value={selectedStudent.tutor ? selectedStudent.tutor.name : 'No Tutor Assigned'}
-                        className={`w-full bg-white border rounded-xl px-3 py-1.5 text-xs font-bold cursor-not-allowed opacity-90 ${
-                          selectedStudent.tutor ? 'border-slate-200 text-slate-800' : 'border-rose-200 text-rose-600'
-                        }`}
+                        className={`w-full bg-white border rounded-xl px-3 py-1.5 text-xs font-bold cursor-not-allowed opacity-90 ${ selectedStudent.tutor ? 'border-slate-200 text-slate-800' : 'border-rose-200 text-rose-600' }`}
                       />
                     </div>
                   </div>
@@ -580,7 +572,7 @@ export default function AdminLiveMonitorPage() {
                     placeholder="e.g. Java Full Stack Live Concept Masterclass"
                     value={formState.title}
                     onChange={(e) => setFormState({ ...formState, title: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
                   />
                 </div>
 
@@ -594,7 +586,7 @@ export default function AdminLiveMonitorPage() {
                       required
                       value={formState.scheduledDate}
                       onChange={(e) => setFormState({ ...formState, scheduledDate: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
                     />
                   </div>
 
@@ -608,7 +600,7 @@ export default function AdminLiveMonitorPage() {
                       placeholder="10:00 AM"
                       value={formState.startTime}
                       onChange={(e) => setFormState({ ...formState, startTime: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
                     />
                   </div>
 
@@ -622,7 +614,7 @@ export default function AdminLiveMonitorPage() {
                       placeholder="11:30 AM"
                       value={formState.endTime}
                       onChange={(e) => setFormState({ ...formState, endTime: e.target.value })}
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
                     />
                   </div>
                 </div>
@@ -638,7 +630,7 @@ export default function AdminLiveMonitorPage() {
                     placeholder="https://meet.google.com/abc-defg-hij"
                     value={formState.meetingLink}
                     onChange={(e) => setFormState({ ...formState, meetingLink: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
+                    className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs font-semibold text-slate-900 focus:ring-2 focus:ring-purple-400"
                   />
                   <p className="text-[10px] text-slate-400">Must start with http:// or https:// (e.g. Google Meet, Zoom, Teams link)</p>
                 </div>
@@ -650,7 +642,7 @@ export default function AdminLiveMonitorPage() {
                     placeholder="Topics to cover, setup requirements, or preparation notes..."
                     value={formState.description}
                     onChange={(e) => setFormState({ ...formState, description: e.target.value })}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs font-medium text-slate-900 focus:ring-2 focus:ring-purple-400 resize-none"
+                    className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs font-medium text-slate-900 focus:ring-2 focus:ring-purple-400 resize-none"
                   />
                 </div>
               </div>
@@ -660,7 +652,7 @@ export default function AdminLiveMonitorPage() {
                 <button
                   type="button"
                   onClick={() => setAssignModalOpen(false)}
-                  className="px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition cursor-pointer"
+                  className="px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition cursor-pointer"
                 >
                   Cancel
                 </button>
@@ -668,7 +660,7 @@ export default function AdminLiveMonitorPage() {
                 <button
                   type="submit"
                   disabled={submitting || !selectedStudentUserId || (selectedStudent && (!selectedStudent.course || !selectedStudent.tutor))}
-                  className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold text-xs rounded-xl shadow-lg shadow-purple-500/25 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2"
+                  className="bg-white px-6 py-2.5 text-sq-gradient font-bold text-xs rounded-xl shadow-lg shadow-purple-500/25 transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center gap-2 border border-[#9333EA]"
                 >
                   <Video className="w-4 h-4" />
                   <span>{submitting ? 'Assigning Live Class...' : 'Assign Live Class'}</span>

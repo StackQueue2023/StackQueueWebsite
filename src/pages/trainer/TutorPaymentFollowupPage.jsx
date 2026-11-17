@@ -94,17 +94,17 @@ export default function TutorPaymentFollowupPage() {
   return (
     <div className="space-y-6 pb-16 max-w-6xl mx-auto animate-fadeIn">
       {/* 1. Header Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/70 via-fuchsia-50/50 to-pink-50/60 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-purple-100/80 px-3 py-1 rounded-full border border-purple-200 shadow-2xs">
+            <div className="inline-flex items-center space-x-2 text-blue-800 font-mono text-xs uppercase tracking-widest font-bold bg-white px-3 py-1 rounded-full border border-blue-200 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
               <span>Tutor Portal • Payment Follow-up Desk</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-2.5">
-              <UserCheck className="w-7 h-7 text-purple-600 shrink-0" />
+              <UserCheck className="w-7 h-7 text-blue-800 shrink-0" />
               <span>Assigned Students Payment Follow-Ups</span>
             </h1>
             <p className="text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed">
@@ -116,7 +116,7 @@ export default function TutorPaymentFollowupPage() {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="px-4 py-2 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
+              className="px-4 py-2 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer shadow-xs disabled:opacity-50"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               <span>Refresh Follow-Ups</span>
@@ -149,10 +149,10 @@ export default function TutorPaymentFollowupPage() {
           <p className="text-[10px] text-slate-400">Submitted payments under review</p>
         </div>
 
-        <div className="bg-white rounded-2xl p-5 border border-purple-100 shadow-2xs space-y-1.5">
-          <div className="flex items-center justify-between text-purple-700 text-xs font-semibold">
+        <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-2xs space-y-1.5">
+          <div className="flex items-center justify-between text-blue-800 text-xs font-semibold">
             <span>Automated Reminders Sent</span>
-            <Send className="w-4 h-4 text-purple-600" />
+            <Send className="w-4 h-4 text-blue-800" />
           </div>
           <div className="text-2xl font-black font-mono text-purple-900">
             {reminderHistory.length}
@@ -162,7 +162,7 @@ export default function TutorPaymentFollowupPage() {
       </div>
 
       {/* 3. Students Table */}
-      <div className="bg-white rounded-3xl border border-purple-100 shadow-2xs overflow-hidden p-6 space-y-4">
+      <div className="bg-white rounded-3xl border border-slate-200 shadow-2xs overflow-hidden p-6 space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-purple-50">
           <div>
             <h3 className="text-base font-black text-slate-900 tracking-tight">
@@ -180,7 +180,7 @@ export default function TutorPaymentFollowupPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search student or program..."
-              className="w-full pl-9 pr-3.5 py-1.5 text-xs bg-purple-50/40 border border-purple-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-purple-500/20 text-slate-800 font-medium"
+              className="w-full pl-9 pr-3.5 py-1.5 text-xs bg-white border border-blue-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-purple-500/20 text-slate-800 font-medium"
             />
           </div>
         </div>
@@ -188,7 +188,7 @@ export default function TutorPaymentFollowupPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-purple-100 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-purple-50/30">
+              <tr className="border-b border-blue-200 text-slate-400 font-mono uppercase text-[10px] tracking-wider bg-white">
                 <th className="py-2.5 px-3">Student</th>
                 <th className="py-2.5 px-3">Program / Category</th>
                 <th className="py-2.5 px-3">Installment #</th>
@@ -213,7 +213,7 @@ export default function TutorPaymentFollowupPage() {
                   const pPending = Math.max(0, (inst.principalAmount || 2000) - (inst.principalPaid || 0));
 
                   return (
-                    <tr key={inst._id} className="hover:bg-purple-50/30 transition">
+                    <tr key={inst._id} className="hover:bg-white transition">
                       <td className="py-3 px-3">
                         <div className="font-bold text-slate-900">{studentName}</div>
                         <div className="text-[11px] font-mono text-slate-400">{studentCode}</div>
@@ -223,7 +223,7 @@ export default function TutorPaymentFollowupPage() {
                         <div className="font-semibold text-slate-800">
                           {inst.programName || plan.programName || 'Training Program'}
                         </div>
-                        <div className="text-[10px] text-purple-600 font-mono">
+                        <div className="text-[10px] text-blue-800 font-mono">
                           {inst.category || plan.category || 'Courses'}
                         </div>
                       </td>
@@ -241,7 +241,7 @@ export default function TutorPaymentFollowupPage() {
                       </td>
 
                       <td className="py-3 px-3">
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-700 border border-amber-200">
                           <Clock className="w-3 h-3 text-amber-600" />
                           <span>Pending</span>
                         </span>
@@ -250,7 +250,7 @@ export default function TutorPaymentFollowupPage() {
                       <td className="py-3 px-3 text-right">
                         <button
                           onClick={() => handleOpenRecordPayment(inst)}
-                          className="px-3 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition inline-flex items-center gap-1 shadow-xs cursor-pointer"
+                          className="bg-white px-3 py-1.5 text-blue-800 rounded-xl text-xs font-bold transition inline-flex items-center gap-1 shadow-xs cursor-pointer border border-[#9333EA]"
                         >
                           <CreditCard className="w-3.5 h-3.5" />
                           <span>Record Payment</span>

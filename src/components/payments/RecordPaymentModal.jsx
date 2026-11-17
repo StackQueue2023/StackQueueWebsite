@@ -95,23 +95,23 @@ export default function RecordPaymentModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-3rem)] shadow-2xl border border-purple-100 overflow-hidden flex flex-col my-auto animate-in fade-in zoom-in-95 duration-150">
+      <div className="bg-white rounded-3xl max-w-lg w-full max-h-[calc(100dvh-2rem)] sm:max-h-[calc(100dvh-3rem)] shadow-2xl border border-slate-200 overflow-hidden flex flex-col my-auto animate-in fade-in zoom-in-95 duration-150">
         
         {/* Header - Fixed & always visible at top */}
-        <div className="bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] px-5 py-4 sm:px-6 sm:py-5 text-white flex items-center justify-between shrink-0 shadow-xs z-10">
+        <div className="bg-white px-5 py-4 sm:px-6 sm:py-5 flex items-center justify-between shrink-0 z-10 border-b border-blue-200">
           <div className="flex items-center space-x-3">
-            <div className="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-xs flex items-center justify-center shrink-0 border border-white/30">
-              <CreditCard className="w-5 h-5 text-white" />
+            <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 border border-blue-200">
+              <CreditCard className="w-5 h-5 text-[#9333EA]" />
             </div>
             <div>
-              <h3 className="text-base sm:text-lg font-black tracking-tight leading-tight">Record Student Fee Payment</h3>
-              <p className="text-xs text-purple-100 font-medium">{category} • Admin Fee Collection</p>
+              <h3 className="text-base sm:text-lg font-black tracking-tight leading-tight text-[#0F172A]">Record Student Fee Payment</h3>
+              <p className="text-xs text-slate-500 font-medium">{category} • Admin Fee Collection</p>
             </div>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-white/80 hover:text-white hover:bg-white/10 rounded-full transition cursor-pointer"
+            className="p-1.5 text-slate-600 hover:text-[#9333EA] bg-white border border-blue-200 hover:border-[#9333EA] rounded-full transition cursor-pointer"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -125,21 +125,21 @@ export default function RecordPaymentModal({
           <div className="p-5 sm:p-6 space-y-4 overflow-y-auto flex-1 overscroll-contain">
             
             {/* Student & Course Summary Panel */}
-            <div className="p-4 rounded-2xl bg-gradient-to-br from-purple-50/80 via-fuchsia-50/40 to-pink-50/40 border border-purple-100 text-xs space-y-2">
+            <div className="bg-white p-4 rounded-2xl border border-slate-200 text-xs space-y-2">
               <div className="flex items-center justify-between">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-purple-700 font-mono">Student</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">Student</span>
                   <p className="font-extrabold text-slate-900 text-sm">{resolvedStudentName}</p>
                 </div>
                 <div className="text-right">
                   <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">Student ID</span>
-                  <p className="font-mono font-bold text-purple-700 bg-white px-2 py-0.5 rounded border border-purple-200">
+                  <p className="font-mono font-bold text-blue-800 bg-white px-2 py-0.5 rounded border border-blue-200">
                     {resolvedStudentId}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-2 border-t border-purple-100 flex items-center justify-between">
+              <div className="pt-2 border-t border-blue-200 flex items-center justify-between">
                 <div>
                   <span className="text-[10px] text-slate-500 font-bold">Course / Domain:</span>
                   <p className="font-semibold text-slate-800">{resolvedCourse} ({resolvedDomain})</p>
@@ -255,8 +255,8 @@ export default function RecordPaymentModal({
             </div>
 
             {/* Notice info */}
-            <div className="p-3 rounded-xl bg-purple-50 border border-purple-200 text-[11px] text-purple-900 flex items-center space-x-2">
-              <CheckCircle2 className="w-4 h-4 text-purple-600 shrink-0" />
+            <div className="p-3 rounded-xl bg-blue-50 border border-blue-200 text-[11px] text-purple-900 flex items-center space-x-2">
+              <CheckCircle2 className="w-4 h-4 text-blue-800 shrink-0" />
               <span>
                 Recording this payment marks this cycle as Paid, stops reminders for this cycle, and automatically schedules the next billing cycle.
               </span>
@@ -265,18 +265,18 @@ export default function RecordPaymentModal({
           </div>
 
           {/* Sticky Action Footer - Always visible at bottom */}
-          <div className="px-5 py-3.5 sm:px-6 sm:py-4 bg-slate-50 border-t border-purple-100 flex items-center justify-end space-x-3 shrink-0 z-10">
+          <div className="px-5 py-3.5 sm:px-6 sm:py-4 bg-white border-t border-blue-200 flex items-center justify-end space-x-3 shrink-0 z-10">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2.5 bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs rounded-xl transition cursor-pointer"
+              className="px-4 py-2.5 bg-white hover:bg-white border border-blue-200 text-slate-700 font-bold text-xs rounded-xl transition cursor-pointer"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:opacity-95 text-white font-bold text-xs rounded-xl shadow-md transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-50"
+              className="bg-white px-5 py-2.5 hover:opacity-95 text-blue-800 font-bold text-xs rounded-xl shadow-md transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-50 border border-[#9333EA]"
             >
               <CheckCircle2 className="w-4 h-4" />
               <span>{submitting ? 'Recording Payment...' : 'RECORD FEE PAYMENT'}</span>

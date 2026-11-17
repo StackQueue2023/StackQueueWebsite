@@ -185,28 +185,28 @@ export default function AdminErrorMonitoringPage() {
   const getSeverityBadge = (sev) => {
     switch (sev) {
       case 'CRITICAL':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-red-100 text-red-700 border border-red-200">Critical</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-white text-red-700 border border-red-200">Critical</span>;
       case 'HIGH':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-amber-100 text-amber-800 border border-amber-200">High</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-white text-amber-800 border border-amber-200">High</span>;
       case 'MEDIUM':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-purple-100 text-purple-800 border border-purple-200">Medium</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-white text-purple-800 border border-purple-200">Medium</span>;
       default:
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-slate-100 text-slate-700 border border-slate-200">{sev}</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-black uppercase bg-white text-slate-700 border border-slate-200">{sev}</span>;
     }
   };
 
   const getAlertBadge = (status) => {
     switch (status) {
       case 'SENT':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-700 border border-emerald-200 flex items-center space-x-1"><Check className="w-2.5 h-2.5 inline mr-1" />Alert Sent</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200 flex items-center space-x-1"><Check className="w-2.5 h-2.5 inline mr-1" />Alert Sent</span>;
       case 'THROTTLED':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-700 border border-purple-200">Throttled (Cooldown)</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-purple-700 border border-purple-200">Throttled (Cooldown)</span>;
       case 'PENDING':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-100 text-amber-700 border border-amber-200 animate-pulse">Pending</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-700 border border-amber-200 animate-pulse">Pending</span>;
       case 'FAILED':
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-700 border border-rose-200">Alert Failed</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-rose-700 border border-rose-200">Alert Failed</span>;
       default:
-        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">{status}</span>;
+        return <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-slate-600">{status}</span>;
     }
   };
 
@@ -216,13 +216,13 @@ export default function AdminErrorMonitoringPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
         <div>
           <div className="flex items-center space-x-2.5">
-            <div className="p-2.5 bg-red-50 text-red-600 rounded-xl border border-red-100">
+            <div className="p-2.5 bg-white text-red-600 rounded-xl border border-red-100">
               <ShieldAlert className="w-6 h-6" />
             </div>
             <div>
               <h1 className="text-xl font-black text-slate-900 tracking-tight flex items-center gap-2">
                 Real-Time Backend Error Monitoring
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-800 border border-emerald-200">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-1.5 animate-ping" />
                   Live Event Alerting
                 </span>
@@ -239,7 +239,7 @@ export default function AdminErrorMonitoringPage() {
           <button
             onClick={handleTestFrontendAlert}
             disabled={isTestingAlert}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50"
+            className="bg-white inline-flex items-center space-x-1.5 px-3.5 py-2 text-sq-gradient rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50 border border-[#9333EA]"
             title="Dispatch simulated Frontend UI rendering failure alert to admin email"
           >
             <ShieldAlert className={`w-3.5 h-3.5 ${isTestingAlert ? 'animate-spin' : ''}`} />
@@ -249,7 +249,7 @@ export default function AdminErrorMonitoringPage() {
           <button
             onClick={handleTestAlert}
             disabled={isTestingAlert}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50"
+            className="bg-white inline-flex items-center space-x-1.5 px-3.5 py-2 text-sq-gradient rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50 border border-[#9333EA]"
             title="Dispatch simulated critical backend error alert to admin email via Nodemailer"
           >
             <Send className={`w-3.5 h-3.5 ${isTestingAlert ? 'animate-spin' : ''}`} />
@@ -259,7 +259,7 @@ export default function AdminErrorMonitoringPage() {
           <button
             onClick={handleSimulate500}
             disabled={isSimulating500}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50"
+            className="bg-white inline-flex items-center space-x-1.5 px-3.5 py-2 text-sq-gradient rounded-xl text-xs font-bold shadow-sm transition-all disabled:opacity-50 border border-[#9333EA]"
             title="Trigger an intentional 500 error to verify Express error middleware capture"
           >
             <Zap className="w-3.5 h-3.5" />
@@ -268,7 +268,7 @@ export default function AdminErrorMonitoringPage() {
 
           <button
             onClick={() => { fetchLogs(pagination.page); checkHealth(); }}
-            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition-all"
+            className="inline-flex items-center space-x-1.5 px-3.5 py-2 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition-all"
           >
             <RefreshCw className={`w-3.5 h-3.5 ${loading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
@@ -278,11 +278,7 @@ export default function AdminErrorMonitoringPage() {
 
       {/* Action Notification Message */}
       {actionMessage && (
-        <div className={`p-4 rounded-xl border text-xs font-semibold flex items-center justify-between ${
-          actionMessage.type === 'success' ? 'bg-emerald-50 text-emerald-800 border-emerald-200' :
-          actionMessage.type === 'error' ? 'bg-rose-50 text-rose-800 border-rose-200' :
-          'bg-purple-50 text-purple-800 border-purple-200'
-        }`}>
+        <div className={`p-4 rounded-xl border text-xs font-semibold flex items-center justify-between ${ actionMessage.type === 'success' ? 'bg-white text-emerald-800 border-emerald-200' : actionMessage.type === 'error' ? 'bg-white text-rose-800 border-rose-200' : 'bg-white text-purple-800 border-purple-200' }`}>
           <span>{actionMessage.text}</span>
           <button onClick={() => setActionMessage(null)} className="text-slate-400 hover:text-slate-600 ml-4">✕</button>
         </div>
@@ -299,7 +295,7 @@ export default function AdminErrorMonitoringPage() {
           <span className="text-[11px] text-slate-500">Persistent error records</span>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-red-200 bg-red-50/20 shadow-sm">
+        <div className="bg-white p-4 rounded-2xl border border-red-200 shadow-sm">
           <div className="flex items-center justify-between text-red-500 mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider font-mono">Critical Open</span>
             <AlertTriangle className="w-4 h-4" />
@@ -308,7 +304,7 @@ export default function AdminErrorMonitoringPage() {
           <span className="text-[11px] text-red-600 font-medium">Require immediate review</span>
         </div>
 
-        <div className="bg-white p-4 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-sm">
+        <div className="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
           <div className="flex items-center justify-between text-amber-500 mb-2">
             <span className="text-[11px] font-bold uppercase tracking-wider font-mono">High Severity</span>
             <AlertTriangle className="w-4 h-4" />
@@ -337,40 +333,36 @@ export default function AdminErrorMonitoringPage() {
       </div>
 
       {/* Live System Health Badge Card */}
-      <div className="bg-slate-900 text-slate-100 p-4 rounded-2xl shadow-sm flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white border border-slate-200 text-slate-800 p-4 rounded-2xl shadow-sm flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-slate-800 rounded-xl text-purple-400">
+          <div className="bg-white border border-purple-200 p-2 rounded-xl text-[#9333EA]">
             <Server className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <h4 className="text-xs font-bold text-sq-gradient flex items-center gap-2">
               LMS Backend API Process
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                healthStatus?.status === 'healthy' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'
-              }`}>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${ healthStatus?.status === 'healthy' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-amber-700 border border-amber-300' }`}>
                 {healthStatus?.status === 'healthy' ? 'Online' : 'Degraded'}
               </span>
             </h4>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500">
               Platform: {healthStatus?.platform || 'STACK QUEUE API'} | Ping: {pingLatency !== null ? `${pingLatency}ms` : 'Connecting...'}
             </p>
           </div>
         </div>
 
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-slate-800 rounded-xl text-emerald-400">
+          <div className="bg-white border border-emerald-200 p-2 rounded-xl text-emerald-600">
             <Database className="w-5 h-5" />
           </div>
           <div>
-            <h4 className="text-xs font-bold text-white flex items-center gap-2">
+            <h4 className="text-xs font-bold text-sq-gradient flex items-center gap-2">
               MongoDB Atlas Cluster
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
-                healthStatus?.database === 'connected' ? 'bg-emerald-950 text-emerald-400 border border-emerald-800' : 'bg-rose-950 text-rose-400 border border-rose-800'
-              }`}>
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${ healthStatus?.database === 'connected' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-amber-700 border border-amber-300' }`}>
                 {healthStatus?.database || 'Unknown'}
               </span>
             </h4>
-            <p className="text-[11px] text-slate-400">
+            <p className="text-[11px] text-slate-500">
               Cluster: stackqueue_2 | Fallback File Queue Active
             </p>
           </div>
@@ -387,7 +379,7 @@ export default function AdminErrorMonitoringPage() {
             placeholder="Search Error ID, message, endpoint, file..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
+            className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-purple-500"
           />
         </div>
 
@@ -398,7 +390,7 @@ export default function AdminErrorMonitoringPage() {
             <select
               value={severityFilter}
               onChange={(e) => setSeverityFilter(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
+              className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
             >
               <option value="ALL">All Severities</option>
               <option value="CRITICAL">Critical Only</option>
@@ -410,7 +402,7 @@ export default function AdminErrorMonitoringPage() {
           <select
             value={resolvedFilter}
             onChange={(e) => setResolvedFilter(e.target.value)}
-            className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
+            className="bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-slate-700 focus:outline-none"
           >
             <option value="ALL">All Issues</option>
             <option value="OPEN">Unresolved / Open</option>
@@ -437,7 +429,7 @@ export default function AdminErrorMonitoringPage() {
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-mono text-[11px] uppercase tracking-wider">
+              <thead className="bg-white border-b border-slate-200 text-slate-500 font-mono text-[11px] uppercase tracking-wider">
                 <tr>
                   <th className="py-3 px-4">Error ID &amp; Time</th>
                   <th className="py-3 px-4">Severity</th>
@@ -451,7 +443,7 @@ export default function AdminErrorMonitoringPage() {
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {logs.map((log) => (
-                  <tr key={log._id} className="hover:bg-slate-50/60 transition-colors">
+                  <tr key={log._id} className="hover:bg-white transition-colors">
                     {/* Error ID & Time */}
                     <td className="py-3.5 px-4">
                       <div className="font-mono font-bold text-slate-900">{log.errorId}</div>
@@ -476,9 +468,9 @@ export default function AdminErrorMonitoringPage() {
                     <td className="py-3.5 px-4 max-w-[200px]">
                       <div className="font-semibold text-slate-800 truncate flex items-center gap-1.5" title={log.service}>
                         {log.isFrontend ? (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-purple-100 text-purple-700 uppercase tracking-wide">Frontend UI</span>
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black bg-white text-purple-700 uppercase tracking-wide">Frontend UI</span>
                         ) : (
-                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-slate-100 text-slate-600 uppercase">Backend API</span>
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-bold bg-white text-slate-600 uppercase">Backend API</span>
                         )}
                         <span>{log.pageName || log.service}</span>
                       </div>
@@ -499,7 +491,7 @@ export default function AdminErrorMonitoringPage() {
 
                     {/* Hits / Occurrences */}
                     <td className="py-3.5 px-4 text-center">
-                      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-slate-100 text-slate-700 font-mono">
+                      <span className="inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[11px] font-bold bg-white text-slate-700 font-mono">
                         {log.occurrences || 1}
                       </span>
                     </td>
@@ -517,11 +509,11 @@ export default function AdminErrorMonitoringPage() {
                     {/* Resolution State */}
                     <td className="py-3.5 px-4">
                       {log.isResolved ? (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-emerald-800 border border-emerald-200">
                           Resolved
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rose-100 text-rose-800 border border-rose-200">
+                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-rose-800 border border-rose-200">
                           Open
                         </span>
                       )}
@@ -532,7 +524,7 @@ export default function AdminErrorMonitoringPage() {
                       <div className="flex items-center justify-end space-x-1.5">
                         <button
                           onClick={() => { setSelectedLog(log); setResolutionNotes(log.resolutionNotes || ''); }}
-                          className="p-1.5 bg-slate-100 hover:bg-purple-50 hover:text-purple-600 text-slate-600 rounded-lg transition-colors"
+                          className="p-1.5 bg-white hover:bg-white hover:text-purple-600 text-slate-600 rounded-lg transition-colors"
                           title="View Diagnostic Details"
                         >
                           <Eye className="w-3.5 h-3.5" />
@@ -541,7 +533,7 @@ export default function AdminErrorMonitoringPage() {
                         {!log.isResolved && (
                           <button
                             onClick={() => handleResolveError(log._id)}
-                            className="p-1.5 bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-700 rounded-lg transition-colors"
+                            className="p-1.5 bg-white hover:text-emerald-800 text-emerald-700 rounded-lg transition-colors"
                             title="Mark as Resolved"
                           >
                             <Check className="w-3.5 h-3.5" />
@@ -558,7 +550,7 @@ export default function AdminErrorMonitoringPage() {
 
         {/* Pagination Footer */}
         {pagination.pages > 1 && (
-          <div className="px-4 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between text-xs">
+          <div className="px-4 py-3 bg-white border-t border-slate-200 flex items-center justify-between text-xs">
             <span className="text-slate-500">
               Page {pagination.page} of {pagination.pages} ({pagination.total} total items)
             </span>
@@ -587,9 +579,9 @@ export default function AdminErrorMonitoringPage() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
           <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden border border-slate-200">
             {/* Modal Header */}
-            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="p-5 border-b border-slate-100 flex items-center justify-between bg-white">
               <div className="flex items-center space-x-2.5">
-                <div className="p-2 bg-red-100 text-red-700 rounded-xl">
+                <div className="p-2 bg-white text-red-700 rounded-xl">
                   <ShieldAlert className="w-5 h-5" />
                 </div>
                 <div>
@@ -603,7 +595,7 @@ export default function AdminErrorMonitoringPage() {
               </div>
               <button
                 onClick={() => setSelectedLog(null)}
-                className="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center text-sm font-bold"
+                className="w-8 h-8 rounded-full bg-white hover:bg-white text-slate-500 flex items-center justify-center text-sm font-bold"
               >
                 ✕
               </button>
@@ -615,16 +607,16 @@ export default function AdminErrorMonitoringPage() {
               <div className="flex flex-wrap items-center gap-2">
                 {getSeverityBadge(selectedLog.severity)}
                 {getAlertBadge(selectedLog.alertStatus)}
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-700">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-slate-700">
                   HTTP {selectedLog.statusCode || 500}
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-slate-100 text-slate-700">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-white text-slate-700">
                   {selectedLog.occurrences} total occurrence(s)
                 </span>
               </div>
 
               {/* Message */}
-              <div className="bg-slate-50 border border-slate-200 p-3 rounded-xl">
+              <div className="bg-white border border-slate-200 p-3 rounded-xl">
                 <p className="font-bold text-slate-900">{selectedLog.message}</p>
                 <div className="mt-1 text-[11px] text-slate-500 flex flex-wrap gap-x-4">
                   <span>Service: <strong>{selectedLog.service}</strong></span>
@@ -635,7 +627,7 @@ export default function AdminErrorMonitoringPage() {
 
               {/* Remediation Hint */}
               {selectedLog.remediationHint && (
-                <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl">
+                <div className="bg-white border border-emerald-200 p-3 rounded-xl">
                   <div className="font-bold text-emerald-900 flex items-center gap-1.5 mb-1">
                     <HelpCircle className="w-4 h-4 text-emerald-600" />
                     <span>Immediate Remediation Guidance</span>
@@ -647,7 +639,7 @@ export default function AdminErrorMonitoringPage() {
               )}
 
               {/* Source Location */}
-              <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1">
+              <div className="bg-white p-3 rounded-xl border border-slate-200 font-mono text-[11px] space-y-1">
                 <div>Source File: <strong className="text-slate-800">{selectedLog.fileName}</strong> (Line {selectedLog.lineNumber || '?'})</div>
                 <div>Function: <strong className="text-slate-800">{selectedLog.functionName || 'anonymous'}()</strong></div>
                 <div>First Hit: {new Date(selectedLog.firstOccurredAt).toLocaleString()}</div>
@@ -661,7 +653,7 @@ export default function AdminErrorMonitoringPage() {
                     <FileCode className="w-3.5 h-3.5" />
                     <span>Sanitized Stack Trace</span>
                   </div>
-                  <pre className="bg-slate-950 text-slate-200 p-3 rounded-xl font-mono text-[11px] leading-relaxed overflow-x-auto max-h-44 whitespace-pre-wrap word-break-all">
+                  <pre className="bg-white border border-slate-200 text-slate-800 p-3 rounded-xl font-mono text-[11px] leading-relaxed overflow-x-auto max-h-44 whitespace-pre-wrap word-break-all">
                     {selectedLog.stack}
                   </pre>
                 </div>
@@ -671,7 +663,7 @@ export default function AdminErrorMonitoringPage() {
               <div className="border-t border-slate-200 pt-3">
                 <h4 className="font-bold text-slate-800 mb-1.5">Resolution Notes &amp; Status</h4>
                 {selectedLog.isResolved ? (
-                  <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-emerald-900 text-xs">
+                  <div className="bg-white p-3 rounded-xl border border-emerald-200 text-emerald-900 text-xs">
                     <div className="font-bold flex items-center gap-1">
                       <Check className="w-3.5 h-3.5" />
                       Marked as Resolved by {selectedLog.resolvedByName || 'Administrator'}
@@ -692,12 +684,12 @@ export default function AdminErrorMonitoringPage() {
                       value={resolutionNotes}
                       onChange={(e) => setResolutionNotes(e.target.value)}
                       rows={2}
-                      className="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none"
+                      className="w-full p-2.5 bg-white border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-purple-500 focus:border-purple-500 focus:outline-none"
                     />
                     <button
                       onClick={() => handleResolveError(selectedLog._id)}
                       disabled={isResolving}
-                      className="inline-flex items-center space-x-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all disabled:opacity-50"
+                      className="bg-white inline-flex items-center space-x-1.5 px-4 py-2 text-emerald-700 rounded-xl text-xs font-bold transition-all disabled:opacity-50 border border-emerald-600"
                     >
                       <Check className="w-3.5 h-3.5" />
                       <span>{isResolving ? 'Resolving...' : 'Mark Incident as Resolved'}</span>

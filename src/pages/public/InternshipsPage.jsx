@@ -74,19 +74,18 @@ export default function InternshipsPage() {
 
   return (
     <div className="space-y-8 py-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      {/* Header Banner — Green + White Identity */}
-      <div className="bg-white rounded-3xl border border-emerald-100 p-8 md:p-12 shadow-sm space-y-4 relative overflow-hidden">
-        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 to-teal-500 rounded-t-3xl" />
-        <div className="absolute inset-0 opacity-30 pointer-events-none rounded-3xl" style={{backgroundImage: 'radial-gradient(circle, #A7F3D0 1px, transparent 1px)', backgroundSize: '24px 24px', backgroundColor: '#F0FDF4'}} />
-        <div className="relative z-10 space-y-4">
-          <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-100 border border-emerald-200 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700">
+      {/* Header Banner — Mint-Green Dotted Hero + Emerald Top Accent Line */}
+      <div className="bg-internship-dots rounded-3xl border border-emerald-200/80 shadow-sm relative overflow-hidden">
+        <div className="h-1.5 w-full accent-line-internship" />
+        <div className="p-8 md:p-12 space-y-4">
+          <span className="inline-flex items-center space-x-1.5 px-3 py-1 bg-emerald-100/80 border border-emerald-200 rounded-full text-xs font-bold uppercase tracking-wider text-emerald-700">
             <Award className="w-3.5 h-3.5 text-emerald-600" />
             <span>Industry Work Experience</span>
           </span>
-          <h1 className="text-3xl md:text-5xl font-black text-[#111827] tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-black text-[#0F172A] tracking-tight">
             Certified Internship Programs & Domains
           </h1>
-          <p className="text-[#4B5563] max-w-2xl text-sm md:text-base leading-relaxed">
+          <p className="text-slate-600 max-w-2xl text-sm md:text-base leading-relaxed">
             Choose from 15 Days, 1 Month, 2 Months, 3 Months, or 6 Months certified internship tracks. Gain verifiable project experience with live mentorship.
           </p>
         </div>
@@ -94,7 +93,7 @@ export default function InternshipsPage() {
 
       {/* DURATION CATEGORY PILLS BAR */}
       <div className="space-y-2">
-        <span className="text-xs font-extrabold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+        <span className="text-xs font-extrabold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
           <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
           <span>Filter By Internship Duration Category:</span>
         </span>
@@ -103,11 +102,7 @@ export default function InternshipsPage() {
             <button
               key={pill.val}
               onClick={() => setSelectedDuration(pill.val)}
-              className={`px-4 py-2.5 rounded-2xl text-xs font-black whitespace-nowrap transition flex items-center gap-2 cursor-pointer ${
-                selectedDuration === pill.val
-                  ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20 scale-[1.02]'
-                  : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-50/50 hover:border-emerald-300'
-              }`}
+              className={`px-4 py-2.5 rounded-2xl text-xs font-black whitespace-nowrap transition flex items-center gap-2 cursor-pointer ${ selectedDuration === pill.val ? 'bg-emerald-600 text-white shadow-md shadow-emerald-500/20 scale-[1.02]' : 'bg-white text-slate-800 border border-slate-200 hover:border-emerald-300' }`}
             >
               <span>{pill.icon}</span>
               <span>{pill.label}</span>
@@ -126,12 +121,12 @@ export default function InternshipsPage() {
               placeholder="Search by domain, tech stack (e.g. Java, Python, AWS, Flutter)..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium"
+              className="w-full pl-10 pr-4 py-2.5 text-xs bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 font-medium text-slate-900"
             />
           </div>
 
           <div className="text-xs font-bold text-slate-600">
-            Showing <strong className="text-emerald-600">{domains.length}</strong> certified domains
+            Showing <strong className="text-[#0F172A]">{domains.length}</strong> certified domains
           </div>
         </div>
 
@@ -142,7 +137,7 @@ export default function InternshipsPage() {
             <select
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="text-xs font-semibold bg-white border border-emerald-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               {categories.map((c) => (
                 <option key={c} value={c}>{c}</option>
@@ -155,7 +150,7 @@ export default function InternshipsPage() {
             <select
               value={selectedMode}
               onChange={(e) => setSelectedMode(e.target.value)}
-              className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="text-xs font-semibold bg-white border border-emerald-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               {modes.map((m) => (
                 <option key={m} value={m}>{m}</option>
@@ -168,7 +163,7 @@ export default function InternshipsPage() {
             <select
               value={selectedDuration}
               onChange={(e) => setSelectedDuration(e.target.value)}
-              className="text-xs font-semibold bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              className="text-xs font-semibold bg-white border border-emerald-200 rounded-lg px-2.5 py-1.5 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             >
               {durations.map((d) => (
                 <option key={d} value={d}>{d}</option>
@@ -184,7 +179,7 @@ export default function InternshipsPage() {
                 setSelectedMode('All');
                 setSelectedDuration('All');
               }}
-              className="text-[11px] font-bold text-red-600 hover:text-red-700 underline"
+              className="text-[11px] font-bold text-emerald-700 hover:text-emerald-800 underline"
             >
               Reset Filters
             </button>
@@ -198,7 +193,7 @@ export default function InternshipsPage() {
           <div className="w-10 h-10 border-4 border-emerald-600 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : domains.length === 0 ? (
-        <div className="bg-white rounded-2xl border border-slate-200 p-12 text-center space-y-3">
+        <div className="bg-emerald-50 rounded-2xl border border-emerald-200 p-12 text-center space-y-3">
           <Briefcase className="w-10 h-10 text-slate-400 mx-auto" />
           <h3 className="text-base font-bold text-slate-800">No internship domains matching your search</h3>
           <p className="text-xs text-slate-500">Try selecting "All Durations" or resetting your search filters.</p>
@@ -208,19 +203,19 @@ export default function InternshipsPage() {
           {domains.map((dom, idx) => (
             <div
               key={idx}
-              className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4 hover:-translate-y-1 duration-200"
+              className="bg-emerald-50 rounded-2xl border border-emerald-200 p-6 shadow-sm hover:shadow-md transition flex flex-col justify-between space-y-4 hover:-translate-y-1 duration-200"
             >
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-white px-2.5 py-1 rounded-full border border-emerald-200">
                     {dom.category}
                   </span>
-                  <span className="text-xs font-black bg-emerald-600 text-white px-3 py-1 rounded-full shadow-2xs">
+                  <span className="bg-white text-xs font-black text-emerald-700 px-3 py-1 rounded-full shadow-2xs border border-emerald-600">
                     {dom.stipend || 'Free / Stipend'}
                   </span>
                 </div>
 
-                <h3 className="text-lg font-black text-slate-900 leading-snug">
+                <h3 className="text-lg font-black text-emerald-700 leading-snug">
                   {dom.title}
                 </h3>
 
@@ -229,8 +224,8 @@ export default function InternshipsPage() {
                 </p>
 
                 <div className="flex items-center space-x-3 text-xs text-slate-500 font-semibold pt-1">
-                  <span className="flex items-center space-x-1 font-bold text-slate-800 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200">
-                    <Clock className="w-3.5 h-3.5 text-amber-600" />
+                  <span className="flex items-center space-x-1 font-bold text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-200">
+                    <Clock className="w-3.5 h-3.5 text-emerald-600" />
                     <span>Duration: {dom.duration}</span>
                   </span>
                   <span>•</span>
@@ -245,7 +240,7 @@ export default function InternshipsPage() {
                   {(dom.skills || []).map((skill, sIdx) => (
                     <span
                       key={sIdx}
-                      className="px-2 py-0.5 bg-slate-100 text-slate-700 text-[10px] font-bold rounded-md"
+                      className="px-2 py-0.5 bg-white text-slate-700 text-[10px] font-bold rounded-md"
                     >
                       {skill}
                     </span>
@@ -264,7 +259,7 @@ export default function InternshipsPage() {
 
                 <Link
                   to="/contact"
-                  className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm transition"
+                  className="bg-emerald-50 px-4 py-2 text-emerald-700 font-bold text-xs rounded-xl shadow-sm transition border border-emerald-600"
                 >
                   Apply Now
                 </Link>
@@ -277,10 +272,10 @@ export default function InternshipsPage() {
       {/* Domain Detail Modal */}
       {selectedDomainModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/30 backdrop-blur-md animate-fade-in">
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-2xl w-full max-w-lg p-6 space-y-4">
+          <div className="bg-emerald-50 rounded-2xl border border-emerald-200 shadow-2xl w-full max-w-lg p-6 space-y-4">
             <div className="flex items-start justify-between">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-white px-2.5 py-0.5 rounded">
                   {selectedDomainModal.category}
                 </span>
                 <h3 className="text-xl font-black text-slate-900 mt-1">
@@ -289,18 +284,18 @@ export default function InternshipsPage() {
               </div>
               <button
                 onClick={() => setSelectedDomainModal(null)}
-                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100"
+                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-white"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs space-y-2">
+            <div className="bg-emerald-50 p-4 rounded-xl border border-emerald-200 text-xs space-y-2">
               <div>
                 <span className="text-slate-500 text-[11px] block">Primary Technologies:</span>
                 <span className="font-extrabold text-slate-900 text-sm">{selectedDomainModal.technology}</span>
               </div>
-              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-200">
+              <div className="grid grid-cols-2 gap-2 pt-2 border-t border-emerald-200">
                 <div>
                   <span className="text-slate-500 text-[11px] block">Internship Duration:</span>
                   <span className="font-bold text-slate-800">{selectedDomainModal.duration}</span>
@@ -333,13 +328,13 @@ export default function InternshipsPage() {
             <div className="pt-2 flex items-center justify-end space-x-3">
               <button
                 onClick={() => setSelectedDomainModal(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition"
+                className="px-4 py-2 bg-white hover:bg-emerald-50 text-slate-700 text-xs font-bold rounded-xl transition"
               >
                 Close
               </button>
               <Link
                 to="/contact"
-                className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition"
+                className="bg-emerald-50 px-5 py-2 text-emerald-700 text-xs font-bold rounded-xl shadow-sm transition border border-emerald-600"
               >
                 Submit Internship Application
               </Link>

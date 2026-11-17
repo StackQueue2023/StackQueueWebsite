@@ -34,7 +34,7 @@ export default function AboutUsPage() {
       {/* Header Banner */}
       <section className="bg-white py-16 border-b border-[#E5E7EB]">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-pink-50 border border-pink-200 text-[#E02B91] text-xs font-bold mb-4 shadow-2xs">
+          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-white border border-pink-200 text-[#E02B91] text-xs font-bold mb-4 shadow-2xs">
             <GraduationCap className="w-4 h-4" />
             <span>Inclusive Learning</span>
           </div>
@@ -50,13 +50,13 @@ export default function AboutUsPage() {
       {/* ── About Summary Card — 2-Column ── */}
       <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="relative rounded-3xl bg-white border border-[#E5E7EB] shadow-sm overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2]" />
+          <div className="bg-white absolute top-0 left-0 right-0 h-1" />
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
             {/* LEFT */}
             <div className="p-8 sm:p-12 flex flex-col justify-center space-y-7">
               <div className="space-y-2">
-                <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-pink-50 text-[#E02B91] border border-pink-200">
+                <span className="inline-flex items-center px-3.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-white text-[#E02B91] border border-pink-200">
                   About Our Company
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-black text-[#111827] leading-tight">
@@ -96,13 +96,13 @@ export default function AboutUsPage() {
               <div className="flex flex-wrap items-center gap-3 pt-1">
                 <Link
                   to="/courses"
-                  className="px-7 py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold text-xs rounded-full shadow-md shadow-pink-500/20 hover:shadow-lg transition flex items-center gap-2"
+                  className="bg-white px-7 py-3 hover:opacity-95 text-sq-gradient font-bold text-xs rounded-full shadow-md shadow-pink-500/20 hover:shadow-lg transition flex items-center gap-2 border border-[#9333EA]"
                 >
                   <span>Explore Courses</span>
                 </Link>
                 <Link
                   to="/internships"
-                  className="px-7 py-3 bg-white hover:bg-slate-50 text-[#111827] hover:text-[#E02B91] font-bold text-xs rounded-full border border-[#E5E7EB] shadow-sm transition"
+                  className="px-7 py-3 bg-white hover:bg-white text-[#111827] hover:text-[#E02B91] font-bold text-xs rounded-full border border-[#E5E7EB] shadow-sm transition"
                 >
                   50+ Internship Domains
                 </Link>
@@ -110,7 +110,7 @@ export default function AboutUsPage() {
             </div>
 
             {/* RIGHT — Logo + Feature Cards */}
-            <div className="p-8 sm:p-12 flex flex-col justify-center gap-8 bg-[#FAFAFA] border-t lg:border-t-0 lg:border-l border-[#E5E7EB]">
+            <div className="p-8 sm:p-12 flex flex-col justify-center gap-8 bg-white border-t lg:border-t-0 lg:border-l border-[#E5E7EB]">
               <div className="flex justify-center">
                 <img
                   src="/stackqueue-logo-light.png"
@@ -122,10 +122,10 @@ export default function AboutUsPage() {
               <div className="space-y-4">
                 <div className="bg-white border border-[#E5E7EB] rounded-2xl p-5 space-y-2 hover:border-pink-200 hover:shadow-sm transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 bg-pink-50 text-[#E02B91] rounded-xl">
+                    <span className="p-2 bg-white text-[#E02B91] rounded-xl">
                       <Target className="w-4 h-4" />
                     </span>
-                    <span className="px-2.5 py-0.5 bg-pink-50 text-[#E02B91] text-[11px] font-bold rounded-full border border-pink-200">
+                    <span className="px-2.5 py-0.5 bg-white text-[#E02B91] text-[11px] font-bold rounded-full border border-pink-200">
                       Live Industry Standards
                     </span>
                   </div>
@@ -137,10 +137,10 @@ export default function AboutUsPage() {
 
                 <div className="bg-white border border-[#E5E7EB] rounded-2xl p-5 space-y-2 hover:border-purple-200 hover:shadow-sm transition">
                   <div className="flex items-center justify-between">
-                    <span className="p-2 bg-purple-50 text-[#8B2BE2] rounded-xl">
+                    <span className="p-2 bg-white text-[#8B2BE2] rounded-xl">
                       <GraduationCap className="w-4 h-4" />
                     </span>
-                    <span className="px-2.5 py-0.5 bg-purple-50 text-[#8B2BE2] text-[11px] font-bold rounded-full border border-purple-200">
+                    <span className="px-2.5 py-0.5 bg-white text-[#8B2BE2] text-[11px] font-bold rounded-full border border-purple-200">
                       50+ Tech Domains
                     </span>
                   </div>
@@ -159,7 +159,7 @@ export default function AboutUsPage() {
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-8 rounded-2xl border border-[#E5E7EB] shadow-xs hover:border-pink-200 hover:shadow-md transition">
-            <div className="w-12 h-12 rounded-xl bg-pink-50 text-[#E02B91] border border-pink-200 flex items-center justify-center mb-5">
+            <div className="w-12 h-12 rounded-xl bg-white text-[#E02B91] border border-pink-200 flex items-center justify-center mb-5">
               <Target className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-[#111827] mb-3">Our Mission</h2>
@@ -171,7 +171,7 @@ export default function AboutUsPage() {
           </div>
 
           <div className="bg-white p-8 rounded-2xl border border-[#E5E7EB] shadow-xs hover:border-purple-200 hover:shadow-md transition">
-            <div className="w-12 h-12 rounded-xl bg-purple-50 text-[#8B2BE2] border border-purple-200 flex items-center justify-center mb-5">
+            <div className="w-12 h-12 rounded-xl bg-white text-[#8B2BE2] border border-purple-200 flex items-center justify-center mb-5">
               <Compass className="w-6 h-6" />
             </div>
             <h2 className="text-2xl font-bold text-[#111827] mb-3">Our Vision</h2>
@@ -184,7 +184,7 @@ export default function AboutUsPage() {
       </section>
 
       {/* The 4 Pillars */}
-      <section className="py-16 bg-[#FAFAFA] border-y border-[#E5E7EB]">
+      <section className="py-16 bg-white border-y border-[#E5E7EB]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <span className="text-xs font-bold uppercase tracking-widest text-[#E02B91]">Pedagogical Framework</span>
@@ -247,7 +247,7 @@ export default function AboutUsPage() {
               key={member.name}
               className="bg-white p-6 rounded-2xl border border-[#E5E7EB] shadow-xs hover:shadow-md transition text-center"
             >
-              <div className="w-16 h-16 rounded-full bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] text-white font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+              <div className="bg-white w-16 h-16 rounded-full text-sq-gradient font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-sm border border-[#9333EA]">
                 {member.avatar}
               </div>
               <h3 className="text-base font-bold text-[#111827]">{member.name}</h3>
@@ -268,7 +268,7 @@ export default function AboutUsPage() {
           <div className="pt-2 flex justify-center gap-4">
             <Link
               to="/register"
-              className="px-7 py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white font-bold rounded-full text-xs shadow-md shadow-pink-500/20 hover:shadow-lg transition"
+              className="bg-white px-7 py-3 hover:opacity-95 text-sq-gradient font-bold rounded-full text-xs shadow-md shadow-pink-500/20 hover:shadow-lg transition border border-[#9333EA]"
             >
               Register as Student
             </Link>

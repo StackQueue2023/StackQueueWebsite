@@ -32,22 +32,22 @@ export default function UserManagementPage() {
   const getRoleBadge = (role) => {
     switch (role) {
       case 'admin':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-rose-50 text-rose-700 border border-rose-200">Admin</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-white text-rose-700 border border-rose-200">Admin</span>;
       case 'trainer':
       case 'tutor':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-amber-50 text-amber-700 border border-amber-200">Trainer</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-white text-amber-700 border border-amber-200">Trainer</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-purple-50 text-purple-700 border border-purple-200">Student</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-white text-purple-700 border border-purple-200">Student</span>;
     }
   };
 
   return (
     <div className="space-y-6 pb-12 max-w-5xl mx-auto">
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white relative overflow-hidden rounded-3xl border border-purple-200/80 p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
             <Users className="w-3.5 h-3.5 text-purple-600" />
             <span>Identity & Access Directory</span>
           </div>
@@ -68,11 +68,7 @@ export default function UserManagementPage() {
             <button
               key={r.value}
               onClick={() => setRoleFilter(r.value)}
-              className={`px-3.5 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${
-                roleFilter === r.value
-                  ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-purple-900 hover:bg-purple-50/50'
-              }`}
+              className={`px-3.5 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${ roleFilter === r.value ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : 'text-slate-600 hover:text-purple-900 hover:bg-white' }`}
             >
               {r.label}
             </button>
@@ -84,7 +80,7 @@ export default function UserManagementPage() {
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs font-mono">
-            <thead className="bg-slate-50 text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
+            <thead className="bg-white text-slate-500 uppercase text-[10px] tracking-wider border-b border-slate-200">
               <tr>
                 <th className="px-4 py-3 font-semibold">Name</th>
                 <th className="px-4 py-3 font-semibold">Email</th>
@@ -102,10 +98,10 @@ export default function UserManagementPage() {
                 </tr>
               ) : (
                 users.map((u) => (
-                  <tr key={u._id} className="hover:bg-slate-50/80 transition">
+                  <tr key={u._id} className="hover:bg-white transition">
                     <td className="px-4 py-3 font-sans font-semibold text-slate-900">
                       <div className="flex items-center space-x-2.5">
-                        <div className="w-7 h-7 rounded-lg bg-purple-50 border border-purple-200 flex items-center justify-center font-bold text-xs text-purple-700">
+                        <div className="w-7 h-7 rounded-lg bg-white border border-purple-200 flex items-center justify-center font-bold text-xs text-purple-700">
                           {u.name.charAt(0)}
                         </div>
                         <span>{u.name}</span>
@@ -118,7 +114,7 @@ export default function UserManagementPage() {
                       {getRoleBadge(u.role)}
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase bg-white text-emerald-700 border border-emerald-200">
                         Active
                       </span>
                     </td>

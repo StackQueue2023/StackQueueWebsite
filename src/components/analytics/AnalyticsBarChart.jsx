@@ -37,7 +37,7 @@ export default function AnalyticsBarChart({
         {selectedItem && (
           <button
             onClick={() => onSelectItem && onSelectItem(null)}
-            className="text-[10px] font-bold text-purple-600 hover:text-purple-800 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200 transition"
+            className="text-[10px] font-bold text-purple-600 hover:text-purple-800 bg-white px-2 py-0.5 rounded-full border border-purple-200 transition"
           >
             Clear Filter
           </button>
@@ -62,11 +62,7 @@ export default function AnalyticsBarChart({
               <div
                 key={item.id || item.name + idx}
                 onClick={() => onSelectItem && onSelectItem(item.name)}
-                className={`group cursor-pointer p-2 rounded-xl transition-all ${
-                  isSelected
-                    ? 'bg-purple-50/80 ring-2 ring-purple-500'
-                    : 'hover:bg-slate-50'
-                }`}
+                className={`group cursor-pointer p-2 rounded-xl transition-all ${ isSelected ? 'bg-white ring-2 ring-purple-500' : 'hover:bg-white' }`}
               >
                 <div className="flex items-center justify-between text-xs mb-1.5">
                   <div className="flex items-center space-x-2 truncate pr-2">
@@ -81,7 +77,7 @@ export default function AnalyticsBarChart({
                     <span className="font-mono font-bold text-slate-900 text-xs">
                       {valuePrefix}{count.toLocaleString()}{valueSuffix}
                     </span>
-                    <span className="text-[10px] font-bold font-mono text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded-md">
+                    <span className="text-[10px] font-bold font-mono text-slate-400 bg-white px-1.5 py-0.5 rounded-md">
                       {pct}%
                     </span>
                   </div>

@@ -12,20 +12,21 @@ export default function AnalyticsKpiCard({
   badge = null
 }) {
   const colorMap = {
-    purple: { bg: 'bg-purple-50', text: 'text-purple-600', border: 'border-purple-100', textVal: 'text-purple-700' },
-    emerald: { bg: 'bg-emerald-50', text: 'text-emerald-600', border: 'border-emerald-100', textVal: 'text-emerald-600' },
-    amber: { bg: 'bg-amber-50', text: 'text-amber-600', border: 'border-amber-100', textVal: 'text-amber-600' },
-    cyan: { bg: 'bg-cyan-50', text: 'text-cyan-600', border: 'border-cyan-100', textVal: 'text-cyan-600' },
-    pink: { bg: 'bg-pink-50', text: 'text-pink-600', border: 'border-pink-100', textVal: 'text-pink-600' },
-    red: { bg: 'bg-red-50', text: 'text-red-600', border: 'border-red-100', textVal: 'text-red-600' }
+    purple: { card: 'bg-white', bg: 'bg-purple-100', text: 'text-[#7E22CE]', border: 'border-purple-200', textVal: 'text-sq-gradient' },
+    emerald: { card: 'bg-emerald-50', bg: 'bg-emerald-100', text: 'text-emerald-800', border: 'border-emerald-200', textVal: 'text-emerald-800' },
+    amber: { card: 'bg-yellow-50', bg: 'bg-yellow-100', text: 'text-amber-900', border: 'border-amber-300', textVal: 'text-amber-900' },
+    cyan: { card: 'bg-blue-50', bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200', textVal: 'text-blue-800' },
+    blue: { card: 'bg-blue-50', bg: 'bg-blue-100', text: 'text-blue-800', border: 'border-blue-200', textVal: 'text-blue-800' },
+    pink: { card: 'bg-pink-50', bg: 'bg-pink-100', text: 'text-pink-800', border: 'border-pink-200', textVal: 'text-sq-gradient' },
+    red: { card: 'bg-rose-50', bg: 'bg-rose-100', text: 'text-rose-800', border: 'border-rose-200', textVal: 'text-rose-700' }
   };
 
   const theme = colorMap[color] || colorMap.purple;
 
   return (
-    <div className={`bg-white rounded-2xl p-5 border ${theme.border} shadow-2xs space-y-2.5 transition-all hover:shadow-xs hover:border-slate-300`}>
+    <div className={`${theme.card} rounded-2xl p-5 border ${theme.border} shadow-2xs space-y-2.5 transition-all hover:shadow-xs`}>
       <div className="flex items-center justify-between">
-        <span className="text-[11px] font-bold uppercase tracking-wider text-slate-500 font-mono">
+        <span className={`text-[11px] font-bold uppercase tracking-wider ${theme.text} font-mono`}>
           {title}
         </span>
         {Icon && (
@@ -40,16 +41,16 @@ export default function AnalyticsKpiCard({
           {typeof value === 'number' ? value.toLocaleString() : value}
         </div>
         {subtitle && (
-          <p className="text-[11px] text-slate-400 font-medium truncate">
+          <p className="text-[11px] text-slate-600 font-medium truncate">
             {subtitle}
           </p>
         )}
       </div>
 
       {badge && (
-        <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-[10px] font-mono font-bold text-slate-500">
+        <div className={`pt-2 border-t ${theme.border} flex items-center justify-between text-[10px] font-mono font-bold text-slate-600`}>
           <span>Target / Status</span>
-          <span className="text-purple-600">{badge}</span>
+          <span className={theme.text}>{badge}</span>
         </div>
       )}
     </div>

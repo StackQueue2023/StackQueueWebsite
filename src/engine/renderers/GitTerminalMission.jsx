@@ -41,33 +41,33 @@ export default function GitTerminalMission({ challenge = {}, onCommandRun = () =
           <span>Git Mission Tree & Terminal</span>
         </div>
         <div className="flex items-center space-x-2 text-[11px] font-mono">
-          <span className={`px-2 py-0.5 rounded border ${staged ? 'bg-emerald-50 text-emerald-700 border-emerald-200 font-semibold' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+          <span className={`px-2 py-0.5 rounded border ${staged ? 'bg-white text-emerald-700 border-emerald-200 font-semibold' : 'bg-white text-slate-600 border-slate-200'}`}>
             Staging: {staged ? '✓ Ready' : 'Empty'}
           </span>
-          <span className={`px-2 py-0.5 rounded border ${committed ? 'bg-emerald-50 text-emerald-700 border-emerald-200 font-semibold' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+          <span className={`px-2 py-0.5 rounded border ${committed ? 'bg-white text-emerald-700 border-emerald-200 font-semibold' : 'bg-white text-slate-600 border-slate-200'}`}>
             Repo: {committed ? '✓ Committed' : 'Uncommitted'}
           </span>
         </div>
       </div>
 
       {/* Visual Pipeline */}
-      <div className="grid grid-cols-3 gap-2 bg-slate-50 border border-slate-200 p-3 rounded-xl text-center text-xs shadow-sm">
-        <div className={`p-2.5 rounded-lg border ${!staged ? 'border-amber-400 bg-amber-50 text-amber-800 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
+      <div className="grid grid-cols-3 gap-2 bg-white border border-slate-200 p-3 rounded-xl text-center text-xs shadow-sm">
+        <div className={`p-2.5 rounded-lg border ${!staged ? 'border-amber-400 bg-white text-amber-800 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
           <p className="font-semibold mb-1">Working Tree</p>
           <span className="text-[10px] font-mono">3 modified files</span>
         </div>
-        <div className={`p-2.5 rounded-lg border ${staged && !committed ? 'border-purple-400 bg-purple-50 text-purple-900 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
+        <div className={`p-2.5 rounded-lg border ${staged && !committed ? 'border-purple-400 bg-white text-purple-900 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
           <p className="font-semibold mb-1">Staging Area</p>
           <span className="text-[10px] font-mono">{staged ? '3 files indexed' : '0 files'}</span>
         </div>
-        <div className={`p-2.5 rounded-lg border ${committed ? 'border-emerald-400 bg-emerald-50 text-emerald-800 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
+        <div className={`p-2.5 rounded-lg border ${committed ? 'border-emerald-400 bg-white text-emerald-800 font-medium' : 'border-slate-200 bg-white text-slate-600'}`}>
           <p className="font-semibold mb-1">Local Repository</p>
           <span className="text-[10px] font-mono">{committed ? 'Commit 4c89f1a' : 'Pending'}</span>
         </div>
       </div>
 
       {/* Terminal View */}
-      <div className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-3 font-mono text-xs text-slate-800 overflow-y-auto space-y-1 shadow-xs">
+      <div className="flex-1 bg-white border border-slate-200 rounded-xl p-3 font-mono text-xs text-slate-800 overflow-y-auto space-y-1 shadow-xs">
         <div className="text-slate-500 pb-1 border-b border-slate-200 flex items-center justify-between text-[11px]">
           <span>STACK QUEUE Git Sandbox v2.4</span>
           <span className="font-semibold text-purple-700">branch: main</span>
@@ -87,7 +87,7 @@ export default function GitTerminalMission({ challenge = {}, onCommandRun = () =
             <button
               key={i}
               onClick={() => runCommand(cmd)}
-              className="px-2.5 py-1.5 bg-white hover:bg-slate-50 border border-slate-300 hover:border-purple-500 rounded-lg text-xs font-mono text-slate-800 shadow-sm transition"
+              className="px-2.5 py-1.5 bg-white hover:bg-white border border-slate-300 hover:border-purple-500 rounded-lg text-xs font-mono text-slate-800 shadow-sm transition"
             >
               $ {cmd}
             </button>

@@ -74,7 +74,7 @@ export default function AdminCommandCenterPage() {
       route: '/admin/analytics/courses',
       icon: GraduationCap,
       color: 'from-purple-600 to-indigo-600',
-      badgeColor: 'bg-purple-50 text-purple-700 border-purple-200',
+      badgeColor: 'bg-white text-purple-700 border-purple-200',
       description: 'Full-stack software engineering, data science, and core computer science curricula.'
     },
     {
@@ -84,7 +84,7 @@ export default function AdminCommandCenterPage() {
       route: '/admin/batches',
       icon: Building2,
       color: 'from-fuchsia-600 to-pink-600',
-      badgeColor: 'bg-pink-50 text-pink-700 border-pink-200',
+      badgeColor: 'bg-white text-pink-700 border-pink-200',
       description: 'On-campus and remote institutional cohorts with dedicated curriculum schedules.'
     },
     {
@@ -94,7 +94,7 @@ export default function AdminCommandCenterPage() {
       route: '/admin/internships',
       icon: Briefcase,
       color: 'from-amber-500 to-orange-600',
-      badgeColor: 'bg-amber-50 text-amber-700 border-amber-200',
+      badgeColor: 'bg-white text-amber-700 border-amber-200',
       description: 'Hands-on practical apprenticeships with real-world product deliverables.'
     },
     {
@@ -103,8 +103,8 @@ export default function AdminCommandCenterPage() {
       subtitle: 'Capstone Labs & GitHub Milestones',
       route: '/admin/projects',
       icon: FolderGit2,
-      color: 'from-cyan-600 to-blue-600',
-      badgeColor: 'bg-cyan-50 text-cyan-700 border-cyan-200',
+      color: 'border-amber-500 text-amber-700',
+      badgeColor: 'bg-white text-amber-700 border-amber-300',
       description: 'Evaluation criteria, automated code review, and student final submissions.'
     }
   ];
@@ -112,12 +112,12 @@ export default function AdminCommandCenterPage() {
   return (
     <div className="space-y-8 pb-16 max-w-7xl mx-auto">
       {/* 1. Top Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+            <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Active Institute Operations</span>
             </div>
@@ -134,7 +134,7 @@ export default function AdminCommandCenterPage() {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="px-3.5 py-2.5 bg-white hover:bg-purple-50/80 text-purple-800 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
+              className="px-3.5 py-2.5 bg-white hover:bg-white text-purple-800 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-xs"
               title="Refresh records"
             >
               <RefreshCw className={`w-3.5 h-3.5 text-purple-600 ${refreshing ? 'animate-spin' : ''}`} />
@@ -142,21 +142,21 @@ export default function AdminCommandCenterPage() {
             </button>
             <Link
               to="/admin/analytics"
-              className="px-4 py-2.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600 hover:opacity-95 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-purple-500/20"
+              className="bg-white px-4 py-2.5 hover:opacity-95 text-blue-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-md shadow-purple-500/20 border border-blue-600"
             >
               <BarChart3 className="w-3.5 h-3.5" />
               <span>Analytics Hub</span>
             </Link>
             <Link
               to="/admin/analytics/courses"
-              className="px-4 py-2.5 bg-white hover:bg-purple-50/80 text-purple-800 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-xs"
+              className="px-4 py-2.5 bg-white hover:bg-white text-purple-800 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-xs"
             >
               <Plus className="w-3.5 h-3.5 text-purple-600" />
               <span>Courses</span>
             </Link>
             <Link
               to="/admin/batches"
-              className="px-4 py-2.5 bg-purple-50 hover:bg-purple-100/80 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-xs"
+              className="px-4 py-2.5 bg-white hover:bg-white text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 shadow-xs"
             >
               <Plus className="w-3.5 h-3.5 text-purple-600" />
               <span>Batches & Colleges</span>
@@ -198,8 +198,8 @@ export default function AdminCommandCenterPage() {
               >
                 <div className="space-y-3">
                   <div className="flex items-start justify-between">
-                    <div className={`w-11 h-11 rounded-xl bg-gradient-to-br ${cat.color} text-white flex items-center justify-center shadow-xs group-hover:scale-105 transition-transform`}>
-                      <Icon className="w-5 h-5" />
+                    <div className="bg-white border border-slate-200 w-11 h-11 rounded-xl flex items-center justify-center shadow-2xs group-hover:scale-105 transition-transform">
+                      <Icon className="w-5 h-5 text-[#9333EA]" />
                     </div>
                     <span className={`px-2 py-0.5 rounded-full text-[10px] font-mono font-bold border uppercase ${cat.badgeColor}`}>
                       {stats.totalEnrolled} Enrolled
@@ -262,49 +262,49 @@ export default function AdminCommandCenterPage() {
               title: 'Analytics Hub',
               sub: 'Executive Analytics',
               icon: BarChart3,
-              color: 'text-indigo-600 bg-indigo-50 border-indigo-100 hover:border-indigo-300'
+              color: 'text-indigo-600 bg-white border-indigo-100 hover:border-indigo-300'
             },
             {
               to: '/admin/lms',
               title: 'LMS Management',
               sub: 'Student & Admission',
               icon: GraduationCap,
-              color: 'text-purple-600 bg-purple-50 border-purple-100 hover:border-purple-300'
+              color: 'text-purple-600 bg-white border-purple-100 hover:border-purple-300'
             },
             {
               to: '/admin/batches',
               title: 'Batches & Colleges',
               sub: 'College Cohorts',
               icon: Building2,
-              color: 'text-fuchsia-600 bg-fuchsia-50 border-fuchsia-100 hover:border-fuchsia-300'
+              color: 'text-fuchsia-700 bg-white border-fuchsia-200 hover:border-fuchsia-400'
             },
             {
               to: '/admin/domain-management',
               title: 'Domain Management',
               sub: 'Curriculum & Courses',
               icon: Layers,
-              color: 'text-violet-600 bg-violet-50 border-violet-100 hover:border-violet-300'
+              color: 'text-violet-600 bg-white border-violet-100 hover:border-violet-300'
             },
             {
               to: '/admin/tutors',
               title: 'Tutor Directory',
               sub: 'Faculty Management',
               icon: UserCheck,
-              color: 'text-emerald-600 bg-emerald-50 border-emerald-100 hover:border-emerald-300'
+              color: 'text-emerald-600 bg-white border-emerald-100 hover:border-emerald-300'
             },
             {
               to: '/admin/offers',
               title: 'Offers & Discounts',
               sub: 'Promo Campaigns',
               icon: Tag,
-              color: 'text-pink-600 bg-pink-50 border-pink-100 hover:border-pink-300'
+              color: 'text-pink-600 bg-white border-pink-100 hover:border-pink-300'
             },
             {
               to: '/admin/live-monitor',
               title: 'Live Monitor',
               sub: 'Classes & Telemetry',
               icon: Radio,
-              color: 'text-rose-600 bg-rose-50 border-rose-100 hover:border-rose-300'
+              color: 'text-rose-600 bg-white border-rose-100 hover:border-rose-300'
             }
           ].map((item) => {
             const Icon = item.icon;

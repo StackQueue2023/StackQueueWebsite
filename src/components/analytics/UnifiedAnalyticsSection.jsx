@@ -8,7 +8,7 @@ import {
   BarChart3,
   TrendingUp,
   Sparkles,
-  PieChart
+  BarChart2
 } from 'lucide-react';
 
 /**
@@ -51,10 +51,10 @@ export default function UnifiedAnalyticsSection({
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-5">
         <div>
           <div className="flex items-center space-x-2 mb-1">
-            <span className="text-[10px] font-mono font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full bg-gradient-to-r from-purple-100 to-pink-100 text-purple-900 border border-purple-200">
+            <span className="bg-white text-[10px] font-mono font-bold tracking-wider uppercase px-2.5 py-0.5 rounded-full text-purple-900 border border-purple-200">
               Full-Width Analytics Matrix
             </span>
-            <span className="text-[10px] font-mono font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+            <span className="text-[10px] font-mono font-semibold text-emerald-700 bg-white px-2 py-0.5 rounded-full border border-emerald-200">
               Live Database Verified
             </span>
           </div>
@@ -70,37 +70,25 @@ export default function UnifiedAnalyticsSection({
         {/* View Switcher & Active Filter Indicators */}
         <div className="flex flex-wrap items-center gap-2">
           {/* View Mode Buttons */}
-          <div className="inline-flex rounded-xl bg-slate-100 p-1 border border-slate-200 text-xs font-bold">
+          <div className="inline-flex rounded-xl bg-white p-1 border border-slate-200 text-xs font-bold">
             <button
               type="button"
               onClick={() => setActiveTab('all')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'all'
-                  ? 'bg-white text-purple-700 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${ activeTab === 'all' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900' }`}
             >
               Unified View
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('courses')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'courses'
-                  ? 'bg-white text-purple-700 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${ activeTab === 'courses' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900' }`}
             >
               Courses ({topCourses.length})
             </button>
             <button
               type="button"
               onClick={() => setActiveTab('domains')}
-              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${
-                activeTab === 'domains'
-                  ? 'bg-white text-purple-700 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition-all cursor-pointer ${ activeTab === 'domains' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900' }`}
             >
               Domains ({domainDistribution.length})
             </button>
@@ -111,7 +99,7 @@ export default function UnifiedAnalyticsSection({
             <button
               type="button"
               onClick={() => onSelectCourse && onSelectCourse('All')}
-              className="text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 px-3 py-1.5 rounded-xl border border-purple-200 transition flex items-center space-x-1"
+              className="text-xs font-bold text-purple-700 bg-white hover:bg-white px-3 py-1.5 rounded-xl border border-purple-200 transition flex items-center space-x-1"
             >
               <span>Course: {selectedCourseFilter}</span>
               <span className="text-purple-400 font-normal ml-1">×</span>
@@ -122,7 +110,7 @@ export default function UnifiedAnalyticsSection({
             <button
               type="button"
               onClick={() => onSelectDomain && onSelectDomain('All')}
-              className="text-xs font-bold text-pink-700 bg-pink-50 hover:bg-pink-100 px-3 py-1.5 rounded-xl border border-pink-200 transition flex items-center space-x-1"
+              className="text-xs font-bold text-pink-700 bg-white hover:bg-white px-3 py-1.5 rounded-xl border border-pink-200 transition flex items-center space-x-1"
             >
               <span>Domain: {selectedDomainFilter}</span>
               <span className="text-pink-400 font-normal ml-1">×</span>
@@ -134,9 +122,9 @@ export default function UnifiedAnalyticsSection({
       {/* ────────────────────────────────────────────────────────── */}
       {/* 2. RECONCILED QUICK KPI BADGES (FULL-WIDTH STRIP)          */}
       {/* ────────────────────────────────────────────────────────── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50/80 p-3 rounded-2xl border border-slate-200/80">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-white p-3 rounded-2xl border border-slate-200/80">
         <div className="flex items-center space-x-2.5 px-2">
-          <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-white text-purple-700 flex items-center justify-center shrink-0">
             <Users className="w-4 h-4" />
           </div>
           <div>
@@ -146,7 +134,7 @@ export default function UnifiedAnalyticsSection({
         </div>
 
         <div className="flex items-center space-x-2.5 px-2 border-l border-slate-200/60">
-          <div className="w-8 h-8 rounded-xl bg-indigo-100 text-indigo-700 flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-white text-indigo-700 flex items-center justify-center shrink-0">
             <BookOpen className="w-4 h-4" />
           </div>
           <div>
@@ -156,7 +144,7 @@ export default function UnifiedAnalyticsSection({
         </div>
 
         <div className="flex items-center space-x-2.5 px-2 border-l border-slate-200/60">
-          <div className="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-white text-emerald-700 flex items-center justify-center shrink-0">
             <Layers className="w-4 h-4" />
           </div>
           <div>
@@ -166,7 +154,7 @@ export default function UnifiedAnalyticsSection({
         </div>
 
         <div className="flex items-center space-x-2.5 px-2 border-l border-slate-200/60">
-          <div className="w-8 h-8 rounded-xl bg-pink-100 text-pink-700 flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-xl bg-white text-pink-700 flex items-center justify-center shrink-0">
             <TrendingUp className="w-4 h-4" />
           </div>
           <div>
@@ -193,13 +181,13 @@ export default function UnifiedAnalyticsSection({
                   Live database aggregation ranking courses by verified unique student enrollments
                 </p>
               </div>
-              <span className="text-[11px] font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 shrink-0">
+              <span className="text-[11px] font-mono font-bold text-purple-700 bg-white px-2.5 py-0.5 rounded-full border border-purple-200 shrink-0">
                 {topCourses.length} Courses Recorded
               </span>
             </div>
 
             {topCourses.length === 0 ? (
-              <div className="py-8 text-center text-xs text-slate-400 font-semibold bg-slate-50 rounded-2xl">
+              <div className="py-8 text-center text-xs text-slate-400 font-semibold bg-white rounded-2xl">
                 No course enrollment records found in database.
               </div>
             ) : (
@@ -215,11 +203,7 @@ export default function UnifiedAnalyticsSection({
                     <div
                       key={course.id || course.name + idx}
                       onClick={() => onSelectCourse && onSelectCourse(isSelected ? 'All' : course.name)}
-                      className={`group cursor-pointer p-3.5 rounded-2xl transition-all border ${
-                        isSelected
-                          ? 'bg-purple-50/90 border-purple-300 ring-2 ring-purple-500 shadow-xs'
-                          : 'bg-white border-slate-200/80 hover:bg-purple-50/40 hover:border-purple-200'
-                      }`}
+                      className={`group cursor-pointer p-3.5 rounded-2xl transition-all border ${ isSelected ? 'bg-white border-purple-300 ring-2 ring-purple-500 shadow-xs' : 'bg-white border-slate-200/80 hover:bg-white hover:border-purple-200' }`}
                     >
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1.5 mb-2">
                         {/* Left: Rank, Title, Domain Badge, Cohort details */}
@@ -231,7 +215,7 @@ export default function UnifiedAnalyticsSection({
                             {course.name}
                           </span>
                           {course.domain && (
-                            <span className="text-[10px] font-semibold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-md border border-purple-100">
+                            <span className="text-[10px] font-semibold text-purple-700 bg-white px-2 py-0.5 rounded-md border border-purple-100">
                               {course.domain}
                             </span>
                           )}
@@ -247,7 +231,7 @@ export default function UnifiedAnalyticsSection({
                           <span className="font-mono font-bold text-slate-900 text-xs md:text-sm">
                             {count.toLocaleString()} Students
                           </span>
-                          <span className="text-[10px] font-bold font-mono text-purple-700 bg-purple-100/70 border border-purple-200 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-bold font-mono text-purple-700 bg-white border border-purple-200 px-2 py-0.5 rounded-md">
                             {pct}%
                           </span>
                         </div>
@@ -290,22 +274,22 @@ export default function UnifiedAnalyticsSection({
                   Students partitioned across technical specialization domains
                 </p>
               </div>
-              <span className="text-[11px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200 shrink-0">
+              <span className="text-[11px] font-mono font-bold text-emerald-700 bg-white px-2.5 py-0.5 rounded-full border border-emerald-200 shrink-0">
                 Segments: {domainDistribution.length}
               </span>
             </div>
 
             {domainDistribution.length === 0 ? (
-              <div className="py-8 text-center text-xs text-slate-400 font-semibold bg-slate-50 rounded-2xl">
+              <div className="py-8 text-center text-xs text-slate-400 font-semibold bg-white rounded-2xl">
                 No domain classifications recorded in database.
               </div>
             ) : (
               <>
                 {/* Integrated Multi-Segment Proportional Visualization Bar */}
-                <div className="p-4 bg-slate-50/70 border border-slate-200/80 rounded-2xl space-y-3">
+                <div className="p-4 bg-white border border-slate-200/80 rounded-2xl space-y-3">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-mono font-bold text-slate-600 flex items-center gap-1.5">
-                      <PieChart className="w-3.5 h-3.5 text-purple-600" />
+                      <BarChart2 className="w-3.5 h-3.5 text-purple-600" />
                       Proportional Domain Partitioning
                     </span>
                     <span className="font-mono text-[11px] text-slate-500 font-semibold">
@@ -314,7 +298,7 @@ export default function UnifiedAnalyticsSection({
                   </div>
 
                   {/* Stacked Proportional Bar */}
-                  <div className="w-full bg-slate-200/80 rounded-xl h-3.5 overflow-hidden flex shadow-inner">
+                  <div className="w-full bg-white rounded-xl h-3.5 overflow-hidden flex shadow-inner">
                     {domainDistribution.map((domain, idx) => {
                       const count = Number(domain.count) || 0;
                       const pct = Math.max(1, Math.round((count / (calculatedDomainTotal || 1)) * 100));
@@ -346,11 +330,7 @@ export default function UnifiedAnalyticsSection({
                           key={domain.id || idx}
                           type="button"
                           onClick={() => onSelectDomain && onSelectDomain(isSelected ? 'All' : domain.name)}
-                          className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border transition ${
-                            isSelected
-                              ? 'bg-purple-100/80 border-purple-300 text-purple-900 shadow-2xs font-bold'
-                              : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700'
-                          }`}
+                          className={`inline-flex items-center space-x-1.5 text-xs font-semibold px-2.5 py-1 rounded-lg border transition ${ isSelected ? 'bg-white border-purple-300 text-purple-900 shadow-2xs font-bold' : 'bg-white border-slate-200 hover:border-slate-300 text-slate-700' }`}
                         >
                           <span
                             className="w-2.5 h-2.5 rounded-full shrink-0"
@@ -378,11 +358,7 @@ export default function UnifiedAnalyticsSection({
                       <div
                         key={domain.id || domain.name + idx}
                         onClick={() => onSelectDomain && onSelectDomain(isSelected ? 'All' : domain.name)}
-                        className={`group cursor-pointer p-3.5 rounded-2xl transition-all border ${
-                          isSelected
-                            ? 'bg-emerald-50/90 border-emerald-300 ring-2 ring-emerald-500 shadow-xs'
-                            : 'bg-white border-slate-200/80 hover:bg-emerald-50/40 hover:border-emerald-200'
-                        }`}
+                        className={`group cursor-pointer p-3.5 rounded-2xl transition-all border ${ isSelected ? 'bg-white border-emerald-300 ring-2 ring-emerald-500 shadow-xs' : 'bg-white border-slate-200/80 hover:bg-white hover:border-emerald-200' }`}
                       >
                         <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs gap-1.5 mb-2">
                           {/* Left: Rank, Domain Name, Indicator */}
@@ -404,7 +380,7 @@ export default function UnifiedAnalyticsSection({
                             <span className="font-mono font-bold text-slate-900 text-xs md:text-sm">
                               {count.toLocaleString()} Students
                             </span>
-                            <span className="text-[10px] font-bold font-mono text-emerald-800 bg-emerald-100/70 border border-emerald-200 px-2 py-0.5 rounded-md">
+                            <span className="text-[10px] font-bold font-mono text-emerald-800 bg-white border border-emerald-200 px-2 py-0.5 rounded-md">
                               {pct}%
                             </span>
                             {domain.overallPercentage !== undefined && (

@@ -10,24 +10,24 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
 
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fadeIn">
-      <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-purple-100 overflow-hidden print:m-0 print:border-none print:shadow-none">
+      <div className="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden print:m-0 print:border-none print:shadow-none">
         
         {/* Modal Controls (Hidden in Print) */}
-        <div className="p-4 bg-slate-50 border-b border-purple-100 flex items-center justify-between print:hidden">
+        <div className="p-4 bg-white border-b border-blue-200 flex items-center justify-between print:hidden">
           <span className="text-xs font-mono font-bold text-slate-500 uppercase">
             Official E-Receipt • {receipt.receiptNumber}
           </span>
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrint}
-              className="px-3.5 py-1.5 bg-white hover:bg-purple-50 text-purple-700 border border-purple-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs"
+              className="px-3.5 py-1.5 bg-white hover:bg-white text-blue-800 border border-blue-200 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-2xs"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>Print / Save PDF</span>
             </button>
             <button
               onClick={onClose}
-              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-200 rounded-full transition"
+              className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-white rounded-full transition"
             >
               <X className="w-5 h-5" />
             </button>
@@ -38,10 +38,10 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
         <div className="p-8 space-y-6 print:p-4 text-slate-800">
           
           {/* Header */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b-2 border-purple-200">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b-2 border-blue-200">
             <div className="space-y-1">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white flex items-center justify-center font-black text-sm">
+                <div className="bg-blue-50 w-8 h-8 rounded-xl text-blue-800 flex items-center justify-center font-black text-sm border border-[#9333EA]">
                   SQ
                 </div>
                 <h2 className="text-xl font-black text-slate-900 tracking-tight">
@@ -54,7 +54,7 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
             </div>
 
             <div className="text-right sm:text-right">
-              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono">
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-white text-emerald-800 border border-emerald-200 font-mono">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                 VERIFIED PAYMENT
               </span>
@@ -68,16 +68,16 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
           </div>
 
           {/* Student & Program Details */}
-          <div className="grid grid-cols-2 gap-4 text-xs bg-purple-50/40 p-4 rounded-2xl border border-purple-100">
+          <div className="grid grid-cols-2 gap-4 text-xs bg-white p-4 rounded-2xl border border-slate-200">
             <div className="space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">Received From</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">Received From</span>
               <div className="font-bold text-sm text-slate-900">{receipt.studentName}</div>
               <div className="font-mono text-slate-600">ID: {receipt.studentCode}</div>
               {receipt.studentEmail && <div className="text-slate-500">{receipt.studentEmail}</div>}
             </div>
 
             <div className="space-y-1">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">Academic Enrollment</span>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">Academic Enrollment</span>
               <div className="font-bold text-sm text-slate-900">{receipt.programName}</div>
               <div className="text-slate-600 font-medium">Category: {receipt.category}</div>
               <div className="font-mono text-slate-500">Ref: {receipt.paymentReference}</div>
@@ -85,9 +85,9 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
           </div>
 
           {/* Itemized Table */}
-          <div className="border border-purple-100 rounded-2xl overflow-hidden shadow-2xs">
+          <div className="border border-blue-200 rounded-2xl overflow-hidden shadow-2xs">
             <table className="w-full text-left text-xs">
-              <thead className="bg-purple-50/70 border-b border-purple-100 text-purple-900 font-mono uppercase font-bold text-[10px]">
+              <thead className="bg-white border-b border-blue-200 text-purple-900 font-mono uppercase font-bold text-[10px]">
                 <tr>
                   <th className="py-2.5 px-4">Description</th>
                   <th className="py-2.5 px-4">Payment Method</th>
@@ -106,7 +106,7 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
                   </td>
                 </tr>
               </tbody>
-              <tfoot className="bg-purple-50/40 border-t border-purple-100 font-bold">
+              <tfoot className="bg-white border-t border-blue-200 font-bold">
                 <tr>
                   <td colSpan={2} className="py-3 px-4 text-right uppercase font-mono text-[11px] text-slate-700">
                     Total Amount Received:
@@ -120,14 +120,14 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
           </div>
 
           {/* Balance Statement */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs font-mono">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 p-3.5 bg-white rounded-2xl border border-slate-200 text-xs font-mono">
             <div>
               <span className="text-slate-400 text-[10px] block">Previous Balance</span>
               <strong className="text-slate-700">₹{(receipt.previousBalance || 0).toLocaleString('en-IN')}</strong>
             </div>
             <div>
               <span className="text-slate-400 text-[10px] block">Remaining Principal</span>
-              <strong className="text-purple-700">₹{(receipt.remainingPrincipal || 0).toLocaleString('en-IN')}</strong>
+              <strong className="text-blue-800">₹{(receipt.remainingPrincipal || 0).toLocaleString('en-IN')}</strong>
             </div>
             <div>
               <span className="text-slate-400 text-[10px] block">Next Due Date</span>
@@ -138,11 +138,11 @@ export default function ReceiptModal({ isOpen, onClose, receipt }) {
           </div>
 
           {/* Footer Sign-off */}
-          <div className="pt-4 border-t border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] text-slate-400">
+          <div className="pt-4 border-t border-blue-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-[11px] text-slate-400">
             <div>
               Generated electronically by {receipt.issuedBy || 'STACK QUEUE LMS Accounts Division'}.
             </div>
-            <div className="flex items-center gap-1.5 text-purple-600 font-semibold">
+            <div className="flex items-center gap-1.5 text-blue-800 font-semibold">
               <ShieldCheck className="w-4 h-4 text-emerald-600" />
               <span>Tamper-evident record authenticated in LMS database.</span>
             </div>

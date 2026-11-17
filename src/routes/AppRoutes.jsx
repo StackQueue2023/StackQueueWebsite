@@ -21,8 +21,6 @@ import ServerErrorPage from '../pages/public/ServerErrorPage';
 // Student Pages
 import StudentDashboard from '../pages/student/StudentDashboard';
 import CourseDetailsPage from '../pages/student/CourseDetailsPage';
-import GameHubPage from '../pages/student/GameHubPage';
-import GameDetailPage from '../pages/student/GameDetailPage';
 import DailyChallengePage from '../pages/student/DailyChallengePage';
 import LearningPathPage from '../pages/student/LearningPathPage';
 import LeaderboardPage from '../pages/student/LeaderboardPage';
@@ -33,6 +31,10 @@ import AttendancePage from '../pages/student/AttendancePage';
 import StudentLeavePage from '../pages/student/StudentLeavePage';
 import StudentAnnouncementsPage from '../pages/student/StudentAnnouncementsPage';
 import StudentPaymentsPage from '../pages/student/StudentPaymentsPage';
+import TemporaryTrainingDashboard from '../pages/student/TemporaryTrainingDashboard';
+import TrainingPerformanceDashboard from '../pages/admin/TrainingPerformanceDashboard';
+import AdaptiveQuestionRunnerPage from '../pages/student/AdaptiveQuestionRunnerPage';
+import StudentInternshipDashboard from '../pages/student/StudentInternshipDashboard';
 
 // Tutor / Trainer Pages
 import TrainerDashboard from '../pages/trainer/TrainerDashboard';
@@ -56,7 +58,7 @@ import InternshipAnalyticsPage from '../pages/admin/analytics/InternshipAnalytic
 import ProductsAnalyticsPage from '../pages/admin/analytics/ProductsAnalyticsPage';
 import CollegeTrainingAnalyticsPage from '../pages/admin/analytics/CollegeTrainingAnalyticsPage';
 import CollegeProjectsAnalyticsPage from '../pages/admin/analytics/CollegeProjectsAnalyticsPage';
-import ChallengeManagerPage from '../pages/admin/ChallengeManagerPage';
+import AdminInternshipPaymentAnalyticsPage from '../pages/admin/analytics/AdminInternshipPaymentAnalyticsPage';
 import BatchAndCollegePage from '../pages/admin/BatchAndCollegePage';
 import BadgeXPConfigPage from '../pages/admin/BadgeXPConfigPage';
 import UserManagementPage from '../pages/admin/UserManagementPage';
@@ -78,12 +80,12 @@ import InterviewModePage from '../pages/interview-game/InterviewModePage';
 import InterviewProgressPage from '../pages/interview-game/InterviewProgressPage';
 
 // Sandboxes
-import ChallengeEngine from '../engine/ChallengeEngine';
+// (Interview Arena uses QuestionWorkspacePage)
 
 // Auth Layout (Navbar only — NO Footer)
 function AuthLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F7FC] text-[#172033]">
+    <div className="min-h-screen flex flex-col bg-white text-[#172033]">
       <Navbar />
       <main className="flex-1">
         <ErrorBoundary>
@@ -97,7 +99,7 @@ function AuthLayout() {
 // Public Layout (Navbar + Page + Footer)
 function PublicLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F8F7FC] text-[#172033]">
+    <div className="min-h-screen flex flex-col bg-white text-[#172033]">
       <Navbar />
       <main className="flex-1">
         <ErrorBoundary>
@@ -116,12 +118,12 @@ function AppLayout() {
   const isLmsPage = location.pathname.startsWith('/admin/lms');
 
   return (
-    <div className={`min-h-screen flex flex-col bg-[#F8F7FC] text-[#172033] ${isLmsPage ? 'h-screen max-h-screen overflow-hidden' : ''}`}>
+    <div className={`min-h-screen flex flex-col bg-white text-[#172033] ${isLmsPage ? 'h-screen max-h-screen overflow-hidden' : ''}`}>
       <Navbar />
       {/* Sidebar is fixed, only render when authenticated */}
       {user && <Sidebar />}
       {/* Main content: offset by sidebar width on md+ only when sidebar is present */}
-      <main className={`flex-1 ${user ? 'md:ml-64' : ''} ${isLmsPage ? 'min-h-0 overflow-y-auto p-3 md:p-5' : 'overflow-y-auto p-4 md:p-6 lg:p-8 min-h-[calc(100vh-4rem)]'} bg-[#F8F7FC] text-[#172033]`}>
+      <main className={`flex-1 ${user ? 'md:ml-64' : ''} ${isLmsPage ? 'min-h-0 overflow-y-auto p-3 md:p-5' : 'overflow-y-auto p-4 md:p-6 lg:p-8 min-h-[calc(100vh-4rem)]'} bg-white text-[#172033]`}>
         <ErrorBoundary>
           <Outlet />
         </ErrorBoundary>
@@ -133,7 +135,7 @@ function AppLayout() {
 // Challenge Layout (Fullscreen sandbox with light theme container)
 function SandboxLayout() {
   return (
-    <div className="h-screen max-h-screen flex flex-col bg-[#F8F7FC] text-[#172033] overflow-hidden">
+    <div className="h-screen max-h-screen flex flex-col bg-white text-[#172033] overflow-hidden">
       <Navbar />
       <div className="flex-1 overflow-hidden">
         <ErrorBoundary>
@@ -150,7 +152,7 @@ function PublicOnlyRoute() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-500 text-xs font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-white text-slate-500 text-xs font-semibold">
         Authenticating session...
       </div>
     );
@@ -169,7 +171,7 @@ function RoleProtectedRoute({ allowedRoles }) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 text-slate-500 text-xs font-semibold">
+      <div className="min-h-screen flex items-center justify-center bg-white text-slate-500 text-xs font-semibold">
         Authenticating role permissions...
       </div>
     );
@@ -218,18 +220,18 @@ export default function AppRoutes() {
         <Route path="/404" element={<NotFoundPage />} />
       </Route>
 
-      {/* Fullscreen Sandbox Challenge Engine & Mock Interview Workspace */}
+      {/* Fullscreen Sandbox Mock Interview & Question Workspace */}
       <Route element={<SandboxLayout />}>
-        <Route path="/challenges/:id" element={<ChallengeEngine />} />
+        <Route path="/challenges/:id" element={<Navigate to="/interview-game" replace />} />
         <Route path="/interview-game/question/:id" element={<QuestionWorkspacePage />} />
         <Route path="/interview-game/interview-mode" element={<InterviewModePage />} />
       </Route>
 
       {/* Authenticated / App Layout Pages */}
       <Route element={<AppLayout />}>
-        {/* Games & Practice Arena (Accessible to visitors & authenticated users) */}
-        <Route path="/games" element={<GameHubPage />} />
-        <Route path="/games/:slug" element={<GameDetailPage />} />
+        {/* Practice Arena (Accessible to visitors & authenticated users) */}
+        <Route path="/games" element={<Navigate to="/interview-game" replace />} />
+        <Route path="/games/*" element={<Navigate to="/interview-game" replace />} />
         <Route path="/interview-game" element={<ProgrammingGamesPage />} />
         <Route path="/interview-game/progress" element={<InterviewProgressPage />} />
 
@@ -250,9 +252,13 @@ export default function AppRoutes() {
           <Route path="/achievements" element={<AchievementsPage />} />
           <Route path="/progress" element={<ProgressPage />} />
           <Route path="/student/attendance" element={<AttendancePage />} />
+          <Route path="/student/training" element={<TemporaryTrainingDashboard />} />
           <Route path="/student/leave" element={<StudentLeavePage />} />
           <Route path="/student/announcements" element={<StudentAnnouncementsPage />} />
           <Route path="/student/payments" element={<StudentPaymentsPage />} />
+          <Route path="/student/internship" element={<StudentInternshipDashboard />} />
+          <Route path="/student/adaptive-questions/:courseId" element={<AdaptiveQuestionRunnerPage />} />
+          <Route path="/adaptive-questions/:courseId" element={<AdaptiveQuestionRunnerPage />} />
         </Route>
 
         {/* Tutor / Trainer Protected Routes */}
@@ -260,6 +266,7 @@ export default function AppRoutes() {
           <Route path="/tutor" element={<TrainerDashboard />} />
           <Route path="/tutor/dashboard" element={<TrainerDashboard />} />
           <Route path="/trainer" element={<TrainerDashboard />} />
+          <Route path="/trainer/training-performance" element={<TrainingPerformanceDashboard />} />
           <Route path="/trainer/students" element={<AssignedStudentsPage />} />
           <Route path="/trainer/daily-report" element={<DailyReportSubmitPage />} />
           <Route path="/trainer/learning-progress" element={<TutorLearningProgressPage />} />
@@ -275,10 +282,12 @@ export default function AppRoutes() {
           <Route path="/admin/dashboard" element={<AdminCommandCenterPage />} />
           <Route path="/admin/command-center" element={<AdminCommandCenterPage />} />
           <Route path="/admin/analytics" element={<AdminAnalyticsDashboard />} />
+          <Route path="/admin/training-performance" element={<TrainingPerformanceDashboard />} />
           <Route path="/admin/analytics/fees" element={<StudentFeeManagementAnalyticsPage />} />
           <Route path="/admin/fee-management" element={<Navigate to="/admin/analytics/fees" replace />} />
           <Route path="/admin/analytics/courses" element={<CourseAnalyticsPage />} />
           <Route path="/admin/analytics/internships" element={<InternshipAnalyticsPage />} />
+          <Route path="/admin/internship-payments" element={<AdminInternshipPaymentAnalyticsPage />} />
           <Route path="/admin/analytics/products" element={<ProductsAnalyticsPage />} />
           <Route path="/admin/analytics/college-training" element={<CollegeTrainingAnalyticsPage />} />
           <Route path="/admin/analytics/college-projects" element={<CollegeProjectsAnalyticsPage />} />
@@ -288,7 +297,7 @@ export default function AppRoutes() {
           <Route path="/admin/announcements" element={<AdminAnnouncementPage />} />
           <Route path="/admin/live-monitor" element={<AdminLiveMonitorPage />} />
           <Route path="/admin/interview-questions" element={<AdminQuestionManagerPage />} />
-          <Route path="/admin/challenges" element={<ChallengeManagerPage />} />
+          <Route path="/admin/challenges" element={<Navigate to="/admin/interview-questions" replace />} />
           <Route path="/admin/batches" element={<BatchAndCollegePage />} />
           <Route path="/admin/offers" element={<AdminOffersPage />} />
           <Route path="/admin/tutors" element={<TutorManagementPage />} />

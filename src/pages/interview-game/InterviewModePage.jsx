@@ -38,7 +38,7 @@ const MOCK_DOMAINS = [
 
 export default function InterviewModePage() {
   const navigate = useNavigate();
-  const { user, quickDemoSwitch } = useAuth();
+  const { user, quickDemoSwitch, applyXpUpdate } = useAuth();
 
   // Modal notification states
   const [exitModalOpen, setExitModalOpen] = useState(false);
@@ -332,6 +332,14 @@ export default function InterviewModePage() {
         setReportData(res.data.data);
         setIsFinished(true);
         setInSession(false);
+        if (typeof (res.data.totalXp ?? res.data.data?.totalXp) === 'number') {
+          applyXpUpdate({
+            totalXp: res.data.totalXp ?? res.data.data?.totalXp,
+            xpAwarded: res.data.xpAwarded ?? res.data.data?.xpAwarded ?? 0,
+            level: res.data.level ?? res.data.data?.level,
+            feature: 'MOCK_INTERVIEW'
+          });
+        }
       }
     } catch (err) {
       console.error('Submit mock interview failed:', err);
@@ -354,12 +362,12 @@ export default function InterviewModePage() {
   // 1. SETUP VIEW (Before interview begins)
   if (!inSession && !isFinished) {
     return (
-      <div className="h-full overflow-y-auto p-4 md:p-6 bg-[#F8FAFC]">
+      <div className="h-full overflow-y-auto p-4 md:p-6 bg-white">
         <div className="max-w-4xl mx-auto space-y-6 pb-12">
           <div className="flex items-center space-x-3">
             <button
               onClick={() => navigate('/interview-game')}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer"
+              className="bg-white flex items-center space-x-1.5 px-3 py-1.5 text-sq-gradient rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer border border-[#9333EA]"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Interview Arena</span>
@@ -368,7 +376,7 @@ export default function InterviewModePage() {
 
           <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-8 shadow-sm relative overflow-hidden">
             <div className="max-w-xl space-y-3">
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-purple-50 border border-purple-200 rounded-full text-purple-700 text-xs font-semibold">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-white border border-purple-200 rounded-full text-purple-700 text-xs font-semibold">
                 <Timer className="w-3.5 h-3.5" />
                 <span>Real-Time Mock Interview Simulation</span>
               </div>
@@ -401,24 +409,16 @@ export default function InterviewModePage() {
                       key={dom.key}
                       type="button"
                       onClick={() => handleDomainChange(dom.key)}
-                      className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${
-                        isSelected
-                          ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white border-purple-600 shadow-md ring-2 ring-purple-500/30'
-                          : 'bg-white border-slate-200 text-slate-700 hover:border-purple-300 hover:bg-purple-50/40'
-                      }`}
+                      className={`p-3 rounded-xl border text-left transition cursor-pointer flex flex-col justify-between ${ isSelected ? 'bg-white text-sq-gradient border-purple-600 shadow-md ring-2 ring-purple-500/30 border' : 'bg-white border-slate-200 text-slate-700 hover:border-purple-300 hover:bg-white' }`}
                     >
                       <div className="flex items-center justify-between w-full mb-1">
                         <span className="text-xl">{dom.icon}</span>
-                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${
-                          isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
-                        }`}>
+                        <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded border ${ isSelected ? 'bg-white border-purple-300 text-[#9333EA]' : 'bg-white border-slate-200 text-slate-500' }`}>
                           {dom.count}
                         </span>
                       </div>
                       <div className="font-bold text-xs">{dom.title}</div>
-                      <div className={`text-[10px] leading-tight line-clamp-1 mt-0.5 ${
-                        isSelected ? 'text-white/80' : 'text-slate-500'
-                      }`}>
+                      <div className={`text-[10px] leading-tight line-clamp-1 mt-0.5 ${ isSelected ? 'text-[#9333EA]' : 'text-slate-500' }`}>
                         {dom.desc}
                       </div>
                     </button>
@@ -436,11 +436,7 @@ export default function InterviewModePage() {
                     key={d}
                     type="button"
                     onClick={() => setDifficulty(d)}
-                    className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer ${
-                      difficulty === d
-                        ? 'bg-purple-50 border-purple-600 text-purple-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer ${ difficulty === d ? 'bg-white border-purple-600 text-purple-700 shadow-xs' : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900' }`}
                   >
                     {d}
                   </button>
@@ -457,11 +453,7 @@ export default function InterviewModePage() {
                     key={m}
                     type="button"
                     onClick={() => setDuration(m)}
-                    className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer ${
-                      duration === m
-                        ? 'bg-purple-50 border-purple-600 text-purple-700 shadow-xs'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:text-slate-900'
-                    }`}
+                    className={`p-3 rounded-xl border text-xs font-bold transition cursor-pointer ${ duration === m ? 'bg-white border-purple-600 text-purple-700 shadow-xs' : 'bg-white border-slate-200 text-slate-600 hover:text-slate-900' }`}
                   >
                     {m} Minutes
                   </button>
@@ -470,7 +462,7 @@ export default function InterviewModePage() {
             </div>
 
             {/* Rules Checklist */}
-            <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2 text-xs text-slate-600">
+            <div className="p-4 rounded-xl bg-white border border-slate-200 space-y-2 text-xs text-slate-600">
               <div className="text-slate-800 font-semibold">Rules & Information:</div>
               <ul className="list-disc list-inside space-y-1">
                 <li>5 coding questions randomly selected to match your chosen difficulty.</li>
@@ -482,7 +474,7 @@ export default function InterviewModePage() {
             </div>
 
             {error && (
-              <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center space-x-2">
+              <div className="p-3.5 bg-white border border-rose-200 rounded-xl text-rose-700 text-xs flex items-center space-x-2">
                 <XCircle className="w-4 h-4 shrink-0 text-rose-600" />
                 <span className="font-semibold">{error}</span>
               </div>
@@ -492,7 +484,7 @@ export default function InterviewModePage() {
               type="button"
               onClick={startSession}
               disabled={loading}
-              className="w-full flex items-center justify-center space-x-2 py-3.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white font-bold text-sm rounded-xl shadow-md shadow-purple-500/20 transition transform active:scale-98 disabled:opacity-50 cursor-pointer"
+              className="bg-white w-full flex items-center justify-center space-x-2 py-3.5 text-sq-gradient font-bold text-sm rounded-xl shadow-md shadow-purple-500/20 transition transform active:scale-98 disabled:opacity-50 cursor-pointer border border-[#9333EA]"
             >
               {loading ? (
                 <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -510,20 +502,20 @@ export default function InterviewModePage() {
   // 2. REPORT VIEW (After completion)
   if (isFinished && reportData) {
     return (
-      <div className="h-full overflow-y-auto bg-[#F8FAFC]">
+      <div className="h-full overflow-y-auto bg-white">
         {/* Top Header Navigation Bar */}
         <div className="bg-white border-b border-slate-200 px-4 md:px-8 py-3 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
           <div className="flex items-center space-x-2.5">
             <button
               onClick={() => navigate('/interview-game')}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition border border-slate-200 cursor-pointer"
+              className="flex items-center space-x-1.5 px-3 py-1.5 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition border border-slate-200 cursor-pointer"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
               <span>Back to Interview Arena</span>
             </button>
             <button
               onClick={() => navigate('/student')}
-              className="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer"
+              className="bg-white flex items-center space-x-1.5 px-3 py-1.5 text-sq-gradient rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer border border-[#9333EA]"
             >
               <span>Dashboard</span>
             </button>
@@ -533,7 +525,7 @@ export default function InterviewModePage() {
               setIsFinished(false);
               setInSession(false);
             }}
-            className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition cursor-pointer shadow-2xs"
+            className="bg-white px-3.5 py-1.5 text-emerald-700 rounded-xl text-xs font-bold transition cursor-pointer shadow-2xs border border-emerald-600"
           >
             Take Another Interview
           </button>
@@ -541,7 +533,7 @@ export default function InterviewModePage() {
 
         <div className="max-w-4xl mx-auto py-8 px-4 space-y-8 animate-fade-in pb-16">
           <div className="text-center space-y-3">
-            <div className="w-16 h-16 rounded-full bg-emerald-50 border-2 border-emerald-400 flex items-center justify-center text-emerald-600 mx-auto animate-bounce">
+            <div className="w-16 h-16 rounded-full bg-white border-2 border-emerald-400 flex items-center justify-center text-emerald-600 mx-auto animate-bounce">
               <Trophy className="w-8 h-8" />
             </div>
             <h1 className="text-3xl font-black text-slate-900">Interview Performance Summary</h1>
@@ -594,7 +586,7 @@ export default function InterviewModePage() {
               {reportData.results?.map((res, i) => (
                 <div
                   key={i}
-                  className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono"
+                  className="flex items-center justify-between p-3.5 bg-white border border-slate-200 rounded-xl text-xs font-mono"
                 >
                   <div className="flex items-center space-x-3">
                     {res.passed ? (
@@ -617,11 +609,7 @@ export default function InterviewModePage() {
                       Tests: {res.passedTests}/{res.totalTests}
                     </span>
                     <span
-                      className={`font-bold font-sans px-2 py-0.5 rounded ${
-                        res.passed
-                          ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          : 'bg-rose-50 text-rose-700 border border-rose-200'
-                      }`}
+                      className={`font-bold font-sans px-2 py-0.5 rounded ${ res.passed ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-rose-700 border border-rose-200' }`}
                     >
                       {res.passed ? 'PASSED' : 'FAILED'}
                     </span>
@@ -635,7 +623,7 @@ export default function InterviewModePage() {
           <div className="flex justify-center space-x-4 pt-4">
             <button
               onClick={() => navigate('/student')}
-              className="px-6 py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer flex items-center space-x-1.5"
+              className="bg-white px-6 py-3 text-sq-gradient rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer flex items-center space-x-1.5 border border-[#9333EA]"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Dashboard</span>
@@ -645,13 +633,13 @@ export default function InterviewModePage() {
                 setIsFinished(false);
                 setInSession(false);
               }}
-              className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition cursor-pointer"
+              className="px-6 py-3 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition cursor-pointer"
             >
               Take Another Interview
             </button>
             <button
               onClick={() => navigate('/interview-game')}
-              className="px-6 py-3 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold transition border border-slate-200 cursor-pointer"
+              className="px-6 py-3 bg-white hover:bg-white text-slate-700 rounded-xl text-xs font-bold transition border border-slate-200 cursor-pointer"
             >
               Back to Interview Arena
             </button>
@@ -663,14 +651,14 @@ export default function InterviewModePage() {
 
   // 3. LIVE INTERVIEW SESSION VIEW
   return (
-    <div className="h-full max-h-full flex flex-col bg-[#F8FAFC] text-slate-900 overflow-hidden relative">
+    <div className="h-full max-h-full flex flex-col bg-white text-slate-900 overflow-hidden relative">
       {/* Top Session Header Bar */}
       <header className="bg-white border-b border-slate-200 px-4 py-2 flex items-center justify-between shrink-0 text-xs shadow-sm z-10 h-12">
         <div className="flex items-center space-x-3 min-w-0">
           <button
             type="button"
             onClick={() => setExitModalOpen(true)}
-            className="flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer shrink-0"
+            className="bg-white flex items-center space-x-1.5 px-3 py-1.5 text-sq-gradient rounded-xl text-xs font-bold transition shadow-md shadow-purple-500/20 cursor-pointer shrink-0 border border-[#9333EA]"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             <span>Interview Arena</span>
@@ -683,7 +671,7 @@ export default function InterviewModePage() {
               disabled={currentIdx === 0}
               onClick={() => handleSelectQuestion(Math.max(0, currentIdx - 1))}
               title="Previous Question"
-              className="p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed text-slate-700 font-bold transition flex items-center justify-center cursor-pointer shadow-2xs"
+              className="p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-slate-700 font-bold transition flex items-center justify-center cursor-pointer shadow-2xs"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
@@ -692,7 +680,7 @@ export default function InterviewModePage() {
               disabled={currentIdx === (sessionData?.questions?.length || 1) - 1}
               onClick={() => handleSelectQuestion(Math.min((sessionData?.questions?.length || 1) - 1, currentIdx + 1))}
               title="Next Question"
-              className="p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-100 disabled:opacity-30 disabled:cursor-not-allowed text-slate-700 font-bold transition flex items-center justify-center cursor-pointer shadow-2xs"
+              className="p-1.5 rounded-xl border border-slate-200 bg-white hover:bg-white disabled:opacity-30 disabled:cursor-not-allowed text-slate-700 font-bold transition flex items-center justify-center cursor-pointer shadow-2xs"
             >
               <ChevronRight className="w-4 h-4" />
             </button>
@@ -701,7 +689,7 @@ export default function InterviewModePage() {
           <div className="font-bold text-slate-900 flex items-center space-x-2 shrink-0">
             <span className="w-2 h-2 rounded-full bg-rose-500 animate-pulse"></span>
             <span>MOCK INTERVIEW ({difficulty})</span>
-            <span className="px-2 py-0.5 bg-purple-100 text-purple-700 rounded-md font-bold text-[11px] border border-purple-200">
+            <span className="px-2 py-0.5 bg-white text-purple-700 rounded-md font-bold text-[11px] border border-purple-200">
               {dynamicMockDomains.find(d => d.key === selectedDomain)?.title || selectedDomain} Domain
             </span>
           </div>
@@ -716,13 +704,7 @@ export default function InterviewModePage() {
                 <button
                   key={q._id}
                   onClick={() => handleSelectQuestion(idx)}
-                  className={`w-7 h-7 rounded-lg font-mono font-bold text-xs flex items-center justify-center transition shrink-0 cursor-pointer ${
-                    isCurrent
-                      ? 'bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] text-white shadow-xs'
-                      : isQSolved
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-300'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
+                  className={`w-7 h-7 rounded-lg font-mono font-bold text-xs flex items-center justify-center transition shrink-0 cursor-pointer ${ isCurrent ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : isQSolved ? 'bg-white text-emerald-700 border border-emerald-300' : 'bg-white text-slate-600 hover:bg-white' }`}
                 >
                   {idx + 1}
                 </button>
@@ -740,7 +722,7 @@ export default function InterviewModePage() {
           <button
             onClick={finishSession}
             disabled={loading}
-            className="px-4 py-1.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-lg transition text-xs shadow-sm cursor-pointer"
+            className="bg-white px-4 py-1.5 text-sq-gradient font-bold rounded-lg transition text-xs shadow-sm cursor-pointer border border-[#9333EA]"
           >
             End Interview
           </button>
@@ -755,7 +737,7 @@ export default function InterviewModePage() {
             <span className="font-mono text-purple-700 font-bold">
               Question {currentIdx + 1} of {sessionData?.questions?.length}
             </span>
-            <span className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[11px] border border-slate-200 font-medium">
+            <span className="px-2 py-0.5 bg-white text-slate-600 rounded text-[11px] border border-slate-200 font-medium">
               {currentQuestion?.category || 'Mock Interview Track'}
             </span>
           </div>
@@ -764,12 +746,12 @@ export default function InterviewModePage() {
         </div>
 
         {/* Right Column: Code Editor & Output Tabbed Workspace OR Theory Architecture Workspace */}
-        <div className="lg:col-span-7 flex flex-col h-full p-3 bg-[#F8FAFC] overflow-hidden">
+        <div className="lg:col-span-7 flex flex-col h-full p-3 bg-white overflow-hidden">
           {(currentQuestion?.questionType === 'conceptual' || currentQuestion?.questionType === 'scenario') ? (
             <div className="h-full flex flex-col bg-white rounded-2xl border border-slate-200 p-5 space-y-4 shadow-sm overflow-y-auto">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center space-x-2">
-                  <span className="px-2.5 py-1 bg-purple-100 text-purple-700 font-bold rounded-lg text-xs">
+                  <span className="px-2.5 py-1 bg-white text-purple-700 font-bold rounded-lg text-xs">
                     {currentQuestion?.questionType === 'scenario' ? 'Enterprise Scenario Assessment' : 'Conceptual & Architectural Analysis'}
                   </span>
                   <span className="text-xs text-slate-500 font-medium">Domain: {currentQuestion?.domain}</span>
@@ -780,7 +762,7 @@ export default function InterviewModePage() {
               </div>
 
               {currentQuestion?.evaluationCriteria && (
-                <div className="p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs text-amber-800">
+                <div className="p-3 bg-white border border-amber-200 rounded-xl text-xs text-amber-800">
                   <div className="font-bold mb-1">Evaluation Focus:</div>
                   <div>{currentQuestion.evaluationCriteria}</div>
                 </div>
@@ -804,7 +786,7 @@ export default function InterviewModePage() {
                     }));
                   }}
                   placeholder="Detail your architecture, component interactions, trade-offs, and error-handling strategies here..."
-                  className="flex-1 w-full p-4 rounded-xl border border-slate-200 bg-slate-50 text-xs text-slate-900 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white resize-none"
+                  className="flex-1 w-full p-4 rounded-xl border border-slate-200 bg-white text-xs text-slate-900 font-mono leading-relaxed focus:outline-none focus:ring-2 focus:ring-purple-500 focus:bg-white resize-none"
                 />
               </div>
 
@@ -819,7 +801,7 @@ export default function InterviewModePage() {
                       setCurrentIdx(prev => prev + 1);
                     }
                   }}
-                  className="px-4 py-2 bg-gradient-to-r from-[#8B2BE2] to-[#B829B6] text-white font-bold text-xs rounded-xl shadow-xs transition hover:opacity-90"
+                  className="bg-white px-4 py-2 text-sq-gradient font-bold text-xs rounded-xl shadow-xs transition hover:opacity-90 border border-[#9333EA]"
                 >
                   Save & Next Question →
                 </button>

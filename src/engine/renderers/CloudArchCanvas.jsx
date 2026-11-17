@@ -44,7 +44,7 @@ export default function CloudArchCanvas({ onConnectionsChange = () => {} }) {
         </div>
         <button
           onClick={handleReset}
-          className="p-1 bg-slate-100 hover:bg-slate-200 text-slate-600 border border-slate-200 rounded transition"
+          className="p-1 bg-white hover:bg-white text-slate-600 border border-slate-200 rounded transition"
           title="Reset Connections"
         >
           <RotateCcw className="w-3.5 h-3.5" />
@@ -62,15 +62,9 @@ export default function CloudArchCanvas({ onConnectionsChange = () => {} }) {
               <button
                 key={n.id}
                 onClick={() => handleNodeClick(n.id)}
-                className={`p-4 rounded-xl border flex flex-col items-center justify-center space-y-2 transition-all group ${
-                  isSource
-                    ? 'border-purple-500 bg-purple-50 ring-2 ring-purple-500 scale-105 shadow-md'
-                    : isConnected
-                    ? 'border-emerald-300 bg-emerald-50/50 shadow-sm'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50'
-                }`}
+                className={`p-4 rounded-xl border flex flex-col items-center justify-center space-y-2 transition-all group ${ isSource ? 'border-purple-500 bg-white ring-2 ring-purple-500 scale-105 shadow-md' : isConnected ? 'border-emerald-300 bg-white shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-white' }`}
               >
-                <div className={`w-10 h-10 rounded-lg bg-gradient-to-tr ${n.color} flex items-center justify-center text-white shadow-sm`}>
+                <div className="bg-white border border-purple-200 w-10 h-10 rounded-lg flex items-center justify-center text-[#9333EA] shadow-2xs">
                   <Icon className="w-5 h-5" />
                 </div>
                 <span className="text-xs font-semibold text-slate-800 text-center">{n.label}</span>
@@ -81,7 +75,7 @@ export default function CloudArchCanvas({ onConnectionsChange = () => {} }) {
         </div>
 
         {/* Established Pipeline Links */}
-        <div className="mt-4 bg-slate-50 border border-slate-200 p-3 rounded-xl">
+        <div className="mt-4 bg-white border border-slate-200 p-3 rounded-xl">
           <p className="text-[11px] font-semibold text-slate-600 mb-1.5">Configured Routing Pipeline:</p>
           {connections.length === 0 ? (
             <p className="text-xs text-slate-400 italic">No links connected yet. Click "End User" then "CloudFront CDN".</p>

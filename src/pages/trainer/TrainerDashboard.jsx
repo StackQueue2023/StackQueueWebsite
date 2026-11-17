@@ -139,10 +139,10 @@ export default function TrainerDashboard() {
   return (
     <div className="space-y-6 pb-12">
       {/* Banner */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white relative overflow-hidden rounded-3xl border border-purple-200/80 p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
             <Users className="w-3.5 h-3.5 text-purple-600" />
             <span>Trainer Command Studio</span>
           </div>
@@ -155,15 +155,15 @@ export default function TrainerDashboard() {
 
       {/* ── PENDING LEAVE REQUESTS ALERT BANNER ── */}
       {pendingLeavesCount > 0 && (
-        <div className="bg-amber-50 border border-amber-200/90 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
+        <div className="bg-white border border-slate-200/90 rounded-2xl p-4 md:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center space-x-3.5">
-            <div className="p-2.5 bg-amber-100/90 rounded-xl text-amber-700 shadow-2xs">
+            <div className="p-2.5 bg-white rounded-xl text-amber-700 shadow-2xs">
               <CalendarCheck2 className="w-5 h-5" />
             </div>
             <div>
               <div className="flex items-center space-x-2">
                 <span className="text-[11px] font-black text-amber-800 uppercase tracking-wider font-mono">Action Required</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-200/80 text-amber-900 font-mono">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white text-amber-900 font-mono">
                   {pendingLeavesCount} Pending
                 </span>
               </div>
@@ -177,7 +177,7 @@ export default function TrainerDashboard() {
           </div>
           <Link
             to="/trainer/attendance?tab=leave_requests"
-            className="px-4 py-2 bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white rounded-xl text-xs font-bold shadow-sm transition flex items-center space-x-1.5 shrink-0"
+            className="bg-white px-4 py-2 text-amber-700 rounded-xl text-xs font-bold shadow-sm transition flex items-center space-x-1.5 shrink-0 border border-amber-600"
           >
             <span>Review Requests</span>
             <ChevronRight className="w-4 h-4" />
@@ -209,7 +209,7 @@ export default function TrainerDashboard() {
               <p className="text-base font-black text-slate-900 truncate">{progressStats.activeProject.projectName}</p>
               <div className="flex items-center space-x-2">
                 <div className="w-full bg-slate-100 rounded-full h-2 border border-slate-200">
-                  <div className="bg-gradient-to-r from-pink-500 to-violet-600 h-full rounded-full" style={{ width: `${progressStats.activeProject.progressPercentage}%` }} />
+                  <div className="bg-amber-600 h-full rounded-full" style={{ width: `${progressStats.activeProject.progressPercentage}%` }} />
                 </div>
                 <span className="text-[11px] font-mono font-bold text-purple-700">{progressStats.activeProject.progressPercentage}%</span>
               </div>
@@ -262,9 +262,9 @@ export default function TrainerDashboard() {
 
       {/* ── TUTOR WORKSPACE MODULES HUB ── */}
       <div className="rounded-2xl bg-white border border-slate-200/90 p-5 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-sm relative overflow-hidden">
-        <div className="absolute -right-8 -bottom-8 w-60 h-60 bg-gradient-to-br from-pink-500/10 via-fuchsia-500/10 to-violet-500/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="bg-white absolute -right-8 -bottom-8 w-60 h-60 rounded-full blur-2xl pointer-events-none" />
         <div className="relative z-10 space-y-2">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200/80 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 border border-pink-200/80 px-3 py-1 rounded-full text-xs font-mono font-bold uppercase tracking-wider shadow-2xs">
             <BookOpen className="w-4 h-4 text-pink-600" />
             <span className="bg-gradient-to-r from-pink-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent font-extrabold">
               Student Module Lock &amp; Unlock Gate
@@ -279,7 +279,7 @@ export default function TrainerDashboard() {
         </div>
         <Link
           to="/trainer/students"
-          className="relative z-10 px-4 py-2.5 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center space-x-2 shrink-0 cursor-pointer"
+          className="bg-white relative z-10 px-4 py-2.5 text-sq-gradient text-xs font-bold rounded-xl shadow-md transition flex items-center space-x-2 shrink-0 cursor-pointer border border-[#9333EA]"
         >
           <Users className="w-4 h-4" />
           <span>Manage Student Modules →</span>
@@ -307,7 +307,7 @@ export default function TrainerDashboard() {
               desc: 'Monitor, guide & review your assigned college learners',
               icon: Users,
               color: 'text-purple-700',
-              bg: 'bg-purple-50',
+              bg: 'bg-white',
               border: 'border-purple-200',
               badge: 'Learners'
             },
@@ -317,7 +317,7 @@ export default function TrainerDashboard() {
               desc: 'Record course learning, project daily steps & failure analysis',
               icon: GraduationCap,
               color: 'text-pink-600',
-              bg: 'bg-pink-50',
+              bg: 'bg-white',
               border: 'border-pink-200',
               badge: 'Progress'
             },
@@ -327,7 +327,7 @@ export default function TrainerDashboard() {
               desc: 'Grade capstone submissions and industry deliverables',
               icon: FolderGit2,
               color: 'text-amber-600',
-              bg: 'bg-amber-50',
+              bg: 'bg-white',
               border: 'border-amber-200',
               badge: 'Projects'
             }
@@ -369,7 +369,7 @@ export default function TrainerDashboard() {
 
       {/* LMS Concept Completion & Status Message */}
       {lmsFeedbackMsg && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center space-x-2 shadow-sm animate-fade-in">
+        <div className="p-4 bg-white border border-slate-200 text-emerald-800 rounded-2xl text-xs font-bold flex items-center space-x-2 shadow-sm animate-fade-in">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
           <span>{lmsFeedbackMsg}</span>
         </div>
@@ -399,7 +399,7 @@ export default function TrainerDashboard() {
             return (
               <div
                 key={cpt._id}
-                className="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3 flex flex-col justify-between"
+                className="bg-white border border-slate-200 rounded-xl p-4 space-y-3 flex flex-col justify-between"
               >
                 <div className="space-y-1">
                   <div className="flex items-center justify-between">
@@ -407,17 +407,17 @@ export default function TrainerDashboard() {
                       {cpt.moduleId?.title || 'Module'}
                     </span>
                     {isCompleted ? (
-                      <span className="px-2.5 py-0.5 bg-emerald-50 text-emerald-700 text-[11px] font-bold rounded-full border border-emerald-200 flex items-center space-x-1">
+                      <span className="px-2.5 py-0.5 bg-white text-emerald-700 text-[11px] font-bold rounded-full border border-emerald-200 flex items-center space-x-1">
                         <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                         <span>Completed ✓</span>
                       </span>
                     ) : isInProgress ? (
-                      <span className="px-2.5 py-0.5 bg-amber-50 text-amber-800 text-[11px] font-bold rounded-full border border-amber-200 flex items-center space-x-1">
+                      <span className="px-2.5 py-0.5 bg-white text-amber-800 text-[11px] font-bold rounded-full border border-amber-200 flex items-center space-x-1">
                         <Clock className="w-3 h-3 text-amber-600" />
                         <span>In Progress 🔄</span>
                       </span>
                     ) : (
-                      <span className="px-2.5 py-0.5 bg-slate-200 text-slate-600 text-[11px] font-bold rounded-full">
+                      <span className="px-2.5 py-0.5 bg-white text-slate-600 text-[11px] font-bold rounded-full">
                         Not Started ○
                       </span>
                     )}
@@ -435,7 +435,7 @@ export default function TrainerDashboard() {
                     <div className="space-y-1.5">
                       <button
                         onClick={() => setConfirmConcept(cpt)}
-                        className="w-full py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5"
+                        className="bg-white w-full py-2 text-emerald-700 text-xs font-bold rounded-xl shadow-sm transition flex items-center justify-center space-x-1.5 border border-emerald-600"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         <span>MARK CONCEPT COMPLETED</span>
@@ -444,7 +444,7 @@ export default function TrainerDashboard() {
                       {!isInProgress && (
                         <button
                           onClick={() => handleUpdateConceptStatus(cpt._id, 'IN_PROGRESS')}
-                          className="w-full py-1.5 bg-white hover:bg-slate-100 text-slate-700 text-xs font-semibold rounded-xl border border-slate-300 transition"
+                          className="w-full py-1.5 bg-white hover:bg-white text-slate-700 text-xs font-semibold rounded-xl border border-slate-300 transition"
                         >
                           Set to In Progress
                         </button>
@@ -484,13 +484,13 @@ export default function TrainerDashboard() {
             <div className="flex items-center justify-end space-x-3 pt-2">
               <button
                 onClick={() => setConfirmConcept(null)}
-                className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-xl transition"
+                className="px-4 py-2 bg-white hover:bg-white text-slate-700 font-bold text-xs rounded-xl transition"
               >
                 Cancel
               </button>
               <button
                 onClick={executeConceptCompletion}
-                className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-sm transition"
+                className="bg-white px-5 py-2 text-emerald-700 font-bold text-xs rounded-xl shadow-sm transition border border-emerald-600"
               >
                 Confirm & Unlock Tasks
               </button>
@@ -526,7 +526,7 @@ export default function TrainerDashboard() {
               <p className="text-xs text-slate-400 italic py-4 text-center">No failed attempts recorded today.</p>
             ) : (
               failedAttempts.map((att) => (
-                <div key={att._id} className="p-3 bg-rose-50/50 border border-rose-200 rounded-xl flex items-center justify-between text-xs">
+                <div key={att._id} className="p-3 bg-white border border-rose-200 rounded-xl flex items-center justify-between text-xs">
                   <div className="space-y-0.5">
                     <div className="flex items-center space-x-2">
                       <span className="font-bold text-slate-900">{att.studentId?.name}</span>
@@ -542,7 +542,7 @@ export default function TrainerDashboard() {
                       setSelectedStudent(att.studentId);
                       setFeedbackTitle(`Assistance with ${att.challengeId?.title || 'Challenge'}`);
                     }}
-                    className="px-3.5 py-1.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl text-xs font-bold flex items-center space-x-1 transition shadow-md shadow-purple-500/20 cursor-pointer"
+                    className="bg-white px-3.5 py-1.5 text-sq-gradient rounded-xl text-xs font-bold flex items-center space-x-1 transition shadow-md shadow-purple-500/20 cursor-pointer border border-[#9333EA]"
                   >
                     <MessageSquare className="w-3 h-3" />
                     <span>Send Guidance</span>
@@ -565,7 +565,7 @@ export default function TrainerDashboard() {
 
           <div className="space-y-2.5">
             {topPerformers.map((sp, idx) => (
-              <div key={sp._id} className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between text-xs">
+              <div key={sp._id} className="p-3 bg-white border border-slate-200 rounded-xl flex items-center justify-between text-xs">
                 <div className="flex items-center space-x-3">
                   <span className="font-mono font-bold text-amber-500 text-sm">#{idx + 1}</span>
                   <div>
@@ -635,14 +635,14 @@ export default function TrainerDashboard() {
                 <button
                   type="button"
                   onClick={() => setSelectedStudent(null)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition cursor-pointer"
+                  className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-semibold transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmittingFeedback}
-                  className="px-5 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold flex items-center space-x-1.5 shadow-lg shadow-purple-500/25 transition cursor-pointer"
+                  className="bg-white px-5 py-2.5 text-sq-gradient rounded-xl font-bold flex items-center space-x-1.5 shadow-lg shadow-purple-500/25 transition cursor-pointer border border-[#9333EA]"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{isSubmittingFeedback ? 'Sending...' : 'Dispatch Feedback'}</span>

@@ -128,18 +128,17 @@ export default function SyllabusCoverageReport() {
   return (
     <div className="space-y-6">
       {/* Executive Header Banner */}
-      <div className="bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 rounded-3xl p-6 md:p-8 text-white relative overflow-hidden shadow-lg">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl p-6 md:p-8 text-blue-700 relative overflow-hidden shadow-xs border border-slate-200">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-200 font-mono text-xs uppercase tracking-widest font-bold bg-white/10 px-3 py-1 rounded-full border border-white/15">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <div className="inline-flex items-center space-x-2 text-blue-700 font-mono text-xs uppercase tracking-widest font-bold bg-white px-3 py-1 rounded-full border border-blue-200">
+              <ShieldCheck className="w-3.5 h-3.5 text-blue-600" />
               <span>Single Source of Truth • Syllabus Driven</span>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2.5">
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight flex items-center gap-2.5 text-[#0F172A]">
               <span>Syllabus Coverage & Question Bank Audit</span>
             </h2>
-            <p className="text-xs md:text-sm text-purple-200/80 max-w-2xl leading-relaxed">
+            <p className="text-xs md:text-sm text-slate-600 max-w-2xl leading-relaxed">
               Real-time audit tracking question generation strictly topic-by-topic across Interview Arena, Module Questions, and Mock Interview banks.
             </p>
           </div>
@@ -148,7 +147,7 @@ export default function SyllabusCoverageReport() {
             <button
               onClick={handleSyncCoverage}
               disabled={syncing}
-              className="px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-md shadow-emerald-500/20"
+              className="bg-white px-4 py-2.5 text-emerald-700 rounded-xl text-xs font-bold transition flex items-center space-x-2 disabled:opacity-50 cursor-pointer shadow-md shadow-emerald-500/20 border border-emerald-600"
               title="Automatically scan syllabus topics and generate any missing questions"
             >
               <Sparkles className={`w-3.5 h-3.5 ${syncing ? 'animate-spin' : ''}`} />
@@ -158,7 +157,7 @@ export default function SyllabusCoverageReport() {
             <button
               onClick={handleManualRefresh}
               disabled={refreshing}
-              className="px-3.5 py-2.5 bg-white/10 hover:bg-white/20 text-white rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-white/15 cursor-pointer"
+              className="px-3.5 py-2.5 bg-white text-blue-700 hover:border-blue-700 rounded-xl text-xs font-bold transition flex items-center space-x-1.5 border border-blue-600 cursor-pointer"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
               <span>Refresh</span>
@@ -169,11 +168,7 @@ export default function SyllabusCoverageReport() {
 
       {/* Notification Banner */}
       {notification && (
-        <div className={`p-4 rounded-2xl text-xs font-bold border shadow-xs flex items-center space-x-2 ${
-          notification.type === 'success'
-            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-            : 'bg-red-50 text-red-800 border-red-200'
-        }`}>
+        <div className={`p-4 rounded-2xl text-xs font-bold border shadow-xs flex items-center space-x-2 ${ notification.type === 'success' ? 'bg-white text-emerald-800 border-emerald-200' : 'bg-white text-red-800 border-red-200' }`}>
           {notification.type === 'success' ? (
             <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
           ) : (
@@ -185,10 +180,10 @@ export default function SyllabusCoverageReport() {
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-2 md:grid-cols-5 gap-3.5">
-        <div className="bg-white border border-purple-100 rounded-2xl p-4 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider">Syllabus Topics</span>
-            <BookOpen className="w-4 h-4 text-purple-600" />
+            <BookOpen className="w-4 h-4 text-blue-800" />
           </div>
           <div className="text-2xl font-black text-slate-900 font-mono mt-1">
             {summary.totalTopics}
@@ -196,18 +191,18 @@ export default function SyllabusCoverageReport() {
           <p className="text-[10px] text-slate-400 mt-0.5">Across {summary.totalModules} modules</p>
         </div>
 
-        <div className="bg-white border border-purple-100 rounded-2xl p-4 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-700">Interview Arena</span>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-blue-800">Interview Arena</span>
             <span className="w-2 h-2 rounded-full bg-purple-500" />
           </div>
-          <div className="text-2xl font-black text-purple-700 font-mono mt-1">
+          <div className="text-2xl font-black text-blue-800 font-mono mt-1">
             {summary.arenaQuestions}
           </div>
           <p className="text-[10px] text-slate-400 mt-0.5">Coding & interview problems</p>
         </div>
 
-        <div className="bg-white border border-purple-100 rounded-2xl p-4 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-indigo-700">Module Questions</span>
             <span className="w-2 h-2 rounded-full bg-indigo-500" />
@@ -218,7 +213,7 @@ export default function SyllabusCoverageReport() {
           <p className="text-[10px] text-slate-400 mt-0.5">Curriculum assessments</p>
         </div>
 
-        <div className="bg-white border border-purple-100 rounded-2xl p-4 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between text-slate-400">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-pink-700">Mock Interview</span>
             <span className="w-2 h-2 rounded-full bg-pink-500" />
@@ -229,7 +224,7 @@ export default function SyllabusCoverageReport() {
           <p className="text-[10px] text-slate-400 mt-0.5">Architectural scenarios</p>
         </div>
 
-        <div className="bg-white border border-emerald-200 bg-emerald-50/30 rounded-2xl p-4 shadow-xs">
+        <div className="bg-white border border-slate-200 rounded-2xl p-4 shadow-xs">
           <div className="flex items-center justify-between text-emerald-700">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider">Coverage Rate</span>
             <CheckCircle2 className="w-4 h-4 text-emerald-600" />
@@ -251,7 +246,7 @@ export default function SyllabusCoverageReport() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by topic name, module title, or course..."
-              className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              className="w-full pl-9 pr-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none"
             />
           </div>
 
@@ -260,7 +255,7 @@ export default function SyllabusCoverageReport() {
             <select
               value={selectedCourse}
               onChange={(e) => setSelectedCourse(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="ALL">All Courses ({availableCourses.length})</option>
               {availableCourses.map(c => (
@@ -272,7 +267,7 @@ export default function SyllabusCoverageReport() {
             <select
               value={selectedDomain}
               onChange={(e) => setSelectedDomain(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="ALL">All Domains ({availableDomains.length})</option>
               {availableDomains.map(d => (
@@ -284,7 +279,7 @@ export default function SyllabusCoverageReport() {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="px-3 py-2 bg-white border border-blue-200 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
             >
               <option value="ALL">All Status</option>
               <option value="verified">Verified</option>
@@ -298,9 +293,9 @@ export default function SyllabusCoverageReport() {
       <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-xs">
         <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
           <div className="flex items-center space-x-2">
-            <Layers className="w-4 h-4 text-purple-600" />
+            <Layers className="w-4 h-4 text-blue-800" />
             <h3 className="text-sm font-black text-slate-900">Topic-by-Topic Syllabus Coverage</h3>
-            <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+            <span className="text-xs font-mono font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
               {filteredRows.length} Topics
             </span>
           </div>
@@ -310,7 +305,7 @@ export default function SyllabusCoverageReport() {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="bg-slate-50/80 border-b border-slate-200 text-slate-700 font-mono uppercase tracking-wider text-[10px]">
+              <tr className="bg-white border-b border-blue-200 text-slate-700 font-mono uppercase tracking-wider text-[10px]">
                 <th className="py-3.5 px-4 font-bold">Course / Domain</th>
                 <th className="py-3.5 px-4 font-bold">Module</th>
                 <th className="py-3.5 px-4 font-bold">Syllabus Topic</th>
@@ -334,11 +329,11 @@ export default function SyllabusCoverageReport() {
                 filteredRows.map((row, idx) => {
                   const diffs = row.difficultyDistribution || { Easy: 0, Medium: 0, Hard: 0 };
                   return (
-                    <tr key={`${row.moduleId}-${row.topic}-${idx}`} className="hover:bg-purple-50/30 transition">
+                    <tr key={`${row.moduleId}-${row.topic}-${idx}`} className="hover:bg-white transition">
                       {/* Course / Domain */}
                       <td className="py-3 px-4">
                         <div className="font-extrabold text-slate-900">{row.courseName}</div>
-                        <span className="font-mono text-[10px] text-purple-700 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200 uppercase font-semibold">
+                        <span className="font-mono text-[10px] text-blue-800 bg-white px-1.5 py-0.2 rounded border border-blue-200 uppercase font-semibold">
                           {row.domain}
                         </span>
                       </td>
@@ -359,27 +354,21 @@ export default function SyllabusCoverageReport() {
 
                       {/* Arena Count */}
                       <td className="py-3 px-3 text-center">
-                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${
-                          row.arenaCount > 0 ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-400'
-                        }`}>
+                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${ row.arenaCount > 0 ? 'bg-white text-purple-800' : 'bg-white text-slate-400' }`}>
                           {row.arenaCount} Qs
                         </span>
                       </td>
 
                       {/* Module Count */}
                       <td className="py-3 px-3 text-center">
-                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${
-                          row.moduleCount > 0 ? 'bg-indigo-100 text-indigo-800' : 'bg-slate-100 text-slate-400'
-                        }`}>
+                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${ row.moduleCount > 0 ? 'bg-white text-indigo-800' : 'bg-white text-slate-400' }`}>
                           {row.moduleCount} Qs
                         </span>
                       </td>
 
                       {/* Mock Count */}
                       <td className="py-3 px-3 text-center">
-                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${
-                          row.mockCount > 0 ? 'bg-pink-100 text-pink-800' : 'bg-slate-100 text-slate-400'
-                        }`}>
+                        <span className={`inline-block font-mono font-bold px-2 py-0.5 rounded text-[11px] ${ row.mockCount > 0 ? 'bg-white text-pink-800' : 'bg-white text-slate-400' }`}>
                           {row.mockCount} Qs
                         </span>
                       </td>
@@ -392,13 +381,13 @@ export default function SyllabusCoverageReport() {
                       {/* Difficulty Spread */}
                       <td className="py-3 px-4">
                         <div className="flex items-center space-x-1.5 font-mono text-[10px]">
-                          <span className="px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 font-bold border border-emerald-200" title="Easy questions">
+                          <span className="px-1.5 py-0.5 rounded bg-white text-emerald-700 font-bold border border-emerald-200" title="Easy questions">
                             E: {diffs.Easy || 0}
                           </span>
-                          <span className="px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 font-bold border border-amber-200" title="Medium questions">
+                          <span className="px-1.5 py-0.5 rounded bg-white text-amber-700 font-bold border border-amber-200" title="Medium questions">
                             M: {diffs.Medium || 0}
                           </span>
-                          <span className="px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 font-bold border border-rose-200" title="Hard questions">
+                          <span className="px-1.5 py-0.5 rounded bg-white text-rose-700 font-bold border border-rose-200" title="Hard questions">
                             H: {diffs.Hard || 0}
                           </span>
                         </div>
@@ -407,12 +396,12 @@ export default function SyllabusCoverageReport() {
                       {/* Validation Status */}
                       <td className="py-3 px-4 text-right">
                         {row.validationStatus === 'verified' ? (
-                          <span className="inline-flex items-center space-x-1 font-mono text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                          <span className="inline-flex items-center space-x-1 font-mono text-[10px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded-full border border-emerald-200">
                             <CheckCircle2 className="w-3 h-3 text-emerald-600" />
                             <span>Verified</span>
                           </span>
                         ) : (
-                          <span className="inline-flex items-center space-x-1 font-mono text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
+                          <span className="inline-flex items-center space-x-1 font-mono text-[10px] font-bold text-amber-700 bg-white px-2 py-0.5 rounded-full border border-amber-200">
                             <Clock className="w-3 h-3 text-amber-600" />
                             <span>Pending</span>
                           </span>

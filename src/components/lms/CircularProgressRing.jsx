@@ -17,39 +17,39 @@ export default function CircularProgressRing({
     purple: {
       stroke: '#9333EA',
       bgStroke: '#F3E8FF',
-      textColor: 'text-purple-600',
-      badgeBg: 'bg-purple-50 text-purple-700'
+      textColor: 'text-blue-800',
+      badgeBg: 'bg-white text-blue-800'
     },
     blue: {
       stroke: '#9333EA',
       bgStroke: '#F3E8FF',
-      textColor: 'text-purple-600',
-      badgeBg: 'bg-purple-50 text-purple-700'
+      textColor: 'text-blue-800',
+      badgeBg: 'bg-white text-blue-800'
     },
     green: {
       stroke: '#16A34A',
       bgStroke: '#DCFCE7',
       textColor: 'text-emerald-600',
-      badgeBg: 'bg-emerald-50 text-emerald-700'
+      badgeBg: 'bg-white text-emerald-700'
     },
     yellow: {
       stroke: '#D97706',
       bgStroke: '#FEF3C7',
       textColor: 'text-amber-600',
-      badgeBg: 'bg-amber-50 text-amber-700'
+      badgeBg: 'bg-white text-amber-700'
     },
     red: {
       stroke: '#DC2626',
       bgStroke: '#FEE2E2',
       textColor: 'text-red-600',
-      badgeBg: 'bg-red-50 text-red-700'
+      badgeBg: 'bg-white text-red-700'
     }
   };
 
   const theme = colorConfig[variant] || colorConfig.purple;
 
   return (
-    <div className="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200/80 shadow-sm hover:shadow transition">
+    <div className="flex flex-col items-center justify-center p-3 bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow transition">
       <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
         <svg
           className="transform -rotate-90 origin-center drop-shadow-sm"

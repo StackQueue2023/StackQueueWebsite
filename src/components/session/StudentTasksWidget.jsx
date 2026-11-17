@@ -88,24 +88,24 @@ export default function StudentTasksWidget() {
   const getStatusBadge = (status) => {
     switch (status) {
       case 'COMPLETED':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">COMPLETED</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-emerald-700 border border-emerald-200">COMPLETED</span>;
       case 'SUBMITTED':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200">SUBMITTED</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-blue-800 border border-blue-200">SUBMITTED</span>;
       case 'UNDER_REVIEW':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-sky-50 text-sky-700 border border-sky-200">UNDER REVIEW</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-sky-700 border border-sky-200">UNDER REVIEW</span>;
       case 'IN_PROGRESS':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">IN PROGRESS</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-amber-700 border border-amber-200">IN PROGRESS</span>;
       case 'REJECTED':
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">NEEDS REVISION</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-rose-700 border border-rose-200">NEEDS REVISION</span>;
       default:
-        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-700 border border-slate-200">ASSIGNED</span>;
+        return <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-white text-slate-700 border border-blue-200">ASSIGNED</span>;
     }
   };
 
   return (
     <div className="bg-white border border-slate-200 shadow-sm p-5 rounded-2xl space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2 text-purple-600 font-bold text-xs uppercase tracking-wider">
+        <div className="flex items-center space-x-2 text-blue-800 font-bold text-xs uppercase tracking-wider">
           <FileText className="w-4 h-4" />
           <span>Session Tasks & Homework ({tasks.length})</span>
         </div>
@@ -125,7 +125,7 @@ export default function StudentTasksWidget() {
           {tasks.map((task) => (
             <div 
               key={task._id}
-              className="p-3.5 bg-slate-50/70 border border-slate-200 hover:border-purple-300 rounded-xl transition space-y-2.5"
+              className="p-3.5 bg-white border border-blue-200 hover:border-blue-200 rounded-xl transition space-y-2.5"
             >
               <div className="flex items-start justify-between gap-3">
                 <div className="space-y-1">
@@ -144,7 +144,7 @@ export default function StudentTasksWidget() {
 
               {/* Tutor feedback and score if graded */}
               {task.status === 'COMPLETED' && task.tutorFeedback && (
-                <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-lg text-xs space-y-1">
+                <div className="p-2.5 bg-white border border-emerald-200 rounded-lg text-xs space-y-1">
                   <div className="flex items-center justify-between font-bold text-emerald-800 text-[11px]">
                     <span className="flex items-center space-x-1">
                       <Award className="w-3.5 h-3.5 text-emerald-600" />
@@ -157,7 +157,7 @@ export default function StudentTasksWidget() {
               )}
 
               {/* Due Date & Action Row */}
-              <div className="flex items-center justify-between pt-1 border-t border-slate-200 text-[11px]">
+              <div className="flex items-center justify-between pt-1 border-t border-blue-200 text-[11px]">
                 <div className="flex items-center space-x-1 text-slate-500">
                   <Clock className="w-3 h-3 text-slate-400" />
                   <span>Due: {new Date(task.dueDate).toLocaleDateString()}</span>
@@ -167,7 +167,7 @@ export default function StudentTasksWidget() {
                   {task.status !== 'COMPLETED' && (
                     <button
                       onClick={() => handleOpenSubmit(task)}
-                      className="px-3 py-1 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-lg font-semibold text-[11px] flex items-center space-x-1 transition shadow-xs"
+                      className="bg-white px-3 py-1 text-blue-800 rounded-lg font-semibold text-[11px] flex items-center space-x-1 transition shadow-xs border border-[#9333EA]"
                     >
                       <UploadCloud className="w-3 h-3" />
                       <span>{task.status === 'SUBMITTED' ? 'Resubmit' : 'Submit Work'}</span>
@@ -178,7 +178,7 @@ export default function StudentTasksWidget() {
                       href={task.submissionUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-purple-600 hover:text-purple-800 flex items-center space-x-0.5 font-medium"
+                      className="text-blue-800 hover:text-purple-800 flex items-center space-x-0.5 font-medium"
                     >
                       <span>Link</span>
                       <ExternalLink className="w-2.5 h-2.5" />
@@ -197,7 +197,7 @@ export default function StudentTasksWidget() {
           <div className="bg-white border border-slate-200 max-w-lg w-full rounded-2xl p-6 shadow-2xl space-y-4">
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-bold text-slate-900 flex items-center space-x-2">
-                <UploadCloud className="w-4 h-4 text-purple-600" />
+                <UploadCloud className="w-4 h-4 text-blue-800" />
                 <span>Submit Task: {activeModalTask.title}</span>
               </h3>
               <button 
@@ -209,7 +209,7 @@ export default function StudentTasksWidget() {
             </div>
 
             {errorMsg && (
-              <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-xs text-rose-700">
+              <div className="p-3 rounded-xl bg-white border border-rose-200 text-xs text-rose-700">
                 {errorMsg}
               </div>
             )}
@@ -222,11 +222,7 @@ export default function StudentTasksWidget() {
                   <button
                     type="button"
                     onClick={() => setSubmissionType('github')}
-                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${
-                      submissionType === 'github'
-                        ? 'bg-purple-50 border-purple-500 text-purple-700 font-bold'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                    }`}
+                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${ submissionType === 'github' ? 'bg-white border-purple-500 text-blue-800 font-bold' : 'bg-white border-blue-200 text-slate-600 hover:bg-white' }`}
                   >
                     <Github className="w-3.5 h-3.5" />
                     <span>GitHub Repo</span>
@@ -234,11 +230,7 @@ export default function StudentTasksWidget() {
                   <button
                     type="button"
                     onClick={() => setSubmissionType('file')}
-                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${
-                      submissionType === 'file'
-                        ? 'bg-purple-50 border-purple-500 text-purple-700 font-bold'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                    }`}
+                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${ submissionType === 'file' ? 'bg-white border-purple-500 text-blue-800 font-bold' : 'bg-white border-blue-200 text-slate-600 hover:bg-white' }`}
                   >
                     <UploadCloud className="w-3.5 h-3.5" />
                     <span>File Link</span>
@@ -246,11 +238,7 @@ export default function StudentTasksWidget() {
                   <button
                     type="button"
                     onClick={() => setSubmissionType('text')}
-                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${
-                      submissionType === 'text'
-                        ? 'bg-purple-50 border-purple-500 text-purple-700 font-bold'
-                        : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'
-                    }`}
+                    className={`py-2 px-3 rounded-xl border text-center font-medium transition flex items-center justify-center space-x-1.5 ${ submissionType === 'text' ? 'bg-white border-purple-500 text-blue-800 font-bold' : 'bg-white border-blue-200 text-slate-600 hover:bg-white' }`}
                   >
                     <FileText className="w-3.5 h-3.5" />
                     <span>Code / Text</span>
@@ -267,7 +255,7 @@ export default function StudentTasksWidget() {
                     placeholder="https://github.com/username/project-repo"
                     value={submissionUrl}
                     onChange={(e) => setSubmissionUrl(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
                   />
                 </div>
               )}
@@ -281,7 +269,7 @@ export default function StudentTasksWidget() {
                     placeholder="https://drive.google.com/... or https://dropbox.com/..."
                     value={submissionUrl}
                     onChange={(e) => setSubmissionUrl(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
                   />
                 </div>
               )}
@@ -295,7 +283,7 @@ export default function StudentTasksWidget() {
                     placeholder="Paste your source code or explanation here..."
                     value={submissionText}
                     onChange={(e) => setSubmissionText(e.target.value)}
-                    className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-mono text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
+                    className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 font-mono text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
                   />
                 </div>
               )}
@@ -307,7 +295,7 @@ export default function StudentTasksWidget() {
                   placeholder="Optional remarks about how you implemented the challenge..."
                   value={submissionNotes}
                   onChange={(e) => setSubmissionNotes(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
+                  className="w-full bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white"
                 />
               </div>
 
@@ -315,14 +303,14 @@ export default function StudentTasksWidget() {
                 <button
                   type="button"
                   onClick={() => setActiveModalTask(null)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold transition"
+                  className="px-4 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-semibold transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-5 py-2 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition disabled:opacity-50"
+                  className="bg-white px-5 py-2 text-blue-800 rounded-xl font-bold flex items-center space-x-1.5 shadow-md shadow-purple-500/20 transition disabled:opacity-50 border border-[#9333EA]"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{isSubmitting ? 'Submitting...' : 'Confirm Submission'}</span>

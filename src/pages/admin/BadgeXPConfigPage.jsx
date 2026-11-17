@@ -55,7 +55,7 @@ export default function BadgeXPConfigPage() {
   return (
     <div className="space-y-8 pb-12 max-w-5xl mx-auto">
       {/* Banner */}
-      <div className="rounded-2xl bg-amber-50/70 border border-amber-200 p-6 shadow-xs space-y-1">
+      <div className="rounded-2xl bg-white border border-amber-200 p-6 shadow-xs space-y-1">
         <div className="flex items-center space-x-2 text-amber-800 font-bold text-xs uppercase tracking-wider font-mono">
           <Award className="w-4 h-4 text-amber-600" />
           <span>Gamification Governance</span>
@@ -74,36 +74,36 @@ export default function BadgeXPConfigPage() {
         </h2>
 
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Beginner Challenge</span>
             <span className="text-amber-700 font-bold text-sm">+15 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Intermediate</span>
             <span className="text-amber-700 font-bold text-sm">+30 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Advanced</span>
             <span className="text-amber-700 font-bold text-sm">+60 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Expert / Real Mission</span>
             <span className="text-amber-700 font-bold text-sm">+120 XP</span>
           </div>
 
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">First Attempt Bonus</span>
             <span className="text-emerald-700 font-bold text-sm">+15 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Daily 4-Pack Bonus</span>
             <span className="text-emerald-700 font-bold text-sm">+100 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Kanban Task Finished</span>
             <span className="text-purple-700 font-bold text-sm">+50 XP</span>
           </div>
-          <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-1">
+          <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
             <span className="text-slate-500 text-[10px] block">Project Delivery</span>
             <span className="text-purple-700 font-bold text-sm">+300 XP</span>
           </div>
@@ -144,7 +144,7 @@ export default function BadgeXPConfigPage() {
                 value={badgeName}
                 onChange={(e) => setBadgeName(e.target.value)}
                 placeholder="e.g. Master of Recursion"
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
+                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
               />
             </div>
 
@@ -153,7 +153,7 @@ export default function BadgeXPConfigPage() {
               <select
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
+                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
               >
                 <option value="General">General</option>
                 <option value="Language">Language</option>
@@ -172,7 +172,7 @@ export default function BadgeXPConfigPage() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="e.g. Solved 10 recursive tree challenges without viewing hints."
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
             />
           </div>
 
@@ -182,7 +182,7 @@ export default function BadgeXPConfigPage() {
               <select
                 value={targetType}
                 onChange={(e) => setTargetType(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
+                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition"
               >
                 <option value="challenges_count">Solved Challenges Count</option>
                 <option value="xp_threshold">Total XP Threshold</option>
@@ -198,7 +198,7 @@ export default function BadgeXPConfigPage() {
                 required
                 value={targetValue}
                 onChange={(e) => setTargetValue(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition font-mono"
+                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition font-mono"
               />
             </div>
 
@@ -209,7 +209,7 @@ export default function BadgeXPConfigPage() {
                 min="10"
                 value={xpBonus}
                 onChange={(e) => setXpBonus(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition font-mono"
+                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-100 focus:bg-white transition font-mono"
               />
             </div>
           </div>
@@ -218,7 +218,7 @@ export default function BadgeXPConfigPage() {
             <button
               type="submit"
               disabled={submitting}
-              className="px-6 py-2.5 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold shadow-md shadow-purple-500/20 transition disabled:opacity-50"
+              className="bg-white px-6 py-2.5 text-sq-gradient rounded-xl font-bold shadow-md shadow-purple-500/20 transition disabled:opacity-50 border border-[#9333EA]"
             >
               {submitting ? 'Creating...' : 'Create & Register Badge'}
             </button>

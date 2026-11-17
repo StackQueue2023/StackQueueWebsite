@@ -105,7 +105,14 @@ export default function AdminLmsManagementPage() {
     paymentMode: 'Cash',
     paymentDate: new Date().toISOString().split('T')[0],
     transactionId: '',
-    isExistingStudent: false
+    isExistingStudent: false,
+    studentCategory: 'REGULAR',
+    trainingName: '',
+    trainingDomain: '',
+    trainingStartDate: '',
+    trainingEndDate: '',
+    department: '',
+    academicYear: ''
   });
   const [showStudentPassword, setShowStudentPassword] = useState(false);
   const [submittingStudent, setSubmittingStudent] = useState(false);
@@ -565,7 +572,14 @@ export default function AdminLmsManagementPage() {
           paymentMode: 'Cash',
           paymentDate: new Date().toISOString().split('T')[0],
           transactionId: '',
-          isExistingStudent: false
+          isExistingStudent: false,
+          studentCategory: 'REGULAR',
+          trainingName: '',
+          trainingDomain: '',
+          trainingStartDate: '',
+          trainingEndDate: '',
+          department: '',
+          academicYear: ''
         });
         setDirectoryFilter({ courseId: '', searchQuery: '', selectedStudentId: '' });
         setLookupError(null);
@@ -1033,13 +1047,13 @@ export default function AdminLmsManagementPage() {
   return (
     <div className="space-y-6 animate-fade-in max-w-7xl mx-auto px-2 sm:px-4 pb-12">
       {/* Page Header Banner matching Tutor Studio */}
-      <div className="shrink-0 rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-4 md:p-6 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white shrink-0 rounded-3xl border border-slate-200/80 p-4 md:p-6 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
-              <GraduationCap className="w-4 h-4 text-purple-600" />
+            <div className="bg-white inline-flex items-center space-x-2 text-blue-800 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-blue-200/80 shadow-2xs">
+              <GraduationCap className="w-4 h-4 text-blue-800" />
               <span>Institute LMS Operations</span>
             </div>
             <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900">
@@ -1051,58 +1065,38 @@ export default function AdminLmsManagementPage() {
           </div>
 
           {/* Segmented Tab Navigation */}
-          <div className="flex flex-wrap items-center bg-white border border-slate-200 p-1 rounded-xl shadow-xs text-xs font-bold shrink-0">
+          <div className="flex flex-wrap items-center bg-white border border-blue-200 p-1 rounded-xl shadow-xs text-xs font-bold shrink-0">
             <button
               onClick={() => setActiveTab('students')}
-              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${
-                activeTab === 'students'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${ activeTab === 'students' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <Users className="w-3.5 h-3.5" />
               <span>Students ({students.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('batches')}
-              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${
-                activeTab === 'batches'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${ activeTab === 'batches' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <GraduationCap className="w-3.5 h-3.5" />
               <span>Batches ({batches.length})</span>
             </button>
             <button
               onClick={() => setActiveTab('classes')}
-              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${
-                activeTab === 'classes'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${ activeTab === 'classes' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>Schedule Classes</span>
             </button>
             <button
               onClick={() => setActiveTab('attendance')}
-              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${
-                activeTab === 'attendance'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${ activeTab === 'attendance' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <CalendarCheck2 className="w-3.5 h-3.5" />
               <span>Attendance & Absences</span>
             </button>
             <button
               onClick={() => setActiveTab('fees')}
-              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${
-                activeTab === 'fees'
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${ activeTab === 'fees' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <CreditCard className="w-3.5 h-3.5" />
               <span>Fee Management</span>
@@ -1113,11 +1107,7 @@ export default function AdminLmsManagementPage() {
 
       {/* Global Feedback Banner */}
       {feedback && (
-        <div className={`p-4 rounded-2xl text-xs font-bold border shadow-sm ${
-          feedback.type === 'success'
-            ? 'bg-emerald-50 text-emerald-800 border-emerald-200'
-            : 'bg-red-50 text-red-800 border-red-200'
-        }`}>
+        <div className={`p-4 rounded-2xl text-xs font-bold border shadow-sm ${ feedback.type === 'success' ? 'bg-white text-emerald-800 border-emerald-200' : 'bg-white text-red-800 border-red-200' }`}>
           <div className="flex items-center space-x-2">
             {feedback.type === 'success' ? (
               <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
@@ -1141,7 +1131,7 @@ export default function AdminLmsManagementPage() {
                 });
                 setFeedback(null);
               }}
-              className="mt-2 text-xs font-bold text-purple-700 bg-purple-100 hover:bg-purple-200 px-3 py-1.5 rounded-xl border border-purple-300 transition inline-block"
+              className="mt-2 text-xs font-bold text-blue-800 bg-white hover:bg-white px-3 py-1.5 rounded-xl border border-blue-200 transition inline-block"
             >
               ➔ Switch to Existing Student Mode & Assign Extra Course to {feedback.existingUser.name} ({feedback.existingUser.studentId})
             </button>
@@ -1155,18 +1145,14 @@ export default function AdminLmsManagementPage() {
           {/* Create Student Form (5 Cols) */}
           <div 
             ref={leftBoxRef}
-            className="lg:col-span-5 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-5 space-y-4 flex flex-col overflow-visible"
+            className="lg:col-span-5 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-5 space-y-4 flex flex-col overflow-visible"
           >
-            <div className="border-b border-purple-100 pb-3 space-y-2">
+            <div className="border-b border-blue-200 pb-3 space-y-2">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">
                   Student Account Provisioning
                 </span>
-                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${
-                  studentForm.isExistingStudent
-                    ? 'bg-fuchsia-50 text-fuchsia-700 border-fuchsia-200'
-                    : 'bg-purple-50 text-purple-700 border-purple-200'
-                }`}>
+                <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border ${ studentForm.isExistingStudent ? 'bg-white text-fuchsia-700 border-fuchsia-200' : 'bg-white text-blue-800 border-blue-200' }`}>
                   {studentForm.isExistingStudent ? 'Existing Student Mode' : 'New Student Mode'}
                 </span>
               </div>
@@ -1180,7 +1166,7 @@ export default function AdminLmsManagementPage() {
               </p>
 
               {/* Mode Selector Segmented Toggle */}
-              <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl mt-2 border border-slate-200/80">
+              <div className="flex items-center space-x-1.5 bg-white p-1 rounded-xl mt-2 border border-blue-200">
                 <button
                   type="button"
                   onClick={() => {
@@ -1203,11 +1189,7 @@ export default function AdminLmsManagementPage() {
                     setEnrolledCourseWarning(null);
                     setFoundStudentDetails(null);
                   }}
-                  className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition ${
-                    !studentForm.isExistingStudent
-                      ? 'bg-purple-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition ${ !studentForm.isExistingStudent ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
                 >
                   ➕ New Student
                 </button>
@@ -1234,11 +1216,7 @@ export default function AdminLmsManagementPage() {
                     setFoundStudentDetails(null);
                     loadDirectoryFilterOptions();
                   }}
-                  className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition ${
-                    studentForm.isExistingStudent
-                      ? 'bg-purple-600 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`flex-1 py-1.5 px-2 text-[11px] font-bold rounded-lg transition ${ studentForm.isExistingStudent ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900' }`}
                 >
                   🎓 Existing Student (Extra Course)
                 </button>
@@ -1246,15 +1224,47 @@ export default function AdminLmsManagementPage() {
             </div>
 
             <form onSubmit={handleCreateStudent} className="space-y-3">
+              {/* Mandatory Student Type Classification */}
+              {!studentForm.isExistingStudent && (
+                <div className="bg-white p-3.5 rounded-2xl border border-slate-200 space-y-1.5">
+                  <label className="text-xs font-black text-slate-900 block">
+                    Student Type <span className="text-red-500">*</span>
+                  </label>
+                  <select
+                    required
+                    value={studentForm.studentCategory || 'REGULAR'}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setStudentForm({
+                        ...studentForm,
+                        studentCategory: val,
+                        ...(val === 'TRAINING_TEMPORARY'
+                          ? { totalCourseFee: 0, monthlyFee: 0, downPayment: 0 }
+                          : { totalCourseFee: 24000, monthlyFee: 2000 }),
+                      });
+                    }}
+                    className="w-full text-xs font-bold bg-white border border-slate-300 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  >
+                    <option value="REGULAR">Regular Course Student</option>
+                    <option value="TRAINING_TEMPORARY">Training / Orientation Student (Temporary)</option>
+                  </select>
+                  {studentForm.studentCategory === 'TRAINING_TEMPORARY' && (
+                    <p className="text-[11px] font-semibold text-purple-700">
+                      Excluded from Payment Management, Fee Reminders, and Leave Management. Tracks training performance & attendance only.
+                    </p>
+                  )}
+                </div>
+              )}
+
               {/* If Existing Student Mode: Multi-Step Cascading Directory Search & Quick Selector */}
               {studentForm.isExistingStudent && (
-                <div className="space-y-3 bg-purple-50/60 p-3.5 rounded-2xl border border-purple-200/80">
-                  <div className="flex items-center justify-between border-b border-purple-200/60 pb-2">
+                <div className="space-y-3 bg-white p-3.5 rounded-2xl border border-slate-200/80">
+                  <div className="flex items-center justify-between border-b border-blue-200/60 pb-2">
                     <span className="text-xs font-black text-purple-900 flex items-center space-x-1.5">
-                      <Filter className="w-3.5 h-3.5 text-purple-600" />
+                      <Filter className="w-3.5 h-3.5 text-blue-800" />
                       <span>Select Existing Enrolled Student</span>
                     </span>
-                    <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full border border-purple-200">
+                    <span className="text-[10px] font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                       Directory Filter
                     </span>
                   </div>
@@ -1274,7 +1284,7 @@ export default function AdminLmsManagementPage() {
                             handleSelectDirectoryStudent(found);
                           }
                         }}
-                        className="w-full text-xs font-semibold bg-white border border-purple-300 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                        className="w-full text-xs font-semibold bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                       >
                         <option value="">-- Choose From Enrolled LMS Students --</option>
                         {students.map((st) => (
@@ -1288,9 +1298,9 @@ export default function AdminLmsManagementPage() {
 
                   {students.length > 0 && (
                     <div className="flex items-center space-x-2 my-1">
-                      <div className="flex-1 border-t border-purple-200/60"></div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600">Or Filter by Course</span>
-                      <div className="flex-1 border-t border-purple-200/60"></div>
+                      <div className="flex-1 border-t border-blue-200/60"></div>
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800">Or Filter by Course</span>
+                      <div className="flex-1 border-t border-blue-200/60"></div>
                     </div>
                   )}
 
@@ -1315,12 +1325,12 @@ export default function AdminLmsManagementPage() {
 
                   {/* Complete Matching Student List immediately below Course dropdown */}
                   {directoryFilter.courseId && (
-                    <div className="space-y-2 pt-1 border-t border-purple-200/60">
+                    <div className="space-y-2 pt-1 border-t border-blue-200/60">
                       <div className="flex items-center justify-between">
                         <label className="text-[11px] font-bold text-slate-700 block">
                           Select Matching Student ({filteredDirectoryStudents.length} Found) <span className="text-red-500">*</span>
                         </label>
-                        <span className="text-[10px] font-bold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">
+                        <span className="text-[10px] font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full">
                           {filteredDirectoryStudents.length} Available
                         </span>
                       </div>
@@ -1342,11 +1352,11 @@ export default function AdminLmsManagementPage() {
                       </div>
 
                       {loadingDirectoryStudents ? (
-                        <div className="p-3 text-center text-xs text-slate-500 font-semibold bg-white rounded-xl border border-slate-200">
+                        <div className="p-3 text-center text-xs text-slate-500 font-semibold bg-white rounded-xl border border-blue-200">
                           <span className="inline-block animate-spin mr-2">⏳</span> Loading enrolled students...
                         </div>
                       ) : filteredDirectoryStudents.length === 0 ? (
-                        <div className="p-3 text-center text-xs text-slate-500 font-semibold bg-white rounded-xl border border-slate-200">
+                        <div className="p-3 text-center text-xs text-slate-500 font-semibold bg-white rounded-xl border border-blue-200">
                           No enrolled students found for this course.
                         </div>
                       ) : (
@@ -1359,7 +1369,7 @@ export default function AdminLmsManagementPage() {
                               handleSelectDirectoryStudent(stu);
                             }
                           }}
-                          className="w-full text-xs font-semibold bg-white border border-purple-300 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                          className="w-full text-xs font-semibold bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                         >
                           <option value="">-- Select Student ({filteredDirectoryStudents.length} Found) --</option>
                           {filteredDirectoryStudents.map((s) => (
@@ -1382,13 +1392,13 @@ export default function AdminLmsManagementPage() {
                       <span>Student ID</span>
                       <span className="text-red-500">*</span>
                       {autoGenInfo && studentForm.studentId === autoGenInfo && (
-                        <span className="text-[10px] text-emerald-700 font-bold bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200 font-mono">
+                        <span className="text-[10px] text-emerald-700 font-bold bg-white px-1.5 py-0.5 rounded border border-emerald-200 font-mono">
                           Auto-Generated
                         </span>
                       )}
                     </label>
                     {studentForm.isExistingStudent ? (
-                      <span className="text-[10px] text-purple-600 font-extrabold bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">
+                      <span className="text-[10px] text-blue-800 font-extrabold bg-white px-1.5 py-0.5 rounded border border-blue-200">
                         Existing Student Mode
                       </span>
                     ) : (
@@ -1409,12 +1419,10 @@ export default function AdminLmsManagementPage() {
                           handleLookupStudentById(studentForm.studentId, studentForm.courseId);
                         }
                       }}
-                      className={`w-full text-xs font-mono font-bold bg-white border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none uppercase ${
-                        idCourseMismatchWarning ? 'border-rose-400 bg-rose-50/20' : (lookupError ? 'border-rose-400 bg-rose-50/30' : 'border-slate-300')
-                      }`}
+                      className={`w-full text-xs font-mono font-bold bg-white border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none uppercase ${ idCourseMismatchWarning ? 'border-rose-400 bg-white' : (lookupError ? 'border-rose-400 bg-white' : 'border-slate-300') }`}
                     />
                     {lookupLoading && (
-                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-purple-600 font-bold animate-pulse">
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-blue-800 font-bold animate-pulse">
                         🔍
                       </span>
                     )}
@@ -1455,11 +1463,7 @@ export default function AdminLmsManagementPage() {
                       }
                     }}
                     readOnly={studentForm.isExistingStudent}
-                    className={`w-full text-xs font-mono font-bold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none lowercase ${
-                      studentForm.isExistingStudent
-                        ? 'bg-slate-100 text-slate-600 border-slate-200 cursor-not-allowed select-none font-bold'
-                        : 'bg-white border-slate-300'
-                    }`}
+                    className={`w-full text-xs font-mono font-bold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none lowercase ${ studentForm.isExistingStudent ? 'bg-white text-slate-600 border-blue-200 cursor-not-allowed select-none font-bold' : 'bg-white border-slate-300' }`}
                   />
                 </div>
               </div>
@@ -1481,11 +1485,7 @@ export default function AdminLmsManagementPage() {
                       }
                     }}
                     readOnly={studentForm.isExistingStudent}
-                    className={`w-full text-xs font-semibold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
-                      studentForm.isExistingStudent
-                        ? 'bg-slate-100 text-slate-600 border-slate-200 cursor-not-allowed select-none font-bold'
-                        : 'bg-white border-slate-300'
-                    }`}
+                    className={`w-full text-xs font-semibold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${ studentForm.isExistingStudent ? 'bg-white text-slate-600 border-blue-200 cursor-not-allowed select-none font-bold' : 'bg-white border-slate-300' }`}
                   />
                 </div>
 
@@ -1505,11 +1505,7 @@ export default function AdminLmsManagementPage() {
                       }
                     }}
                     readOnly={studentForm.isExistingStudent}
-                    className={`w-full text-xs font-semibold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${
-                      studentForm.isExistingStudent
-                        ? 'bg-slate-100 text-slate-600 border-slate-200 cursor-not-allowed select-none font-bold'
-                        : 'bg-white border-slate-300'
-                    }`}
+                    className={`w-full text-xs font-semibold border rounded-xl px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:outline-none ${ studentForm.isExistingStudent ? 'bg-white text-slate-600 border-blue-200 cursor-not-allowed select-none font-bold' : 'bg-white border-slate-300' }`}
                   />
                 </div>
               </div>
@@ -1558,7 +1554,7 @@ export default function AdminLmsManagementPage() {
               )}
 
               {/* Batch Assignment Selector */}
-              <div className="space-y-1 bg-amber-50/70 p-3 rounded-xl border border-amber-200">
+              <div className="space-y-1 bg-white p-3 rounded-xl border border-amber-200">
                 <div className="flex items-center justify-between">
                   <label className="text-xs font-bold text-amber-900 block">
                     Assign Student to Batch (Optional)
@@ -1566,7 +1562,7 @@ export default function AdminLmsManagementPage() {
                   <button
                     type="button"
                     onClick={() => setActiveTab('batches')}
-                    className="text-[10px] font-extrabold text-purple-600 hover:underline flex items-center space-x-1"
+                    className="text-[10px] font-extrabold text-blue-800 hover:underline flex items-center space-x-1"
                   >
                     <Plus className="w-3 h-3" />
                     <span>Create New Batch</span>
@@ -1614,13 +1610,13 @@ export default function AdminLmsManagementPage() {
                       Assign Course / Domain <span className="text-red-500">*</span>
                     </label>
                     {isAutoMappedFromId && (
-                      <span className="text-[10px] text-purple-700 font-extrabold bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">
+                      <span className="text-[10px] text-blue-800 font-extrabold bg-white px-1.5 py-0.5 rounded border border-blue-200">
                         Auto-Mapped by ID
                       </span>
                     )}
                   </div>
                   <select
-                    required
+                    required={studentForm.studentCategory !== 'TRAINING_TEMPORARY'}
                     value={studentForm.courseId}
                     onChange={(e) => handleCourseSelected(e.target.value)}
                     className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 font-semibold text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
@@ -1653,20 +1649,93 @@ export default function AdminLmsManagementPage() {
                 </div>
               </div>
 
-              {/* Fee & Down Payment Management (Requirement B & C) */}
-              <div className="space-y-3 bg-gradient-to-r from-purple-50/80 via-white to-pink-50/60 p-4 rounded-2xl border border-purple-200/90 shadow-2xs">
-                <div className="flex items-center justify-between border-b border-purple-100 pb-2">
+              {/* Temporary Training Metadata OR Fee & Down Payment Management */}
+              {studentForm.studentCategory === 'TRAINING_TEMPORARY' ? (
+                <div className="bg-white space-y-3 p-4 rounded-2xl border border-purple-200 shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-purple-100 pb-2">
+                    <span className="text-xs font-black text-purple-900 uppercase tracking-wider">
+                      Temporary Training / Orientation Details
+                    </span>
+                    <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                      No Fees / No Leave Access
+                    </span>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">Training / Orientation Name</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Full Stack Bootcamp"
+                        value={studentForm.trainingName || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, trainingName: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">Training Domain</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. Java / Python / Web"
+                        value={studentForm.trainingDomain || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, trainingDomain: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">Department</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. CSE / IT"
+                        value={studentForm.department || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, department: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">Year</label>
+                      <input
+                        type="text"
+                        placeholder="e.g. 3rd Year / Final Year"
+                        value={studentForm.academicYear || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, academicYear: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">Start Date</label>
+                      <input
+                        type="date"
+                        value={studentForm.trainingStartDate || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, trainingStartDate: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <label className="text-[11px] font-bold text-slate-700">End Date</label>
+                      <input
+                        type="date"
+                        value={studentForm.trainingEndDate || ''}
+                        onChange={(e) => setStudentForm({ ...studentForm, trainingEndDate: e.target.value })}
+                        className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5"
+                      />
+                    </div>
+                  </div>
+                </div>
+              ) : (
+              /* Fee & Down Payment Management (Requirement B & C) */
+              <div className="bg-white space-y-3 p-4 rounded-2xl border border-slate-200/90 shadow-2xs">
+                <div className="flex items-center justify-between border-b border-blue-200 pb-2">
                   <span className="text-xs font-black text-slate-900 flex items-center space-x-1.5 font-mono uppercase tracking-wider">
                     <span>Course Fee & Down Payment</span>
                     <span className="text-red-500">*</span>
                   </span>
-                  <span className="text-[10px] font-extrabold text-purple-700 bg-purple-100/70 px-2 py-0.5 rounded-full border border-purple-200">
+                  <span className="text-[10px] font-extrabold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                     Database-Driven
                   </span>
                 </div>
 
                 {/* Course Details (Single Source of Truth from DB) */}
-                <div className="bg-purple-100/40 border border-purple-200/90 rounded-xl p-3 flex items-center justify-between">
+                <div className="bg-white border border-blue-200/90 rounded-xl p-3 flex items-center justify-between">
                   <div>
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Course Duration (DB Record)</span>
                     <strong className="text-xs font-black text-purple-900 font-mono">
@@ -1675,7 +1744,7 @@ export default function AdminLmsManagementPage() {
                   </div>
                   <div className="text-right">
                     <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">Single Source of Truth</span>
-                    <span className="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="text-[10px] font-bold text-emerald-700 bg-white px-2 py-0.5 rounded-full border border-emerald-200">
                       Preserved Course Duration
                     </span>
                   </div>
@@ -1692,7 +1761,7 @@ export default function AdminLmsManagementPage() {
                       required
                       value={studentForm.totalCourseFee !== undefined ? studentForm.totalCourseFee : 24000}
                       onChange={(e) => setStudentForm({ ...studentForm, totalCourseFee: Math.max(0, Number(e.target.value)) })}
-                      className="w-full text-xs font-bold font-mono text-slate-900 bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-400"
+                      className="w-full text-xs font-bold font-mono text-slate-900 bg-blue-50 border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-400"
                     />
                   </div>
 
@@ -1705,13 +1774,13 @@ export default function AdminLmsManagementPage() {
                       required
                       value={studentForm.monthlyFee !== undefined ? studentForm.monthlyFee : 2000}
                       onChange={(e) => setStudentForm({ ...studentForm, monthlyFee: Math.max(1, Number(e.target.value)) })}
-                      className="w-full text-xs font-bold font-mono text-purple-700 bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-400"
+                      className="w-full text-xs font-bold font-mono text-blue-800 bg-blue-50 border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-400"
                     />
                   </div>
                 </div>
 
                 {/* Mandatory Down Payment Collected */}
-                <div className="pt-2 border-t border-purple-100/80 space-y-2">
+                <div className="pt-2 border-t border-blue-200/80 space-y-2">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <div className="space-y-1">
                       <label className="text-xs font-black text-slate-900 flex items-center justify-between">
@@ -1728,7 +1797,7 @@ export default function AdminLmsManagementPage() {
                           required
                           value={studentForm.downPayment !== undefined ? studentForm.downPayment : 0}
                           onChange={(e) => setStudentForm({ ...studentForm, downPayment: Math.max(0, Number(e.target.value)) })}
-                          className="w-full text-xs font-black text-emerald-700 bg-emerald-50/50 border border-emerald-300 rounded-xl pl-6 pr-3 py-2 font-mono focus:ring-2 focus:ring-emerald-500"
+                          className="w-full text-xs font-black text-emerald-700 bg-white border border-emerald-300 rounded-xl pl-6 pr-3 py-2 font-mono focus:ring-2 focus:ring-emerald-500"
                           placeholder="0"
                         />
                       </div>
@@ -1784,7 +1853,7 @@ export default function AdminLmsManagementPage() {
                     const numInst = remaining > 0 ? Math.ceil(remaining / (monthly > 0 ? monthly : 2000)) : 0;
 
                     return (
-                      <div className="mt-2 p-2.5 bg-purple-50/90 rounded-xl border border-purple-200 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                      <div className="mt-2 p-2.5 bg-white rounded-xl border border-blue-200 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                         <div>
                           <span className="text-slate-500 text-[11px] block">Remaining Principal:</span>
                           <span className="font-mono font-black text-purple-900 text-sm">
@@ -1795,9 +1864,7 @@ export default function AdminLmsManagementPage() {
                           </span>
                         </div>
                         <div className="text-right">
-                          <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono ${
-                            downPayment > 0 ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'
-                          }`}>
+                          <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold font-mono ${ downPayment > 0 ? 'bg-white text-emerald-800 border border-emerald-300' : 'bg-white text-amber-800 border border-amber-300' }`}>
                             {downPayment > 0 ? `₹${downPayment.toLocaleString()} Down Payment Verified` : '₹0 Collected — Full Principal Pending'}
                           </span>
                         </div>
@@ -1806,11 +1873,12 @@ export default function AdminLmsManagementPage() {
                   })()}
                 </div>
               </div>
+              )}
 
               <button
                 type="submit"
                 disabled={submittingStudent}
-                className="w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer"
+                className="bg-white w-full py-3 text-blue-700 text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer border border-blue-600"
               >
                 <Plus className="w-4 h-4" />
                 <span>
@@ -1825,33 +1893,33 @@ export default function AdminLmsManagementPage() {
           {/* Enrolled Students Directory (7 Cols) */}
           <div 
             style={leftBoxHeight ? { height: `${leftBoxHeight}px`, maxHeight: `${leftBoxHeight}px` } : {}}
-            className="lg:col-span-7 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-5 flex flex-col h-full min-h-0 overflow-hidden"
+            className="lg:col-span-7 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-5 flex flex-col h-full min-h-0 overflow-hidden"
           >
-            <div className="flex items-center justify-between border-b border-purple-100 pb-3 shrink-0">
+            <div className="flex items-center justify-between border-b border-blue-200 pb-3 shrink-0">
               <div>
                 <h2 className="text-base font-black text-slate-900">
                   Enrolled Students Ledger
                 </h2>
                 <p className="text-[11px] text-slate-500">
-                  Click on any student's <strong className="text-purple-600 font-bold">Attendance % badge</strong> to view their detailed class history log.
+                  Click on any student's <strong className="text-blue-800 font-bold">Attendance % badge</strong> to view their detailed class history log.
                 </p>
               </div>
-              <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded-full border border-purple-200 shrink-0">
+              <span className="text-xs font-bold text-blue-800 bg-white px-2.5 py-0.5 rounded-full border border-blue-200 shrink-0">
                 {students.length} Total Enrolled
               </span>
             </div>
 
             <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto overscroll-contain mt-2 rounded-xl">
               <table className="w-full text-left text-xs border-collapse">
-                <thead className="sticky top-0 z-10 bg-purple-50/95 backdrop-blur-xs text-slate-700 font-bold border-b border-purple-200 shadow-2xs">
+                <thead className="sticky top-0 z-10 bg-white backdrop-blur-xs text-slate-700 font-bold border-b border-blue-200 shadow-2xs">
                   <tr>
-                    <th className="py-2.5 px-3 bg-purple-50/95">Student Info</th>
-                    <th className="py-2.5 px-3 bg-purple-50/95">Mode</th>
-                    <th className="py-2.5 px-3 bg-purple-50/95">Course / Tutor</th>
-                    <th className="py-2.5 px-3 bg-purple-50/95">Monthly Fee</th>
-                    <th className="py-2.5 px-3 bg-purple-50/95">Attendance %</th>
-                    <th className="py-2.5 px-3 bg-purple-50/95">XP</th>
-                    <th className="py-2.5 px-3 text-right bg-purple-50/95">Actions</th>
+                    <th className="py-2.5 px-3 bg-white">Student Info</th>
+                    <th className="py-2.5 px-3 bg-white">Mode</th>
+                    <th className="py-2.5 px-3 bg-white">Course / Tutor</th>
+                    <th className="py-2.5 px-3 bg-white">Monthly Fee</th>
+                    <th className="py-2.5 px-3 bg-white">Attendance %</th>
+                    <th className="py-2.5 px-3 bg-white">XP</th>
+                    <th className="py-2.5 px-3 text-right bg-white">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-purple-50">
@@ -1860,25 +1928,21 @@ export default function AdminLmsManagementPage() {
                     const attRate = st.attendancePercentage ?? 100;
 
                     return (
-                      <tr key={st._id} className="hover:bg-purple-50/30 transition">
+                      <tr key={st._id} className="hover:bg-white transition">
                         <td className="py-2.5 px-3">
                           <div className="flex items-center space-x-1.5">
-                            <span className="font-mono font-bold text-purple-700 text-xs bg-purple-50 px-1.5 py-0.5 rounded border border-purple-100">
+                            <span className="font-mono font-bold text-blue-800 text-xs bg-white px-1.5 py-0.5 rounded border border-blue-200">
                               {st.studentId || u.studentId || '—'}
                             </span>
                             <span className="font-bold text-slate-900">{u.name}</span>
                           </div>
                           <div className="text-[11px] text-slate-500 mt-0.5">
-                            <span className="font-mono text-purple-700/80">@{u.username || 'username'}</span> • {u.email}
+                            <span className="font-mono text-blue-800/80">@{u.username || 'username'}</span> • {u.email}
                           </div>
                         </td>
 
                         <td className="py-2.5 px-3">
-                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
-                            st.learningMode === 'OFFLINE'
-                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                              : 'bg-purple-50 text-purple-700 border border-purple-200'
-                          }`}>
+                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${ st.learningMode === 'OFFLINE' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-blue-800 border border-blue-200' }`}>
                             {st.learningMode || 'ONLINE'}
                           </span>
                         </td>
@@ -1896,11 +1960,7 @@ export default function AdminLmsManagementPage() {
                           <span className="font-mono font-black text-slate-900 block text-xs">
                             ₹{(st.monthlyFee || 2000).toLocaleString('en-IN')}/mo
                           </span>
-                          <span className={`inline-block px-2 py-0.5 mt-0.5 rounded-full text-[10px] font-bold border ${
-                            st.feePaymentStatus === 'Paid'
-                              ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
-                              : 'bg-amber-50 text-amber-700 border-amber-200'
-                          }`}>
+                          <span className={`inline-block px-2 py-0.5 mt-0.5 rounded-full text-[10px] font-bold border ${ st.feePaymentStatus === 'Paid' ? 'bg-white text-emerald-700 border-emerald-200' : 'bg-white text-amber-700 border-amber-200' }`}>
                             {st.feePaymentStatus || 'Pending'}
                           </span>
                         </td>
@@ -1908,13 +1968,7 @@ export default function AdminLmsManagementPage() {
                         <td className="py-2.5 px-3">
                           <button
                             onClick={() => setModalStudent(st)}
-                            className={`px-2.5 py-1 text-xs font-bold rounded-lg transition flex items-center space-x-1 border shadow-xs hover:scale-105 ${
-                              attRate >= 85
-                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-100'
-                                : attRate >= 70
-                                ? 'bg-amber-50 text-amber-700 border-amber-200 hover:bg-amber-100'
-                                : 'bg-red-50 text-red-700 border-red-200 hover:bg-red-100'
-                            }`}
+                            className={`px-2.5 py-1 text-xs font-bold rounded-lg transition flex items-center space-x-1 border shadow-xs hover:scale-105 ${ attRate >= 85 ? 'bg-white text-emerald-700 border-emerald-200 hover:bg-white' : attRate >= 70 ? 'bg-white text-amber-700 border-amber-200 hover:bg-white' : 'bg-white text-red-700 border-red-200 hover:bg-white' }`}
                             title="Click to view detailed attendance history modal"
                           >
                             <Eye className="w-3 h-3" />
@@ -1940,7 +1994,7 @@ export default function AdminLmsManagementPage() {
                                 });
                                 setRecordFeeModalOpen(true);
                               }}
-                              className="px-2 py-1 text-[11px] font-bold text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90 rounded-lg shadow-2xs transition flex items-center space-x-1 cursor-pointer"
+                              className="bg-white px-2 py-1 text-[11px] font-bold text-blue-700 hover:opacity-90 rounded-lg shadow-2xs transition flex items-center space-x-1 cursor-pointer border border-blue-600"
                               title="Collect & Record Student Fee"
                             >
                               <CreditCard className="w-3 h-3" />
@@ -1951,21 +2005,21 @@ export default function AdminLmsManagementPage() {
                                 setSelectedStudentForFeeHistory(u._id || st.studentId || u.studentId);
                                 setHistoryFeeModalOpen(true);
                               }}
-                              className="p-1 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition cursor-pointer"
+                              className="p-1 text-slate-400 hover:text-blue-800 hover:bg-white rounded-lg transition cursor-pointer"
                               title="View Complete Fee History"
                             >
                               <Eye className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => openEditStudentModal(st)}
-                              className="p-1 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+                              className="p-1 text-slate-400 hover:text-blue-800 hover:bg-white rounded-lg transition"
                               title="Edit Student Details"
                             >
                               <Pencil className="w-3.5 h-3.5" />
                             </button>
                             <button
                               onClick={() => setDeleteTargetStudent(st)}
-                              className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                              className="p-1 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg transition"
                               title="Delete Student Account"
                             >
                               <Trash2 className="w-3.5 h-3.5" />
@@ -1997,9 +2051,9 @@ export default function AdminLmsManagementPage() {
       {activeTab === 'batches' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Create Batch & Merge Students Form (5 Cols) */}
-          <div className="lg:col-span-5 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="border-b border-purple-100 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+          <div className="lg:col-span-5 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="border-b border-blue-200 pb-3">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">
                 Batch Management Studio
               </span>
               <h2 className="text-base font-black text-slate-900">
@@ -2139,7 +2193,7 @@ export default function AdminLmsManagementPage() {
                   <label className="text-xs font-bold text-slate-800">
                     Select Students to Merge into Batch
                   </label>
-                  <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                  <span className="text-[10px] font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                     Selected: {batchForm.studentIds.length} Students
                   </span>
                 </div>
@@ -2152,7 +2206,7 @@ export default function AdminLmsManagementPage() {
                   className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 />
 
-                <div className="max-h-40 overflow-y-auto border border-slate-200 rounded-xl p-2 bg-slate-50 space-y-1">
+                <div className="max-h-40 overflow-y-auto border border-blue-200 rounded-xl p-2 bg-white space-y-1">
                   {students.filter(st => {
                     const u = st.userId || {};
                     const q = batchStudentSearch.toLowerCase();
@@ -2161,7 +2215,7 @@ export default function AdminLmsManagementPage() {
                     const uId = st.userId?._id || st._id;
                     const isChecked = batchForm.studentIds.includes(uId);
                     return (
-                      <label key={st._id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-100/70 transition cursor-pointer">
+                      <label key={st._id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-blue-200 hover:bg-white transition cursor-pointer">
                         <div className="flex items-center space-x-2">
                           <input
                             type="checkbox"
@@ -2174,11 +2228,11 @@ export default function AdminLmsManagementPage() {
                                   : [...prev.studentIds, uId]
                               }));
                             }}
-                            className="rounded text-purple-600 focus:ring-purple-500 h-3.5 w-3.5"
+                            className="rounded text-blue-800 focus:ring-purple-500 h-3.5 w-3.5"
                           />
                           <div>
                             <span className="font-bold text-slate-900 block leading-tight">{st.userId?.name}</span>
-                            <span className="text-[10px] font-mono text-purple-600">{st.studentId || st.userId?.studentId}</span>
+                            <span className="text-[10px] font-mono text-blue-800">{st.studentId || st.userId?.studentId}</span>
                           </div>
                         </div>
                         <span className="text-[10px] text-slate-500 font-mono">{st.userId?.email}</span>
@@ -2191,7 +2245,7 @@ export default function AdminLmsManagementPage() {
               <button
                 type="submit"
                 disabled={submittingBatch}
-                className="w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer"
+                className="bg-white w-full py-3 text-blue-700 text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer border border-blue-600"
               >
                 <Plus className="w-4 h-4" />
                 <span>{submittingBatch ? 'Creating Batch...' : 'CREATE BATCH & MERGE STUDENTS'}</span>
@@ -2200,18 +2254,18 @@ export default function AdminLmsManagementPage() {
           </div>
 
           {/* Batches Ledger (7 Cols) */}
-          <div className="lg:col-span-7 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-purple-100 pb-3">
+          <div className="lg:col-span-7 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-blue-200 pb-3">
               <h2 className="text-base font-black text-slate-900">
                 Active Student Batches
               </h2>
-              <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+              <span className="text-xs font-bold text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                 {batches.length} Total Batches
               </span>
             </div>
 
             {batches.length === 0 ? (
-              <div className="text-center py-12 border-2 border-dashed border-purple-200/80 rounded-2xl bg-purple-50/20">
+              <div className="text-center py-12 border-2 border-dashed border-blue-200/80 rounded-2xl bg-white">
                 <GraduationCap className="w-10 h-10 text-purple-300 mx-auto mb-2" />
                 <p className="text-sm font-bold text-slate-600">No course batches available. Create a batch to get started.</p>
                 <p className="text-xs text-slate-400 mt-1">Use the form on the left to merge students into a new institute course batch.</p>
@@ -2219,27 +2273,23 @@ export default function AdminLmsManagementPage() {
             ) : (
               <div className="space-y-4 overflow-y-auto max-h-[600px] pr-1">
                 {batches.map((b) => (
-                  <div key={b._id} className="p-4 bg-white border border-purple-100 hover:border-purple-300 rounded-2xl space-y-3 shadow-xs hover:shadow-md transition">
+                  <div key={b._id} className="p-4 bg-white border border-slate-200 hover:border-slate-200 rounded-2xl space-y-3 shadow-xs hover:shadow-md transition">
                     <div className="flex items-center justify-between">
                       <div>
                         <div className="flex items-center space-x-2">
                           <span className="text-sm font-black text-slate-900">{b.name}</span>
-                          <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded border border-purple-200">{b.code}</span>
+                          <span className="text-xs font-mono font-bold text-blue-800 bg-white px-2 py-0.5 rounded border border-blue-200">{b.code}</span>
                         </div>
                         <p className="text-xs text-slate-500 mt-0.5">{b.courseId?.title || 'General Course'} • Tutor: {b.trainerId?.name || 'Unassigned'}</p>
                       </div>
                       <div className="flex items-center space-x-1.5">
-                        <span className={`px-2.5 py-1 text-[10px] font-black rounded-full uppercase ${
-                          b.mode === 'OFFLINE'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : 'bg-purple-50 text-purple-700 border border-purple-200'
-                        }`}>
+                        <span className={`px-2.5 py-1 text-[10px] font-black rounded-full uppercase ${ b.mode === 'OFFLINE' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-blue-800 border border-blue-200' }`}>
                           {b.mode || 'ONLINE'}
                         </span>
                         <button
                           type="button"
                           onClick={() => openEditBatchModal(b)}
-                          className="p-1.5 text-slate-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-blue-800 hover:bg-white rounded-lg transition"
                           title="Edit Batch Details"
                         >
                           <Pencil className="w-4 h-4" />
@@ -2247,7 +2297,7 @@ export default function AdminLmsManagementPage() {
                         <button
                           type="button"
                           onClick={() => setDeleteTargetBatch(b)}
-                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg transition"
                           title="Delete Batch"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -2255,10 +2305,10 @@ export default function AdminLmsManagementPage() {
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-600 font-medium bg-white p-2.5 rounded-xl border border-slate-200">
+                    <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-600 font-medium bg-blue-50 p-2.5 rounded-xl border border-blue-200">
                       <span>Date Range: <strong>{b.startDate ? new Date(b.startDate).toLocaleDateString() : 'N/A'} → {b.endDate ? new Date(b.endDate).toLocaleDateString() : 'Ongoing'}</strong></span>
                       <span>Class Time: <strong>{b.startTime} – {b.endTime}</strong></span>
-                      <span>Students: <strong className="text-purple-600">{b.totalStudents || b.studentIds?.length || 0} Enrolled</strong></span>
+                      <span>Students: <strong className="text-blue-800">{b.totalStudents || b.studentIds?.length || 0} Enrolled</strong></span>
                     </div>
 
                     {/* Batch Roster Preview */}
@@ -2290,20 +2340,20 @@ export default function AdminLmsManagementPage() {
                       </div>
                     )}
 
-                    <div className="pt-2 border-t border-slate-200 flex flex-wrap items-center justify-between gap-2">
+                    <div className="pt-2 border-t border-blue-200 flex flex-wrap items-center justify-between gap-2">
                       <div className="flex items-center space-x-2">
                         <button
                           type="button"
                           onClick={() => openEditBatchModal(b)}
-                          className="px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-slate-100 border border-slate-300 rounded-xl transition flex items-center space-x-1.5 shadow-xs"
+                          className="px-2.5 py-1.5 text-xs font-bold text-slate-700 bg-white hover:bg-blue-50 border border-slate-300 rounded-xl transition flex items-center space-x-1.5 shadow-xs"
                         >
-                          <Pencil className="w-3.5 h-3.5 text-purple-600" />
+                          <Pencil className="w-3.5 h-3.5 text-blue-800" />
                           <span>Edit Batch</span>
                         </button>
                         <button
                           type="button"
                           onClick={() => setDeleteTargetBatch(b)}
-                          className="px-2.5 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl transition flex items-center space-x-1.5"
+                          className="px-2.5 py-1.5 text-xs font-bold text-red-600 bg-white hover:bg-blue-50 border border-red-200 rounded-xl transition flex items-center space-x-1.5"
                         >
                           <Trash2 className="w-3.5 h-3.5 text-red-600" />
                           <span>Delete Batch</span>
@@ -2328,7 +2378,7 @@ export default function AdminLmsManagementPage() {
                           setSelectedStudentUserIds(bStudentUserIds);
                           setActiveTab('classes');
                         }}
-                        className="px-3 py-1.5 text-xs font-bold text-purple-600 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl transition flex items-center space-x-1"
+                        className="px-3 py-1.5 text-xs font-bold text-blue-800 bg-white hover:bg-white border border-blue-200 rounded-xl transition flex items-center space-x-1"
                       >
                         <Calendar className="w-3.5 h-3.5" />
                         <span>Schedule Classes for {b.name} →</span>
@@ -2346,9 +2396,9 @@ export default function AdminLmsManagementPage() {
       {activeTab === 'classes' && (
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Class Scheduling Form (5 Cols) */}
-          <div className="lg:col-span-5 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="border-b border-purple-100 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+          <div className="lg:col-span-5 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="border-b border-blue-200 pb-3">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">
                 Admin Class Scheduler
               </span>
               <h2 className="text-base font-black text-slate-900">
@@ -2361,7 +2411,7 @@ export default function AdminLmsManagementPage() {
 
             <form onSubmit={handleScheduleClass} className="space-y-3">
               {/* Target Batch Selector */}
-              <div className="space-y-1.5 bg-purple-50/70 p-3 rounded-xl border border-purple-200">
+              <div className="space-y-1.5 bg-white p-3 rounded-xl border border-blue-200">
                 <label className="text-xs font-bold text-purple-900 block">
                   Select Target Batch (Optional)
                 </label>
@@ -2415,7 +2465,7 @@ export default function AdminLmsManagementPage() {
                       setSelectedStudentUserIds(batchOnlineStudentUserIds);
                     }
                   }}
-                  className="w-full text-xs font-semibold bg-white border border-purple-300 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  className="w-full text-xs font-semibold bg-white border border-blue-200 rounded-xl px-3 py-2 text-slate-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 >
                   <option value="">-- No Batch (Custom Course & Student Selection) --</option>
                   {batches.map((b) => (
@@ -2431,7 +2481,7 @@ export default function AdminLmsManagementPage() {
                       ⚡ Course, Tutor & Batch Students auto-selected from {selectedClassBatch?.name || 'Selected Batch'}.
                     </p>
                     {selectedBatchStartStr && selectedBatchEndStr && (
-                      <div className="flex items-center space-x-2 text-[10px] font-bold text-purple-900 bg-purple-100/70 px-2.5 py-1 rounded-lg border border-purple-200">
+                      <div className="flex items-center space-x-2 text-[10px] font-bold text-purple-900 bg-white px-2.5 py-1 rounded-lg border border-blue-200">
                         <span>📅 Batch Duration:</span>
                         <span className="font-mono">{selectedBatchStartStr} → {selectedBatchEndStr}</span>
                       </div>
@@ -2505,9 +2555,7 @@ export default function AdminLmsManagementPage() {
                     min={todayDateStr}
                     value={classForm.startDate}
                     onChange={(e) => handleStartDateChange(e.target.value)}
-                    className={`w-full text-xs bg-white border rounded-xl px-2 py-2 font-semibold text-slate-800 focus:ring-2 focus:outline-none ${
-                      isStartDateInPast || isDateOutOfBatchRange ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-purple-500'
-                    }`}
+                    className={`w-full text-xs bg-white border rounded-xl px-2 py-2 font-semibold text-slate-800 focus:ring-2 focus:outline-none ${ isStartDateInPast || isDateOutOfBatchRange ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-purple-500' }`}
                   />
                 </div>
 
@@ -2521,9 +2569,7 @@ export default function AdminLmsManagementPage() {
                     min={classForm.startDate || todayDateStr}
                     value={classForm.endDate}
                     onChange={(e) => setClassForm({ ...classForm, endDate: e.target.value })}
-                    className={`w-full text-xs bg-white border rounded-xl px-2 py-2 font-semibold text-slate-800 focus:ring-2 focus:outline-none ${
-                      isDateRangeInvalid || isDateOutOfBatchRange ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-purple-500'
-                    }`}
+                    className={`w-full text-xs bg-white border rounded-xl px-2 py-2 font-semibold text-slate-800 focus:ring-2 focus:outline-none ${ isDateRangeInvalid || isDateOutOfBatchRange ? 'border-red-500 focus:ring-red-500' : 'border-slate-300 focus:ring-purple-500' }`}
                   />
                 </div>
 
@@ -2558,7 +2604,7 @@ export default function AdminLmsManagementPage() {
 
               {/* Multi-Day Schedule Days Selector */}
               {classForm.startDate && classForm.endDate && classForm.startDate !== classForm.endDate && (
-                <div className="p-2.5 bg-purple-50/60 border border-purple-200/80 rounded-2xl space-y-2">
+                <div className="p-2.5 bg-white border border-slate-200/80 rounded-2xl space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-[11px] font-bold text-purple-900">
                       🗓️ Days to Schedule in Range:
@@ -2567,14 +2613,14 @@ export default function AdminLmsManagementPage() {
                       <button
                         type="button"
                         onClick={() => setClassForm(prev => ({ ...prev, selectedDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'] }))}
-                        className="px-2 py-0.5 bg-purple-50 text-purple-700 font-bold border border-purple-200 rounded hover:bg-purple-100 transition"
+                        className="px-2 py-0.5 bg-white text-blue-800 font-bold border border-blue-200 rounded hover:bg-white transition"
                       >
                         Mon–Fri
                       </button>
                       <button
                         type="button"
                         onClick={() => setClassForm(prev => ({ ...prev, selectedDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'] }))}
-                        className="px-2 py-0.5 bg-purple-50 text-purple-700 font-bold border border-purple-200 rounded hover:bg-purple-100 transition"
+                        className="px-2 py-0.5 bg-white text-blue-800 font-bold border border-blue-200 rounded hover:bg-white transition"
                       >
                         All Days
                       </button>
@@ -2596,11 +2642,7 @@ export default function AdminLmsManagementPage() {
                               return { ...prev, selectedDays: updated };
                             });
                           }}
-                          className={`px-2 py-0.5 text-[10px] font-bold rounded-lg border transition ${
-                            isDaySelected
-                              ? 'bg-purple-600 text-white border-purple-600 shadow-xs'
-                              : 'bg-white text-slate-600 border-slate-300 hover:bg-purple-50'
-                          }`}
+                          className={`px-2 py-0.5 text-[10px] font-bold rounded-lg border transition ${ isDaySelected ? 'bg-white text-blue-700 border-purple-600 shadow-xs border' : 'bg-white text-slate-600 border-slate-300 hover:bg-white' }`}
                         >
                           {day.slice(0, 3)}
                         </button>
@@ -2611,19 +2653,19 @@ export default function AdminLmsManagementPage() {
               )}
 
               {isDateRangeInvalid && (
-                <p className="text-[11px] font-bold text-red-600 bg-red-50 p-2 rounded-xl border border-red-200">
+                <p className="text-[11px] font-bold text-red-600 bg-blue-50 p-2 rounded-xl border border-red-200">
                   ⚠️ Ending Date cannot be earlier than Starting Date.
                 </p>
               )}
 
               {isStartDateInPast && (
-                <p className="text-[11px] font-bold text-red-600 bg-red-50 p-2 rounded-xl border border-red-200">
+                <p className="text-[11px] font-bold text-red-600 bg-blue-50 p-2 rounded-xl border border-red-200">
                   ⚠️ Starting Date cannot be in the past.
                 </p>
               )}
 
               {isDateOutOfBatchRange && (
-                <p className="text-[11px] font-bold text-red-600 bg-red-50 p-2 rounded-xl border border-red-200">
+                <p className="text-[11px] font-bold text-red-600 bg-blue-50 p-2 rounded-xl border border-red-200">
                   ⚠️ Class Date Range ({classForm.startDate} to {classForm.endDate}) must be within batch duration ({selectedBatchStartStr} to {selectedBatchEndStr}).
                 </p>
               )}
@@ -2637,7 +2679,7 @@ export default function AdminLmsManagementPage() {
                   <button
                     type="button"
                     onClick={() => setClassForm(prev => ({ ...prev, meetingLink: `https://meet.google.com/${Math.random().toString(36).substring(2,5)}-${Math.random().toString(36).substring(2,6)}-${Math.random().toString(36).substring(2,5)}` }))}
-                    className="text-[10px] text-purple-600 font-bold hover:underline"
+                    className="text-[10px] text-blue-800 font-bold hover:underline"
                   >
                     Generate Link
                   </button>
@@ -2648,7 +2690,7 @@ export default function AdminLmsManagementPage() {
                   placeholder="https://meet.google.com/xyz-abc-123"
                   value={classForm.meetingLink}
                   onChange={(e) => setClassForm({ ...classForm, meetingLink: e.target.value })}
-                  className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 font-mono text-purple-700 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                  className="w-full text-xs bg-white border border-slate-300 rounded-xl px-3 py-2 font-mono text-blue-800 focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 />
               </div>
 
@@ -2659,10 +2701,10 @@ export default function AdminLmsManagementPage() {
                     Assign Specific Students
                   </label>
                   <div className="flex items-center space-x-1.5 text-[10px]">
-                    <span className="bg-purple-50 text-purple-700 font-bold px-2 py-0.5 rounded-full border border-purple-200">
+                    <span className="bg-white text-blue-800 font-bold px-2 py-0.5 rounded-full border border-blue-200">
                       Eligible Online Students: {eligibleOnlineStudents.length}
                     </span>
-                    <span className="bg-emerald-50 text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
+                    <span className="bg-white text-emerald-700 font-bold px-2 py-0.5 rounded-full border border-emerald-200">
                       Selected: {selectedStudentUserIds.length}
                     </span>
                   </div>
@@ -2676,13 +2718,13 @@ export default function AdminLmsManagementPage() {
                     value={studentSearchQuery}
                     onChange={(e) => setStudentSearchQuery(e.target.value)}
                     disabled={(!classForm.batchId && !classForm.courseId) || eligibleOnlineStudents.length === 0}
-                    className="flex-1 text-xs bg-white border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:bg-slate-100 disabled:opacity-60"
+                    className="flex-1 text-xs bg-blue-50 border border-slate-300 rounded-xl px-2.5 py-1.5 focus:ring-2 focus:ring-purple-500 focus:outline-none disabled:bg-blue-100/70 disabled:opacity-60"
                   />
                   <button
                     type="button"
                     onClick={handleSelectAllEligible}
                     disabled={(!classForm.batchId && !classForm.courseId) || filteredStudentsToDisplay.length === 0}
-                    className="px-2.5 py-1.5 text-[11px] font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 rounded-xl transition disabled:opacity-50"
+                    className="px-2.5 py-1.5 text-[11px] font-bold text-blue-800 bg-white hover:bg-blue-50 border border-blue-200 rounded-xl transition disabled:opacity-50"
                   >
                     Select All
                   </button>
@@ -2690,14 +2732,14 @@ export default function AdminLmsManagementPage() {
                     type="button"
                     onClick={handleClearSelection}
                     disabled={selectedStudentUserIds.length === 0}
-                    className="px-2.5 py-1.5 text-[11px] font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-xl transition disabled:opacity-50"
+                    className="px-2.5 py-1.5 text-[11px] font-bold text-slate-600 bg-white hover:bg-blue-50 border border-slate-300 rounded-xl transition disabled:opacity-50"
                   >
                     Clear Selection
                   </button>
                 </div>
 
                 {/* Filtered Eligible Students List */}
-                <div className="max-h-40 overflow-y-auto border border-slate-200 rounded-xl p-2 bg-slate-50 space-y-1 text-xs">
+                <div className="max-h-40 overflow-y-auto border border-blue-200 rounded-xl p-2 bg-white space-y-1 text-xs">
                   {(!classForm.batchId && !classForm.courseId) ? (
                     <p className="text-xs text-slate-400 italic py-4 text-center">
                       Please select a batch or course to view eligible online students.
@@ -2718,27 +2760,23 @@ export default function AdminLmsManagementPage() {
                       return (
                         <label
                           key={st._id}
-                          className={`flex items-center justify-between p-2 rounded-lg border transition cursor-pointer ${
-                            isSelected
-                              ? 'bg-purple-50 border-purple-300 shadow-xs'
-                              : 'bg-white border-slate-200 hover:bg-slate-100/70'
-                          }`}
+                          className={`flex items-center justify-between p-2 rounded-lg border transition cursor-pointer ${ isSelected ? 'bg-white border-blue-200 shadow-xs' : 'bg-white border-blue-200 hover:bg-white' }`}
                         >
                           <div className="flex items-center space-x-2">
                             <input
                               type="checkbox"
                               checked={isSelected}
                               onChange={() => toggleStudentSelection(uId)}
-                              className="rounded text-purple-600 focus:ring-purple-500 h-3.5 w-3.5"
+                              className="rounded text-blue-800 focus:ring-purple-500 h-3.5 w-3.5"
                             />
                             <div>
                               <span className="font-bold text-slate-900 block leading-tight">{st.userId?.name}</span>
-                              <span className="text-[10px] font-mono text-purple-600">@{st.userId?.username || 'user'}</span>
+                              <span className="text-[10px] font-mono text-blue-800">@{st.userId?.username || 'user'}</span>
                             </div>
                           </div>
                           <div className="text-right">
                             <span className="text-[10px] text-slate-500 font-mono block">{st.studentId}</span>
-                            <span className="text-[9px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.2 rounded border border-purple-200">ONLINE</span>
+                            <span className="text-[9px] font-bold text-blue-800 bg-white px-1.5 py-0.2 rounded border border-blue-200">ONLINE</span>
                           </div>
                         </label>
                       );
@@ -2750,7 +2788,7 @@ export default function AdminLmsManagementPage() {
               <button
                 type="submit"
                 disabled={submittingClass}
-                className="w-full py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer"
+                className="bg-white w-full py-3 text-blue-700 text-xs font-bold rounded-xl shadow-lg shadow-purple-500/25 transition flex items-center justify-center space-x-1.5 disabled:opacity-50 mt-2 cursor-pointer border border-blue-600"
               >
                 <Calendar className="w-4 h-4" />
                 <span>{submittingClass ? 'Scheduling Class...' : 'SCHEDULE CLASS & NOTIFY'}</span>
@@ -2759,19 +2797,19 @@ export default function AdminLmsManagementPage() {
           </div>
 
           {/* Scheduled Classes Ledger (7 Cols) */}
-          <div className="lg:col-span-7 bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-purple-100 pb-3">
+          <div className="lg:col-span-7 bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-blue-200 pb-3">
               <h2 className="text-base font-black text-slate-900">
                 Scheduled Classes Ledger
               </h2>
-              <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+              <span className="text-xs font-bold text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                 {attendanceData.sessions?.length || 0} Total Sessions
               </span>
             </div>
 
             <div className="space-y-3 overflow-y-auto max-h-[600px] pr-1">
               {(!attendanceData.sessions || attendanceData.sessions.length === 0) ? (
-                <div className="text-center py-12 border-2 border-dashed border-purple-200/80 rounded-2xl bg-purple-50/20">
+                <div className="text-center py-12 border-2 border-dashed border-blue-200/80 rounded-2xl bg-white">
                   <Calendar className="w-10 h-10 text-purple-300 mx-auto mb-2" />
                   <p className="text-sm font-bold text-slate-600">No scheduled classes yet</p>
                   <p className="text-xs text-slate-400 mt-1">Use the form on the left to schedule new online classes.</p>
@@ -2783,25 +2821,21 @@ export default function AdminLmsManagementPage() {
                   const tutorName = sess.tutorId?.name || 'Unassigned';
 
                   return (
-                    <div key={sess._id} className="p-3.5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+                    <div key={sess._id} className="p-3.5 bg-white border border-blue-200 rounded-xl space-y-2">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <span className="text-xs font-black text-slate-900">{sess.title}</span>
-                          <span className="text-[10px] font-extrabold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                          <span className="text-[10px] font-extrabold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                             {sess.batchId?.name ? `🎓 Batch: ${sess.batchId.name}` : (assignedCount === 1 ? '👤 Single Student' : `👥 Class (${assignedCount})`)}
                           </span>
                         </div>
                         <div className="flex items-center space-x-2">
-                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
-                            isOnline
-                              ? 'bg-purple-50 text-purple-700 border border-purple-200'
-                              : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                          }`}>
+                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${ isOnline ? 'bg-white text-blue-800 border border-blue-200' : 'bg-white text-emerald-700 border border-emerald-200' }`}>
                             {sess.sessionType}
                           </span>
                           <button
                             onClick={() => handleDeleteSession(sess._id)}
-                            className="p-1 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                            className="p-1 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg transition"
                             title="Delete Scheduled Class"
                           >
                             <Trash2 className="w-3.5 h-3.5" />
@@ -2812,23 +2846,23 @@ export default function AdminLmsManagementPage() {
                       <div className="flex flex-wrap items-center gap-3 text-[11px] text-slate-500 font-medium">
                         <span>Date: <strong className="text-slate-700">{sess.scheduledDate}</strong></span>
                         {sess.startDate && sess.endDate && sess.startDate !== sess.endDate && (
-                          <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                          <span className="text-[10px] font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                             Range: {sess.startDate} → {sess.endDate}
                           </span>
                         )}
                         <span>Time: <strong className="text-slate-700">{sess.startTime} – {sess.endTime}</strong></span>
                         <span>Tutor: <strong className="text-slate-700">{tutorName}</strong></span>
-                        <span>Assigned: <strong className="text-purple-600">{assignedCount} {assignedCount === 1 ? 'Student' : 'Students'}</strong></span>
+                        <span>Assigned: <strong className="text-blue-800">{assignedCount} {assignedCount === 1 ? 'Student' : 'Students'}</strong></span>
                       </div>
 
                       {isOnline ? (
-                        <div className="text-[11px] font-mono text-purple-600 truncate bg-white px-2 py-1 rounded border border-slate-200">
+                        <div className="text-[11px] font-mono text-blue-800 truncate bg-white px-2 py-1 rounded border border-blue-200">
                           🔗 {sess.meetingLink ? (
                             <a href={sess.meetingLink} target="_blank" rel="noreferrer" className="hover:underline">{sess.meetingLink}</a>
                           ) : 'No link configured'}
                         </div>
                       ) : (
-                        <div className="text-[11px] font-semibold text-emerald-700 bg-white px-2 py-1 rounded border border-slate-200">
+                        <div className="text-[11px] font-semibold text-emerald-700 bg-white px-2 py-1 rounded border border-blue-200">
                           📍 {sess.classroom || 'Institute Classroom'}
                         </div>
                       )}
@@ -2845,17 +2879,17 @@ export default function AdminLmsManagementPage() {
       {activeTab === 'attendance' && (
         <div className="space-y-6">
           {/* Pre-Class Leave Requests System Card */}
-          <div className="bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-purple-100 pb-3">
+          <div className="bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-blue-200 pb-3">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">
                   Student Approvals
                 </span>
                 <h2 className="text-base font-black text-slate-900">
                   Student Leave &amp; Pre-Class Absence Requests
                 </h2>
               </div>
-              <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+              <span className="text-xs font-bold text-blue-800 bg-white px-2.5 py-1 rounded-full border border-blue-200">
                 {attendanceData.leaveRequests?.length || 0} Total Requests
               </span>
             </div>
@@ -2866,7 +2900,7 @@ export default function AdminLmsManagementPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
                   <thead>
-                    <tr className="bg-purple-50/50 text-slate-700 font-bold border-b border-purple-100">
+                    <tr className="bg-white text-slate-700 font-bold border-b border-blue-200">
                       <th className="py-2.5 px-3">Student</th>
                       <th className="py-2.5 px-3">Leave / Class Date</th>
                       <th className="py-2.5 px-3">Reason</th>
@@ -2877,12 +2911,12 @@ export default function AdminLmsManagementPage() {
                   </thead>
                   <tbody className="divide-y divide-purple-50">
                     {attendanceData.leaveRequests.map((lr) => (
-                      <tr key={lr._id} className="hover:bg-purple-50/30 transition">
+                      <tr key={lr._id} className="hover:bg-white transition">
                         <td className="py-2.5 px-3">
                           <span className="font-bold text-slate-900 block">{lr.studentId?.name || 'Student'}</span>
-                          <span className="text-[10px] font-mono text-purple-600">{lr.studentId?.studentId || lr.studentId?.email}</span>
+                          <span className="text-[10px] font-mono text-blue-800">{lr.studentId?.studentId || lr.studentId?.email}</span>
                           {lr.tutorName && (
-                            <span className="text-[10px] text-purple-700 font-bold block">Tutor: {lr.tutorName}</span>
+                            <span className="text-[10px] text-blue-800 font-bold block">Tutor: {lr.tutorName}</span>
                           )}
                         </td>
                         <td className="py-2.5 px-3 text-slate-700">
@@ -2892,7 +2926,7 @@ export default function AdminLmsManagementPage() {
                         <td className="py-2.5 px-3 font-semibold text-slate-800">
                           <span>{lr.reason}</span>
                           {lr.leaveType && (
-                            <span className="text-[10px] bg-purple-50 text-purple-700 border border-purple-200 px-1.5 py-0.5 rounded font-mono ml-1.5 font-bold">
+                            <span className="text-[10px] bg-white text-blue-800 border border-blue-200 px-1.5 py-0.5 rounded font-mono ml-1.5 font-bold">
                               {lr.leaveType}
                             </span>
                           )}
@@ -2901,13 +2935,7 @@ export default function AdminLmsManagementPage() {
                           {lr.description || '—'}
                         </td>
                         <td className="py-2.5 px-3">
-                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${
-                            lr.status === 'APPROVED'
-                              ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                              : lr.status === 'REJECTED'
-                              ? 'bg-red-50 text-red-700 border border-red-200'
-                              : 'bg-amber-50 text-amber-700 border border-amber-200'
-                          }`}>
+                          <span className={`px-2 py-0.5 text-[10px] font-bold rounded-full ${ lr.status === 'APPROVED' ? 'bg-white text-emerald-700 border border-emerald-200' : lr.status === 'REJECTED' ? 'bg-white text-red-700 border border-red-200' : 'bg-white text-amber-700 border border-amber-200' }`}>
                             {lr.status}
                           </span>
                         </td>
@@ -2916,13 +2944,13 @@ export default function AdminLmsManagementPage() {
                             <>
                               <button
                                 onClick={() => handleReviewLeave(lr._id, 'APPROVED')}
-                                className="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-[11px] transition shadow-sm"
+                                className="bg-white px-2.5 py-1 text-emerald-700 font-bold rounded-lg text-[11px] transition shadow-sm border border-emerald-600"
                               >
                                 Approve
                               </button>
                               <button
                                 onClick={() => handleReviewLeave(lr._id, 'REJECTED')}
-                                className="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white font-bold rounded-lg text-[11px] transition shadow-sm"
+                                className="bg-white px-2.5 py-1 text-blue-700 font-bold rounded-lg text-[11px] transition shadow-sm border border-blue-600"
                               >
                                 Reject
                               </button>
@@ -2940,9 +2968,9 @@ export default function AdminLmsManagementPage() {
           </div>
 
           {/* Absence Explanations Ledger */}
-          <div className="bg-white border border-purple-100/90 shadow-xs rounded-3xl p-6 space-y-4">
-            <div className="border-b border-purple-100 pb-3">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 font-mono">
+          <div className="bg-white border border-slate-200/90 shadow-xs rounded-3xl p-6 space-y-4">
+            <div className="border-b border-blue-200 pb-3">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-800 font-mono">
                 Attendance Log
               </span>
               <h2 className="text-base font-black text-slate-900">
@@ -2953,7 +2981,7 @@ export default function AdminLmsManagementPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs">
                 <thead>
-                  <tr className="bg-purple-50/50 text-slate-700 font-bold border-b border-purple-100">
+                  <tr className="bg-white text-slate-700 font-bold border-b border-blue-200">
                     <th className="py-2.5 px-3">Student</th>
                     <th className="py-2.5 px-3">Class Date</th>
                     <th className="py-2.5 px-3">Session Title</th>
@@ -2966,16 +2994,16 @@ export default function AdminLmsManagementPage() {
                     (s.attendance || [])
                       .filter(a => a.status === 'ABSENT' || a.status === 'LEAVE')
                       .map((att, idx) => (
-                        <tr key={`${s._id}-${idx}`} className="hover:bg-purple-50/30 transition">
+                        <tr key={`${s._id}-${idx}`} className="hover:bg-white transition">
                           <td className="py-2.5 px-3">
                             <span className="font-bold text-slate-900 block">{att.studentId?.name || 'Student'}</span>
-                            <span className="text-[10px] font-mono text-purple-600">{att.studentId?.studentId || 'STU1001'}</span>
+                            <span className="text-[10px] font-mono text-blue-800">{att.studentId?.studentId || 'STU1001'}</span>
                           </td>
                           <td className="py-2.5 px-3 text-slate-700">{s.scheduledDate}</td>
                           <td className="py-2.5 px-3 font-semibold text-slate-800">{s.title}</td>
                           <td className="py-2.5 px-3">
                             {att.absenceReason ? (
-                              <span className="font-bold text-slate-800 bg-red-50 text-red-700 px-2.5 py-0.5 rounded-full border border-red-200">
+                              <span className="font-bold text-slate-800 bg-white text-red-700 px-2.5 py-0.5 rounded-full border border-red-200">
                                 {att.absenceReason} {att.absenceDescription && `— "${att.absenceDescription}"`}
                               </span>
                             ) : (
@@ -3005,19 +3033,15 @@ export default function AdminLmsManagementPage() {
       {/* ATTENDANCE HISTORY MODAL */}
       {modalStudent && (
         <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-3xl border border-purple-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
+          <div className="bg-white rounded-3xl border border-slate-200 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden flex flex-col">
             {/* Modal Header */}
-            <div className="p-6 border-b border-purple-100 flex items-center justify-between bg-gradient-to-r from-purple-50/70 via-pink-50/50 to-white">
+            <div className="bg-white p-6 border-b border-blue-200 flex items-center justify-between">
               <div>
                 <div className="flex items-center space-x-2">
-                  <span className="font-mono font-bold text-xs text-purple-700 bg-purple-100/80 px-2 py-0.5 rounded-full border border-purple-200">
+                  <span className="font-mono font-bold text-xs text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                     {modalStudent.studentId || modalStudent.userId?.studentId}
                   </span>
-                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                    modalStudent.learningMode === 'OFFLINE'
-                      ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                      : 'bg-purple-50 text-purple-700 border border-purple-200'
-                  }`}>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ modalStudent.learningMode === 'OFFLINE' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-blue-800 border border-blue-200' }`}>
                     {modalStudent.learningMode || 'ONLINE'} Mode
                   </span>
                 </div>
@@ -3030,27 +3054,27 @@ export default function AdminLmsManagementPage() {
               </div>
               <button
                 onClick={() => setModalStudent(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-purple-100/60 transition cursor-pointer"
+                className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-white transition cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             {/* Quick Stats Grid */}
-            <div className="p-5 border-b border-purple-100 grid grid-cols-4 gap-3 bg-white">
-              <div className="bg-purple-50/50 p-3 rounded-xl border border-purple-100 text-center">
+            <div className="p-5 border-b border-blue-200 grid grid-cols-4 gap-3 bg-white">
+              <div className="bg-white p-3 rounded-xl border border-blue-200 text-center">
                 <span className="text-[10px] font-bold uppercase text-slate-400 block">Total Classes</span>
                 <span className="text-lg font-black text-slate-900">{modalStudent.attendanceStats?.totalClasses || 0}</span>
               </div>
-              <div className="bg-emerald-50 p-3 rounded-xl border border-emerald-200 text-center">
+              <div className="bg-white p-3 rounded-xl border border-emerald-200 text-center">
                 <span className="text-[10px] font-bold uppercase text-emerald-600 block">Present</span>
                 <span className="text-lg font-black text-emerald-700">{modalStudent.attendanceStats?.present || 0}</span>
               </div>
-              <div className="bg-red-50 p-3 rounded-xl border border-red-200 text-center">
+              <div className="bg-white p-3 rounded-xl border border-red-200 text-center">
                 <span className="text-[10px] font-bold uppercase text-red-600 block">Absent</span>
                 <span className="text-lg font-black text-red-700">{modalStudent.attendanceStats?.absent || 0}</span>
               </div>
-              <div className="bg-pink-50 p-3 rounded-xl border border-pink-200 text-center">
+              <div className="bg-white p-3 rounded-xl border border-pink-200 text-center">
                 <span className="text-[10px] font-bold uppercase text-pink-700 block">Attendance Rate</span>
                 <span className="text-lg font-black text-pink-700">{modalStudent.attendancePercentage}%</span>
               </div>
@@ -3066,7 +3090,7 @@ export default function AdminLmsManagementPage() {
               ) : (
                 <table className="w-full text-left text-xs">
                   <thead>
-                    <tr className="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
+                    <tr className="bg-white text-slate-600 font-bold border-b border-blue-200">
                       <th className="py-2 px-2.5">Date & Time</th>
                       <th className="py-2 px-2.5">Class Topic</th>
                       <th className="py-2 px-2.5">Mode</th>
@@ -3076,27 +3100,19 @@ export default function AdminLmsManagementPage() {
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {modalStudent.attendanceHistory.map((h, i) => (
-                      <tr key={i} className="hover:bg-slate-50">
+                      <tr key={i} className="hover:bg-white">
                         <td className="py-2 px-2.5 font-medium text-slate-700">
                           <span className="block font-bold">{h.scheduledDate}</span>
                           <span className="text-[10px] text-slate-400">{h.startTime} - {h.endTime}</span>
                         </td>
                         <td className="py-2 px-2.5 font-semibold text-slate-900">{h.title}</td>
                         <td className="py-2 px-2.5">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            h.sessionType === 'OFFLINE' ? 'bg-emerald-50 text-emerald-700' : 'bg-purple-50 text-purple-700'
-                          }`}>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ h.sessionType === 'OFFLINE' ? 'bg-white text-emerald-700' : 'bg-white text-blue-800' }`}>
                             {h.sessionType}
                           </span>
                         </td>
                         <td className="py-2 px-2.5">
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                            h.status === 'PRESENT' ? 'bg-emerald-100 text-emerald-800' :
-                            h.status === 'ABSENT' ? 'bg-red-100 text-red-800' :
-                            h.status === 'LEAVE' ? 'bg-purple-100 text-purple-800' :
-                            h.status === 'LATE' ? 'bg-amber-100 text-amber-800' :
-                            'bg-slate-100 text-slate-600'
-                          }`}>
+                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${ h.status === 'PRESENT' ? 'bg-white text-emerald-800' : h.status === 'ABSENT' ? 'bg-white text-red-800' : h.status === 'LEAVE' ? 'bg-white text-purple-800' : h.status === 'LATE' ? 'bg-white text-amber-800' : 'bg-white text-slate-600' }`}>
                             {h.status}
                           </span>
                         </td>
@@ -3110,10 +3126,10 @@ export default function AdminLmsManagementPage() {
               )}
             </div>
 
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex justify-end">
+            <div className="p-4 border-t border-slate-100 bg-white flex justify-end">
               <button
                 onClick={() => setModalStudent(null)}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition"
+                className="bg-white px-4 py-2 text-blue-700 text-xs font-bold rounded-xl transition border border-blue-600"
               >
                 Close Log
               </button>
@@ -3127,7 +3143,7 @@ export default function AdminLmsManagementPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-md w-full p-6 space-y-4 border border-slate-200 shadow-xl">
             <div className="flex items-center space-x-3 text-red-600">
-              <div className="p-2.5 bg-red-50 rounded-xl">
+              <div className="p-2.5 bg-white rounded-xl">
                 <AlertTriangle className="w-6 h-6 text-red-600" />
               </div>
               <div>
@@ -3136,7 +3152,7 @@ export default function AdminLmsManagementPage() {
               </div>
             </div>
 
-            <div className="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-1 text-xs">
+            <div className="bg-white p-3.5 rounded-xl border border-blue-200 space-y-1 text-xs">
               <div className="font-bold text-slate-900 text-sm">
                 {deleteTargetStudent.userId?.name || 'Student'} ({deleteTargetStudent.studentId || deleteTargetStudent.userId?.studentId || 'ID'})
               </div>
@@ -3157,7 +3173,7 @@ export default function AdminLmsManagementPage() {
                 type="button"
                 onClick={() => setDeleteTargetStudent(null)}
                 disabled={!!deletingStudentId}
-                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition disabled:opacity-50"
+                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition disabled:opacity-50"
               >
                 Cancel
               </button>
@@ -3165,7 +3181,7 @@ export default function AdminLmsManagementPage() {
                 type="button"
                 onClick={confirmAndDeleteStudent}
                 disabled={!!deletingStudentId}
-                className="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5"
+                className="bg-white px-4 py-2 text-xs font-bold text-blue-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5 border border-blue-600"
               >
                 {deletingStudentId ? (
                   <span>Deleting...</span>
@@ -3186,7 +3202,7 @@ export default function AdminLmsManagementPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200 shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center space-x-2 text-purple-600">
+              <div className="flex items-center space-x-2 text-blue-800">
                 <Pencil className="w-5 h-5" />
                 <h3 className="text-base font-black text-slate-900">Edit Student Details</h3>
               </div>
@@ -3300,7 +3316,7 @@ export default function AdminLmsManagementPage() {
                 </div>
               </div>
 
-              <div className="space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-200">
+              <div className="space-y-1 bg-white p-3 rounded-xl border border-blue-200">
                 <label className="font-bold text-slate-800 block">Reset Password (Optional)</label>
                 <div className="relative">
                   <input
@@ -3324,14 +3340,14 @@ export default function AdminLmsManagementPage() {
                 <button
                   type="button"
                   onClick={() => setEditTargetStudent(null)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingStudent}
-                  className="px-5 py-2 text-xs font-bold text-white bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] rounded-xl shadow-lg shadow-purple-500/25 transition disabled:opacity-50 flex items-center space-x-1.5"
+                  className="bg-white px-5 py-2 text-xs font-bold text-blue-700 rounded-xl shadow-lg shadow-purple-500/25 transition disabled:opacity-50 flex items-center space-x-1.5 border border-blue-600"
                 >
                   <Check className="w-4 h-4" />
                   <span>{updatingStudent ? 'Saving Changes...' : 'SAVE STUDENT CHANGES'}</span>
@@ -3371,7 +3387,7 @@ export default function AdminLmsManagementPage() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center space-x-3 text-red-600">
-              <div className="p-3 bg-red-50 rounded-xl border border-red-100">
+              <div className="p-3 bg-white rounded-xl border border-red-100">
                 <Trash2 className="w-6 h-6" />
               </div>
               <div>
@@ -3380,7 +3396,7 @@ export default function AdminLmsManagementPage() {
               </div>
             </div>
 
-            <div className="bg-slate-50 rounded-xl p-3 border border-slate-200 text-xs space-y-1">
+            <div className="bg-white rounded-xl p-3 border border-blue-200 text-xs space-y-1">
               <p className="font-bold text-slate-800">
                 Are you sure you want to delete batch <span className="text-red-600 font-black">"{deleteTargetBatch.name}"</span> ({deleteTargetBatch.code})?
               </p>
@@ -3394,7 +3410,7 @@ export default function AdminLmsManagementPage() {
                 type="button"
                 onClick={() => setDeleteTargetBatch(null)}
                 disabled={!!deletingBatchId}
-                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition disabled:opacity-50 cursor-pointer"
+                className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition disabled:opacity-50 cursor-pointer"
               >
                 Cancel
               </button>
@@ -3402,7 +3418,7 @@ export default function AdminLmsManagementPage() {
                 type="button"
                 onClick={confirmAndDeleteBatch}
                 disabled={!!deletingBatchId}
-                className="px-4 py-2 text-xs font-bold text-white bg-red-600 hover:bg-red-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5 cursor-pointer"
+                className="bg-white px-4 py-2 text-xs font-bold text-blue-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5 cursor-pointer border border-blue-600"
               >
                 {deletingBatchId ? (
                   <span>Deleting Batch...</span>
@@ -3424,7 +3440,7 @@ export default function AdminLmsManagementPage() {
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 space-y-4 border border-slate-200 shadow-xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div className="flex items-center space-x-2 text-purple-600">
+              <div className="flex items-center space-x-2 text-blue-800">
                 <Pencil className="w-5 h-5" />
                 <h3 className="text-base font-black text-slate-900">Edit Batch Details</h3>
               </div>
@@ -3549,7 +3565,7 @@ export default function AdminLmsManagementPage() {
                   <label className="font-bold text-slate-800">
                     Assigned Students ({editBatchForm.studentIds.length})
                   </label>
-                  <span className="text-[10px] font-bold text-purple-700 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
+                  <span className="text-[10px] font-bold text-blue-800 bg-white px-2 py-0.5 rounded-full border border-blue-200">
                     Selected: {editBatchForm.studentIds.length} Students
                   </span>
                 </div>
@@ -3562,7 +3578,7 @@ export default function AdminLmsManagementPage() {
                   className="w-full bg-white border border-slate-300 rounded-xl px-3 py-1.5 focus:ring-2 focus:ring-purple-500"
                 />
 
-                <div className="max-h-36 overflow-y-auto border border-slate-200 rounded-xl p-2 bg-slate-50 space-y-1">
+                <div className="max-h-36 overflow-y-auto border border-blue-200 rounded-xl p-2 bg-white space-y-1">
                   {students.filter(st => {
                     const u = st.userId || {};
                     const q = editBatchStudentSearch.toLowerCase();
@@ -3571,7 +3587,7 @@ export default function AdminLmsManagementPage() {
                     const uId = (st.userId?._id || st._id)?.toString();
                     const isChecked = editBatchForm.studentIds.includes(uId);
                     return (
-                      <label key={st._id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-slate-200 hover:bg-slate-100/70 transition cursor-pointer">
+                      <label key={st._id} className="flex items-center justify-between p-2 bg-white rounded-lg border border-blue-200 hover:bg-white transition cursor-pointer">
                         <div className="flex items-center space-x-2">
                           <input
                             type="checkbox"
@@ -3584,11 +3600,11 @@ export default function AdminLmsManagementPage() {
                                   : [...prev.studentIds, uId]
                               }));
                             }}
-                            className="rounded text-purple-600 focus:ring-purple-500 h-3.5 w-3.5"
+                            className="rounded text-blue-800 focus:ring-purple-500 h-3.5 w-3.5"
                           />
                           <div>
                             <span className="font-bold text-slate-900 block leading-tight">{st.userId?.name}</span>
-                            <span className="text-[10px] font-mono text-purple-600">{st.studentId || st.userId?.studentId}</span>
+                            <span className="text-[10px] font-mono text-blue-800">{st.studentId || st.userId?.studentId}</span>
                           </div>
                         </div>
                         <span className="text-[10px] text-slate-500 font-mono">{st.userId?.email}</span>
@@ -3602,14 +3618,14 @@ export default function AdminLmsManagementPage() {
                 <button
                   type="button"
                   onClick={() => setEditTargetBatch(null)}
-                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-slate-100 rounded-xl transition"
+                  className="px-4 py-2 text-xs font-bold text-slate-600 hover:bg-white rounded-xl transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={updatingBatch}
-                  className="px-5 py-2 text-xs font-bold text-white bg-purple-600 hover:bg-purple-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5"
+                  className="bg-white px-5 py-2 text-xs font-bold text-blue-700 rounded-xl shadow-xs transition disabled:opacity-50 flex items-center space-x-1.5 border border-blue-600"
                 >
                   <Check className="w-4 h-4" />
                   <span>{updatingBatch ? 'Saving Changes...' : 'SAVE BATCH CHANGES'}</span>

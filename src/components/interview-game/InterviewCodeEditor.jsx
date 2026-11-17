@@ -115,7 +115,7 @@ export default function InterviewCodeEditor({
   return (
     <div className="flex flex-col h-full bg-white border border-slate-200/90 rounded-xl overflow-hidden shadow-sm">
       {/* Editor Header Bar */}
-      <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs select-none">
+      <div className="bg-white px-4 py-2 border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs select-none">
         {/* Language selector, Code/Output Tabs & Mac buttons */}
         <div className="flex items-center space-x-3">
           <div className="flex space-x-1.5 hidden sm:flex">
@@ -140,15 +140,11 @@ export default function InterviewCodeEditor({
           </div>
 
           {/* CODE / OUTPUT TAB TOGGLE BUTTONS */}
-          <div className="flex items-center space-x-1 bg-slate-200/80 p-0.5 rounded-lg border border-slate-300">
+          <div className="flex items-center space-x-1 bg-white p-0.5 rounded-lg border border-slate-300">
             <button
               type="button"
               onClick={() => setActiveTab('code')}
-              className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
-                activeTab === 'code'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${ activeTab === 'code' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <Code2 className="w-3.5 h-3.5 text-purple-600" />
               <span>Code</span>
@@ -157,16 +153,12 @@ export default function InterviewCodeEditor({
             <button
               type="button"
               onClick={() => setActiveTab('output')}
-              className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${
-                activeTab === 'output'
-                  ? 'bg-white text-slate-900 shadow-xs'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
+              className={`px-3 py-1 rounded-md text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer ${ activeTab === 'output' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900' }`}
             >
               <Terminal className="w-3.5 h-3.5 text-emerald-600" />
               <span>Output</span>
               {runResult && (
-                <span className={`w-2 h-2 rounded-full ${runResult.allPassed ? 'bg-emerald-500' : 'bg-rose-500'} animate-pulse`}></span>
+                <span className={`w-2 h-2 rounded-full ${runResult.allPassed ? 'bg-white' : 'bg-white'} animate-pulse`}></span>
               )}
             </button>
           </div>
@@ -194,7 +186,7 @@ export default function InterviewCodeEditor({
 
           <button
             onClick={handleCopy}
-            className="p-1.5 text-slate-500 hover:text-slate-800 rounded hover:bg-slate-100 transition"
+            className="p-1.5 text-slate-500 hover:text-slate-800 rounded hover:bg-white transition"
             title="Copy Code"
           >
             {copied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
@@ -202,7 +194,7 @@ export default function InterviewCodeEditor({
 
           <button
             onClick={handleClear}
-            className="p-1.5 text-slate-500 hover:text-rose-600 rounded hover:bg-slate-100 transition"
+            className="p-1.5 text-slate-500 hover:text-rose-600 rounded hover:bg-white transition"
             title="Clear Editor"
           >
             <Trash2 className="w-3.5 h-3.5" />
@@ -216,7 +208,7 @@ export default function InterviewCodeEditor({
           {/* Line Numbers Gutter */}
           <div
             ref={lineNumbersRef}
-            className="w-12 bg-slate-50 text-slate-400 font-mono text-right pr-3 pt-3 select-none overflow-hidden shrink-0 border-r border-slate-200"
+            className="w-12 bg-white text-slate-400 font-mono text-right pr-3 pt-3 select-none overflow-hidden shrink-0 border-r border-slate-200"
             style={{ fontSize: `${fontSize}px`, lineHeight: '1.6' }}
           >
             {lines.map((_, i) => (
@@ -257,7 +249,7 @@ export default function InterviewCodeEditor({
       )}
 
       {/* Action Footer */}
-      <div className="bg-slate-50 px-4 py-3 border-t border-slate-200 flex items-center justify-between shrink-0">
+      <div className="bg-white px-4 py-3 border-t border-slate-200 flex items-center justify-between shrink-0">
         <div className="flex items-center space-x-2 text-xs text-slate-500 font-mono">
           <Terminal className="w-3.5 h-3.5 text-slate-400" />
           <span>{lines.length} lines</span>
@@ -269,7 +261,7 @@ export default function InterviewCodeEditor({
           <button
             onClick={handleRunClick}
             disabled={isRunning || isSubmitting}
-            className="flex items-center space-x-2 px-4 py-2 bg-white hover:bg-slate-100 text-purple-700 hover:text-purple-800 rounded-lg font-semibold text-xs border border-purple-200 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+            className="flex items-center space-x-2 px-4 py-2 bg-white hover:bg-white text-purple-700 hover:text-purple-800 rounded-lg font-semibold text-xs border border-purple-200 shadow-sm transition disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
           >
             {isRunning ? (
               <div className="w-3.5 h-3.5 border-2 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
@@ -297,11 +289,7 @@ export default function InterviewCodeEditor({
                     ? 'Submitting solution...'
                     : 'Write code to enable submission'
                 }
-                className={`flex items-center space-x-2 px-5 py-2 rounded-lg font-bold text-xs shadow-sm transition transform active:scale-95 ${
-                  isSubmissionReady
-                    ? 'bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer'
-                    : 'bg-slate-200 text-slate-400 border border-slate-300 cursor-not-allowed opacity-60'
-                }`}
+                className={`flex items-center space-x-2 px-5 py-2 rounded-lg font-bold text-xs shadow-sm transition transform active:scale-95 ${ isSubmissionReady ? 'bg-white text-emerald-700 cursor-pointer border border-emerald-600' : 'bg-white text-slate-400 border border-slate-300 cursor-not-allowed opacity-60' }`}
               >
                 {isSubmitting ? (
                   <div className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
@@ -317,7 +305,7 @@ export default function InterviewCodeEditor({
             <button
               type="button"
               onClick={onNext}
-              className="flex items-center space-x-1.5 px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-700 hover:text-purple-800 rounded-lg font-bold text-xs border border-purple-200 shadow-2xs transition cursor-pointer"
+              className="flex items-center space-x-1.5 px-4 py-2 bg-white hover:bg-white text-purple-700 hover:text-purple-800 rounded-lg font-bold text-xs border border-purple-200 shadow-2xs transition cursor-pointer"
               title="Go to next question in this module"
             >
               <span>Next</span>

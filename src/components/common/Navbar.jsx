@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
@@ -13,7 +13,30 @@ export default function Navbar() {
   const { user, profile, logout, isStudent, isTutor, isAdmin } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [xpToast, setXpToast] = useState(null);
+  const [xpPulsing, setXpPulsing] = useState(false);
+  const xpTimerRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleXpUpdated = (e) => {
+      const awarded = Number(e?.detail?.xpAwarded || 0);
+      if (awarded > 0) {
+        setXpToast({ amount: awarded, key: e?.detail?.timestamp || Date.now() });
+        setXpPulsing(true);
+        if (xpTimerRef.current) clearTimeout(xpTimerRef.current);
+        xpTimerRef.current = setTimeout(() => {
+          setXpToast(null);
+          setXpPulsing(false);
+        }, 3200);
+      }
+    };
+    window.addEventListener('sq-xp-updated', handleXpUpdated);
+    return () => {
+      window.removeEventListener('sq-xp-updated', handleXpUpdated);
+      if (xpTimerRef.current) clearTimeout(xpTimerRef.current);
+    };
+  }, []);
 
   const handleLogoClick = (e) => {
     e.preventDefault();
@@ -42,19 +65,25 @@ export default function Navbar() {
   let navLinks = [];
 
   if (!user) {
-    // Visitor Links: Only visible on public site when not logged in
+    // Visitor Links: Category-coded text colors on pure white navbar
     navLinks = [
-      { to: '/courses', label: 'Courses' },
-      { to: '/internships', label: 'Internships' },
-      { to: '/products', label: 'Products' },
+      { to: '/courses', label: 'Courses', category: 'course' },
+      { to: '/internships', label: 'Internships', category: 'internship' },
+      { to: '/products', label: 'Products', category: 'project' },
     ];
   } else {
     // Logged-in Admin, Tutor, and Student have NO navbar links (they use dashboard and sidebar)
     navLinks = [];
   }
 
+  const getNavColors = () => ({
+    active: 'text-[#9333EA] font-semibold',
+    idle: 'text-[#0F172A] hover:text-[#9333EA]',
+    bar: 'bg-gradient-to-r from-[#8B2BE2] via-[#C026D3] to-[#EC4899]'
+  });
+
   return (
-    <header className="sticky top-0 z-30 w-full bg-white/95 backdrop-blur-md border-b border-purple-100/90 shadow-xs">
+    <header className="sticky top-0 z-30 w-full bg-white border-b border-slate-200 shadow-xs">
       <div className="max-w-7xl mx-auto  sm:px-6 lg:px-8 py-2 flex items-center justify-between">
         {/* Left: Brand Logo — 10rem */}
         <button
@@ -73,15 +102,17 @@ export default function Navbar() {
 
         {/* Center: Main Navigation Desktop */}
         <nav className="hidden xl:flex items-center space-x-2">
-          {navLinks.map((link) => (
+          {navLinks.map((link) => {
+            const colors = getNavColors();
+            return (
             <NavLink
               key={link.to + link.label}
               to={link.to}
               className={({ isActive }) =>
-                `relative px-5 py-2 font-semibold transition-all duration-200 group/nav
+                `relative px-5 py-2 font-semibold transition-all duration-200 group/nav bg-white
                  ${isActive && !link.to.includes('#')
-                   ? 'text-[#9333EA] font-bold'
-                   : 'text-[#172033] hover:text-[#9333EA]'
+                   ? colors.active
+                   : colors.idle
                  }`
               }
               style={{ fontSize: '1rem' }}
@@ -89,9 +120,9 @@ export default function Navbar() {
               {({ isActive }) => (
                 <>
                   {link.label}
-                  {/* Gradient underline */}
+                  {/* Category underline */}
                   <span
-                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] rounded-full bg-gradient-to-r from-[#9333EA] to-[#DB2777] transition-all duration-300
+                    className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[3px] rounded-full ${colors.bar} transition-all duration-300
                       ${isActive && !link.to.includes('#')
                         ? 'w-full opacity-100'
                         : 'w-0 opacity-0 group-hover/nav:w-full group-hover/nav:opacity-100'
@@ -100,57 +131,67 @@ export default function Navbar() {
                 </>
               )}
             </NavLink>
-          ))}
+            );
+          })}
         </nav>
 
         {/* Right Side: Auth State or Gamification Metrics */}
         <div className="flex items-center space-x-3">
           {/* If Student: Experience Points */}
           {user && isStudent && (
-            <div className="hidden sm:flex items-center space-x-2">
+            <div className="relative hidden sm:flex items-center space-x-2">
               <div
-                className="flex items-center space-x-1 bg-purple-50 border border-purple-200 px-2.5 py-1 rounded-lg text-xs font-bold text-purple-700"
+                className={`flex items-center space-x-1 bg-white border border-purple-300 px-2.5 py-1 rounded-lg text-xs font-bold text-[#9333EA] transition-transform duration-300 ${xpPulsing ? 'scale-110 ring-2 ring-[#DB2777]/40' : ''}`}
                 title="Total Experience Points"
               >
-                <Zap className="w-3.5 h-3.5 fill-purple-600 text-purple-600" />
-                <span>{xp} XP</span>
+                <Zap className={`w-3.5 h-3.5 text-[#9333EA] ${xpPulsing ? 'animate-pulse' : ''}`} />
+                <span className="text-sq-gradient">{xp} XP</span>
               </div>
+
+              {xpToast && (
+                <div
+                  key={xpToast.key}
+                  className="absolute right-0 top-full mt-2 z-50 whitespace-nowrap bg-white border border-[#9333EA] rounded-full px-3 py-1 shadow-md pointer-events-none animate-bounce"
+                >
+                  <span className="text-xs font-extrabold text-sq-gradient">
+                    +{xpToast.amount} XP Earned
+                  </span>
+                </div>
+              )}
             </div>
           )}
 
           {/* If User Logged In: Profile Pill */}
           {user ? (
-            <div className="flex items-center space-x-2 pl-2 border-l border-purple-100">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                {user.name ? user.name.charAt(0).toUpperCase() : 'U'}
+            <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
+              <div className="w-9 h-9 rounded-xl bg-white border border-[#9333EA] flex items-center justify-center font-bold text-xs shadow-xs">
+                <span className="text-sq-gradient">{user.name ? user.name.charAt(0).toUpperCase() : 'U'}</span>
               </div>
               <div className="hidden md:block text-left">
                 <p className="text-xs font-bold text-[#172033] leading-tight truncate max-w-[110px]">
                   {user.name || user.username}
                 </p>
-                <span className={`text-[10px] font-semibold uppercase px-1.5 py-0.2 rounded inline-block ${
-                  isAdmin ? 'bg-purple-100 text-purple-800' : isTutor ? 'bg-fuchsia-100 text-fuchsia-800' : 'bg-pink-100 text-pink-800'
-                }`}>
+                <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded inline-block bg-white border border-purple-200 text-[#9333EA]">
                   {user.role}
                 </span>
               </div>
               <button
                 onClick={() => setShowLogoutModal(true)}
                 title="Logout"
-                className="p-1.5 text-slate-400 hover:text-red-600 rounded-lg hover:bg-purple-50 transition cursor-pointer"
+                className="p-1.5 bg-white text-slate-500 hover:text-slate-900 rounded-lg border border-transparent hover:border-slate-200 transition cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
               </button>
             </div>
           ) : (
-            /* If Visitor: Login & Register Buttons */
+            /* If Visitor: Login Button */
             <div className="flex items-center space-x-2">
               <Link
                 to="/login"
-                className="px-4 py-2 font-bold text-[#111827] hover:text-[#E02B91] hover:bg-slate-50 rounded-xl transition"
+                className="px-4 py-2 font-bold bg-white border border-purple-200 hover:border-[#DB2777] rounded-xl transition"
                 style={{ fontSize: '1rem' }}
               >
-                Login
+                <span className="text-sq-gradient">Login</span>
               </Link>
             </div>
           )}
@@ -159,7 +200,7 @@ export default function Navbar() {
           {navLinks.length > 0 && (
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="xl:hidden p-2 text-[#111827] hover:text-[#E02B91] rounded-lg hover:bg-slate-100 transition"
+              className="xl:hidden p-2 bg-white text-[#9333EA] hover:border hover:border-purple-200 rounded-lg transition"
             >
               {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -169,35 +210,38 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {mobileMenuOpen && navLinks.length > 0 && (
-        <div className="xl:hidden border-t border-[#E5E7EB] bg-white px-4 pt-3 pb-5 space-y-2 shadow-lg">
+        <div className="xl:hidden border-t border-slate-200 bg-white px-4 pt-3 pb-5 space-y-2 shadow-lg">
           <div className="space-y-1">
-            {navLinks.map((link) => (
+            {navLinks.map((link) => {
+              const colors = getNavColors();
+              return (
               <Link
                 key={link.to + link.label}
                 to={link.to}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block px-3.5 py-2 rounded-xl text-sm font-semibold text-[#111827] hover:bg-pink-50/50 hover:text-[#E02B91]"
+                className={`block px-3.5 py-2 rounded-xl text-sm font-semibold bg-white border border-transparent hover:border-slate-200 ${colors.idle}`}
               >
                 {link.label}
               </Link>
-            ))}
+              );
+            })}
           </div>
 
           {!user && (
-            <div className="pt-3 border-t border-[#E5E7EB] flex gap-2">
+            <div className="pt-3 border-t border-slate-200 flex gap-2">
               <Link
                 to="/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 py-2.5 text-center text-xs font-bold text-[#111827] bg-slate-100 rounded-xl"
+                className="flex-1 py-2.5 text-center text-xs font-bold bg-white border border-slate-300 text-slate-800 rounded-xl"
               >
                 Login
               </Link>
               <Link
                 to="/register"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex-1 py-2.5 text-center text-xs font-bold text-white bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] rounded-xl"
+                className="flex-1 py-2.5 text-center text-xs font-bold bg-white border border-[#9333EA] rounded-xl"
               >
-                Register
+                <span className="text-sq-gradient">Register</span>
               </Link>
             </div>
           )}

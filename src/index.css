@@ -4,53 +4,86 @@
 
 @layer base {
   :root {
-    /* Unified Lavender-Purple-Pink Theme Tokens */
-    --page-bg: #f8f7fc;
-    --surface: #ffffff;
-    --surface-tint: #faf5ff;
-    --lavender: #f3e8ff;
+    /* Original STACK QUEUE Light Lavender + Clean White Card System */
+    --page-bg: #F8F7FC;
+    --surface: #FFFFFF;
+    --surface-tint: #F8F7FC;
+    --lavender: #F3E8FF;
     --purple: #9333ea;
     --purple-dark: #7e22ce;
     --violet: #7c3aed;
     --pink: #db2777;
     --pink-dark: #be185d;
-    --text-primary: #172033;
-    --text-secondary: #6b6480;
-    --border: #e9d5ff;
-    --border-light: #f3e8ff;
-    --gradient-primary: linear-gradient(110deg, #9333ea, #db2777);
-    --gradient-surface: linear-gradient(110deg, #faf5ff 0%, #f8f4ff 55%, #fce7f3 100%);
-    --gradient-banner: linear-gradient(135deg, rgba(243, 232, 255, 0.6) 0%, rgba(250, 232, 255, 0.4) 50%, rgba(252, 231, 243, 0.5) 100%);
+    --text-primary: #0F172A;
+    --text-secondary: #475569;
+    --border: #E2E8F0;
+    --border-light: #F1F5F9;
+    --gradient-primary: linear-gradient(135deg, #EC4899 0%, #DB2777 35%, #9333EA 100%);
+    --gradient-surface: linear-gradient(135deg, #FDF2F8 0%, #FAF5FF 50%, #F3E8FF 100%);
+    --gradient-banner: linear-gradient(135deg, #EC4899 0%, #DB2777 35%, #9333EA 100%);
 
-    /* Primary - Stack Queue Pink & Violet legacy compat */
+    /* Course: Light Blue Section (#F2F7FF) + Blue Accents (#2563EB) */
+    --course-bg: #F2F7FF;
+    --course-surface: #FFFFFF;
+    --course-color: #2563EB;
+    --course-border: #DBEAFE;
+    --course-accent: #2563EB;
+    --course-heading: #172554;
+
+    /* Internship: Very Light Mint-Green Section (#F0FDF8) + Emerald Accents (#059669) */
+    --internship-bg: #F0FDF8;
+    --internship-surface: #FFFFFF;
+    --internship-color: #059669;
+    --internship-border: #A7F3D0;
+    --internship-accent: #059669;
+    --internship-heading: #064E3B;
+
+    /* Products & Projects: Very Light Yellow Section (#FFFBEB) + Amber/Orange Accents (#D97706) */
+    --project-bg: #FFFBEB;
+    --project-surface: #FFFFFF;
+    --project-color: #D97706;
+    --project-border: #FDE68A;
+    --project-accent: #D97706;
+    --project-heading: #451A03;
+
+    --product-bg: #FFFBEB;
+    --product-surface: #FFFFFF;
+    --product-color: #D97706;
+    --product-border: #FDE68A;
+    --product-accent: #D97706;
+    --product-heading: #451A03;
+
+    /* Primary */
     --primary: #9333EA;
     --primary-dark: #7e22ce;
-    --primary-light: #FAF5FF;
+    --primary-light: #FFFFFF;
 
-    /* Success - Green (Preserved for passing tests / internships / active status) */
+    /* Success - Green */
     --success: #16A34A;
     --success-dark: #15803D;
-    --success-light: #DCFCE7;
+    --success-light: #FFFFFF;
 
-    /* Danger - Red (Only for genuine errors / live sessions) */
-    --danger: #DC2626;
-    --danger-dark: #B91C1C;
-    --danger-light: #FEE2E2;
+    /* Danger - Clean Error Accent */
+    --danger: #B91C1C;
+    --danger-dark: #991B1B;
+    --danger-light: #FFFFFF;
 
-    /* Warning - Yellow / Amber */
-    --warning: #EAB308;
-    --warning-dark: #CA8A04;
-    --warning-light: #FEF9C3;
+    /* Warning - Golden Amber */
+    --warning: #D97706;
+    --warning-dark: #B45309;
+    --warning-light: #FFFFFF;
 
     /* Brand Tokens */
     --white: #FFFFFF;
-    --background: #F8F7FC;
-    --muted: #FAF5FF;
+    --background: #FFFFFF;
+    --muted: #FFFFFF;
   }
 
-  body {
+  html,
+  body,
+  #root {
     background-color: #F8F7FC;
-    color: #172033;
+    color: #0F172A;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     min-height: 100vh;
     -webkit-font-smoothing: antialiased;
@@ -58,101 +91,155 @@
   }
 
   ::selection {
-    background-color: #9333EA;
-    color: #FFFFFF;
+    background-color: #E9D5FF;
+    color: #581C87;
   }
 }
 
-/* Light Educational Cards & Surface Utilities with Lavender Tint */
+/* Pure White Cards & Surface Utilities */
 .surface-card {
   background-color: #FFFFFF;
-  border: 1px solid #E9D5FF;
+  border: 1px solid #E5E7EB;
   border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.04), 0 1px 2px -1px rgba(147, 51, 234, 0.03);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
   transition: all 0.2s ease;
 }
 
 .surface-card:hover {
-  border-color: #D8B4FE;
-  box-shadow: 0 4px 10px -1px rgba(147, 51, 234, 0.08), 0 2px 4px -2px rgba(147, 51, 234, 0.04);
+  border-color: #CBD5E1;
+  box-shadow: 0 4px 10px -1px rgba(15, 23, 42, 0.07);
 }
 
 .card-clean {
   background-color: #FFFFFF;
-  border: 1px solid #F3E8FF;
+  border: 1px solid #E5E7EB;
   border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.03);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.03);
 }
 
 .glass-card {
   background-color: #FFFFFF;
-  border: 1px solid #E9D5FF;
+  border: 1px solid #E5E7EB;
   border-radius: 1rem;
-  box-shadow: 0 1px 3px 0 rgba(147, 51, 234, 0.04);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
   transition: all 0.2s ease;
 }
 
 .glass-card:hover {
   border-color: #C084FC;
-  box-shadow: 0 8px 16px -4px rgba(147, 51, 234, 0.12);
+  box-shadow: 0 8px 16px -4px rgba(147, 51, 234, 0.1);
 }
 
 .glass-panel {
   background-color: #FFFFFF;
-  border: 1px solid #E9D5FF;
+  border: 1px solid #E5E7EB;
   border-radius: 1rem;
 }
 
-/* Custom Scrollbar with Lavender & Purple Tints */
+/* Custom Scrollbar — Pure White Track */
 ::-webkit-scrollbar {
   width: 7px;
   height: 7px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #F8F7FC;
+  background: #FFFFFF;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #E9D5FF;
+  background: #E2E8F0;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #D8B4FE;
+  background: #CBD5E1;
 }
 
-/* Unified Lavender-Purple-Pink Utilities */
+/* Category Text-Color Theme Utilities (Pure White Backgrounds Only) */
 .text-sq-gradient {
-  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
+  background-image: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.text-sq-gradient svg {
+  color: #a825c5;
+  -webkit-text-fill-color: #a825c5;
 }
 
 .bg-sq-gradient {
-  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
+  background-image: linear-gradient(135deg, #EC4899 0%, #DB2777 35%, #9333EA 100%);
+  color: #FFFFFF;
+  border: none;
 }
 
 .border-sq-gradient {
   border-image: linear-gradient(110deg, #9333ea, #db2777) 1;
 }
 
-/* Reusable Theme Banner matching Tutor Studio */
-.theme-banner {
-  border-radius: 1.5rem;
-  background: linear-gradient(110deg, #faf5ff 0%, #f8f4ff 55%, #fce7f3 100%);
-  border: 1px solid #e9d5ff;
-  box-shadow: 0 1px 2px 0 rgba(147, 51, 234, 0.05);
+.btn-course-white {
+  background-color: #DBEAFE;
+  border: 1.5px solid #2563EB;
+  color: #1E40AF;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+.btn-course-white:hover {
+  background-color: #2563EB;
+  border-color: #1D4ED8;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
 }
 
-/* Reusable Pill Badge matching Tutor Studio */
+.btn-internship-white {
+  background-color: #D1FAE5;
+  border: 1.5px solid #059669;
+  color: #065F46;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+.btn-internship-white:hover {
+  background-color: #059669;
+  border-color: #047857;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(5, 150, 105, 0.2);
+}
+
+.btn-project-white {
+  background-color: #FEF08A;
+  border: 1.5px solid #D97706;
+  color: #854D0E;
+  font-weight: 700;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease;
+}
+.btn-project-white:hover {
+  background-color: #D97706;
+  border-color: #B45309;
+  color: #FFFFFF;
+  box-shadow: 0 2px 8px rgba(217, 119, 6, 0.2);
+}
+
+/* Reusable Theme Banner */
+.theme-banner {
+  border-radius: 1.5rem;
+  background: var(--gradient-surface);
+  border: 1px solid #E9D5FF;
+  box-shadow: 0 2px 10px 0 rgba(147, 51, 234, 0.08);
+}
+
+/* Reusable Pill Badge */
 .theme-pill {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background: linear-gradient(90deg, rgba(243, 232, 255, 0.9) 0%, rgba(250, 232, 255, 0.9) 50%, rgba(252, 231, 243, 0.9) 100%);
-  border: 1px solid rgba(233, 213, 255, 0.85);
-  color: #7e22ce;
+  background: #FDF4FF;
+  border: 1px solid #D8B4FE;
+  color: #7E22CE;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 0.75rem;
   font-weight: 700;
@@ -160,27 +247,26 @@
   letter-spacing: 0.1em;
   padding: 0.25rem 0.875rem;
   border-radius: 9999px;
-  box-shadow: 0 1px 2px 0 rgba(147, 51, 234, 0.05);
 }
 
 /* Reusable Buttons */
 .btn-primary-gradient {
-  background: linear-gradient(110deg, #9333ea 0%, #db2777 100%);
-  color: #ffffff;
+  background-image: linear-gradient(135deg, #EC4899 0%, #DB2777 35%, #9333EA 100%);
+  border: none;
+  color: #FFFFFF;
   font-weight: 700;
   border-radius: 0.75rem;
-  box-shadow: 0 4px 14px 0 rgba(147, 51, 234, 0.25);
   transition: all 0.2s ease;
 }
 
 .btn-primary-gradient:hover {
-  opacity: 0.95;
-  box-shadow: 0 6px 18px 0 rgba(147, 51, 234, 0.32);
+  opacity: 0.94;
+  box-shadow: 0 4px 14px 0 rgba(147, 51, 234, 0.28);
 }
 
 .btn-secondary-lavender {
   background-color: #FAF5FF;
-  border: 1px solid #E9D5FF;
+  border: 1px solid #D8B4FE;
   color: #7E22CE;
   font-weight: 700;
   border-radius: 0.75rem;
@@ -189,7 +275,7 @@
 
 .btn-secondary-lavender:hover {
   background-color: #F3E8FF;
-  border-color: #D8B4FE;
+  border-color: #9333EA;
   color: #6B21A8;
 }
 
@@ -277,17 +363,82 @@
               opacity 0.35s ease;
 }
 
-/* Blueprint/Dot Grid Pattern — Courses Section */
+/* Original Dotted Category Hero & Accent Utilities */
+.bg-course-dots {
+  background-color: #F2F7FF;
+  background-image: radial-gradient(#DBEAFE 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}
+
+.bg-internship-dots {
+  background-color: #F0FDF8;
+  background-image: radial-gradient(#A7F3D0 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}
+
+.bg-products-dots,
+.bg-product-dots,
+.bg-project-dots {
+  background-color: #FFFBEB;
+  background-image: radial-gradient(#FDE68A 1.25px, transparent 1.25px);
+  background-size: 20px 20px;
+}
+
+.accent-line-course {
+  background: linear-gradient(90deg, #8B2BE2 0%, #C026D3 50%, #EC4899 100%);
+}
+
+.accent-line-internship {
+  background: linear-gradient(90deg, #10B981 0%, #059669 100%);
+}
+
+/* Pure White Surface Section */
 .bg-blueprint-grid {
-  background-color: #EFF6FF;
-  background-image:
-    radial-gradient(circle, #BFDBFE 1px, transparent 1px);
-  background-size: 24px 24px;
+  background-color: #FFFFFF;
 }
 
 /* ============================================================
    ACCESSIBILITY — Respect user motion preferences
    ============================================================ */
+/* ============================================================
+   Responsive Modal Layout & Scrolling
+   ============================================================ */
+.sq-modal-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 90vh;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.sq-modal-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.sq-modal-body::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sq-modal-body::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 9999px;
+}
+
+.sq-modal-body::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+
+.sq-modal-body::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
 /* ============================================================
    Interview Question Modal Layout & Scrolling
    ============================================================ */

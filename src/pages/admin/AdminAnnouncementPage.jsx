@@ -84,9 +84,9 @@ export default function AdminAnnouncementPage() {
     <div className="space-y-6 pb-16 max-w-6xl mx-auto px-4">
       {/* Pink-to-Violet Header Banner */}
       <div className="rounded-3xl bg-white border border-slate-200/90 p-6 md:p-8 shadow-sm relative overflow-hidden">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-br from-pink-500/10 via-fuchsia-500/10 to-violet-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 space-y-2.5">
-          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-pink-50 via-fuchsia-50 to-purple-50 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
+          <div className="bg-white inline-flex items-center space-x-2 border border-pink-200/80 px-3.5 py-1 rounded-full text-xs font-mono font-bold tracking-wider uppercase shadow-2xs">
             <Megaphone className="w-4 h-4 text-pink-600" />
             <span className="bg-gradient-to-r from-pink-600 via-fuchsia-600 to-violet-600 bg-clip-text text-transparent font-extrabold">
               Institute Email Announcement System
@@ -118,14 +118,14 @@ export default function AdminAnnouncementPage() {
               <button
                 type="button"
                 onClick={() => handleApplyPreset('Sunday Leave')}
-                className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-xl text-[11px] font-bold transition cursor-pointer"
+                className="px-2.5 py-1 bg-white hover:bg-white text-purple-700 border border-purple-200 rounded-xl text-[11px] font-bold transition cursor-pointer"
               >
                 + Sunday Leave
               </button>
               <button
                 type="button"
                 onClick={() => handleApplyPreset('Holiday')}
-                className="px-2.5 py-1 bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 rounded-xl text-[11px] font-bold transition cursor-pointer"
+                className="px-2.5 py-1 bg-white hover:bg-white text-pink-700 border border-pink-200 rounded-xl text-[11px] font-bold transition cursor-pointer"
               >
                 + Holiday Notice
               </button>
@@ -201,7 +201,7 @@ export default function AdminAnnouncementPage() {
             </div>
 
             {sendResult && (
-              <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-bold text-emerald-800 space-y-1">
+              <div className="p-3.5 bg-white border border-slate-200 rounded-2xl text-xs font-bold text-emerald-800 space-y-1">
                 <div className="flex items-center space-x-1.5">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Announcement Broadcast Completed!</span>
@@ -217,7 +217,7 @@ export default function AdminAnnouncementPage() {
             <button
               type="submit"
               disabled={sending}
-              className="w-full py-3 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold text-xs rounded-2xl shadow-md transition cursor-pointer disabled:opacity-50 flex items-center justify-center space-x-2"
+              className="bg-white w-full py-3 text-sq-gradient font-bold text-xs rounded-2xl shadow-md transition cursor-pointer disabled:opacity-50 flex items-center justify-center space-x-2 border border-[#9333EA]"
             >
               <Mail className="w-4 h-4" />
               <span>{sending ? 'Sending Emails...' : 'Send Broadcast Email →'}</span>
@@ -251,7 +251,7 @@ export default function AdminAnnouncementPage() {
                   <div className="flex items-start justify-between">
                     <div className="space-y-1">
                       <div className="flex items-center space-x-2">
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-pink-100 text-pink-800 border border-pink-200">
+                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold font-mono uppercase bg-white text-pink-800 border border-pink-200">
                           {item.type}
                         </span>
                         <span className="text-slate-400 font-mono text-[11px]">{item.announcementDate}</span>
@@ -259,14 +259,12 @@ export default function AdminAnnouncementPage() {
                       <h3 className="text-base font-black text-slate-900">{item.title}</h3>
                     </div>
 
-                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold font-mono uppercase ${
-                      item.status === 'Sent' ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-rose-100 text-rose-800 border border-rose-300'
-                    }`}>
+                    <span className={`px-2.5 py-1 rounded-full text-[10px] font-bold font-mono uppercase ${ item.status === 'Sent' ? 'bg-white text-emerald-800 border border-emerald-300' : 'bg-white text-rose-800 border border-rose-300' }`}>
                       {item.status}
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-600 leading-relaxed font-medium bg-slate-50 p-3 rounded-xl border border-slate-100">
+                  <p className="text-xs text-slate-600 leading-relaxed font-medium bg-white p-3 rounded-xl border border-slate-100">
                     {item.message}
                   </p>
 

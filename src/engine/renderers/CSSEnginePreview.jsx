@@ -91,9 +91,7 @@ export default function CSSEnginePreview({ cssCode = '', challenge = {} }) {
           {conditionsMet.map((c, i) => (
             <span
               key={i}
-              className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-mono border ${
-                c.met ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 'bg-slate-100 text-slate-600 border-slate-200'
-              }`}
+              className={`inline-flex items-center space-x-1 px-2 py-0.5 rounded text-[11px] font-mono border ${ c.met ? 'bg-white text-emerald-700 border-emerald-200' : 'bg-white text-slate-600 border-slate-200' }`}
             >
               {c.met ? <CheckCircle2 className="w-3 h-3 text-emerald-600" /> : <AlertCircle className="w-3 h-3 text-slate-400" />}
               <span>{c.prop}: {c.val}</span>
@@ -103,7 +101,7 @@ export default function CSSEnginePreview({ cssCode = '', challenge = {} }) {
       </div>
 
       {/* Sandboxed In-DOM Preview */}
-      <div className="relative flex-1 min-h-[260px] bg-slate-50 border border-slate-200 rounded-xl p-2 overflow-hidden shadow-inner flex flex-col justify-center">
+      <div className="relative flex-1 min-h-[260px] bg-white border border-slate-200 rounded-xl p-2 overflow-hidden shadow-inner flex flex-col justify-center">
         <style>{sanitizedCss}</style>
         <div className="arena-stage">
           {challenge.category === 'Flexbox' && challenge.title.includes('Navigation') ? (

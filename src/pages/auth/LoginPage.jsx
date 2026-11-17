@@ -194,7 +194,12 @@ export default function LoginPage() {
       const data = await login(identifier, password);
       redirectByRole(data.user.role);
     } catch (err) {
-      setError(err.response?.data?.message || err.message || 'Invalid Student ID or password');
+      const msg = err.response?.data?.message || err.message || '';
+      if (!msg || msg.toLowerCase().includes('invalid credential') || msg.toLowerCase().includes('password') || msg.toLowerCase().includes('user not found')) {
+        setError('Invalid credentials.');
+      } else {
+        setError(msg);
+      }
     } finally { setLoading(false); }
   };
 
@@ -210,9 +215,9 @@ export default function LoginPage() {
             </span>
           </h2>
           <div className="bg-white py-8 px-6 sm:px-8 rounded-3xl shadow-lg border border-[#E5E7EB] space-y-5 relative overflow-hidden">
-            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2]"/>
+            <div className="bg-white absolute top-0 left-0 right-0 h-1"/>
             {error && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 flex items-center space-x-2">
+              <div className="p-3 bg-white border border-red-200 rounded-xl text-xs text-red-700 flex items-center space-x-2">
                 <AlertCircle className="w-4 h-4 text-red-500 shrink-0"/>
                 <span>{error}</span>
               </div>
@@ -224,7 +229,7 @@ export default function LoginPage() {
                   <User className="w-4 h-4 text-slate-400 absolute left-3 top-3"/>
                   <input type="text" required value={identifier}
                     onChange={e=>setIdentifier(e.target.value)} placeholder="Student ID"
-                    className="w-full bg-slate-50 border border-[#E5E7EB] rounded-xl pl-9 pr-3.5 py-2.5 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#E02B91] focus:bg-white transition"/>
+                    className="w-full bg-white border border-[#E5E7EB] rounded-xl pl-9 pr-3.5 py-2.5 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#E02B91] focus:bg-white transition"/>
                 </div>
               </div>
               <div className="space-y-1.5">
@@ -233,7 +238,7 @@ export default function LoginPage() {
                   <Lock className="w-4 h-4 text-slate-400 absolute left-3 top-3"/>
                   <input type={showPassword ? 'text' : 'password'} required value={password}
                     onChange={e=>setPassword(e.target.value)} placeholder="••••••••"
-                    className="w-full bg-slate-50 border border-[#E5E7EB] rounded-xl pl-9 pr-10 py-2.5 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#E02B91] focus:bg-white transition"/>
+                    className="w-full bg-white border border-[#E5E7EB] rounded-xl pl-9 pr-10 py-2.5 text-[#111827] focus:outline-none focus:ring-2 focus:ring-[#E02B91] focus:bg-white transition"/>
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
@@ -250,7 +255,7 @@ export default function LoginPage() {
                 </div>
               </div>
               <button type="submit" disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-[#E02B91] to-[#8B2BE2] hover:opacity-95 text-white rounded-full font-bold shadow-md shadow-pink-500/20 hover:shadow-lg transition disabled:opacity-60 text-xs flex items-center justify-center space-x-2">
+                className="bg-white w-full py-3 hover:opacity-95 text-sq-gradient rounded-full font-bold shadow-md shadow-pink-500/20 hover:shadow-lg transition disabled:opacity-60 text-xs flex items-center justify-center space-x-2 border border-[#9333EA]">
                 <span>{loading ? 'Authenticating...' : 'Sign In'}</span>
                 <ArrowRight className="w-4 h-4"/>
               </button>

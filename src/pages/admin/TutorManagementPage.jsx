@@ -1155,11 +1155,11 @@ export default function TutorManagementPage() {
   return (
     <div className="space-y-6 pb-16 max-w-7xl mx-auto px-4">
       {/* Top Banner */}
-      <div className="rounded-3xl bg-gradient-to-br from-purple-50/60 via-fuchsia-50/40 to-pink-50/50 border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
-        <div className="absolute -right-10 -bottom-10 w-72 h-72 bg-gradient-to-r from-purple-500/15 to-pink-500/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-white rounded-3xl border border-purple-200/80 p-6 md:p-8 text-slate-900 relative overflow-hidden shadow-xs">
+        <div className="bg-white absolute -right-10 -bottom-10 w-72 h-72 rounded-full blur-3xl pointer-events-none" />
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2">
-            <div className="inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold bg-gradient-to-r from-purple-100/90 via-fuchsia-100/90 to-pink-100/90 px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
+            <div className="bg-white inline-flex items-center space-x-2 text-purple-700 font-mono text-xs uppercase tracking-widest font-bold px-3.5 py-1 rounded-full border border-purple-200/80 shadow-2xs">
               <UserCheck className="w-4 h-4 text-purple-600" />
               <span>Tutor & Trainer Onboarding Directory</span>
             </div>
@@ -1173,20 +1173,20 @@ export default function TutorManagementPage() {
             <div className="flex items-center bg-white border border-slate-200 p-1 rounded-xl shadow-xs text-xs font-bold">
               <button
                 onClick={() => handleSwitchViewMode('roster')}
-                className={`px-3 py-1.5 rounded-lg transition ${viewMode === 'roster' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition ${viewMode === 'roster' ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : 'text-slate-600 hover:text-slate-900'}`}
               >
                 Roster Directory
               </button>
               <button
                 onClick={() => handleSwitchViewMode('quality_dashboard')}
-                className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1 ${viewMode === 'quality_dashboard' ? 'bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1 ${viewMode === 'quality_dashboard' ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : 'text-slate-600 hover:text-slate-900'}`}
               >
                 <Activity className="w-3.5 h-3.5" />
                 <span>Data Quality Dashboard</span>
               </button>
               <button
                 onClick={() => handleSwitchViewMode('attendance')}
-                className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${viewMode === 'attendance' ? 'bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'}`}
+                className={`px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5 ${viewMode === 'attendance' ? 'bg-white text-blue-700 shadow-xs border border-blue-600' : 'text-slate-600 hover:text-slate-900'}`}
               >
                 <CalendarCheck2 className="w-3.5 h-3.5" />
                 <span>Tutor Attendance</span>
@@ -1198,7 +1198,7 @@ export default function TutorManagementPage() {
                 resetAddForm();
                 setIsAddModalOpen(true);
               }}
-              className="px-5 py-3 bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-purple-500/25 cursor-pointer"
+              className="bg-white px-5 py-3 text-sq-gradient rounded-xl font-bold text-xs flex items-center space-x-2 transition shadow-lg shadow-purple-500/25 cursor-pointer border border-[#9333EA]"
             >
               <Plus className="w-4 h-4" />
               <span>Add Tutor (Resume Onboarding)</span>
@@ -1213,7 +1213,7 @@ export default function TutorManagementPage() {
           {/* KPI Cards */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-              <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 font-bold">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-purple-600 font-bold">
                 <UserCheck className="w-6 h-6" />
               </div>
               <div>
@@ -1223,7 +1223,7 @@ export default function TutorManagementPage() {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-              <div className="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 font-bold">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-emerald-600 font-bold">
                 <Briefcase className="w-6 h-6" />
               </div>
               <div>
@@ -1233,7 +1233,7 @@ export default function TutorManagementPage() {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-              <div className="w-12 h-12 rounded-xl bg-fuchsia-50 flex items-center justify-center text-fuchsia-600 font-bold">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-fuchsia-600 font-bold">
                 <Clock className="w-6 h-6" />
               </div>
               <div>
@@ -1243,7 +1243,7 @@ export default function TutorManagementPage() {
             </div>
 
             <div className="bg-white border border-slate-200 rounded-2xl p-4 flex items-center space-x-4 shadow-sm">
-              <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600 font-bold">
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center text-purple-600 font-bold">
                 <BookOpen className="w-6 h-6" />
               </div>
               <div>
@@ -1262,7 +1262,7 @@ export default function TutorManagementPage() {
                 placeholder="Search tutor ID, name, email, phone..."
                 value={searchTerm}
                 onChange={e => setSearchTerm(e.target.value)}
-                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
+                className="w-full bg-white border border-slate-200 rounded-xl pl-9 pr-3 py-2 text-xs text-slate-900 focus:outline-none focus:border-purple-500"
               />
             </div>
 
@@ -1272,7 +1272,7 @@ export default function TutorManagementPage() {
                 <select
                   value={employmentFilter}
                   onChange={e => setEmploymentFilter(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                  className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
                 >
                   <option value="ALL">All Types</option>
                   <option value="FULL-TIME">FULL-TIME</option>
@@ -1285,7 +1285,7 @@ export default function TutorManagementPage() {
                 <select
                   value={statusFilter}
                   onChange={e => setStatusFilter(e.target.value)}
-                  className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                  className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
                 >
                   <option value="ALL">All Statuses</option>
                   <option value="ACTIVE">ACTIVE</option>
@@ -1325,13 +1325,13 @@ export default function TutorManagementPage() {
                               className="w-10 h-10 rounded-xl object-cover border border-purple-200 shadow-sm"
                             />
                           ) : (
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                            <div className="bg-white w-10 h-10 rounded-xl text-sq-gradient flex items-center justify-center font-bold text-sm shadow-sm border border-[#9333EA]">
                               {t.fullName ? t.fullName.charAt(0) : 'T'}
                             </div>
                           )}
 
                           <div>
-                            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-purple-50 text-purple-700 border border-purple-100 uppercase">
+                            <span className="text-[10px] font-bold font-mono px-2 py-0.5 rounded bg-white text-purple-700 border border-purple-100 uppercase">
                               {t.tutorId}
                             </span>
                             <h3 className="font-bold text-slate-900 text-sm mt-0.5">{t.fullName}</h3>
@@ -1348,10 +1348,7 @@ export default function TutorManagementPage() {
                             <Mail className="w-3.5 h-3.5 text-slate-400" />
                             <span>{t.email}</span>
                           </span>
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
-                            t.emailStatus === 'VERIFIED' ? 'bg-emerald-100 text-emerald-800' :
-                            t.emailStatus === 'DOMAIN_VALID' ? 'bg-purple-100 text-purple-800' : 'bg-slate-100 text-slate-600'
-                          }`}>
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${ t.emailStatus === 'VERIFIED' ? 'bg-white text-emerald-800' : t.emailStatus === 'DOMAIN_VALID' ? 'bg-white text-purple-800' : 'bg-white text-slate-600' }`}>
                             {t.emailStatus || 'FORMAT_VALID'}
                           </span>
                         </p>
@@ -1360,9 +1357,7 @@ export default function TutorManagementPage() {
                             <Phone className="w-3.5 h-3.5 text-slate-400" />
                             <span>{t.phone}</span>
                           </span>
-                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${
-                            t.phoneStatus === 'OTP_VERIFIED' ? 'bg-emerald-100 text-emerald-800' : 'bg-purple-100 text-purple-800'
-                          }`}>
+                          <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${ t.phoneStatus === 'OTP_VERIFIED' ? 'bg-white text-emerald-800' : 'bg-white text-purple-800' }`}>
                             {t.phoneStatus || 'FORMAT_VALID'}
                           </span>
                         </p>
@@ -1401,7 +1396,7 @@ export default function TutorManagementPage() {
             <button
               onClick={loadQualityReport}
               disabled={loadingReport}
-              className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 transition"
+              className="bg-white px-4 py-2 text-sq-gradient rounded-xl font-bold text-xs flex items-center space-x-1.5 transition border border-[#9333EA]"
             >
               <RefreshCw className={`w-3.5 h-3.5 ${loadingReport ? 'animate-spin' : ''}`} />
               <span>Run Quality Audit</span>
@@ -1417,7 +1412,7 @@ export default function TutorManagementPage() {
             <>
               {/* Quality KPI Grid */}
               <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                <div className="bg-gradient-to-br from-purple-600 to-pink-600 text-white rounded-2xl p-5 shadow-md flex flex-col justify-between">
+                <div className="bg-white text-sq-gradient rounded-2xl p-5 shadow-md flex flex-col justify-between border border-[#9333EA]">
                   <span className="text-[11px] font-bold uppercase tracking-wider opacity-80">Data Health Index</span>
                   <div className="flex items-baseline space-x-1">
                     <h3 className="text-4xl font-black">{qualityReport.healthScore}%</h3>
@@ -1434,13 +1429,13 @@ export default function TutorManagementPage() {
 
                 <div className="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs">
                   <span className="text-[11px] font-bold text-emerald-600 uppercase tracking-wider">Fully Validated</span>
-                  <h3 className="text-2xl font-black text-emerald-700">{qualityReport.fullyValidatedCount}</h3>
+                  <h3 className="text-2xl font-black text-[#0F172A]">{qualityReport.fullyValidatedCount}</h3>
                   <span className="text-[10px] text-emerald-600 font-mono">Passed All Checks</span>
                 </div>
 
                 <div className="bg-white border border-slate-200 rounded-2xl p-4 space-y-1 shadow-xs">
                   <span className="text-[11px] font-bold text-amber-600 uppercase tracking-wider">Pending OTP</span>
-                  <h3 className="text-2xl font-black text-amber-700">{qualityReport.pendingVerificationCount}</h3>
+                  <h3 className="text-2xl font-black text-[#0F172A]">{qualityReport.pendingVerificationCount}</h3>
                   <span className="text-[10px] text-amber-600 font-mono">Format Validated</span>
                 </div>
 
@@ -1529,15 +1524,15 @@ export default function TutorManagementPage() {
                 </h3>
 
                 {qualityReport.qualityIssues.length === 0 ? (
-                  <div className="p-6 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold text-center">
+                  <div className="p-6 bg-white border border-emerald-200 rounded-xl text-emerald-800 text-xs font-bold text-center">
                     🎉 Excellent! All tutor records pass mandatory quality checks with 0 warnings.
                   </div>
                 ) : (
                   <div className="space-y-2">
                     {qualityReport.qualityIssues.map((iss, idx) => (
-                      <div key={idx} className="bg-rose-50/60 border border-rose-200/80 p-3 rounded-xl flex items-center justify-between text-xs">
+                      <div key={idx} className="bg-white border border-rose-200/80 p-3 rounded-xl flex items-center justify-between text-xs">
                         <div className="flex items-center space-x-3">
-                          <span className="font-mono font-bold px-2 py-0.5 bg-rose-100 text-rose-800 rounded">
+                          <span className="font-mono font-bold px-2 py-0.5 bg-white text-rose-800 rounded">
                             {iss.tutorId}
                           </span>
                           <span className="font-bold text-slate-900">{iss.name}</span>
@@ -1548,7 +1543,7 @@ export default function TutorManagementPage() {
                             const found = tutors.find(t => t.tutorId === iss.tutorId);
                             if (found) openTutorDetails(found._id);
                           }}
-                          className="px-3 py-1 bg-white border border-rose-300 hover:bg-rose-100 text-rose-800 font-bold rounded-lg transition"
+                          className="px-3 py-1 bg-white border border-rose-300 hover:bg-white text-rose-800 font-bold rounded-lg transition"
                         >
                           Review & Fix
                         </button>
@@ -1574,18 +1569,14 @@ export default function TutorManagementPage() {
                   type="date"
                   value={attendanceDate}
                   onChange={(e) => setAttendanceDate(e.target.value)}
-                  className="bg-slate-50 border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                  className="bg-white border border-slate-300 rounded-xl px-3 py-1.5 text-xs font-bold text-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
                 />
               </div>
 
-              <div className="flex items-center space-x-1.5 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+              <div className="flex items-center space-x-1.5 bg-white p-1 rounded-xl text-xs font-semibold">
                 <button
                   onClick={() => setAttendanceDate(new Date().toISOString().split('T')[0])}
-                  className={`px-3 py-1 rounded-lg transition ${
-                    attendanceDate === new Date().toISOString().split('T')[0]
-                      ? 'bg-white text-purple-700 shadow-xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`px-3 py-1 rounded-lg transition ${ attendanceDate === new Date().toISOString().split('T')[0] ? 'bg-white text-purple-700 shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900' }`}
                 >
                   Today
                 </button>
@@ -1595,11 +1586,7 @@ export default function TutorManagementPage() {
                     yesterday.setDate(yesterday.getDate() - 1);
                     setAttendanceDate(yesterday.toISOString().split('T')[0]);
                   }}
-                  className={`px-3 py-1 rounded-lg transition ${
-                    attendanceDate === new Date(Date.now() - 86400000).toISOString().split('T')[0]
-                      ? 'bg-white text-purple-700 shadow-xs font-bold'
-                      : 'text-slate-600 hover:text-slate-900'
-                  }`}
+                  className={`px-3 py-1 rounded-lg transition ${ attendanceDate === new Date(Date.now() - 86400000).toISOString().split('T')[0] ? 'bg-white text-purple-700 shadow-xs font-bold' : 'text-slate-600 hover:text-slate-900' }`}
                 >
                   Yesterday
                 </button>
@@ -1610,7 +1597,7 @@ export default function TutorManagementPage() {
               <button
                 onClick={() => loadTutorAttendance(attendanceDate)}
                 disabled={loadingAttendance}
-                className="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                className="px-3 py-2 bg-white hover:bg-white text-slate-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
                 title="Refresh attendance data"
               >
                 <RefreshCw className={`w-3.5 h-3.5 ${loadingAttendance ? 'animate-spin' : ''}`} />
@@ -1619,7 +1606,7 @@ export default function TutorManagementPage() {
 
               <button
                 onClick={handleMarkAllUnmarkedPresent}
-                className="px-4 py-2 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 text-emerald-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                className="px-4 py-2 bg-white border border-emerald-200 hover:bg-white text-emerald-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
               >
                 <CheckSquare className="w-3.5 h-3.5" />
                 <span>Mark Unmarked Present</span>
@@ -1627,7 +1614,7 @@ export default function TutorManagementPage() {
 
               <button
                 onClick={handleExportAttendanceCsv}
-                className="px-4 py-2 bg-purple-50 border border-purple-200 hover:bg-purple-100 text-purple-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                className="px-4 py-2 bg-white border border-purple-200 hover:bg-white text-purple-700 rounded-xl font-bold text-xs flex items-center space-x-1.5 transition cursor-pointer"
               >
                 <Download className="w-3.5 h-3.5" />
                 <span>Export CSV</span>
@@ -1706,7 +1693,7 @@ export default function TutorManagementPage() {
                 placeholder="Search tutor by name, email, TUT ID..."
                 value={attendanceSearch}
                 onChange={(e) => setAttendanceSearch(e.target.value)}
-                className="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                className="w-full pl-9 pr-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
             </div>
 
@@ -1714,7 +1701,7 @@ export default function TutorManagementPage() {
               <select
                 value={attendanceStatusFilter}
                 onChange={(e) => setAttendanceStatusFilter(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                className="bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
               >
                 <option value="ALL">All Statuses</option>
                 <option value="Present">Present Only</option>
@@ -1726,7 +1713,7 @@ export default function TutorManagementPage() {
               <select
                 value={attendanceEmploymentFilter}
                 onChange={(e) => setAttendanceEmploymentFilter(e.target.value)}
-                className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                className="bg-white border border-slate-200 rounded-xl px-3 py-2 font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-purple-500 cursor-pointer"
               >
                 <option value="ALL">All Employment</option>
                 <option value="FULL-TIME">Full-Time Only</option>
@@ -1737,7 +1724,7 @@ export default function TutorManagementPage() {
 
           {/* Attendance Ledger Table */}
           <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+            <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-white">
               <div className="flex items-center space-x-2">
                 <CalendarCheck2 className="w-4 h-4 text-purple-600" />
                 <h3 className="font-black text-sm text-slate-900">
@@ -1764,7 +1751,7 @@ export default function TutorManagementPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-slate-50/50">
+                    <tr className="border-b border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider bg-white">
                       <th className="py-3 px-6">Tutor &amp; Profile</th>
                       <th className="py-3 px-4">Employment</th>
                       <th className="py-3 px-4">Contact</th>
@@ -1781,7 +1768,7 @@ export default function TutorManagementPage() {
                       const checkOut = tutor.attendance?.checkOut || '—';
 
                       return (
-                        <tr key={tutor._id} className="hover:bg-slate-50/70 transition">
+                        <tr key={tutor._id} className="hover:bg-white transition">
                           {/* Tutor Profile */}
                           <td className="py-4 px-6">
                             <div className="flex items-center space-x-3">
@@ -1792,14 +1779,14 @@ export default function TutorManagementPage() {
                                   className="w-10 h-10 rounded-xl object-cover border border-purple-200"
                                 />
                               ) : (
-                                <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-pink-600 text-white flex items-center justify-center font-bold text-sm shadow-xs">
+                                <div className="bg-white w-10 h-10 rounded-xl text-sq-gradient flex items-center justify-center font-bold text-sm shadow-xs border border-[#9333EA]">
                                   {tutor.name ? tutor.name.charAt(0) : 'T'}
                                 </div>
                               )}
                               <div>
                                 <div className="flex items-center space-x-2">
                                   <h4 className="font-bold text-slate-900">{tutor.name}</h4>
-                                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold">
+                                  <span className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white text-purple-800 font-bold">
                                     {tutor.tutorId}
                                   </span>
                                 </div>
@@ -1823,7 +1810,7 @@ export default function TutorManagementPage() {
 
                           {/* Check-In */}
                           <td className="py-4 px-4 text-center">
-                            <span className="inline-flex items-center space-x-1 font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-100">
+                            <span className="inline-flex items-center space-x-1 font-mono font-bold text-emerald-700 bg-white px-2.5 py-1 rounded-lg border border-emerald-100">
                               <Clock className="w-3 h-3 text-emerald-500" />
                               <span>{checkIn}</span>
                             </span>
@@ -1831,7 +1818,7 @@ export default function TutorManagementPage() {
 
                           {/* Check-Out */}
                           <td className="py-4 px-4 text-center">
-                            <span className="inline-flex items-center space-x-1 font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-100">
+                            <span className="inline-flex items-center space-x-1 font-mono font-bold text-purple-700 bg-white px-2.5 py-1 rounded-lg border border-purple-100">
                               <Clock className="w-3 h-3 text-purple-500" />
                               <span>{checkOut}</span>
                             </span>
@@ -1840,25 +1827,25 @@ export default function TutorManagementPage() {
                           {/* Status */}
                           <td className="py-4 px-4 text-center">
                             {status === 'Present' && (
-                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-emerald-100 text-emerald-800 font-black text-[11px] rounded-full border border-emerald-200">
+                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-white text-emerald-800 font-black text-[11px] rounded-full border border-emerald-200">
                                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                                 <span>Present</span>
                               </span>
                             )}
                             {status === 'Absent' && (
-                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-rose-100 text-rose-800 font-black text-[11px] rounded-full border border-rose-200">
+                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-white text-rose-800 font-black text-[11px] rounded-full border border-rose-200">
                                 <XCircle className="w-3.5 h-3.5 text-rose-600" />
                                 <span>Absent</span>
                               </span>
                             )}
                             {status === 'Leave' && (
-                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-amber-100 text-amber-800 font-black text-[11px] rounded-full border border-amber-200">
+                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-white text-amber-800 font-black text-[11px] rounded-full border border-amber-200">
                                 <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
                                 <span>Leave</span>
                               </span>
                             )}
                             {status === 'Not Marked' && (
-                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-slate-100 text-slate-600 font-bold text-[11px] rounded-full border border-slate-200">
+                              <span className="inline-flex items-center space-x-1 px-3 py-1 bg-white text-slate-600 font-bold text-[11px] rounded-full border border-slate-200">
                                 <Clock className="w-3.5 h-3.5 text-slate-400" />
                                 <span>Not Marked</span>
                               </span>
@@ -1872,33 +1859,21 @@ export default function TutorManagementPage() {
                               <button
                                 onClick={() => handleQuickMarkAttendance(tutor, 'Present')}
                                 title="Mark Present"
-                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${
-                                  status === 'Present'
-                                    ? 'bg-emerald-600 text-white shadow-xs'
-                                    : 'bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200'
-                                }`}
+                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${ status === 'Present' ? 'bg-white text-emerald-700 shadow-xs border border-emerald-600' : 'bg-white hover:bg-white text-emerald-700 border border-emerald-200' }`}
                               >
                                 P
                               </button>
                               <button
                                 onClick={() => handleQuickMarkAttendance(tutor, 'Absent')}
                                 title="Mark Absent"
-                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${
-                                  status === 'Absent'
-                                    ? 'bg-rose-600 text-white shadow-xs'
-                                    : 'bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200'
-                                }`}
+                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${ status === 'Absent' ? 'bg-white text-sq-gradient shadow-xs border border-[#9333EA]' : 'bg-white hover:bg-white text-rose-700 border border-rose-200' }`}
                               >
                                 A
                               </button>
                               <button
                                 onClick={() => handleQuickMarkAttendance(tutor, 'Leave')}
                                 title="Mark Leave"
-                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${
-                                  status === 'Leave'
-                                    ? 'bg-amber-600 text-white shadow-xs'
-                                    : 'bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200'
-                                }`}
+                                className={`px-2 py-1 rounded-lg font-bold text-[11px] transition cursor-pointer ${ status === 'Leave' ? 'bg-white text-amber-700 shadow-xs border border-amber-600' : 'bg-white hover:bg-white text-amber-700 border border-amber-200' }`}
                               >
                                 L
                               </button>
@@ -1906,7 +1881,7 @@ export default function TutorManagementPage() {
                               {/* Edit Times Modal Trigger */}
                               <button
                                 onClick={() => handleOpenEditAttendance(tutor)}
-                                className="px-2.5 py-1 bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 rounded-lg font-bold text-[11px] transition flex items-center space-x-1 ml-1 cursor-pointer"
+                                className="px-2.5 py-1 bg-white hover:bg-white text-purple-700 border border-purple-200 rounded-lg font-bold text-[11px] transition flex items-center space-x-1 ml-1 cursor-pointer"
                                 title="Edit check-in / check-out times"
                               >
                                 <Edit3 className="w-3 h-3" />
@@ -1916,7 +1891,7 @@ export default function TutorManagementPage() {
                               {/* View Profile Drawer Trigger */}
                               <button
                                 onClick={() => openTutorDetails(tutor._id)}
-                                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-slate-100 transition"
+                                className="p-1 text-slate-400 hover:text-slate-700 rounded-lg hover:bg-white transition"
                                 title="View tutor full profile"
                               >
                                 <Eye className="w-4 h-4" />
@@ -1940,7 +1915,7 @@ export default function TutorManagementPage() {
           <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-5 shadow-2xl border border-slate-100">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+                <div className="w-8 h-8 rounded-xl bg-white text-purple-700 flex items-center justify-center font-bold">
                   <CalendarCheck2 className="w-4 h-4" />
                 </div>
                 <div>
@@ -1963,7 +1938,7 @@ export default function TutorManagementPage() {
                   type="date"
                   value={attendanceDate}
                   disabled
-                  className="w-full bg-slate-100 border border-slate-200 rounded-xl px-3 py-2 font-mono font-bold text-slate-600 cursor-not-allowed"
+                  className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-mono font-bold text-slate-600 cursor-not-allowed"
                 />
               </div>
 
@@ -1975,15 +1950,7 @@ export default function TutorManagementPage() {
                       key={st}
                       type="button"
                       onClick={() => setAttendanceForm({ ...attendanceForm, status: st })}
-                      className={`py-2 rounded-xl font-bold border transition text-center cursor-pointer ${
-                        attendanceForm.status === st
-                          ? st === 'Present'
-                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
-                            : st === 'Absent'
-                            ? 'bg-rose-600 text-white border-rose-600 shadow-xs'
-                            : 'bg-amber-600 text-white border-amber-600 shadow-xs'
-                          : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200'
-                      }`}
+                      className={`py-2 rounded-xl font-bold border transition text-center cursor-pointer ${ attendanceForm.status === st ? st === 'Present' ? 'bg-white text-emerald-700 border-emerald-600 shadow-xs border' : st === 'Absent' ? 'bg-white text-sq-gradient border-rose-600 shadow-xs border border-[#9333EA]' : 'bg-white text-amber-700 border-amber-600 shadow-xs border' : 'bg-white hover:bg-white text-slate-700 border-slate-200' }`}
                     >
                       {st}
                     </button>
@@ -2021,14 +1988,14 @@ export default function TutorManagementPage() {
                 <button
                   type="button"
                   onClick={() => setIsAttendanceModalOpen(false)}
-                  className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition cursor-pointer"
+                  className="px-4 py-2 bg-white hover:bg-white text-slate-700 font-bold rounded-xl transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={savingAttendance}
-                  className="px-5 py-2 bg-gradient-to-r from-[#8B2BE2] to-[#E02B91] hover:opacity-95 text-white font-bold rounded-xl shadow-md transition cursor-pointer flex items-center space-x-1.5"
+                  className="bg-white px-5 py-2 hover:opacity-95 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer flex items-center space-x-1.5 border border-[#9333EA]"
                 >
                   <Check className="w-4 h-4" />
                   <span>{savingAttendance ? 'Saving...' : 'Save Attendance'}</span>
@@ -2082,13 +2049,7 @@ export default function TutorManagementPage() {
                         setActiveSection(s.sec);
                       }
                     }}
-                    className={`px-3.5 py-1.5 rounded-xl font-bold transition whitespace-nowrap border ${
-                      activeSection === s.sec
-                        ? 'bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white border-transparent shadow-md font-bold'
-                        : isUnlocked
-                          ? 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-purple-50 hover:text-purple-700 cursor-pointer'
-                          : 'bg-slate-100 text-slate-400 border-slate-200 opacity-60 cursor-not-allowed'
-                    }`}
+                    className={`px-3.5 py-1.5 rounded-xl font-bold transition whitespace-nowrap border ${ activeSection === s.sec ? 'bg-white text-sq-gradient border-transparent shadow-md font-bold border border-[#9333EA]' : isUnlocked ? 'bg-white text-slate-700 border-slate-200 hover:bg-white hover:text-purple-700 cursor-pointer' : 'bg-white text-slate-400 border-slate-200 opacity-60 cursor-not-allowed' }`}
                   >
                     {s.label}
                   </button>
@@ -2100,7 +2061,7 @@ export default function TutorManagementPage() {
 
               {/* SECTION 1: RESUME UPLOAD & PARSING */}
               {activeSection === 1 && (
-                <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+                <div className="space-y-4 bg-white p-6 rounded-2xl border border-slate-200">
                   <div className="space-y-1">
                     <h3 className="font-bold text-slate-900 text-sm flex items-center space-x-2">
                       <FileText className="w-4 h-4 text-pink-600" />
@@ -2129,7 +2090,7 @@ export default function TutorManagementPage() {
                   </div>
 
                   {resumeFileMeta && (
-                    <div className="bg-emerald-50 border border-emerald-200 p-3 rounded-xl flex items-center justify-between text-xs">
+                    <div className="bg-white border border-emerald-200 p-3 rounded-xl flex items-center justify-between text-xs">
                       <div className="flex items-center space-x-2 text-emerald-800 font-semibold">
                         <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                         <span>Resume Uploaded: <strong>{resumeFileMeta.fileName}</strong> ({(resumeFileMeta.fileSize / 1024).toFixed(1)} KB)</span>
@@ -2157,7 +2118,7 @@ export default function TutorManagementPage() {
                     <button
                       type="button"
                       onClick={() => handleNextSection(1)}
-                      className="px-5 py-2.5 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center space-x-1.5"
+                      className="bg-white px-5 py-2.5 text-sq-gradient font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center space-x-1.5 border border-[#9333EA]"
                     >
                       <span>Next: Profile Photo →</span>
                     </button>
@@ -2167,13 +2128,13 @@ export default function TutorManagementPage() {
 
               {/* SECTION 2: PROFILE PHOTO */}
               {activeSection === 2 && (
-                <div className="space-y-4 bg-slate-50 p-6 rounded-2xl border border-slate-200 text-xs">
+                <div className="space-y-4 bg-white p-6 rounded-2xl border border-slate-200 text-xs">
                   <h3 className="font-bold text-slate-900 text-sm">Tutor Profile Photo</h3>
                   <div className="flex items-center space-x-4">
                     {photoUrl ? (
                       <img src={photoUrl} alt="Preview" className="w-16 h-16 rounded-2xl object-cover border-2 border-purple-500 shadow-sm" />
                     ) : (
-                      <div className="w-16 h-16 rounded-2xl bg-slate-200 flex items-center justify-center font-bold text-slate-500">
+                      <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center font-bold text-slate-500">
                         No Photo
                       </div>
                     )}
@@ -2191,8 +2152,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(1)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(2)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Personal Info →</button>
+                    <button type="button" onClick={() => setActiveSection(1)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(2)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Personal Info →</button>
                   </div>
                 </div>
               )}
@@ -2209,7 +2170,7 @@ export default function TutorManagementPage() {
                         value={fullName}
                         onChange={e => setFullName(e.target.value)}
                         placeholder="e.g. Arun Prakash"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
                       />
                       <p className="text-[10px] text-slate-400">Letters, spaces, dots & hyphens allowed. Fake strings (test/abc) rejected.</p>
                     </div>
@@ -2220,7 +2181,7 @@ export default function TutorManagementPage() {
                         type="date"
                         value={dob}
                         onChange={e => setDob(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
                       />
                       <p className="text-[10px] text-slate-400">Tutor Age must be between 20 and 75 years old.</p>
                     </div>
@@ -2230,7 +2191,7 @@ export default function TutorManagementPage() {
                       <select
                         value={qualification}
                         onChange={e => setQualification(e.target.value)}
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-bold"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-bold"
                       >
                         <option value="">Select Qualification</option>
                         <option value="B.E / B.Tech">B.E / B.Tech</option>
@@ -2244,8 +2205,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(2)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(3)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Contact & Verification →</button>
+                    <button type="button" onClick={() => setActiveSection(2)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(3)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Contact & Verification →</button>
                   </div>
                 </div>
               )}
@@ -2255,12 +2216,10 @@ export default function TutorManagementPage() {
                 <div className="space-y-5 text-xs">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Email Verification Box */}
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-slate-800 font-bold">Email Address *</label>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          emailOtpVerified ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-purple-100 text-purple-800'
-                        }`}>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${ emailOtpVerified ? 'bg-white text-emerald-800 border border-emerald-300' : 'bg-white text-purple-800' }`}>
                           {emailOtpVerified ? '✓ EMAIL VERIFIED' : 'FORMAT & MX CHECK'}
                         </span>
                       </div>
@@ -2280,7 +2239,7 @@ export default function TutorManagementPage() {
                           type="button"
                           onClick={() => handleSendEmailOtp(email)}
                           disabled={sendingEmailOtp || !email.trim()}
-                          className="px-3 py-2 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold rounded-xl text-[11px] whitespace-nowrap shadow-xs cursor-pointer disabled:opacity-50 transition"
+                          className="bg-white px-3 py-2 text-sq-gradient font-bold rounded-xl text-[11px] whitespace-nowrap shadow-xs cursor-pointer disabled:opacity-50 transition border border-[#9333EA]"
                         >
                           {sendingEmailOtp ? 'Sending OTP...' : emailOtpVerified ? 'Re-verify Email' : 'Verify OTP'}
                         </button>
@@ -2288,14 +2247,10 @@ export default function TutorManagementPage() {
                     </div>
 
                     {/* Phone Validation Box */}
-                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-2">
+                    <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-2">
                       <div className="flex items-center justify-between">
                         <label className="text-slate-800 font-bold">Indian Mobile Number (+91) *</label>
-                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                          isValidIndianMobile(phone) 
-                            ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' 
-                            : (phone.trim().length > 0 ? 'bg-rose-100 text-rose-800 border border-rose-300' : 'bg-purple-100 text-purple-800 border border-purple-300')
-                        }`}>
+                        <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${ isValidIndianMobile(phone) ? 'bg-white text-emerald-800 border border-emerald-300' : (phone.trim().length > 0 ? 'bg-white text-rose-800 border border-rose-300' : 'bg-white text-purple-800 border border-purple-300') }`}>
                           {isValidIndianMobile(phone) 
                             ? '✓ FORMAT VALID (+91)' 
                             : (phone.trim().length > 0 ? '⚠️ DUMMY / INVALID NUMBER' : 'FORMAT CHECK (+91)')}
@@ -2317,7 +2272,7 @@ export default function TutorManagementPage() {
                   </div>
 
                   {/* Address & PIN Code Region Verification */}
-                  <div className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                  <div className="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
                     <h4 className="font-bold text-slate-900 uppercase text-[11px] tracking-wider text-purple-900">Address &amp; Indian PIN Code Validation</h4>
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                       <input
@@ -2370,8 +2325,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(3)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(4)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Account Info →</button>
+                    <button type="button" onClick={() => setActiveSection(3)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(4)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Account Info →</button>
                   </div>
                 </div>
               )}
@@ -2388,7 +2343,7 @@ export default function TutorManagementPage() {
                         value={username}
                         onChange={e => setUsername(e.target.value)}
                         placeholder="arun.tutor"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
                       />
                     </div>
 
@@ -2400,7 +2355,7 @@ export default function TutorManagementPage() {
                           required
                           value={password}
                           onChange={e => setPassword(e.target.value)}
-                          className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-3 pr-10 py-2 text-slate-900 font-mono"
+                          className="w-full bg-white border border-slate-200 rounded-xl pl-3 pr-10 py-2 text-slate-900 font-mono"
                         />
                         <button
                           type="button"
@@ -2420,33 +2375,29 @@ export default function TutorManagementPage() {
                         value={expectedSalary}
                         onChange={e => setExpectedSalary(e.target.value)}
                         placeholder="₹3,00,000 / year"
-                        className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
+                        className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900 font-mono"
                       />
                       <p className="text-[11px] text-slate-500 font-medium mt-0.5">Enter the tutor's expected annual salary.</p>
                     </div>
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(4)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(5)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Employment Type →</button>
+                    <button type="button" onClick={() => setActiveSection(4)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(5)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Employment Type →</button>
                   </div>
                 </div>
               )}
 
               {/* SECTION 6: EMPLOYMENT TYPE (REQUIRED) */}
               {activeSection === 6 && (
-                <div className="space-y-4 bg-purple-50/70 border border-purple-200 p-6 rounded-2xl text-xs">
+                <div className="space-y-4 bg-white border border-purple-200 p-6 rounded-2xl text-xs">
                   <div>
                     <h3 className="font-black text-slate-900 text-sm uppercase tracking-wider text-purple-900">Employment Type *</h3>
                     <p className="text-slate-600 text-xs">Specify whether this tutor is employed Full-Time or Part-Time.</p>
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <label className={`p-4 rounded-2xl border cursor-pointer transition flex items-center space-x-3 ${
-                      employmentType === 'FULL-TIME'
-                        ? 'bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white border-transparent shadow-md font-bold'
-                        : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
-                    }`}>
+                    <label className={`p-4 rounded-2xl border cursor-pointer transition flex items-center space-x-3 ${ employmentType === 'FULL-TIME' ? 'bg-white text-sq-gradient border-transparent shadow-md font-bold border border-[#9333EA]' : 'bg-white text-slate-800 border-slate-200 hover:bg-white' }`}>
                       <input
                         type="radio"
                         name="empType"
@@ -2461,11 +2412,7 @@ export default function TutorManagementPage() {
                       </div>
                     </label>
 
-                    <label className={`p-4 rounded-2xl border cursor-pointer transition flex items-center space-x-3 ${
-                      employmentType === 'PART-TIME'
-                        ? 'bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white border-transparent shadow-md font-bold'
-                        : 'bg-white text-slate-800 border-slate-200 hover:bg-slate-50'
-                    }`}>
+                    <label className={`p-4 rounded-2xl border cursor-pointer transition flex items-center space-x-3 ${ employmentType === 'PART-TIME' ? 'bg-white text-sq-gradient border-transparent shadow-md font-bold border border-[#9333EA]' : 'bg-white text-slate-800 border-slate-200 hover:bg-white' }`}>
                       <input
                         type="radio"
                         name="empType"
@@ -2482,8 +2429,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(5)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(6)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Bio →</button>
+                    <button type="button" onClick={() => setActiveSection(5)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(6)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Bio →</button>
                   </div>
                 </div>
               )}
@@ -2498,7 +2445,7 @@ export default function TutorManagementPage() {
                       value={professionalBio}
                       onChange={e => setProfessionalBio(e.target.value)}
                       placeholder="Senior Technical Tutor with 5+ years of experience in Java Full Stack and DSA..."
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-slate-900"
+                      className="w-full bg-white border border-slate-200 rounded-xl p-3 text-slate-900"
                     />
                   </div>
 
@@ -2509,13 +2456,13 @@ export default function TutorManagementPage() {
                       value={totalExperience}
                       onChange={e => setTotalExperience(e.target.value)}
                       placeholder="e.g. 3 Years"
-                      className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
+                      className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-slate-900"
                     />
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(6)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(7)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Education →</button>
+                    <button type="button" onClick={() => setActiveSection(6)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(7)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Education →</button>
                   </div>
                 </div>
               )}
@@ -2525,7 +2472,7 @@ export default function TutorManagementPage() {
                 <div className="space-y-4 text-xs">
                   <h3 className="font-bold text-slate-900 text-sm">Education Records</h3>
                   {educationList.map((edu, idx) => (
-                    <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
                       <div className="grid grid-cols-2 gap-3">
                         <input
                           type="text"
@@ -2554,8 +2501,8 @@ export default function TutorManagementPage() {
                   ))}
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(7)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(8)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Experience →</button>
+                    <button type="button" onClick={() => setActiveSection(7)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(8)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Experience →</button>
                   </div>
                 </div>
               )}
@@ -2565,7 +2512,7 @@ export default function TutorManagementPage() {
                 <div className="space-y-4 text-xs">
                   <h3 className="font-bold text-slate-900 text-sm">Work Experience Timeline</h3>
                   {experienceList.map((exp, idx) => (
-                    <div key={idx} className="bg-slate-50 p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <div key={idx} className="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
                       <div className="grid grid-cols-2 gap-3">
                         <input
                           type="text"
@@ -2594,8 +2541,8 @@ export default function TutorManagementPage() {
                   ))}
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(8)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(9)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Skills →</button>
+                    <button type="button" onClick={() => setActiveSection(8)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(9)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Skills →</button>
                   </div>
                 </div>
               )}
@@ -2610,12 +2557,12 @@ export default function TutorManagementPage() {
                       placeholder="Add technical skill..."
                       value={newSkillName}
                       onChange={e => setNewSkillName(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 flex-1"
+                      className="bg-white border border-slate-200 rounded-xl px-3 py-2 flex-1"
                     />
                     <select
                       value={newSkillCategory}
                       onChange={e => setNewSkillCategory(e.target.value)}
-                      className="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs"
+                      className="bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs"
                     >
                       <option value="Programming Languages">Programming Languages</option>
                       <option value="Frameworks">Frameworks</option>
@@ -2627,7 +2574,7 @@ export default function TutorManagementPage() {
                     <button
                       type="button"
                       onClick={handleAddSkill}
-                      className="px-4 py-2 bg-slate-900 text-white rounded-xl font-bold"
+                      className="bg-white px-4 py-2 text-sq-gradient rounded-xl font-bold border border-[#9333EA]"
                     >
                       + Add
                     </button>
@@ -2635,7 +2582,7 @@ export default function TutorManagementPage() {
 
                   <div className="flex flex-wrap gap-2 pt-2">
                     {skillsList.map((sk, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-purple-50 text-purple-700 border border-purple-200 rounded-xl font-bold flex items-center space-x-1.5">
+                      <span key={idx} className="px-3 py-1 bg-white text-purple-700 border border-purple-200 rounded-xl font-bold flex items-center space-x-1.5">
                         <span>{sk.name} ({sk.category})</span>
                         <button type="button" onClick={() => handleRemoveSkill(idx)} className="text-purple-400 hover:text-purple-900">
                           <X className="w-3 h-3" />
@@ -2645,8 +2592,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(9)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(10)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Teaching Domains →</button>
+                    <button type="button" onClick={() => setActiveSection(9)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(10)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Teaching Domains →</button>
                   </div>
                 </div>
               )}
@@ -2667,11 +2614,7 @@ export default function TutorManagementPage() {
                           key={c._id}
                           type="button"
                           onClick={() => handleToggleDomain(c)}
-                          className={`p-3 rounded-xl font-bold border transition text-left flex items-center justify-between ${
-                            isSelected
-                              ? 'bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white border-transparent shadow-xs'
-                              : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'
-                          }`}
+                          className={`p-3 rounded-xl font-bold border transition text-left flex items-center justify-between ${ isSelected ? 'bg-white text-sq-gradient border-transparent shadow-xs border border-[#9333EA]' : 'bg-white text-slate-700 border-slate-200 hover:bg-white' }`}
                         >
                           <span>{c.title}</span>
                           {isSelected && <Check className="w-4 h-4" />}
@@ -2681,8 +2624,8 @@ export default function TutorManagementPage() {
                   </div>
 
                   <div className="flex justify-between pt-2">
-                    <button type="button" onClick={() => setActiveSection(10)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
-                    <button type="button" onClick={() => handleNextSection(11)} className="px-5 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">Next: Availability →</button>
+                    <button type="button" onClick={() => setActiveSection(10)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => handleNextSection(11)} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer border border-[#9333EA]">Next: Availability →</button>
                   </div>
                 </div>
               )}
@@ -2690,7 +2633,7 @@ export default function TutorManagementPage() {
               {/* SECTION 12: AVAILABILITY & FINAL SAVE WITH VALIDATION ENGINE */}
               {activeSection === 12 && (
                 <div className="space-y-6 text-xs">
-                  <div className="bg-gradient-to-r from-purple-50 via-fuchsia-50 to-pink-50 p-4 rounded-2xl border border-purple-200/80 space-y-1">
+                  <div className="bg-white p-4 rounded-2xl border border-purple-200/80 space-y-1">
                     <div className="flex items-center space-x-2 text-purple-800 font-bold">
                       <Clock className="w-4 h-4 text-purple-600" />
                       <h3 className="font-black text-slate-900 text-sm">Tutor Working Availability &amp; Custom Shift Manager</h3>
@@ -2707,28 +2650,28 @@ export default function TutorManagementPage() {
                       <button
                         type="button"
                         onClick={() => handleApplyPresetShift('FULL-TIME')}
-                        className="px-3 py-2 bg-purple-50 hover:bg-purple-100 text-purple-800 font-bold rounded-xl border border-purple-200 text-center transition"
+                        className="px-3 py-2 bg-white hover:bg-white text-purple-800 font-bold rounded-xl border border-purple-200 text-center transition"
                       >
                         ⚡ Full-Time (Mon-Fri 9-5)
                       </button>
                       <button
                         type="button"
                         onClick={() => handleApplyPresetShift('PART-TIME-EVENING')}
-                        className="px-3 py-2 bg-fuchsia-50 hover:bg-fuchsia-100 text-fuchsia-800 font-bold rounded-xl border border-fuchsia-200 text-center transition"
+                        className="px-3 py-2 bg-white hover:bg-white text-fuchsia-800 font-bold rounded-xl border border-fuchsia-200 text-center transition"
                       >
                         🌙 Evening Shift (5pm-9pm)
                       </button>
                       <button
                         type="button"
                         onClick={() => handleApplyPresetShift('WEEKEND-ONLY')}
-                        className="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold rounded-xl border border-emerald-200 text-center transition"
+                        className="px-3 py-2 bg-white hover:bg-white text-emerald-800 font-bold rounded-xl border border-emerald-200 text-center transition"
                       >
                         ☕ Weekend Only (Sat-Sun)
                       </button>
                       <button
                         type="button"
                         onClick={() => handleApplyPresetShift('FULL-WEEK')}
-                        className="px-3 py-2 bg-pink-50 hover:bg-pink-100 text-pink-800 font-bold rounded-xl border border-pink-200 text-center transition"
+                        className="px-3 py-2 bg-white hover:bg-white text-pink-800 font-bold rounded-xl border border-pink-200 text-center transition"
                       >
                         📅 Active All 7 Days
                       </button>
@@ -2755,7 +2698,7 @@ export default function TutorManagementPage() {
                               updated[idx].dayOfWeek = e.target.value;
                               setAvailabilityList(updated);
                             }}
-                            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-1.5 font-bold text-slate-800 text-xs focus:bg-white focus:border-purple-500"
+                            className="w-full bg-white border border-slate-200 rounded-xl px-2.5 py-1.5 font-bold text-slate-800 text-xs focus:bg-white focus:border-purple-500"
                             placeholder="e.g. Monday"
                           />
                         </div>
@@ -2772,9 +2715,7 @@ export default function TutorManagementPage() {
                               }}
                               className="w-4 h-4 text-purple-600 rounded border-slate-300 focus:ring-purple-500"
                             />
-                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
-                              av.isAvailable !== false ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-200 text-slate-600'
-                            }`}>
+                            <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${ av.isAvailable !== false ? 'bg-white text-emerald-800' : 'bg-white text-slate-600' }`}>
                               {av.isAvailable !== false ? 'ACTIVE' : 'OFF DAY'}
                             </span>
                           </label>
@@ -2788,7 +2729,7 @@ export default function TutorManagementPage() {
                               updated[idx].startTime = e.target.value;
                               setAvailabilityList(updated);
                             }}
-                            className="bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 font-mono text-slate-800 text-xs font-semibold"
+                            className="bg-white border border-slate-200 rounded-xl px-2 py-1.5 font-mono text-slate-800 text-xs font-semibold"
                           >
                             {['06:00 AM', '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM', '09:00 PM', '10:00 PM'].map(t => (
                               <option key={t} value={t}>{t}</option>
@@ -2802,7 +2743,7 @@ export default function TutorManagementPage() {
                               updated[idx].endTime = e.target.value;
                               setAvailabilityList(updated);
                             }}
-                            className="bg-slate-50 border border-slate-200 rounded-xl px-2 py-1.5 font-mono text-slate-800 text-xs font-semibold"
+                            className="bg-white border border-slate-200 rounded-xl px-2 py-1.5 font-mono text-slate-800 text-xs font-semibold"
                           >
                             {['06:00 AM', '07:00 AM', '08:00 AM', '09:00 AM', '10:00 AM', '11:00 AM', '12:00 PM', '01:00 PM', '02:00 PM', '03:00 PM', '04:00 PM', '05:00 PM', '06:00 PM', '07:00 PM', '08:00 PM', '09:00 PM', '10:00 PM'].map(t => (
                               <option key={t} value={t}>{t}</option>
@@ -2814,7 +2755,7 @@ export default function TutorManagementPage() {
                           <button
                             type="button"
                             onClick={() => handleRemoveAvailabilitySlot(idx)}
-                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                            className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-white rounded-lg transition"
                             title="Remove Slot"
                           >
                             <Trash2 className="w-4 h-4" />
@@ -2827,7 +2768,7 @@ export default function TutorManagementPage() {
                       <button
                         type="button"
                         onClick={handleAddCustomAvailabilitySlot}
-                        className="px-4 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white rounded-xl font-bold text-xs flex items-center space-x-1.5 transition shadow-xs"
+                        className="bg-white px-4 py-2 text-sq-gradient rounded-xl font-bold text-xs flex items-center space-x-1.5 transition shadow-xs border border-[#9333EA]"
                       >
                         <Plus className="w-4 h-4" />
                         <span>Add Extra Time Slot / Custom Shift</span>
@@ -2837,14 +2778,14 @@ export default function TutorManagementPage() {
 
                   {/* Navigation & Authoritative Validation / Final Save */}
                   <div className="pt-4 border-t border-slate-200 flex flex-col md:flex-row items-center justify-between gap-4">
-                    <button type="button" onClick={() => setActiveSection(11)} className="px-4 py-2 bg-slate-200 text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
+                    <button type="button" onClick={() => setActiveSection(11)} className="px-4 py-2 bg-white text-slate-700 font-bold rounded-xl cursor-pointer">← Back</button>
 
                     <div className="flex items-center space-x-3 w-full md:w-auto">
                       <button
                         type="button"
                         onClick={handleValidatePayload}
                         disabled={validatingPayload}
-                        className="px-5 py-3 bg-purple-100 hover:bg-purple-200 text-purple-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer"
+                        className="px-5 py-3 bg-white hover:bg-white text-purple-800 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer"
                       >
                         <ShieldCheck className="w-4 h-4 text-purple-600" />
                         <span>{validatingPayload ? 'Running Validation...' : 'Run Data Audit Check'}</span>
@@ -2853,7 +2794,7 @@ export default function TutorManagementPage() {
                       <button
                         type="submit"
                         disabled={submittingTutor}
-                        className="px-8 py-3 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white rounded-xl font-bold shadow-lg text-sm flex items-center space-x-2 transition cursor-pointer"
+                        className="bg-white px-8 py-3 text-sq-gradient rounded-xl font-bold shadow-lg text-sm flex items-center space-x-2 transition cursor-pointer border border-[#9333EA]"
                       >
                         <Check className="w-4 h-4" />
                         <span>{submittingTutor ? 'Validating & Saving...' : 'SAVE TUTOR PROFILE'}</span>
@@ -2872,7 +2813,7 @@ export default function TutorManagementPage() {
       {emailOtpModalOpen && (
         <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-sm w-full p-6 space-y-4 shadow-2xl text-center border border-slate-100 relative z-[101]">
-            <div className="w-12 h-12 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-xs">
+            <div className="w-12 h-12 bg-white text-purple-600 rounded-2xl flex items-center justify-center mx-auto shadow-xs">
               <Mail className="w-6 h-6" />
             </div>
             <div>
@@ -2892,7 +2833,7 @@ export default function TutorManagementPage() {
                   setEmailOtpError('');
                 }}
                 placeholder="_ _ _ _ _ _"
-                className="w-full text-center font-mono font-black text-3xl tracking-widest bg-slate-50 border border-slate-200 rounded-2xl py-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-inner"
+                className="w-full text-center font-mono font-black text-3xl tracking-widest bg-white border border-slate-200 rounded-2xl py-3 text-slate-900 focus:bg-white focus:ring-2 focus:ring-purple-500 focus:outline-none shadow-inner"
               />
 
               <div className="flex items-center justify-between text-[11px] font-semibold text-slate-500 px-1">
@@ -2913,7 +2854,7 @@ export default function TutorManagementPage() {
             </div>
 
             {emailOtpError && (
-              <div className="bg-rose-50 border border-rose-200 text-rose-700 p-2.5 rounded-xl text-xs font-semibold text-center">
+              <div className="bg-white border border-rose-200 text-rose-700 p-2.5 rounded-xl text-xs font-semibold text-center">
                 ⚠️ {emailOtpError}
               </div>
             )}
@@ -2922,7 +2863,7 @@ export default function TutorManagementPage() {
               <button
                 type="button"
                 onClick={() => setEmailOtpModalOpen(false)}
-                className="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+                className="w-1/2 py-2.5 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
               >
                 Cancel
               </button>
@@ -2930,7 +2871,7 @@ export default function TutorManagementPage() {
                 type="button"
                 onClick={handleVerifyEmailOtp}
                 disabled={verifyingEmailOtp || emailOtpInput.length !== 6 || emailOtpCountdown === 0}
-                className="w-1/2 py-2.5 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 disabled:opacity-50 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center justify-center space-x-1.5"
+                className="bg-white w-1/2 py-2.5 disabled:opacity-50 text-sq-gradient font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center justify-center space-x-1.5 border border-[#9333EA]"
               >
                 <Check className="w-4 h-4" />
                 <span>{verifyingEmailOtp ? 'Verifying...' : 'Verify Email'}</span>
@@ -2946,7 +2887,7 @@ export default function TutorManagementPage() {
       {duplicateModalOpen && duplicateWarning && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-rose-100">
-            <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 bg-white text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
               <ShieldAlert className="w-6 h-6" />
             </div>
             <div className="text-center">
@@ -2954,7 +2895,7 @@ export default function TutorManagementPage() {
               <p className="text-xs text-slate-500">The system found existing tutor accounts matching entered email or mobile number.</p>
             </div>
 
-            <div className="bg-rose-50 border border-rose-200 p-3 rounded-xl text-xs font-mono space-y-1.5 text-rose-900">
+            <div className="bg-white border border-rose-200 p-3 rounded-xl text-xs font-mono space-y-1.5 text-rose-900">
               {duplicateWarning.warnings?.map((w, idx) => (
                 <p key={idx}>⚠️ {w}</p>
               ))}
@@ -2963,13 +2904,13 @@ export default function TutorManagementPage() {
             <div className="flex justify-between space-x-2 pt-2">
               <button
                 onClick={() => setDuplicateModalOpen(false)}
-                className="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs"
+                className="px-4 py-2.5 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs"
               >
                 Edit Form Details
               </button>
               <button
                 onClick={(e) => handleSaveTutor(e, true)}
-                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow-md"
+                className="bg-white px-5 py-2.5 text-sq-gradient font-bold rounded-xl text-xs shadow-md border border-[#9333EA]"
               >
                 Proceed &amp; Save Anyway
               </button>
@@ -2982,7 +2923,7 @@ export default function TutorManagementPage() {
       {createdSuccess && (
         <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl border border-slate-100">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 rounded-2xl bg-white text-emerald-600 flex items-center justify-center mx-auto">
               <CheckCircle2 className="w-6 h-6" />
             </div>
             <div>
@@ -2990,7 +2931,7 @@ export default function TutorManagementPage() {
               <p className="text-xs text-slate-500">Structured tutor profile &amp; verified user credentials saved to database.</p>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-2xl text-xs space-y-1.5 font-mono text-left border border-slate-200">
+            <div className="bg-white p-4 rounded-2xl text-xs space-y-1.5 font-mono text-left border border-slate-200">
               <p>Tutor ID: <strong className="text-purple-700">{createdSuccess.tutorId}</strong></p>
               <p>Name: <strong>{createdSuccess.name}</strong></p>
               <p>Email: <strong>{createdSuccess.email}</strong></p>
@@ -3003,7 +2944,7 @@ export default function TutorManagementPage() {
 
             <button
               onClick={() => setCreatedSuccess(null)}
-              className="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition"
+              className="bg-white w-full py-2.5 text-sq-gradient font-bold rounded-xl text-xs transition border border-[#9333EA]"
             >
               Done &amp; Close
             </button>
@@ -3015,7 +2956,7 @@ export default function TutorManagementPage() {
       {deleteConfirmModalOpen && tutorDetails && (
         <div className="fixed inset-0 z-[100] bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 outline-none border-none ring-0">
           <div className="bg-white rounded-3xl max-w-md w-full p-6 space-y-4 shadow-2xl border border-rose-100 relative z-[101]">
-            <div className="w-12 h-12 bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
+            <div className="w-12 h-12 bg-white text-rose-600 rounded-2xl flex items-center justify-center mx-auto">
               <Trash2 className="w-6 h-6" />
             </div>
             <div className="text-center">
@@ -3026,7 +2967,7 @@ export default function TutorManagementPage() {
             </div>
 
             {deleteWarningInfo?.hasDependencies && (
-              <div className="bg-amber-50 border border-amber-200 p-3.5 rounded-2xl text-xs space-y-1.5 text-amber-900">
+              <div className="bg-white border border-slate-200 p-3.5 rounded-2xl text-xs space-y-1.5 text-amber-900">
                 <div className="flex items-center space-x-1.5 font-bold text-amber-800">
                   <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0" />
                   <span>Active Assignments Warning</span>
@@ -3041,7 +2982,7 @@ export default function TutorManagementPage() {
               <button
                 type="button"
                 onClick={() => setDeleteConfirmModalOpen(false)}
-                className="w-1/2 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+                className="w-1/2 py-2.5 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
               >
                 Cancel
               </button>
@@ -3049,7 +2990,7 @@ export default function TutorManagementPage() {
                 type="button"
                 onClick={handleConfirmDeleteTutor}
                 disabled={deletingTutor}
-                className="w-1/2 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center justify-center space-x-1.5"
+                className="bg-white w-1/2 py-2.5 text-sq-gradient font-bold rounded-xl text-xs shadow-md transition cursor-pointer flex items-center justify-center space-x-1.5 border border-[#9333EA]"
               >
                 <Trash2 className="w-4 h-4" />
                 <span>{deletingTutor ? 'Deleting Profile...' : 'Confirm Delete'}</span>
@@ -3062,23 +3003,17 @@ export default function TutorManagementPage() {
       {/* DRAWER: ANIMATED FULL TUTOR PROFILE VIEW & EDIT PANEL */}
       {(isDrawerOpen || selectedTutorId) && (
         <div
-          className={`fixed inset-0 z-50 transition-opacity duration-300 ease-out flex justify-end outline-none focus:outline-none ring-0 border-none ${
-            drawerAnimatedIn && !isDrawerClosing ? 'opacity-100' : 'opacity-0 pointer-events-none'
-          }`}
+          className={`fixed inset-0 z-50 transition-opacity duration-300 ease-out flex justify-end outline-none focus:outline-none ring-0 border-none ${ drawerAnimatedIn && !isDrawerClosing ? 'opacity-100' : 'opacity-0 pointer-events-none' }`}
         >
           {/* Backdrop */}
           <div
             onClick={closeDrawerWithAnimation}
-            className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300 ease-out outline-none border-none ring-0 ${
-              drawerAnimatedIn && !isDrawerClosing ? 'opacity-100' : 'opacity-0'
-            }`}
+            className={`fixed inset-0 bg-slate-900/60 backdrop-blur-xs transition-opacity duration-300 ease-out outline-none border-none ring-0 ${ drawerAnimatedIn && !isDrawerClosing ? 'opacity-100' : 'opacity-0' }`}
           />
 
           {/* Right Drawer Panel with slide-in & fade-in / slide-out & fade-out */}
           <div
-            className={`relative z-10 bg-white w-full max-w-2xl h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto transform transition-all duration-300 ease-out outline-none border-none ring-0 ${
-              drawerAnimatedIn && !isDrawerClosing ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-            }`}
+            className={`relative z-10 bg-white w-full max-w-2xl h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto transform transition-all duration-300 ease-out outline-none border-none ring-0 ${ drawerAnimatedIn && !isDrawerClosing ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0' }`}
           >
             {loadingDetails || !tutorDetails ? (
               <div className="flex flex-col items-center justify-center h-full space-y-4">
@@ -3099,14 +3034,14 @@ export default function TutorManagementPage() {
                             className="w-14 h-14 rounded-2xl object-cover border-2 border-purple-300 shadow-sm"
                           />
                         ) : (
-                          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-purple-600 to-pink-600 text-white flex items-center justify-center font-bold text-xl shadow-sm">
+                          <div className="bg-white w-14 h-14 rounded-2xl text-sq-gradient flex items-center justify-center font-bold text-xl shadow-sm border border-[#9333EA]">
                             {tutorDetails.fullName ? tutorDetails.fullName.charAt(0) : 'T'}
                           </div>
                         )}
 
                         <label
                           title="Change / Upload Profile Photo"
-                          className="absolute -bottom-1 -right-1 p-1.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full shadow-md cursor-pointer transition flex items-center justify-center border-2 border-white"
+                          className="bg-white absolute -bottom-1 -right-1 p-1.5 text-sq-gradient rounded-full shadow-md cursor-pointer transition flex items-center justify-center border-2 border-white"
                         >
                           <Camera className="w-3.5 h-3.5" />
                           <input
@@ -3132,7 +3067,7 @@ export default function TutorManagementPage() {
                       {!isEditingProfile ? (
                         <button
                           onClick={startEditingProfile}
-                          className="px-3.5 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer border border-purple-200/80"
+                          className="px-3.5 py-1.5 bg-white hover:bg-white text-purple-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer border border-purple-200/80"
                         >
                           <Edit3 className="w-3.5 h-3.5 text-purple-600" />
                           <span>Edit Profile</span>
@@ -3140,7 +3075,7 @@ export default function TutorManagementPage() {
                       ) : (
                         <button
                           onClick={() => setIsEditingProfile(false)}
-                          className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
+                          className="px-3 py-1.5 bg-white hover:bg-white text-slate-700 font-bold rounded-xl text-xs transition cursor-pointer"
                         >
                           Cancel Edit
                         </button>
@@ -3148,7 +3083,7 @@ export default function TutorManagementPage() {
 
                       <button
                         onClick={handleInitiateDeleteTutor}
-                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer border border-rose-200"
+                        className="px-3 py-1.5 bg-white hover:bg-white text-rose-700 font-bold rounded-xl text-xs flex items-center space-x-1.5 transition cursor-pointer border border-rose-200"
                         title="Delete Tutor Record"
                       >
                         <Trash2 className="w-3.5 h-3.5 text-rose-600" />
@@ -3157,7 +3092,7 @@ export default function TutorManagementPage() {
 
                       <button
                         onClick={closeDrawerWithAnimation}
-                        className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer"
+                        className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 hover:bg-white transition cursor-pointer"
                       >
                         <X className="w-5 h-5" />
                       </button>
@@ -3169,11 +3104,7 @@ export default function TutorManagementPage() {
                     <div className="flex items-center space-x-2 border-b border-slate-100 pb-3">
                       <button
                         onClick={() => setDrawerTab('overview')}
-                        className={`px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${
-                          drawerTab === 'overview'
-                            ? 'bg-purple-100 text-purple-800 border border-purple-200 shadow-2xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl font-bold text-xs transition cursor-pointer ${ drawerTab === 'overview' ? 'bg-white text-purple-800 border border-purple-200 shadow-2xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white' }`}
                       >
                         Profile Overview
                       </button>
@@ -3183,11 +3114,7 @@ export default function TutorManagementPage() {
                           const uId = tutorDetails?.userId?._id || tutorDetails?.userId;
                           if (uId) loadTutorHistory(uId);
                         }}
-                        className={`px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 cursor-pointer ${
-                          drawerTab === 'attendance'
-                            ? 'bg-purple-100 text-purple-800 border border-purple-200 shadow-2xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
-                        }`}
+                        className={`px-3 py-1.5 rounded-xl font-bold text-xs transition flex items-center space-x-1.5 cursor-pointer ${ drawerTab === 'attendance' ? 'bg-white text-purple-800 border border-purple-200 shadow-2xs' : 'text-slate-600 hover:text-slate-900 hover:bg-white' }`}
                       >
                         <CalendarCheck2 className="w-3.5 h-3.5 text-purple-600" />
                         <span>Attendance History</span>
@@ -3198,7 +3125,7 @@ export default function TutorManagementPage() {
                   {/* BODY: EDIT MODE VS READ-ONLY OVERVIEW MODE */}
                   {isEditingProfile ? (
                     <form onSubmit={handleSaveEditedProfile} className="space-y-4 text-xs">
-                      <div className="bg-purple-50/50 p-4 rounded-2xl border border-purple-100 space-y-4">
+                      <div className="bg-white p-4 rounded-2xl border border-purple-100 space-y-4">
                         <h4 className="font-black text-purple-900 uppercase text-[11px] tracking-wider flex items-center space-x-1.5">
                           <Edit3 className="w-4 h-4 text-purple-600" />
                           <span>Edit Tutor Information</span>
@@ -3254,7 +3181,7 @@ export default function TutorManagementPage() {
                             </select>
                           </div>
 
-                          <div className="col-span-1 md:col-span-2 bg-purple-50/70 p-3 rounded-2xl border border-purple-200/80 space-y-1">
+                          <div className="col-span-1 md:col-span-2 bg-white p-3 rounded-2xl border border-purple-200/80 space-y-1">
                             <label className="block text-slate-800 font-bold text-xs">Reset Tutor Password (Optional)</label>
                             <div className="relative">
                               <input
@@ -3288,7 +3215,7 @@ export default function TutorManagementPage() {
                             />
                           </div>
 
-                          <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 bg-purple-50/40 p-4 rounded-2xl border border-purple-200/60">
+                          <div className="col-span-1 md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3 bg-white p-4 rounded-2xl border border-purple-200/60">
                             {/* Profile Photo Upload */}
                             <div className="space-y-1.5">
                               <label className="block text-slate-800 font-bold text-xs">Profile Photo Upload</label>
@@ -3424,14 +3351,14 @@ export default function TutorManagementPage() {
                         <button
                           type="button"
                           onClick={() => setIsEditingProfile(false)}
-                          className="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl transition cursor-pointer"
+                          className="px-4 py-2 bg-white hover:bg-white text-slate-700 font-bold rounded-xl transition cursor-pointer"
                         >
                           Cancel
                         </button>
                         <button
                           type="submit"
                           disabled={savingEdit}
-                          className="px-6 py-2 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 hover:from-pink-600 hover:to-violet-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer flex items-center space-x-1.5"
+                          className="bg-white px-6 py-2 text-sq-gradient font-bold rounded-xl shadow-md transition cursor-pointer flex items-center space-x-1.5 border border-[#9333EA]"
                         >
                           <Check className="w-4 h-4" />
                           <span>{savingEdit ? 'Saving Changes...' : 'Save Profile Changes'}</span>
@@ -3450,19 +3377,19 @@ export default function TutorManagementPage() {
                         <>
                           {/* Summary Stats */}
                           <div className="grid grid-cols-4 gap-2">
-                            <div className="bg-purple-50 border border-purple-100 rounded-xl p-3 text-center">
+                            <div className="bg-white border border-purple-100 rounded-xl p-3 text-center">
                               <span className="text-[10px] uppercase font-bold text-slate-400">Total Days</span>
                               <h5 className="text-lg font-black text-purple-700">{tutorAttendanceHistory?.summary?.totalDays || 0}</h5>
                             </div>
-                            <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-3 text-center">
+                            <div className="bg-white border border-emerald-100 rounded-xl p-3 text-center">
                               <span className="text-[10px] uppercase font-bold text-slate-400">Present</span>
                               <h5 className="text-lg font-black text-emerald-700">{tutorAttendanceHistory?.summary?.presentDays || 0}</h5>
                             </div>
-                            <div className="bg-rose-50 border border-rose-100 rounded-xl p-3 text-center">
+                            <div className="bg-white border border-rose-100 rounded-xl p-3 text-center">
                               <span className="text-[10px] uppercase font-bold text-slate-400">Absent</span>
                               <h5 className="text-lg font-black text-rose-700">{tutorAttendanceHistory?.summary?.absentDays || 0}</h5>
                             </div>
-                            <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-3 text-center">
+                            <div className="bg-white border border-indigo-100 rounded-xl p-3 text-center">
                               <span className="text-[10px] uppercase font-bold text-slate-400">Attendance %</span>
                               <h5 className="text-lg font-black text-indigo-700">{tutorAttendanceHistory?.summary?.attendancePercentage || 0}%</h5>
                             </div>
@@ -3470,7 +3397,7 @@ export default function TutorManagementPage() {
 
                           {/* Records Table */}
                           <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-xs">
-                            <div className="px-4 py-2.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                            <div className="px-4 py-2.5 bg-white border-b border-slate-200 flex items-center justify-between">
                               <span className="font-bold text-slate-700 text-xs flex items-center space-x-1.5">
                                 <Clock className="w-3.5 h-3.5 text-purple-600" />
                                 <span>Attendance History Log</span>
@@ -3487,7 +3414,7 @@ export default function TutorManagementPage() {
                             ) : (
                               <table className="w-full text-left text-xs">
                                 <thead>
-                                  <tr className="border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase bg-slate-50/50">
+                                  <tr className="border-b border-slate-100 text-[10px] font-bold text-slate-400 uppercase bg-white">
                                     <th className="py-2 px-3">Date</th>
                                     <th className="py-2 px-3">Check-In</th>
                                     <th className="py-2 px-3">Check-Out</th>
@@ -3496,16 +3423,12 @@ export default function TutorManagementPage() {
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
                                   {tutorAttendanceHistory.records.map((r, i) => (
-                                    <tr key={i} className="hover:bg-slate-50">
+                                    <tr key={i} className="hover:bg-white">
                                       <td className="py-2.5 px-3 font-mono font-bold text-slate-900">{r.date}</td>
                                       <td className="py-2.5 px-3 font-mono text-emerald-700">{r.checkIn || '—'}</td>
                                       <td className="py-2.5 px-3 font-mono text-purple-700">{r.checkOut || '—'}</td>
                                       <td className="py-2.5 px-3 text-right">
-                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                          r.status === 'Present' ? 'bg-emerald-100 text-emerald-800' :
-                                          r.status === 'Absent' ? 'bg-rose-100 text-rose-800' :
-                                          'bg-amber-100 text-amber-800'
-                                        }`}>
+                                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${ r.status === 'Present' ? 'bg-white text-emerald-800' : r.status === 'Absent' ? 'bg-white text-rose-800' : 'bg-white text-amber-800' }`}>
                                           {r.status}
                                         </span>
                                       </td>
@@ -3521,10 +3444,10 @@ export default function TutorManagementPage() {
                   ) : (
                     /* READ ONLY OVERVIEW CARDS */
                     <div className="space-y-4 text-xs">
-                      <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-200">
+                      <div className="bg-white p-4 rounded-2xl space-y-2 border border-slate-200">
                         <h4 className="font-bold uppercase text-[11px] tracking-wider text-purple-800">Verification &amp; Contact Details</h4>
-                        <p>Email: <strong className="text-slate-900">{tutorDetails.userId?.email || tutorDetails.email}</strong> <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded font-bold bg-purple-100 text-purple-800">{tutorDetails.emailStatus || 'FORMAT_VALID'}</span></p>
-                        <p>Phone: <strong className="text-slate-900">{tutorDetails.phone || 'N/A'}</strong> <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded font-bold bg-purple-100 text-purple-800">{tutorDetails.phoneStatus || 'FORMAT_VALID'}</span></p>
+                        <p>Email: <strong className="text-slate-900">{tutorDetails.userId?.email || tutorDetails.email}</strong> <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded font-bold bg-white text-purple-800">{tutorDetails.emailStatus || 'FORMAT_VALID'}</span></p>
+                        <p>Phone: <strong className="text-slate-900">{tutorDetails.phone || 'N/A'}</strong> <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded font-bold bg-white text-purple-800">{tutorDetails.phoneStatus || 'FORMAT_VALID'}</span></p>
                         <p>Location: <strong className="text-slate-900">{tutorDetails.city || 'India'}, {tutorDetails.state}</strong> (PIN: {tutorDetails.pincode || 'N/A'})</p>
                         <p>Qualification: <strong className="text-slate-900">{tutorDetails.qualification || 'B.E. / B.Tech'}</strong></p>
                         <p>Experience: <strong className="text-slate-900">{tutorDetails.totalExperience || '3 Years'}</strong></p>
@@ -3537,10 +3460,10 @@ export default function TutorManagementPage() {
                         })()}
                       </div>
 
-                      <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-200">
+                      <div className="bg-white p-4 rounded-2xl space-y-2 border border-slate-200">
                         <h4 className="font-bold uppercase text-[11px] tracking-wider text-purple-800">Assigned Teaching Domains</h4>
                         {tutorDetails.teachingDomains?.length > 0 ? tutorDetails.teachingDomains.map((d, i) => (
-                          <span key={i} className="inline-block px-2.5 py-1 bg-purple-100 text-purple-800 rounded-lg font-bold mr-2 text-[11px]">
+                          <span key={i} className="inline-block px-2.5 py-1 bg-white text-purple-800 rounded-lg font-bold mr-2 text-[11px]">
                             {d.domainName} ({d.priority || 'Primary'})
                           </span>
                         )) : (
@@ -3549,20 +3472,20 @@ export default function TutorManagementPage() {
                       </div>
 
                       {tutorDetails.professionalBio && (
-                        <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-200">
+                        <div className="bg-white p-4 rounded-2xl space-y-2 border border-slate-200">
                           <h4 className="font-bold uppercase text-[11px] tracking-wider text-purple-800">Professional Summary / Bio</h4>
                           <p className="text-slate-700 leading-relaxed font-medium">{tutorDetails.professionalBio}</p>
                         </div>
                       )}
 
                       {tutorDetails.resumeDocument?.fileUrl && (
-                        <div className="bg-slate-50 p-4 rounded-2xl space-y-2 border border-slate-200">
+                        <div className="bg-white p-4 rounded-2xl space-y-2 border border-slate-200">
                           <h4 className="font-bold uppercase text-[11px] tracking-wider text-purple-800">Uploaded Resume PDF (Magic Byte Verified)</h4>
                           <a
                             href={tutorDetails.resumeDocument.fileUrl.startsWith('http') ? tutorDetails.resumeDocument.fileUrl : `http://localhost:5000${tutorDetails.resumeDocument.fileUrl}`}
                             target="_blank"
                             rel="noreferrer"
-                            className="inline-flex items-center space-x-1.5 px-3 py-1.5 bg-gradient-to-r from-pink-500 via-fuchsia-600 to-violet-600 text-white rounded-xl font-bold text-xs shadow-xs hover:opacity-95 transition"
+                            className="bg-white inline-flex items-center space-x-1.5 px-3 py-1.5 text-sq-gradient rounded-xl font-bold text-xs shadow-xs hover:opacity-95 transition border border-[#9333EA]"
                           >
                             <Eye className="w-3.5 h-3.5" />
                             <span>View Saved Resume PDF</span>
@@ -3574,7 +3497,7 @@ export default function TutorManagementPage() {
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 flex justify-end">
-                  <button onClick={closeDrawerWithAnimation} className="px-5 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold rounded-xl text-xs transition cursor-pointer">
+                  <button onClick={closeDrawerWithAnimation} className="bg-white px-5 py-2 text-sq-gradient font-bold rounded-xl text-xs transition cursor-pointer border border-[#9333EA]">
                     Close Profile
                   </button>
                 </div>

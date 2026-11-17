@@ -48,7 +48,6 @@ export function resolvePageAndModule(pathname = '') {
   if (cleanRoute.startsWith('/student/courses')) return { pageName: 'Course Details', moduleName: 'Student Learning' };
   if (cleanRoute.startsWith('/student/payments')) return { pageName: 'Student Payments', moduleName: 'Payments' };
   if (cleanRoute.startsWith('/student/attendance')) return { pageName: 'Student Attendance', moduleName: 'Attendance' };
-  if (cleanRoute.startsWith('/student/games')) return { pageName: 'Game Hub', moduleName: 'Student Games' };
   if (cleanRoute.startsWith('/student/challenges')) return { pageName: 'Daily Challenge', moduleName: 'Daily Challenges' };
   if (cleanRoute.startsWith('/student/learning-path')) return { pageName: 'Learning Path', moduleName: 'Learning Path' };
   if (cleanRoute.startsWith('/student/leaderboard')) return { pageName: 'Leaderboard', moduleName: 'Leaderboard' };

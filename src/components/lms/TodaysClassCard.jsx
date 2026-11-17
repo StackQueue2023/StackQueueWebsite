@@ -6,7 +6,7 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
     return (
       <div className="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex items-center justify-between">
         <div>
-          <span className="text-xs font-bold uppercase tracking-wider text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full">
+          <span className="text-xs font-bold uppercase tracking-wider text-blue-800 bg-white px-2.5 py-1 rounded-full">
             Today's Schedule
           </span>
           <h3 className="text-base font-bold text-slate-800 mt-2">No Classes Scheduled Today</h3>
@@ -23,13 +23,13 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
   return (
     <div className="bg-white rounded-2xl border-2 border-purple-600/20 shadow-sm hover:shadow-md transition overflow-hidden">
       {/* Top Banner Header */}
-      <div className="bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] px-6 py-3 text-white flex items-center justify-between">
+      <div className="bg-white px-6 py-3 text-blue-700 flex items-center justify-between border border-blue-600">
         <div className="flex items-center space-x-2">
           <span className="flex h-2.5 w-2.5 relative">
             {isLive && (
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+              <span className="bg-white animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"></span>
             )}
-            <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isLive ? 'bg-red-500' : 'bg-emerald-400'}`}></span>
+            <span className={`relative inline-flex rounded-full h-2.5 w-2.5 ${isLive ? 'bg-white' : 'bg-white'}`}></span>
           </span>
           <h2 className="text-xs font-black uppercase tracking-wider">
             {isLive ? 'LIVE CLASS 🔴' : 'TODAY\'S CLASS'}
@@ -47,7 +47,7 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div className="space-y-2">
             <div>
-              <span className="text-[11px] font-bold text-purple-600 uppercase tracking-wider">
+              <span className="text-[11px] font-bold text-blue-800 uppercase tracking-wider">
                 {session.title || 'Java – Collections'}
               </span>
               <h3 className="text-xl font-black text-slate-900">
@@ -56,21 +56,21 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
             </div>
 
             <div className="flex flex-wrap items-center gap-4 text-xs font-medium text-slate-600">
-              <div className="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
-                <Calendar className="w-3.5 h-3.5 text-purple-600" />
+              <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-lg border border-blue-200">
+                <Calendar className="w-3.5 h-3.5 text-blue-800" />
                 <span>{session.date}</span>
               </div>
-              <div className="flex items-center space-x-1.5 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+              <div className="flex items-center space-x-1.5 bg-white px-2.5 py-1 rounded-lg border border-blue-200">
                 <Clock className="w-3.5 h-3.5 text-amber-500" />
                 <span>{session.startTime} – {session.endTime}</span>
               </div>
               {isOnline ? (
-                <div className="flex items-center space-x-1.5 bg-purple-50 text-purple-700 px-2.5 py-1 rounded-lg font-semibold">
+                <div className="flex items-center space-x-1.5 bg-white text-blue-800 px-2.5 py-1 rounded-lg font-semibold">
                   <Video className="w-3.5 h-3.5" />
                   <span>Online Lecture</span>
                 </div>
               ) : (
-                <div className="flex items-center space-x-1.5 bg-emerald-50 text-emerald-700 px-2.5 py-1 rounded-lg font-semibold">
+                <div className="flex items-center space-x-1.5 bg-white text-emerald-700 px-2.5 py-1 rounded-lg font-semibold">
                   <MapPin className="w-3.5 h-3.5" />
                   <span>{session.classroom || 'Institute Classroom'}</span>
                 </div>
@@ -82,7 +82,7 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
           <div className="flex items-center space-x-3 shrink-0">
             {isOnline ? (
               isCompleted ? (
-                <div className="flex items-center space-x-1.5 px-4 py-2.5 bg-emerald-50 text-emerald-700 font-bold text-xs rounded-xl border border-emerald-200">
+                <div className="flex items-center space-x-1.5 px-4 py-2.5 bg-white text-emerald-700 font-bold text-xs rounded-xl border border-emerald-200">
                   <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   <span>Class Completed ✓</span>
                 </div>
@@ -91,11 +91,7 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
                   href={session.meetingLink || '#'}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`px-5 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-purple-500/20 flex items-center space-x-2 transition ${
-                    isLive
-                      ? 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white animate-pulse'
-                      : 'bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] hover:from-[#7b24cc] hover:to-[#c92280] text-white'
-                  }`}
+                  className={`px-5 py-2.5 rounded-xl font-bold text-xs shadow-md shadow-purple-500/20 flex items-center space-x-2 transition ${ isLive ? 'bg-white text-blue-700 animate-pulse border border-blue-600' : 'bg-white text-blue-700 border border-blue-600' }`}
                 >
                   <Video className="w-4 h-4" />
                   <span>{isLive ? 'JOIN CLASS NOW' : 'JOIN CLASS'}</span>
@@ -103,8 +99,8 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
                 </a>
               )
             ) : (
-              <div className="flex items-center space-x-2 px-4 py-2.5 bg-slate-50 text-slate-700 font-bold text-xs rounded-xl border border-slate-200">
-                <MapPin className="w-4 h-4 text-purple-600" />
+              <div className="flex items-center space-x-2 px-4 py-2.5 bg-white text-slate-700 font-bold text-xs rounded-xl border border-blue-200">
+                <MapPin className="w-4 h-4 text-blue-800" />
                 <span>Offline Campus Class</span>
               </div>
             )}
@@ -112,7 +108,7 @@ export default function TodaysClassCard({ session, onRequestLeave }) {
             {!isCompleted && onRequestLeave && (
               <button
                 onClick={() => onRequestLeave(session)}
-                className="px-3 py-2.5 bg-white hover:bg-slate-50 text-slate-600 font-semibold text-xs rounded-xl border border-slate-300 flex items-center space-x-1 transition"
+                className="px-3 py-2.5 bg-white hover:bg-white text-slate-600 font-semibold text-xs rounded-xl border border-slate-300 flex items-center space-x-1 transition"
                 title="Request Leave for this class"
               >
                 <CalendarX className="w-3.5 h-3.5 text-amber-500" />
