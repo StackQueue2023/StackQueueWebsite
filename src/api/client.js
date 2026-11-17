@@ -31,6 +31,15 @@ function notifyConnectionStatus(isConnected, details = {}) {
 
 // Request interceptor to attach JWT token and fix FormData headers
 api.interceptors.request.use((config) => {
+  // Prevent duplicate /api/ prefixes when baseURL already includes /api
+  if (config.url && typeof config.url === 'string') {
+    if (config.url.startsWith('/api/')) {
+      config.url = config.url.replace(/^\/api/, '');
+    } else if (config.url === '/api') {
+      config.url = '/';
+    }
+  }
+
   const token = localStorage.getItem('cq_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
