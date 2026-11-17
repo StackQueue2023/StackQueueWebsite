@@ -341,12 +341,16 @@ export default function AdminErrorMonitoringPage() {
           <div>
             <h4 className="text-xs font-bold text-sq-gradient flex items-center gap-2">
               LMS Backend API Process
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${ healthStatus?.status === 'healthy' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-amber-700 border border-amber-300' }`}>
-                {healthStatus?.status === 'healthy' ? 'Online' : 'Degraded'}
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                healthStatus?.backendApi === 'online' || healthStatus?.status === 'healthy'
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                  : 'bg-red-50 text-red-700 border border-red-300'
+              }`}>
+                {healthStatus?.backendApi === 'online' || healthStatus?.status === 'healthy' ? 'Online (Verified)' : 'Unreachable'}
               </span>
             </h4>
             <p className="text-[11px] text-slate-500">
-              Platform: {healthStatus?.platform || 'STACK QUEUE API'} | Ping: {pingLatency !== null ? `${pingLatency}ms` : 'Connecting...'}
+              Platform: {healthStatus?.platform || 'STACK QUEUE API'} | Latency: {pingLatency !== null ? `${pingLatency}ms` : 'Connecting...'}
             </p>
           </div>
         </div>
@@ -357,13 +361,17 @@ export default function AdminErrorMonitoringPage() {
           </div>
           <div>
             <h4 className="text-xs font-bold text-sq-gradient flex items-center gap-2">
-              MongoDB Atlas Cluster
-              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${ healthStatus?.database === 'connected' ? 'bg-white text-emerald-700 border border-emerald-200' : 'bg-white text-amber-700 border border-amber-300' }`}>
-                {healthStatus?.database || 'Unknown'}
+              MongoDB Database Connection
+              <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${
+                (healthStatus?.mongodb?.connected || healthStatus?.database === 'connected')
+                  ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                  : 'bg-red-50 text-red-700 border border-red-300'
+              }`}>
+                {(healthStatus?.mongodb?.connected || healthStatus?.database === 'connected') ? 'Connected (Verified)' : (healthStatus?.database || 'Disconnected')}
               </span>
             </h4>
             <p className="text-[11px] text-slate-500">
-              Cluster: stackqueue_2 | Fallback File Queue Active
+              Database: {healthStatus?.mongodb?.databaseName || 'stackqueue_2'} | Host: {healthStatus?.mongodb?.host || 'Atlas Cluster'}
             </p>
           </div>
         </div>

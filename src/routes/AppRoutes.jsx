@@ -191,9 +191,31 @@ function RoleProtectedRoute({ allowedRoles }) {
   return <Outlet />;
 }
 
+// Universal Dashboard Redirect: Resolves authenticated users to role dashboard or visitors to /login
+function DashboardRedirect() {
+  const { user, loading, getRoleDashboard } = useAuth();
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white text-slate-500 text-xs font-semibold">
+        Resolving dashboard...
+      </div>
+    );
+  }
+
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  return <Navigate to={getRoleDashboard(user.role)} replace />;
+}
+
 export default function AppRoutes() {
   return (
     <Routes>
+      {/* Universal Dashboard Route */}
+      <Route path="/dashboard" element={<DashboardRedirect />} />
+      <Route path="/home" element={<Navigate to="/" replace />} />
       {/* Guest-Only Homepage & Auth Pages */}
       <Route element={<PublicOnlyRoute />}>
         {/* Main Website Homepage for Logged-Out Visitors */}
@@ -284,10 +306,11 @@ export default function AppRoutes() {
           <Route path="/admin/analytics" element={<AdminAnalyticsDashboard />} />
           <Route path="/admin/training-performance" element={<TrainingPerformanceDashboard />} />
           <Route path="/admin/analytics/fees" element={<StudentFeeManagementAnalyticsPage />} />
+          <Route path="/admin/analytics/payments" element={<StudentFeeManagementAnalyticsPage />} />
           <Route path="/admin/fee-management" element={<Navigate to="/admin/analytics/fees" replace />} />
           <Route path="/admin/analytics/courses" element={<CourseAnalyticsPage />} />
           <Route path="/admin/analytics/internships" element={<InternshipAnalyticsPage />} />
-          <Route path="/admin/internship-payments" element={<AdminInternshipPaymentAnalyticsPage />} />
+          <Route path="/admin/internship-payments" element={<Navigate to="/admin/analytics/fees?tab=internship" replace />} />
           <Route path="/admin/analytics/products" element={<ProductsAnalyticsPage />} />
           <Route path="/admin/analytics/college-training" element={<CollegeTrainingAnalyticsPage />} />
           <Route path="/admin/analytics/college-projects" element={<CollegeProjectsAnalyticsPage />} />

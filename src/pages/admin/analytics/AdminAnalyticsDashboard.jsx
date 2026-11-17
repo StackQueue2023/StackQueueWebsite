@@ -311,10 +311,10 @@ export default function AdminAnalyticsDashboard() {
 
               <div>
                 <h3 className="text-base font-black text-[#0F172A] group-hover:text-[#0F172A] transition">
-                  Student Fee Management & Collections
+                  Payment Analytics
                 </h3>
                 <p className="text-xs text-blue-800/80 mt-1 leading-relaxed">
-                  Manage student fees, monthly collections, pending payments and billing reports.
+                  Course, Internship & Project fee collections, Bar Analytics & Financial Operations.
                 </p>
               </div>
             </div>
@@ -322,7 +322,7 @@ export default function AdminAnalyticsDashboard() {
             <div className="pt-4 mt-4 border-t border-blue-200 flex items-center justify-between text-xs font-bold text-blue-700 group-hover:text-blue-900">
               <span className="flex items-center gap-1.5">
                 <CreditCard className="w-3.5 h-3.5" />
-                <span>Open Fee Dashboard</span>
+                <span>Open Payment Analytics</span>
               </span>
               <ChevronRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
             </div>

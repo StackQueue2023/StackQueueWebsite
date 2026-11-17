@@ -7,11 +7,17 @@ import {
   BarChart2, FileText, AlertTriangle, ShieldCheck
 } from 'lucide-react';
 
-export default function AdminInternshipPaymentAnalyticsPage() {
+export default function AdminInternshipPaymentAnalyticsPage({ embedded = false, initialTab = 'overview' }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [analytics, setAnalytics] = useState(null);
-  const [activeTab, setActiveTab] = useState('overview');
+  const [activeTab, setActiveTab] = useState(initialTab);
+
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
 
   // Filters for student list
   const [searchTerm, setSearchTerm] = useState('');
@@ -180,7 +186,7 @@ export default function AdminInternshipPaymentAnalyticsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50/60 p-4 sm:p-8 space-y-6">
+    <div className={`${embedded ? 'space-y-6 pt-2' : 'min-h-screen bg-slate-50/60 p-4 sm:p-8 space-y-6'}`}>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">

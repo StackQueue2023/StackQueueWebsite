@@ -72,7 +72,7 @@ export default function Sidebar() {
   const adminLinks = [
     { to: '/admin/command-center', label: 'Dashboard', icon: ShieldAlert },
     { to: '/admin/analytics', label: 'Analytics Hub', icon: BarChart3, badge: 'Students' },
-    { to: '/admin/internship-payments', label: 'Internship Payments', icon: CreditCard, badge: 'Bar' },
+    { to: '/admin/analytics/fees', label: 'Payment Analytics', icon: CreditCard, badge: 'Fin' },
     { to: '/admin/domain-management', label: 'Domain Catalog', icon: Layers, badge: 'All' },
     { to: '/admin/error-monitoring', label: 'Error Monitoring', icon: Activity, badge: 'Live' },
     { to: '/admin/announcements', label: 'Announcements', icon: Megaphone, badge: 'Email' },

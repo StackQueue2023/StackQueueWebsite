@@ -4,11 +4,13 @@ import { AuthProvider } from './context/AuthContext';
 import { NotificationProvider } from './context/NotificationContext';
 import AppRoutes from './routes/AppRoutes';
 import BackendConnectionBanner from './components/common/BackendConnectionBanner';
+import RouteSynchronizer from './components/common/RouteSynchronizer';
 import ErrorBoundary from './components/common/ErrorBoundary';
 
 export default function App() {
   return (
     <BrowserRouter>
+      <RouteSynchronizer />
       <NotificationProvider>
         <AuthProvider>
           <BackendConnectionBanner />

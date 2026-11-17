@@ -1,24 +1,26 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { WifiOff, RefreshCw, CheckCircle2, AlertCircle } from 'lucide-react';
-import axios from 'axios';
+import api from '../../api/client';
 
 export default function BackendConnectionBanner() {
   const [status, setStatus] = useState('connected'); // 'connected' | 'reconnecting' | 'unavailable' | 'recovered'
   const [retryCountdown, setRetryCountdown] = useState(0);
   const [isRetrying, setIsRetrying] = useState(false);
   const [lastChecked, setLastChecked] = useState(null);
+  const [diagnostics, setDiagnostics] = useState(null);
 
   const backoffRef = useRef(3000); // starts at 3s
   const timerRef = useRef(null);
   const countdownIntervalRef = useRef(null);
 
-  // Ping /api/health to verify real connection
+  // Ping /health through configured API client to verify real connection
   const checkHealth = useCallback(async () => {
     setIsRetrying(true);
     try {
-      const res = await axios.get('/api/health', { timeout: 5000 });
-      if (res.data && (res.data.status === 'healthy' || res.data.database === 'connected')) {
-        // Recovered!
+      const res = await api.get('/health', { timeout: 8000 });
+      if (res.data && (res.data.status === 'healthy' || res.data.backendApi === 'online')) {
+        // Connection verified
+        setDiagnostics(res.data);
         setStatus('recovered');
         backoffRef.current = 3000;
         setLastChecked(new Date());
@@ -30,11 +32,13 @@ export default function BackendConnectionBanner() {
         return true;
       } else {
         // Degraded or DB down
+        setDiagnostics(res.data);
         setStatus('unavailable');
         setLastChecked(new Date());
         return false;
       }
     } catch (err) {
+      setDiagnostics({ error: err.message });
       setStatus('unavailable');
       setLastChecked(new Date());
       return false;
@@ -136,10 +140,16 @@ export default function BackendConnectionBanner() {
             )}
           </div>
           <div className="truncate">
-            <span className="font-bold text-slate-900">Backend Connection Issue Detected.</span>{' '}
+            <span className="font-bold text-slate-900">
+              {diagnostics?.mongodb && !diagnostics.mongodb.connected
+                ? 'Database Connectivity Degraded'
+                : 'Backend Connection Issue Detected.'}
+            </span>{' '}
             <span className="text-amber-700 hidden sm:inline">
               {status === 'reconnecting'
                 ? 'Attempting to reconnect now...'
+                : diagnostics?.mongodb?.status
+                ? `DB: ${diagnostics.mongodb.status} • Reconnecting in ${retryCountdown}s...`
                 : `Reconnecting in ${retryCountdown}s... Your input is preserved.`}
             </span>
           </div>
