@@ -7,7 +7,7 @@ import {
   ArrowLeft, Trash2, Upload, FileText, Sparkles, AlertTriangle, AlertCircle, RefreshCw,
   FileCheck, Code2, Edit3, Tag, Check, RotateCcw, StopCircle, ExternalLink, Database, ListOrdered,
   ShieldCheck, ShieldAlert, Filter, Terminal, HelpCircle, CheckSquare, PlusCircle,
-  FileSpreadsheet
+  FileSpreadsheet, Server, Cpu, Activity
 } from 'lucide-react';
 import InternshipStudentsAddModal from '../../components/admin/internship/InternshipStudentsAddModal';
 import {
@@ -677,16 +677,16 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
             }
           } catch (e) {
             pollErrorStreak++;
-            console.warn(`[Generation Poller] Temporary connection hitch (retry ${pollErrorStreak}/6):`, e.message);
+            console.warn(`[Generation Poller] Connection retry attempt ${pollErrorStreak}/6:`, e.message);
             // Controlled resilience: if temporary glitch, continue polling without halting job
             if (pollErrorStreak >= 6) {
               clearInterval(pollingIntervalRef.current);
               pollingIntervalRef.current = null;
               setGeneratingQuestions(false);
-              showToast('Reconnection limit reached. You can refresh or click Resume to continue tracking.');
+              showToast('Status check paused. You can click Refresh Status or Resume.');
             }
           }
-        }, 2000);
+        }, 4000);
       }
     } else {
       if (pollingIntervalRef.current) {
@@ -1801,6 +1801,77 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
                     <CheckCircle2 className="w-3.5 h-3.5" />
                     <span>Publish to Students</span>
                   </button>
+                </div>
+              </div>
+
+              {/* Generation Job Monitoring & Real-Time Diagnostics */}
+              <div className="bg-slate-900 text-white rounded-2xl p-4 border border-slate-800 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
+                  <div className="flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-purple-400" />
+                    <span className="font-bold text-slate-200">System & Generation Diagnostics</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                      <Server className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-slate-400">Backend:</span>
+                      <span className="text-emerald-400 font-bold flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        {generationStatus?.monitoring?.backendConnection || 'Online'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                      <Database className="w-3.5 h-3.5 text-cyan-400" />
+                      <span className="text-slate-400">Database:</span>
+                      <span className="text-cyan-400 font-bold flex items-center gap-1">
+                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                        {generationStatus?.monitoring?.mongodbConnection || 'Atlas Connected'}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
+                      <Cpu className="w-3.5 h-3.5 text-fuchsia-400" />
+                      <span className="text-slate-400">AI Service:</span>
+                      <span className="text-fuchsia-400 font-bold">
+                        {generationStatus?.monitoring?.aiServiceStatus || 'Active'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 text-xs">
+                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
+                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Current Module</span>
+                    <span className="text-slate-200 font-bold truncate block mt-0.5" title={generationStatus?.monitoring?.currentModule || generationStatus?.job?.currentModule || 'Ready'}>
+                      {generationStatus?.monitoring?.currentModule || generationStatus?.job?.currentModule || (generationStatus?.job?.status === 'completed' ? 'All Modules Processed' : 'Ready')}
+                    </span>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
+                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Module Progress</span>
+                    <span className="text-slate-200 font-bold block mt-0.5 font-mono">
+                      Completed: <strong className="text-emerald-400">{generationStatus?.monitoring?.completedModules ?? generationStatus?.job?.stats?.completedModules ?? 0}</strong> / {generationStatus?.monitoring?.totalModules ?? generationStatus?.job?.stats?.totalModules ?? generationStatus?.counts?.totalModules ?? 4}
+                    </span>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
+                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Failed Modules</span>
+                    <span className={`font-bold block mt-0.5 font-mono ${(generationStatus?.monitoring?.failedModules || generationStatus?.job?.stats?.failedBatches) ? 'text-rose-400' : 'text-slate-300'}`}>
+                      {generationStatus?.monitoring?.failedModules ?? generationStatus?.job?.stats?.failedBatches ?? 0}
+                    </span>
+                  </div>
+                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
+                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Job Status / Verified Questions</span>
+                    <div className="flex items-center justify-between mt-0.5">
+                      <span className="text-purple-300 font-mono font-bold">
+                        {generationStatus?.monitoring?.generatedQuestionsCount ?? generationStatus?.counts?.total ?? 0} Qs
+                      </span>
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
+                        (generationStatus?.monitoring?.jobStatus === 'generating' || generationStatus?.job?.status === 'generating') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
+                        (generationStatus?.monitoring?.jobStatus === 'completed' || generationStatus?.job?.status === 'completed') ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
+                        'bg-slate-700 text-slate-300'
+                      }`}>
+                        {generationStatus?.monitoring?.jobStatus || generationStatus?.job?.status || 'Idle'}
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
 

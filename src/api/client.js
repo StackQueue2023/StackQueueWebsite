@@ -63,8 +63,11 @@ api.interceptors.response.use((response) => {
   const isTimeout = error.code === 'ECONNABORTED' || (error.message && error.message.toLowerCase().includes('timeout'));
   const isNetworkFailure = !error.response && !isTimeout;
   const isServerOutage = status >= 500;
+  const isGatewayOutage = status === 502 || status === 503 || status === 504;
+  const isPollingUrl = error.config?.url && (error.config.url.includes('generation-status') || error.config.url.includes('monitoring'));
 
-  if (isNetworkFailure || isServerOutage || isTimeout) {
+  // Only broadcast full backend disconnection on true network failures or gateway outages (not on isolated app 500s or background pollers)
+  if ((isNetworkFailure || isGatewayOutage || isTimeout) && !isPollingUrl) {
     // Notify application that backend connection is compromised
     notifyConnectionStatus(false, {
       status,
@@ -72,32 +75,32 @@ api.interceptors.response.use((response) => {
       isTimeout,
       message: error.response?.data?.message || error.message || (isTimeout ? 'Request timed out' : 'Backend connection error')
     });
+  }
 
-    // Auto-report critical API 5xx, timeout, or Network Failure to LMS monitoring system
-    if (error.config?.url && !error.config.url.includes('/monitoring/frontend-errors')) {
-      const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
-      const { pageName, moduleName } = resolvePageAndModule(currentPath);
+  // Auto-report critical API 5xx, timeout, or Network Failure to LMS monitoring system
+  if (error.config?.url && !error.config.url.includes('/monitoring/frontend-errors')) {
+    const currentPath = typeof window !== 'undefined' ? window.location.pathname : '/';
+    const { pageName, moduleName } = resolvePageAndModule(currentPath);
 
-      reportUIError({
-        pageName,
-        route: currentPath,
-        moduleName,
-        errorCategory: isTimeout ? 'Request Timeout' : isNetworkFailure ? 'Network Connection Failure' : 'API Server Error',
-        errorMessage: error.response?.data?.message || error.message || (isTimeout ? 'Request timed out waiting for server' : 'API operation returned server error'),
-        failedApi: `${error.config.method?.toUpperCase() || 'GET'} ${error.config.url}`,
-        httpStatus: status || (isTimeout ? 408 : 0),
-        impact: `Operation delayed or failed for ${pageName} (${error.config.method?.toUpperCase()} ${error.config.url})`,
-        isCritical: isServerOutage,
-        severity: isServerOutage ? 'CRITICAL' : 'HIGH',
-        diagnosticDetails: {
-          apiUrl: error.config.url,
-          apiMethod: error.config.method,
-          httpStatus: status,
-          isTimeout,
-          isNetworkFailure
-        }
-      }).catch(() => {});
-    }
+    reportUIError({
+      pageName,
+      route: currentPath,
+      moduleName,
+      errorCategory: isTimeout ? 'Request Timeout' : isNetworkFailure ? 'Network Connection Failure' : 'API Server Error',
+      errorMessage: error.response?.data?.message || error.message || (isTimeout ? 'Request timed out waiting for server' : 'API operation returned server error'),
+      failedApi: `${error.config.method?.toUpperCase() || 'GET'} ${error.config.url}`,
+      httpStatus: status || (isTimeout ? 408 : 0),
+      impact: `Operation delayed or failed for ${pageName} (${error.config.method?.toUpperCase()} ${error.config.url})`,
+      isCritical: isServerOutage,
+      severity: isServerOutage ? 'CRITICAL' : 'HIGH',
+      diagnosticDetails: {
+        apiUrl: error.config.url,
+        apiMethod: error.config.method,
+        httpStatus: status,
+        isTimeout,
+        isNetworkFailure
+      }
+    }).catch(() => {});
   }
 
   if (status === 401) {
