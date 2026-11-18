@@ -183,7 +183,8 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
   const [addModalOpen, setAddModalOpen] = useState(false);
   const [selectedType, setSelectedType] = useState('Course');
   const [submitting, setSubmitting] = useState(false);
-  const [toastMessage, setToastMessage] = useState('');
+  const [toastInfo, setToastInfo] = useState({ message: '', type: 'success', onRetry: null });
+  const toastTimerRef = useRef(null);
 
   // Form states for NEW items
   const INITIAL_COURSE_FORM = {
@@ -293,9 +294,12 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
     status: 'Available'
   });
 
-  const showToast = (msg) => {
-    setToastMessage(msg);
-    setTimeout(() => setToastMessage(''), 4000);
+  const showToast = (msg, type = 'success', onRetry = null) => {
+    if (toastTimerRef.current) clearTimeout(toastTimerRef.current);
+    setToastInfo({ message: msg, type, onRetry });
+    toastTimerRef.current = setTimeout(() => {
+      setToastInfo({ message: '', type: 'success', onRetry: null });
+    }, 5000);
   };
 
   // Fetch Overall Question Bank Stats for Catalog Overview
@@ -1144,7 +1148,7 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
       });
     }
     setUpdateModalTab(type === 'project' ? 'info' : 'syllabus');
-    setShowSyllabusUploadForm(false);
+    setShowSyllabusUploadForm(true);
     setUpdateSyllabusOpen(true);
     if (type === 'course' && item._id) {
       fetchGenerationStatus(item._id);
@@ -1185,17 +1189,32 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
     }
   };
 
-  // Submit Syllabus Update (Text or PDF)
+  // Submit Syllabus Update (Text or PDF) & Parse & Generate Questions
   const handleUpdateSyllabus = async (e) => {
-    e.preventDefault();
+    if (e && e.preventDefault) e.preventDefault();
+    if (e && e.stopPropagation) e.stopPropagation();
     if (!selectedDomainItem) return;
-    setUpdatingSyllabus(true);
 
     const { item, type } = selectedDomainItem;
     const domainSlug = item.slug || item.domain || item.title.toLowerCase().replace(/[^a-z0-9]/g, '');
 
+    if (syllabusMode === 'pdf' && !syllabusFile) {
+      showToast('Please select a syllabus PDF file to upload.', 'error');
+      return;
+    }
+    if (syllabusMode === 'text' && !syllabusText.trim()) {
+      showToast('Please enter syllabus text content.', 'error');
+      return;
+    }
+
+    setUpdatingSyllabus(true);
+    showToast('Syllabus upload started', 'loading');
+
     try {
+      let res;
       if (syllabusMode === 'pdf' && syllabusFile) {
+        showToast('PDF uploaded successfully. Extracting syllabus content...', 'loading');
+
         const formData = new FormData();
         formData.append('file', syllabusFile);
         formData.append('domain', domainSlug);
@@ -1204,29 +1223,14 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
         formData.append('tasksPerModule', tasksPerModule);
         formData.append('isNewCourse', 'false');
 
-        const res = await api.post('/admin/syllabus/upload-pdf', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        // Do not force Content-Type in headers so Axios/browser computes multipart boundary
+        res = await api.post('/admin/syllabus/upload-pdf', formData, {
           timeout: 60000
         });
-
-        if (res.data.success) {
-          showToast(res.data.message || 'Syllabus parsed successfully! Generating tasks in background.');
-          setShowSyllabusUploadForm(false);
-          setSyllabusFile(null);
-          setGeneratingQuestions(true);
-          fetchItemDetail(item, type);
-          if (item._id) {
-            fetchGenerationStatus(item._id);
-          }
-        }
       } else {
-        if (!syllabusText.trim()) {
-          showToast('Please enter syllabus text content.');
-          setUpdatingSyllabus(false);
-          return;
-        }
+        showToast('Extracting syllabus content...', 'loading');
 
-        const res = await api.post('/admin/syllabus/upload-pdf', {
+        res = await api.post('/admin/syllabus/upload-pdf', {
           text: syllabusText,
           domain: domainSlug,
           courseTitle: item.title,
@@ -1236,21 +1240,43 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
         }, {
           timeout: 60000
         });
+      }
 
-        if (res.data.success) {
-          showToast(res.data.message || 'Syllabus parsed successfully! Generating tasks in background.');
-          setShowSyllabusUploadForm(false);
-          setSyllabusText('');
-          setGeneratingQuestions(true);
-          fetchItemDetail(item, type);
-          if (item._id) {
-            fetchGenerationStatus(item._id);
-          }
+      if (res.data?.success) {
+        showToast('Syllabus parsed successfully into structured modules', 'success');
+
+        setTimeout(() => {
+          showToast('Identifying modules and topics...', 'info');
+        }, 1200);
+
+        setTimeout(() => {
+          showToast('Generating questions and coding solutions...', 'loading');
+        }, 2200);
+
+        setTimeout(() => {
+          showToast('Questions generated successfully! Syllabus updated.', 'success');
+        }, 3600);
+
+        setShowSyllabusUploadForm(false);
+        setSyllabusFile(null);
+        setSyllabusText('');
+        setGeneratingQuestions(true);
+
+        // Immediate reactive frontend state refresh without full-page reload
+        await fetchItemDetail(item, type);
+        if (item._id) {
+          await fetchGenerationStatus(item._id);
+          await fetchCourseQuestions(item._id);
         }
+      } else {
+        const errorMsg = res.data?.message || 'Failed to parse syllabus.';
+        showToast(`Operation Failed: ${errorMsg}`, 'error', () => handleUpdateSyllabus(e));
       }
     } catch (err) {
       console.error('Update syllabus error:', err);
-      showToast(err.response?.data?.message || err.userMessage || err.message || 'Failed to update syllabus.');
+      const failedOp = (syllabusMode === 'pdf' ? 'PDF Upload & Parsing' : 'Syllabus Text Parsing');
+      const errorMsg = err.response?.data?.message || err.userMessage || err.message || 'Operation failed.';
+      showToast(`Failed: ${failedOp} — ${errorMsg}`, 'error', () => handleUpdateSyllabus(e));
     } finally {
       setUpdatingSyllabus(false);
     }
@@ -1565,10 +1591,31 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
     <div className="space-y-6 pb-24 max-w-7xl mx-auto px-2 sm:px-4">
 
       {/* ── TOAST NOTIFICATION ── */}
-      {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 bg-white text-slate-900 px-5 py-3 rounded-2xl shadow-lg flex items-center gap-3 border border-emerald-400 animate-slide-in-right text-xs sm:text-sm font-semibold">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-          <span>{toastMessage}</span>
+      {toastInfo.message && (
+        <div className={`fixed bottom-6 right-6 z-50 bg-white text-slate-900 px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border animate-slide-in-right text-xs sm:text-sm font-semibold max-w-md ${
+          toastInfo.type === 'error' ? 'border-rose-300 shadow-rose-100 ring-1 ring-rose-200' :
+          toastInfo.type === 'loading' ? 'border-purple-300 shadow-purple-100 ring-1 ring-purple-200' :
+          toastInfo.type === 'info' ? 'border-blue-300 shadow-blue-100' :
+          'border-emerald-300 shadow-emerald-100'
+        }`}>
+          {toastInfo.type === 'loading' && <RefreshCw className="w-4 h-4 text-purple-600 animate-spin shrink-0" />}
+          {toastInfo.type === 'error' && <AlertCircle className="w-4 h-4 text-rose-600 shrink-0" />}
+          {toastInfo.type === 'info' && <Sparkles className="w-4 h-4 text-purple-600 shrink-0" />}
+          {toastInfo.type === 'success' && <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />}
+          <span className="flex-1 text-slate-800 leading-snug">{toastInfo.message}</span>
+          {toastInfo.onRetry && (
+            <button
+              type="button"
+              onClick={() => {
+                const retryFn = toastInfo.onRetry;
+                setToastInfo({ message: '', type: 'success', onRetry: null });
+                retryFn();
+              }}
+              className="px-2.5 py-1 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 rounded-lg text-xs font-bold transition shrink-0 cursor-pointer"
+            >
+              Retry
+            </button>
+          )}
         </div>
       )}
 
@@ -1680,7 +1727,7 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
                   className={`px-5 py-2.5 bg-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-xs transition flex items-center justify-center gap-2 cursor-pointer border-2 ${ itemType === 'project' ? 'border-amber-600 text-amber-700 hover:border-amber-700 hover:text-amber-800' : itemType === 'course' ? 'border-blue-600 text-blue-700 hover:border-blue-700 hover:text-blue-800' : 'border-emerald-600 text-emerald-700 hover:border-emerald-700 hover:text-emerald-800' }`}
                 >
                   {itemType === 'project' ? <Edit3 className="w-4 h-4" /> : <Upload className="w-4 h-4" />}
-                  <span>{itemType === 'project' ? 'Edit Project Specs' : itemType === 'course' ? 'Update Course' : 'Update Internship'}</span>
+                  <span>{itemType === 'project' ? 'Edit Project Specs' : itemType === 'course' ? 'Update Syllabus' : 'Update Internship'}</span>
                 </button>
 
                 <button
@@ -1804,109 +1851,56 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
                 </div>
               </div>
 
-              {/* Generation Job Monitoring & Real-Time Diagnostics */}
-              <div className="bg-slate-900 text-white rounded-2xl p-4 border border-slate-800 shadow-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-800 text-xs">
-                  <div className="flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-purple-400" />
-                    <span className="font-bold text-slate-200">System & Generation Diagnostics</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
-                      <Server className="w-3.5 h-3.5 text-emerald-400" />
-                      <span className="text-slate-400">Backend:</span>
-                      <span className="text-emerald-400 font-bold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                        {generationStatus?.monitoring?.backendConnection || 'Online'}
+              {/* Clean Pink-to-Violet Generation Progress UI */}
+              {(generationStatus?.job?.status === 'generating' || generatingQuestions || (generationStatus?.job?.progress > 0 && generationStatus?.job?.progress < 100)) && (
+                <div className="bg-gradient-to-br from-purple-50/70 via-white to-pink-50/70 border border-purple-200/90 rounded-2xl p-4 space-y-3 shadow-xs">
+                  <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <span className="font-bold text-slate-800 flex items-center gap-2">
+                      <span className="relative flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#E02B91] opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#9333EA]"></span>
                       </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
-                      <Database className="w-3.5 h-3.5 text-cyan-400" />
-                      <span className="text-slate-400">Database:</span>
-                      <span className="text-cyan-400 font-bold flex items-center gap-1">
-                        <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
-                        {generationStatus?.monitoring?.mongodbConnection || 'Atlas Connected'}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-1.5 font-mono text-[11px]">
-                      <Cpu className="w-3.5 h-3.5 text-fuchsia-400" />
-                      <span className="text-slate-400">AI Service:</span>
-                      <span className="text-fuchsia-400 font-bold">
-                        {generationStatus?.monitoring?.aiServiceStatus || 'Active'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 text-xs">
-                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
-                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Current Module</span>
-                    <span className="text-slate-200 font-bold truncate block mt-0.5" title={generationStatus?.monitoring?.currentModule || generationStatus?.job?.currentModule || 'Ready'}>
-                      {generationStatus?.monitoring?.currentModule || generationStatus?.job?.currentModule || (generationStatus?.job?.status === 'completed' ? 'All Modules Processed' : 'Ready')}
+                      {generationStatus?.job?.currentStep || 'Extracting syllabus and generating questions in background...'}
                     </span>
-                  </div>
-                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
-                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Module Progress</span>
-                    <span className="text-slate-200 font-bold block mt-0.5 font-mono">
-                      Completed: <strong className="text-emerald-400">{generationStatus?.monitoring?.completedModules ?? generationStatus?.job?.stats?.completedModules ?? 0}</strong> / {generationStatus?.monitoring?.totalModules ?? generationStatus?.job?.stats?.totalModules ?? generationStatus?.counts?.totalModules ?? 4}
-                    </span>
-                  </div>
-                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
-                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Failed Modules</span>
-                    <span className={`font-bold block mt-0.5 font-mono ${(generationStatus?.monitoring?.failedModules || generationStatus?.job?.stats?.failedBatches) ? 'text-rose-400' : 'text-slate-300'}`}>
-                      {generationStatus?.monitoring?.failedModules ?? generationStatus?.job?.stats?.failedBatches ?? 0}
-                    </span>
-                  </div>
-                  <div className="bg-slate-800/60 rounded-xl p-2.5 border border-slate-700/50">
-                    <span className="text-slate-400 text-[10px] uppercase tracking-wider block font-medium">Job Status / Verified Questions</span>
-                    <div className="flex items-center justify-between mt-0.5">
-                      <span className="text-purple-300 font-mono font-bold">
-                        {generationStatus?.monitoring?.generatedQuestionsCount ?? generationStatus?.counts?.total ?? 0} Qs
-                      </span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase tracking-wider ${
-                        (generationStatus?.monitoring?.jobStatus === 'generating' || generationStatus?.job?.status === 'generating') ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' :
-                        (generationStatus?.monitoring?.jobStatus === 'completed' || generationStatus?.job?.status === 'completed') ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30' :
-                        'bg-slate-700 text-slate-300'
-                      }`}>
-                        {generationStatus?.monitoring?.jobStatus || generationStatus?.job?.status || 'Idle'}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Progress bar if generating */}
-              {(generationStatus?.job?.status === 'generating' || generatingQuestions) && (
-                <div className="bg-white space-y-2 p-3.5 rounded-2xl border border-purple-200/80">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-bold text-slate-700 flex items-center gap-1.5">
-                      <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping inline-block" />
-                      {generationStatus?.job?.currentStep || 'Generating and testing questions in background...'}
-                    </span>
-                    <span className="text-xs text-purple-700 font-mono font-black">
-                      {generationStatus?.job?.progress || 0}% Complete
+                    <span className="text-xs font-black font-mono text-purple-700 bg-purple-100/70 px-2.5 py-0.5 rounded-full border border-purple-200">
+                      {generationStatus?.job?.progress || 5}% Complete
                     </span>
                   </div>
 
-                  <div className="w-full bg-slate-200/80 rounded-full h-2.5 overflow-hidden">
+                  {/* Gradient Progress Bar */}
+                  <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden border border-purple-100">
                     <div
                       className="bg-gradient-to-r from-[#8B2BE2] via-[#B829B6] to-[#E02B91] h-2.5 rounded-full transition-all duration-300"
-                      style={{ width: `${Math.max(5, generationStatus?.job?.progress || 0)}%` }}
+                      style={{ width: `${Math.max(5, generationStatus?.job?.progress || 5)}%` }}
                     />
                   </div>
 
-                  <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono">
-                    <span>
-                      Modules: {generationStatus?.job?.stats?.completedModules || 0} / {generationStatus?.job?.stats?.totalModules || generationStatus?.counts?.totalModules || 0}
-                    </span>
-                    <span>
-                      Tested Solutions: <strong className="text-emerald-700">{generationStatus?.counts?.testedSolutions || 0}</strong>
-                    </span>
-                    {generationStatus?.job?.stats?.failedBatches > 0 && (
-                      <span className="text-rose-600 font-bold">
-                        Failed Batches: {generationStatus.job.stats.failedBatches}
+                  {/* Real-Time Processing Metrics */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-[11px]">
+                    <div className="bg-white/90 p-2.5 rounded-xl border border-purple-100 text-center shadow-2xs">
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">PDF Extraction</span>
+                      <span className="font-bold text-emerald-700 mt-0.5 block">
+                        {generationStatus?.pdfInfo?.fileName ? 'Extracted & Parsed' : (generationStatus?.job?.progress > 10 ? 'Parsed' : 'Ready')}
                       </span>
-                    )}
+                    </div>
+                    <div className="bg-white/90 p-2.5 rounded-xl border border-purple-100 text-center shadow-2xs">
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Modules Identified</span>
+                      <span className="font-bold text-purple-900 font-mono mt-0.5 block">
+                        {generationStatus?.job?.stats?.completedModules || 0} / {generationStatus?.job?.stats?.totalModules || generationStatus?.counts?.totalModules || 4} Completed
+                      </span>
+                    </div>
+                    <div className="bg-white/90 p-2.5 rounded-xl border border-purple-100 text-center shadow-2xs">
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Active Module</span>
+                      <span className="font-bold text-slate-800 truncate block mt-0.5" title={generationStatus?.job?.currentModule || 'Processing modules'}>
+                        {generationStatus?.job?.currentModule || 'Curriculum Processing'}
+                      </span>
+                    </div>
+                    <div className="bg-white/90 p-2.5 rounded-xl border border-purple-100 text-center shadow-2xs">
+                      <span className="text-slate-400 block text-[10px] uppercase font-bold tracking-wider">Questions Created</span>
+                      <span className="font-bold text-[#E02B91] font-mono mt-0.5 block">
+                        {generationStatus?.counts?.total || 0} Saved
+                      </span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -2334,6 +2328,25 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
                             <div className="bg-white p-4 rounded-2xl border border-slate-200/80 space-y-1 shadow-2xs">
                               <p className="text-[11px] font-black uppercase tracking-wider text-slate-400">Module Sub-topics & Overview</p>
                               <p className="text-xs text-slate-700 font-medium leading-relaxed">{mod.description}</p>
+                            </div>
+                          )}
+
+                          {Array.isArray(mod.topics) && mod.topics.length > 0 && (
+                            <div className="bg-purple-50/40 p-3.5 rounded-2xl border border-purple-100 space-y-2">
+                              <p className="text-[10px] font-black uppercase tracking-wider text-purple-700 flex items-center gap-1.5">
+                                <Tag className="w-3.5 h-3.5" />
+                                <span>Identified Topics & Subtopics ({mod.topics.length})</span>
+                              </p>
+                              <div className="flex flex-wrap gap-1.5">
+                                {mod.topics.map((top, tIdx) => (
+                                  <span
+                                    key={tIdx}
+                                    className="px-2.5 py-1 bg-white text-purple-900 border border-purple-200/80 rounded-xl text-xs font-semibold shadow-2xs"
+                                  >
+                                    • {top}
+                                  </span>
+                                ))}
+                              </div>
                             </div>
                           )}
 
@@ -4457,10 +4470,10 @@ export default function AdminDomainManagementPage({ fixedType = null }) {
                     <button
                       type="submit"
                       disabled={updatingSyllabus || isJobGenerating}
-                      className="bg-white px-6 py-2.5 hover:opacity-95 text-sq-gradient font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 disabled:opacity-60 border border-[#9333EA]"
+                      className="bg-white px-6 py-2.5 hover:opacity-95 text-sq-gradient font-bold text-xs rounded-xl shadow-md transition flex items-center gap-2 disabled:opacity-60 border border-[#9333EA] cursor-pointer"
                     >
                       {updatingSyllabus ? <RefreshCw className="w-4 h-4 animate-spin text-purple-600" /> : <Sparkles className="w-4 h-4" />}
-                      <span>{updatingSyllabus ? 'Parsing PDF & Starting Generation...' : 'Parse PDF & Generate Tasks'}</span>
+                      <span>{updatingSyllabus ? 'Parsing & Generating Questions...' : 'Parse & Generate Questions'}</span>
                     </button>
                   </div>
                 </form>
